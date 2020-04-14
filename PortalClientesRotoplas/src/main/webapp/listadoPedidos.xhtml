@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+		
+<h:body>
+	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="metadata">
+			<ui:remove>
+			<!-- Temporalmente comentarizado -->
+			<f:metadata>
+				<f:viewAction action="#{inicio.validaSession}" phase="APPLY_REQUEST_VALUES" />
+				<f:viewAction action="#{inicio.validaPaginaInicioAdmin}" phase="APPLY_REQUEST_VALUES" />
+				<f:event type="preRenderView" listener="#{inicio.obtieneRegistrosPendientes}" />
+			</f:metadata>
+			</ui:remove>
+		</ui:define>
+		
+	
+		<ui:define name="titulo">Resumen</ui:define>
+		
+		<ui:define name="breadcrumb"><li>Resumen</li></ui:define>
+		
+		<ui:define name="contenido">
+		
+			<h:panelGroup layout="block" styleClass="jumbotron">
+				<h:panelGroup layout="block" styleClass="container">
+					<h3>#{lblMain.pedidosPendientes}</h3>
+					
+					<h:form styleClass="form-horizontal">
+					
+					<h:dataTable value="#{inicio.pendientes}" var="pen" styleClass="table">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.id}" />
+							</f:facet>
+							<h:outputLabel value="#{pen.idContabilidad}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.sociedad}" />
+							</f:facet>
+							<h:outputLabel value="#{pen.empresa.nombre}" /> 
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.periodo}" />
+							</f:facet>
+							<h:outputLabel value="#{pen.periodoDesc}" /> 
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.anioFiscal}" />
+							</f:facet>
+							<h:outputLabel value="#{pen.anioFiscal}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.fechaCreacion}" />
+							</f:facet>
+							<h:outputLabel value="#{pen.fechaCreacion}">
+								<f:convertDateTime dateStyle="medium"/>
+							</h:outputLabel>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.estatus}" />
+							</f:facet>
+							
+							<h:outputLabel value="#{pen.estatusDes}" />							
+						</h:column>
+						
+						<h:column>							
+							<f:facet name="header">
+								<h:outputText value="" />
+							</f:facet>
+							
+							<h:panelGroup>
+								<h:link value="#{lblMain.btnVer}" outcome="/loadXML/detalleCE" styleClass="btn btn-primary">
+									<f:param name="idCe" value="#{pen.idContabilidad}" />
+								</h:link>								
+							</h:panelGroup>	
+						</h:column>																							
+					</h:dataTable>					
+					
+
+					</h:form>
+				<p><h:link outcome="/loadXML/altaCE" value="#{lblMain.btnNuevo}" styleClass="btn btn-primary btn-lg" /></p>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			
+
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

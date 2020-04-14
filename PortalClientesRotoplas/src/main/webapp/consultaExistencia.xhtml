@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+		
+<h:body>
+	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="metadata">
+		</ui:define>
+		
+		<ui:define name="titulo">#{lblMain.ttlBusquedas}</ui:define>
+		
+		<ui:define name="breadcrumb">			
+			<li class="active">#{lblMain.ttlBusquedas}</li>
+		</ui:define>
+		
+		<ui:define name="contenido">
+			<h:form enctype="multipart/form-data" id="form" styleClass="form-inline">					
+					<ui:remove>
+						<h:panelGroup layout="block" styleClass="form-group">
+							<h:outputLabel value="#{lblMain.pais}" style="margin-right: 5px;" />
+							<h:selectOneMenu value="#{busqueda.idPais}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+								<f:selectItems value="#{busqueda.catalogoPaisSet}" var="pais" 
+									itemValue="#{pais.key}" itemLabel="#{pais.value}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</ui:remove>
+					
+					<h:panelGroup layout="block" styleClass="form-group">
+						<h:outputLabel value="#{lblMain.buscarPor}" style="margin-right: 5px;" />
+						<h:selectOneMenu id="frm_tipoBusqueda" value="#{busqueda.tipoBusqueda}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">							
+							<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+							<f:selectItems value="#{busqueda.catalogoBusquedaSet}" var="tipo"
+								itemValue="#{tipo.key}" itemLabel="#{tipo.value}" />
+							<f:ajax execute="frm_tipoBusqueda" render="boxBusquedaLocalidad boxBusquedaPlanta boxMatBoton" listener="#{busqueda.onTipoBusquedaChange}" />							
+						</h:selectOneMenu>
+					</h:panelGroup>
+					
+					
+					<h:panelGroup id="boxBusquedaLocalidad">
+						<h:panelGroup rendered="#{busqueda.tipoBusqueda == 1}">
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel value="#{lblMain.estado}" style="margin-right: 5px;" />
+								<h:selectOneMenu id="frm_estado" value="#{busqueda.idEstado}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+									<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+									<f:selectItems value="#{busqueda.catalogoEstadoSet}" var="estado"
+										itemValue="#{estado.key}" itemLabel="#{estado.value}" />
+									<f:ajax execute="@this" render="boxLocalidad" listener="#{busqueda.onEstadoChange}" />
+								</h:selectOneMenu>
+							</h:panelGroup>
+											
+							<h:panelGroup id="boxLocalidad" layout="block" styleClass="form-group">
+								<h:panelGroup>
+									<h:outputLabel value="#{lblMain.localidad}" style="margin-right: 5px;" />
+									<h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+										<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+										<f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad"
+											itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
+										<f:ajax execute="@this" render="boxPlanta" listener="#{busqueda.onLocalidadChange}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
+							</h:panelGroup>
+						
+							<h:panelGroup id="boxPlanta" layout="block" styleClass="form-group">
+								<h:panelGroup>
+									<h:outputLabel value="#{lblMain.planta}: " style="margin-right: 5px;" />
+									<h:outputLabel value="#{busqueda.plantaDescripcion}" />
+									<ui:remove>
+									<h:selectOneMenu value="#{busqueda.idPlanta}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+										<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+										<f:selectItems value="#{busqueda.catalogoPlantaSet}" var="planta" 
+											itemValue="#{planta.key}" itemLabel="#{planta.value}"/>							
+									</h:selectOneMenu>
+									</ui:remove>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>					
+					</h:panelGroup>
+					
+					
+					<h:panelGroup id="boxBusquedaPlanta">
+						<h:panelGroup rendered="#{busqueda.tipoBusqueda == 2}">
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel value="#{lblMain.planta}" style="margin-right: 5px;" />
+								<h:selectOneMenu id="frm_PlantaPta" value="#{busqueda.idPlanta}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+									<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+									<f:selectItems value="#{busqueda.catalogoPlantaSet}" var="planta" 
+										itemValue="#{planta.key}" itemLabel="#{planta.value}"/>
+									<f:ajax execute="frm_PlantaPta" render="boxEstadoPta" listener="#{busqueda.onPlantaAllChange}" />
+								</h:selectOneMenu>							
+							</h:panelGroup>
+							
+							<h:panelGroup id="boxEstadoPta">
+								<h:panelGroup layout="block" styleClass="form-group">
+									<h:outputLabel value="#{lblMain.estado}" style="margin-right: 5px;" />
+									<h:selectOneMenu id="frm_estadoPta" value="#{busqueda.idEstado}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
+										<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+										<f:selectItems value="#{busqueda.catalogoEstadoSet}" var="estado"
+											itemValue="#{estado.key}" itemLabel="#{estado.value}" />
+										<f:ajax execute="frm_estado" render="boxLocalidadPta" listener="#{busqueda.onEstadoChange}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<h:panelGroup id="boxLocalidadPta" layout="block" styleClass="form-group">
+								<h:panelGroup>
+									<h:outputLabel value="#{lblMain.localidad}" style="margin-right: 5px;" />
+									<h:selectOneMenu id="frm_localidadPta" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control input-sm" style="margin-right: 10px; width: 100px;">
+										<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+										<f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad"
+											itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />										
+									</h:selectOneMenu>
+								</h:panelGroup>
+							</h:panelGroup>							
+						</h:panelGroup>						
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" id="boxMatBoton" style="margin-top: 10px;">					
+						<h:panelGroup  layout="block" styleClass="form-group" rendered="#{busqueda.tipoBusqueda != 0}" >
+							<h:outputLabel value="#{lblMain.materialDescripcion}" for="frm_noMaterial" style="margin-right: 5px;"/>
+							<h:inputText value="#{busqueda.noMaterial}" id="frm_noMaterial" styleClass="form-control input-sm" required="true" requiredMessage="#{lblMain.errorMaterialReq}" style="margin-right: 10px;" />
+						</h:panelGroup>
+						
+						<h:panelGroup layout="block" styleClass="form-group" rendered="#{busqueda.tipoBusqueda != 0}">
+							<h:commandButton value="#{lblMain.btnBuscar}" action="#{busqueda.busquedaExistencia}" styleClass="btn btn-primary" />
+						</h:panelGroup>
+					</h:panelGroup>
+							
+					<!-- Version Standard - Listado de Materiales  -->
+					<h:dataTable value="#{busqueda.resultadosMatBusqueda}" var="mat"
+						rendered="#{not empty busqueda.resultadosMatBusqueda and not busqueda.mobileDevice}"
+						styleClass="table table-striped"
+						style="margin-top:10px;">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.noMaterial}" />
+							</f:facet>
+							<h:outputLabel value="#{mat.noMaterial}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.descripcion}"/>
+							</f:facet>
+							<h:outputLabel value="#{mat.descripcion}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.accion}" />
+							</f:facet>
+							<h:commandButton value="#{lblMain.btnConsultarStock}" action="#{busqueda.busquedaExistenciaMaterial}" styleClass="btn btn-primary">
+								<f:setPropertyActionListener value="#{mat}" target="#{flash.materialSel}" />
+							</h:commandButton>
+						</h:column>
+					</h:dataTable>
+					
+
+    				<!-- Standard Version - Tabla de resultados stock x no Material -->	
+					<h:dataTable value="#{busqueda.resultados}" var="stock" 
+						rendered="#{not empty busqueda.resultados and not busqueda.mobileDevice}"
+						styleClass="table table-striped"
+						style="margin-top: 10px;"
+						columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 ">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.noMaterial}" />
+							</f:facet>
+							<h:outputLabel value="#{stock.noMaterial}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.descripcion}" />
+							</f:facet>
+							<h:outputLabel value="#{stock.descripcion}" />
+						</h:column>
+						
+						<ui:remove>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{lblMain.centro}" />
+								</f:facet>
+								<h:outputLabel value="#{stock.noPlanta}" />
+							</h:column>
+						</ui:remove>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.planta}" />
+							</f:facet>
+							<h:outputLabel value="#{stock.planta}" />
+						</h:column>
+						
+						<ui:remove>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{lblMain.almacen}" />
+								</f:facet>
+								<h:outputLabel value="#{stock.almacen}" />
+							</h:column>
+						</ui:remove>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:panelGroup layout="block" style="text-align:center;">
+									<h:outputText value="#{lblMain.stockLibre}" />
+								</h:panelGroup>
+							</f:facet>
+							<h:outputLabel value="#{stock.stockStr}" styleClass="align-right" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{lblMain.unidadMedida}" />
+							</f:facet>
+							<h:outputLabel value="#{stock.umb}" />
+						</h:column>						
+					</h:dataTable>
+					
+					
+					<!-- Mobile Version - Listado de Materiales -->
+					<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty busqueda.resultadosMatBusqueda and detalle.mobileDevice}">
+						<ui:repeat var="mat" value="#{busqueda.resultadosMatBusqueda}">
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.noMaterial}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{mat.noMaterial}"  />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.descripcion}" styleClass="lblheader"/>
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{mat.descripcion}" />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" styleClass="row row-mobile">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5">
+									<h:commandButton value="#{lblMain.btnConsultarStock}" action="#{busqueda.busquedaExistenciaMaterial}" styleClass="btn btn-primary">
+										<f:setPropertyActionListener value="#{mat}" target="#{flash.materialSel}" />
+									</h:commandButton>
+								</h:panelGroup>
+							</h:panelGroup>
+						</ui:repeat>
+					</h:panelGroup>
+					
+					<!-- Mobile Version - Tabla de resultados stock x no Material -->
+					<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty busqueda.resultados and detalle.mobileDevice}">
+						<ui:repeat value="#{busqueda.resultados}" var="stock">
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.noMaterial}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{stock.noMaterial}" />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.descripcion}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{stock.descripcion}" />
+								</h:panelGroup>							
+							</h:panelGroup>
+							
+							<ui:remove>
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.centro}" styleClass="lblheader" />
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{stock.noPlanta}" />
+									</h:panelGroup>
+								</h:panelGroup>
+							</ui:remove>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.planta}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{stock.planta}" />
+								</h:panelGroup>
+							</h:panelGroup>							
+							
+							<ui:remove>
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.almacen}" styleClass="lblheader" />
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{stock.almacen}" />
+									</h:panelGroup>
+								</h:panelGroup>
+							</ui:remove>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.stockLibre}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{stock.stockStr}" />
+								</h:panelGroup>
+							</h:panelGroup>
+	
+							<h:panelGroup layout="block" styleClass="row row-mobile">
+								<h:panelGroup layout="block" styleClass="col-xs-5">
+									<h:outputText value="#{lblMain.unidadMedida}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-7">
+									<h:outputLabel value="#{stock.umb}" />
+								</h:panelGroup>
+							</h:panelGroup>
+						</ui:repeat>
+					</h:panelGroup>								
+					
+					<h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
+						<h:outputText value="#{lblMain.sujetoDisponibilidad}" />
+					</h:panelGroup>
+														
+					<h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
+						<h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
+					</h:panelGroup>
+			</h:form>			
+
+			
+			<script>
+			    jsf.ajax.addOnEvent(function(data) {
+			        var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+			        var ajaxloader = document.getElementById("img_overlay");
+			
+			        switch (ajaxstatus) {
+			            case "begin": // This is called right before ajax request is been sent.
+			                ajaxloader.style.display = 'block';
+			                break;
+			
+			            case "complete": // This is called right after ajax response is received.
+			                ajaxloader.style.display = 'none';
+			                break;
+			
+			            case "success": // This is called when ajax response is successfully processed.
+			                // NOOP.
+			                break;
+			        }
+			    });
+			</script>
+			
+		</ui:define>
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

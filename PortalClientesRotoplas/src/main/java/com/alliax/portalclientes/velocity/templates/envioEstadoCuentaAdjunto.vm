@@ -1,0 +1,199 @@
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+	<!--
+		BODY  {color:#000000; font-family:arial; font-size:12;}
+		.tabla        {width: 1024px;}
+		#mainNews     {width:1024px;}
+		.titulo       {color:#4D81C0; font-family:arial; font-size:13; font-weight: bold; padding:0px 15px 0px 15px; text-align:left}
+		.texto        {color:#000000; font-family:arial; font-size:12; padding:0px 15px 0px 15px; text-align:justify;}
+		.footnote     {color:#000000; font-family:arial; width: 1024px;}
+		.footlegend   {color:#e8e8e8; font-family:arial; font-size:10px; width: 1024px;}
+		.bold         {font-weight:bold;}
+		TD.header     {color:#0082C8; font-family:arial; font-size:12; text-align:right; font-weight:bold}
+		ul            {list-style:square}
+		A             {color:#0082C8;text-decoration=underline; font-weight:bold; font-family:arial; font-size:12; cursor:hand}
+		ul            {color:#000000; font-family:arial; font-size:12; line-height:1.8}
+	-->
+</style>
+	
+	##################################	Template Genérico para todos los países ##################################
+	#if($pais != 'BR')
+		
+		<table class="tabla">
+			<tr>
+				<td rowspan="2" width="170">
+					<img src="cid:logo" width="122" height="50" align="left">
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="header" height="10">Portal de Clientes Rotoplas</td>
+			</tr>
+			<tr>
+				<td height="1" colspan="2">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+		</table><br />
+		
+		<table class="tabla" border="0">
+			<tr>
+				<td width="100%" valign="top">	
+	
+					<p>Estimado Cliente: $scc.nombreCliente </p>
+					
+					#if($carteraVencida == '1')
+					    <p>Anexamos su estado de cuenta</p>						
+					#else
+						<p>Anexamos sus facturas por vencer</p>
+					#end
+					
+																				
+					#if($pais == 'AR')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>0800 122 2482 Opción. 1 - Opción 2 </b> </p>
+					#elseif($pais == 'PE')
+						<p>Cualquier duda favor de contactar a nuestro teléfono  <b>614 2424</b> opción <b>6</b></p>
+					#elseif($pais == 'GT')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>502 2278-6323</b> </p>
+					#elseif($pais == 'SV')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>503 2113-3430</b> </p>
+					#elseif($pais == 'HN')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>504 2217-0088</b> </p>
+					#elseif($pais == 'NI')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>505 7831-8888</b> </p>
+					#elseif($pais == 'CR')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>506 4000-1963</b> </p>
+					#else
+						<p>Cualquier duda favor de contactar a nuestro departamento de Cuentas por Cobrar al  800-506-3000  opción 2</p>				
+					#end
+					
+					<p>Saludos cordiales. </p>
+					<p>
+						<i>Nota: Solicitamos no responder a este  mensaje, ya que las respuestas a este correo electrónico no serán leídas. Para mayor información consultar a su ejecutivo de 
+							#if($pais == 'MX')
+								Cuentas por Cobrar.
+							#else							
+								Cobranzas. 					
+							#end
+						</i>
+					</p>
+		
+				</td>
+			</tr>
+		</table>
+		
+		
+		<table class="tabla">
+			<tr>
+				<td height="0">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+			<tr>
+				<td class="footnote" align="right"><br />
+					#if($pais == 'AR')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i> <br />
+						<i><a href="mailto:cobranzas.ar@rotoplas.com">cobranzas.ar@rotoplas.com</a></i><br />
+						<i>Tel. 0800 122 2482 Ocp. 1 - Opc. 2</i>
+					#elseif($pais == 'PE')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.pe@rotoplas.com">cobranzas.pe@rotoplas.com</a></i><br />
+						<i>Tel. 614 2424 opción 6</i>
+					#elseif($pais == 'GT')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
+						<i>Tel. 502 2278-6323 </i>
+					#elseif($pais == 'SV')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
+						<i>Tel. 503 2113-3430 </i>
+					#elseif($pais == 'HN')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
+						<i>Tel. 504 2217-0088 </i>
+					#elseif($pais == 'NI')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
+						<i>Tel. 505 7831-8888 </i>
+					#elseif($pais == 'CR')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
+						<i>Tel. 506 4000-1963 </i>																									
+					#else
+						<i><b>Cuentas por Cobrar Clientes Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.mx@rotoplas.com">cobranzas.mx@rotoplas.com</a></i><br />
+						<i>Tel. 800 506 3000</i><br />
+						<i>Opción 2</i>
+					#end				
+				</td>
+			</tr>
+		</table>
+
+    #else		
+		##################################	Template BR  ##################################	
+		
+
+		<table class="tabla">
+			<tr>
+				<td rowspan="2" width="170">
+					<img src="cid:logo" width="122" height="50" align="left">
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="header" height="10">Portal de Clientes Acqualimp</td>
+			</tr>
+			<tr>
+				<td height="1" colspan="2">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+		</table><br />
+		
+		<table class="tabla" border="0">
+			<tr>
+				<td width="100%" valign="top">	
+	
+					<p>Prezado cliente: $scc.nombreCliente</p>
+					
+					#if($carteraVencida == '1')
+					    <p>Segue em anexo o seu Relatório Financeiro.</p>						
+					#else
+						<p>Segue em anexo o seu Relatório Financeiro.</p>
+					#end
+					
+					
+																	
+					<p>Em caso de dúvidas entre em contato conosco pelo telefone <b>0800 940 2482 - Opção 2. </b>.</p>
+	
+					
+					<p>Atenciosamente. <br/>
+					   Financeiro Acqualimp
+					 </p>
+					<p>
+						<i>Observação: E-mail enviado automaticamente, favor não responder. Para maiores informações entrar em contato pelo telefone informado acima.</i>
+					</p>
+		
+				</td>
+			</tr>
+		</table>
+		
+		
+		<table class="tabla">
+			<tr>
+				<td height="0">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+			<tr>
+				<td class="footnote" align="right"><br />			
+						<i><b>Financeiro Acqualimp</b></i> <br />
+						<i><a href="mailto:cobranca.br@rotoplas.com">cobranca.br@rotoplas.com</a></i><br /> 
+						<i>Tel. 0800 940 2482 - Opção 2</i>				
+				</td>
+			</tr>
+		</table>
+
+
+
+	#end				

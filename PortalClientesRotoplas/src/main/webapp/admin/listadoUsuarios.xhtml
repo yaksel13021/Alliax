@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlUsuarios}</ui:define>	
+		
+		<ui:define name="breadcrumb">
+			<li>#{lblMain.ttlAdmin}</li>
+			<li>#{lblMain.ttlUsuarios}</li>
+		</ui:define>
+		
+		<ui:define name="contenido">
+ 			<h:form id="form" styleClass="form-inline">
+ 			
+			<h:panelGroup layout="block" styleClass="form-group" rendered="#{listaUsuarios.usuarioSel eq null}">
+				<h:outputLabel value="#{lblMain.usrLogin}" style="margin-right: 5px;" />
+				<h:inputText label="#{lblMain.usrLogin}" value="#{listaUsuarios.txtUsuario}" styleClass="form-control input-sm" required="true" style="margin-right: 10px;" />						
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="form-group" rendered="#{listaUsuarios.usuarioSel eq null}">
+				<h:commandButton action="#{listaUsuarios.busquedaUsuario}" value="#{lblMain.btnBuscar}" styleClass="btn btn-primary" />&nbsp;
+				
+				<h:commandButton action="#{listaUsuarios.onAgregarUsuario}" value="#{lblMain.btnCrearUsuario}" styleClass="btn btn-default" immediate="true" />
+			</h:panelGroup>
+ 			 							
+			<!-- Modo visualizacion  -->
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{listaUsuarios.usuario != null and listaUsuarios.usuarioSel == null}" style="margin-top:15px;">
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">
+						<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuario.usuario}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">							
+						<h:outputLabel value="#{lblMain.email}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuario.email}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">
+						<h:outputLabel value="#{lblMain.fechaAlta}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuario.fechaAlta}" />
+					</h:panelGroup>
+				</h:panelGroup>				
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">
+						<h:outputLabel value="#{lblMain.fechaEntrada}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuario.fechaEntrada}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">
+						<h:outputLabel value="#{lblMain.estatus}"  styleClass="lblheader"/>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuario.estatus}" />
+					</h:panelGroup>
+				</h:panelGroup>				
+				
+				<h:panelGroup id="rolesLista" styleClass="row">
+					<h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-2">
+							<h:outputLabel value="#{lblMain.roles}" style="width: 200px;" />									
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-4">
+							<h:dataTable value="#{listaUsuarios.usuario.roles}" var="rol">
+								<h:column>
+									<h:outputText value="#{listaUsuarios.getRolLabel(rol.rol)}" />
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
+					</h:panelGroup>							
+				</h:panelGroup>
+							
+				
+				<h:panelGroup layout="block" styleClass="row" rendered="#{empty facesContext.messageList}">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5 col-md-3 col-md-offset-2">
+						<h:commandButton action="#{listaUsuarios.onEditarUsuario}" value="#{lblMain.btnEditar}" styleClass="btn btn-primary" />
+					</h:panelGroup>
+				</h:panelGroup>				
+				
+			</h:panelGroup>
+					
+				
+			<!-- Modo Edicion  -->
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{listaUsuarios.usuarioSel != null}" style="margin-top:15px;">
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />						
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuarioSel.usuario}" rendered="#{listaUsuarios.usuarioNuevo eq false}" />
+						<h:inputText label="#{lblMain.usrLogin}" value="#{listaUsuarios.usuarioSel.usuario}" required="true" maxlength="15" styleClass="form-control input-sm" rendered="#{listaUsuarios.usuarioNuevo}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">							
+						<h:outputLabel value="#{lblMain.email}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">						
+						<h:inputText label="#{lblMain.email}" value="#{listaUsuarios.usuarioSel.email}" required="true" maxlength="50" styleClass="form-control input-sm">
+							<f:validateLength minimum="1" maximum="50" />
+						</h:inputText>						
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row" rendered="#{listaUsuarios.usuarioNuevo eq false}">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.fechaAlta}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuarioSel.fechaAlta}">
+
+						</h:outputLabel>
+					</h:panelGroup>
+				</h:panelGroup>				
+				
+				<h:panelGroup layout="block" styleClass="row" rendered="#{listaUsuarios.usuarioNuevo eq false}">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.fechaEntrada}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaUsuarios.usuarioSel.fechaEntrada}">
+
+						</h:outputLabel>
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row" rendered="#{listaUsuarios.usuarioNuevo eq false}">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.estatus}"  styleClass="lblheader"/>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:selectOneMenu value="#{listaUsuarios.usuarioSel.estatus}" styleClass="form-control input-sm">
+							<f:selectItems value="#{listaUsuarios.catalogoEstatusSet}" var="est"
+								itemLabel="#{est.value}" itemValue="#{est.key}" />
+						</h:selectOneMenu>						
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.roles}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:panelGroup id="boxRoles">
+							<f:ajax execute="rolesCat">
+								<h:selectOneMenu id="rolesCat" value="#{listaUsuarios.rolTemp}" styleClass="form-control input-sm">
+									<f:selectItem itemValue="0" itemLabel="#{lblMain.selecciona}" />
+									<f:selectItems value="#{listaUsuarios.rolesCatSet}" var="rolcat"
+										itemLabel="#{rolcat.value}" itemValue="#{rolcat.key}" />
+								</h:selectOneMenu> &nbsp;
+															
+								<h:commandButton value="#{lblMain.btnAgregar}" styleClass="btn btn-default" immediate="true">
+									<f:ajax listener="#{listaUsuarios.onRolAdd}" render="rolesListaEdit" event="click" />
+								</h:commandButton>
+							</f:ajax>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="rolesListaEdit" styleClass="row">
+					<h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+							<h:outputLabel value="" />									
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-4">
+							<h:dataTable styleClass="table" value="#{listaUsuarios.usuarioSel.roles}" var="per">
+								<h:column>
+									<h:outputText value="#{listaUsuarios.getRolLabel(per.rol)}" />
+								</h:column>
+								<h:column>
+									<f:ajax listener="#{listaUsuarios.onRolRemove}" event="click" render="form\:rolesListaEdit" execute="@this">											
+										<h:panelGroup layout="inline" styleClass="glyphicon glyphicon-trash" style="cursor:pointer; color: #FF0000;" rendered="#{per.borrado eq false}"/>
+									</f:ajax>
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
+					</h:panelGroup>							
+				</h:panelGroup>
+
+
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5 col-md-3 col-md-offset-2">
+						<h:commandButton action="#{listaUsuarios.onSaveUsuario}" actionListener="#{listaUsuarios.validaUsuario}" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+				
+				
+
+				
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{listaUsuarios.usuario == null and listaUsuarios.usuarioSel == null and (facesContext.postback and empty facesContext.messageList)}" style="margin-top:15px;">			
+				<h:outputText value="#{lblMain.noHayResultados}" rendered="#{listaUsuarios.usuario == null and facesContext.postback}" style="font-weight:bold;" />
+			</h:panelGroup>
+			
+			
+			</h:form>	
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

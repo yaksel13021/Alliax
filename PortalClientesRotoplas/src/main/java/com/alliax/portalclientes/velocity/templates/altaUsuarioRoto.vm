@@ -1,0 +1,220 @@
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+	<!--
+		BODY  {color:#000000; font-family:arial; font-size:12;}
+		.tabla        {width: 1024px;}
+		#mainNews     {width:1024px;}
+		.titulo       {color:#4D81C0; font-family:arial; font-size:13; font-weight: bold; padding:0px 15px 0px 15px; text-align:left}
+		.texto        {color:#000000; font-family:arial; font-size:12; padding:0px 15px 0px 15px; text-align:justify;}
+		.footnote     {color:#000000; font-family:arial; width: 1024px;}
+		.footlegend   {color:#e8e8e8; font-family:arial; font-size:10px; width: 1024px;}
+		.bold         {font-weight:bold;}
+		TD.header     {color:#0082C8; font-family:arial; font-size:12; text-align:right; font-weight:bold}
+		ul            {list-style:square}
+		A             {color:#0082C8;text-decoration=underline; font-weight:bold; font-family:arial; font-size:12; cursor:hand}
+		ul            {color:#000000; font-family:arial; font-size:12; line-height:1.8}
+	-->
+</style>
+	
+	##################################	Template Genérico para todos los países ##################################
+	#if($pais != 'BR')
+		
+		<table class="tabla">
+			<tr>
+				<td rowspan="2" width="170">
+					<img src="cid:logo" width="122" height="50" align="left">
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="header" height="10">Portal de Clientes Rotoplas</td>
+			</tr>
+			<tr>
+				<td height="1" colspan="2">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+		</table><br />
+		
+		<table class="tabla" border="0">
+			<tr>
+				<td width="100%" valign="top">	
+	
+					<p>Estimado Usuario: </p>
+					<p>Con el objetivo de fortalecer y facilitar la comunicación con Rotoplas, hemos desarrollado un portal comercial en donde podrás consultar de forma rápida y sencilla el estatus general de tus pedidos así como las siguientes funcionalidades:</p>
+					
+					<ul>
+						<li>Consultar tu Estado de Cuenta</li>
+						#if($pais == 'MX')											
+						    <li>Obtener el folio de captura de tus pedidos</li>
+							<li>Revisar la disponibilidad de productos</li>
+							<li>Revisar el estatus de entrega y facturación de tus pedidos</li>
+							<li>Acceder a la lista de precios vigentes</li>						
+						#end
+					</ul>
+			
+					<p>La forma de acceder es <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, ingresando la siguiente información:</p>
+					
+					<p>
+						<b>Identificación de usuario</b>: $usuario.usuario <br />				   
+						<b>Clave de acceso</b>: $usuario.passwordStr 
+						#if($pais == 'MX')				      	
+						
+					    #else
+							&nbsp;&nbsp;&nbsp;&nbsp;
+					      	(Respetando mayúsculas y minúsculas, sin copiar y pegar)    
+					    #end	
+						<br />
+					</p>
+					
+					<p>Una vez ingresados estos datos el sistema pedirá modificar la clave de acceso, debiendo ingresar la antes mencionada en el renglón clave de acceso anterior; posteriormente deberá ingresar una nueva, siendo como mínimo 8 caracteres y un máximo de 10, los caracteres deberán ser alfanuméricos, finalmente confirme.</p>
+					
+					#if($pais == 'AR')
+						<p>Si desea consultar el manual de operación puede hacerlo accediendo a <font size="2"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf</span></b></a></font></p>
+					#elseif($pais == 'PE')
+						<p>Si desea consultar el manual de operación puede hacerlo accediendo a <font size="2"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_pe.pdf</span></b></a></font></p>
+					#elseif($pais == 'CA')
+						<p>Si desea consultar el manual de operación puede hacerlo accediendo a <font size="2"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_ventas_ca.pdf</span></b></a></font></p>
+					#else				
+						<p>Si desea consultar el manual de operación puede hacerlo accediendo a <font size="2"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario.pdf</span></b></a></font></p>
+					#end
+					
+					#if($pais == 'AR')
+						<p>Cualquier duda favor de contactar a nuestro teléfono <b>0800 122 2482 Opción. 1 - Opción 2 </b> </p>
+					#elseif($pais == 'PE')
+						<p>Cualquier duda favor de contactar a nuestro teléfono  <b>614 2424</b> opción <b>6</b></p>
+					#elseif($pais == 'CA')
+					
+					#else
+						<p>Cualquier duda favor de contactar a nuestro departamento de Atención a clientes  01-800-506-3000</p>				
+					#end
+					
+					<p>Saludos cordiales. </p>
+					<p>
+						<i>Nota: Solicitamos no responder a este  mensaje, ya que las respuestas a este correo electrónico no serán leídas. Para mayor información consultar a su ejecutivo de 
+							#if($pais == 'MX')
+								SAC.
+							#else							
+								Cobranzas. 					
+							#end
+						</i>
+					</p>
+		
+				</td>
+			</tr>
+		</table>
+		
+		
+		<table class="tabla">
+			<tr>
+				<td height="0">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+			<tr>
+				<td class="footnote" align="right"><br />
+					#if($pais == 'AR')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i> <br />
+						<i><a href="mailto:cobranzas.ar@rotoplas.com">cobranzas.ar@rotoplas.com</a></i><br />
+						<i>Tel. 0800 122 2482 Ocp. 1 - Opc. 2</i>
+					#elseif($pais == 'PE')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.pe@rotoplas.com">cobranzas.pe@rotoplas.com</a></i><br />
+						<i>Tel. 614 2424 opción 6</i>
+					#elseif($pais == 'CA')
+						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
+						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />					
+					#else
+						<i><b>Servicio y Atención a Clientes Rotoplas</b></i><br />
+						<i><a href="mailto:pedidos@rotoplas.com">pedidos@rotoplas.com</a></i><br />
+						<i>Tel. 800 506 3000</i>
+					#end				
+				</td>
+			</tr>
+		</table>
+
+    #else		
+		##################################	Template BR  ##################################	
+		
+
+		<table class="tabla">
+			<tr>
+				<td rowspan="2" width="170">
+					<img src="cid:logo" width="122" height="50" align="left">
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="header" height="10">Portal de Clientes Acqualimp</td>
+			</tr>
+			<tr>
+				<td height="1" colspan="2">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+		</table><br />
+		
+		<table class="tabla" border="0">
+			<tr>
+				<td width="100%" valign="top">	
+	
+					<p>Prezado usuario: </p>
+					<p>Pensando na praticidade em disponibilizar de uma forma rápida e simples as informações sobre seus pedidos e faturas, desenvolvemos um portal exclusivo onde poderá contar com as seguintes funcionalidades: </p>
+					
+					<ul>
+						<li>Status geral de todas as faturas vencidas e a vencer</li>
+						<li>Limite de Crédito disponível;</li>
+						<li>Emissão de 2º via de boletos;</li>				
+					</ul>
+			
+					<p>Basta acessar o link <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, e digitar as seguintes informações:</p>
+					
+					<p>
+						<b>Código de cliente</b>: $usuario.usuario  <br />
+						<b>Senha</b>: $usuario.passwordStr 
+						
+					   		&nbsp;&nbsp;&nbsp;&nbsp;
+					      	(Respeitando maiúsculas e minúsculas, sem copiar e colar)
+					
+						<br />
+					</p>
+					
+					<p>No primeiro acesso será solicitado o cadastramento de uma nova senha alfanumérica, que deverá conter no mínimo 8 e no máximo 10 caracteres.</p>
+				
+					<p>Consulte o nosso manual: <font size="2">
+								
+					<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf</span></b></a></font></p>
+													
+					<p>Em caso de dúvidas entre em contato conosco pelo telefone <b>0800 940 2482 - Opção 2. </b>.</p>
+	
+					
+					<p>Atenciosamente. <br/>
+					   Financeiro Acqualimp
+					 </p>
+					<p>
+						<i>Observação: E-mail enviado automaticamente, favor não responder. Para maiores informações entrar em contato pelo telefone informado acima.</i>
+					</p>
+		
+				</td>
+			</tr>
+		</table>
+		
+		
+		<table class="tabla">
+			<tr>
+				<td height="0">
+					<hr width="100%" color="#4D81C0">
+				</td>
+			</tr>
+			<tr>
+				<td class="footnote" align="right"><br />			
+						<i><b>Financeiro Acqualimp</b></i> <br />
+						<i><a href="mailto:cobranca.br@rotoplas.com">cobranca.br@rotoplas.com</a></i><br /> 
+						<i>Tel. 0800 940 2482 - Opção 2</i>				
+				</td>
+			</tr>
+		</table>
+
+
+
+	#end				

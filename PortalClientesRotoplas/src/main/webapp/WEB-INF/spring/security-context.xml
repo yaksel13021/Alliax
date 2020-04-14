@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			xmlns:beans="http://www.springframework.org/schema/beans"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/security
+				http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<!-- 
+	<beans:import resource="applicationContext-mongodb.xml" />
+	 -->
+	 <!-- 
+	 	Evalua la primer coincidencia de pattern
+		Se hacen override solamente cuando el segundo pattern es mas especifico.
+		De False a True NO hay override salvo que sea el mismo patron...
+	  -->
+	 
+	<http use-expressions="false" auto-config="true">
+		<csrf disabled="true"/>
+		<intercept-url pattern="/css/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />
+		<intercept-url pattern="/js/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />					
+		<intercept-url pattern="/images/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />
+		<intercept-url pattern="/javax.faces.resource/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />
+		<intercept-url pattern="/fonts/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />	
+		<intercept-url pattern="/customErrorPages/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PWDCHANGE_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />
+		
+		<intercept-url pattern="/logOff.xhtml" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PWDCHANGE_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />		
+		<intercept-url pattern="/index.xhtml" access="ROLE_ANONYMOUS" />		
+				
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR" />
+		<intercept-url pattern="/ejecutivo/**" access="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                               ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR" />
+		<intercept-url pattern="/resources/files/**" access="ROLE_ANONYMOUS,ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR" />
+		<intercept-url pattern="/resources/filesAdm/**" access="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR" />
+					
+		<intercept-url pattern="/recuperaPassword.xhtml" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/indexPwdChange.xhtml" access="ROLE_PWDCHANGE_MEMBER" />
+				
+		<intercept-url pattern="/**" access="ROLE_CLIENT_MEMBER,
+		                                     ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                     ROLE_VENTAS_MEMBER,ROLE_VENTAS_MEMBER_AR,ROLE_VENTAS_MEMBER_PE,ROLE_VENTAS_MEMBER_BR,ROLE_VENTAS_MEMBER_CA,
+		                                     ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR" />
+		
+		
+		 <!-- Acceso denegado -->
+		<access-denied-handler error-page="/customErrorPages/403.xhtml" />
+		 			
+			
+		<form-login login-page="/index.xhtml"					 
+			 authentication-success-handler-ref="mySuccessHandler"
+			 login-processing-url="/j_spring_security_check"
+			 authentication-failure-handler-ref="exceptionAuthFilter"
+			 
+			 username-parameter="login:j_username"
+			 password-parameter="login:j_password"
+			  />
+			<!-- default-target-url="/inicio.xhtml" -->
+			
+			<custom-filter ref="pwdChangeFilter" after="FILTER_SECURITY_INTERCEPTOR" />		 		
+		<logout logout-url="/j_spring_security_logout"/>
+	</http>
+	
+	<!-- 
+		authentication-failure-url="/faces/index.xhtml?error=1"		 
+	-->	
+	
+	<authentication-manager>
+		<authentication-provider user-service-ref="sqlUserDetailsService">
+			<password-encoder ref="encoder" />
+		</authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="pwdChangeFilter" class="com.portalclientes.spring.security.ChangePasswordFilter" />
+		
+	<beans:bean id="sqlUserDetailsService" class="com.alliax.portalclientes.service.SQLUserDetailsService" />
+	 
+	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+	
+	<!-- 
+	<beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">			
+		<beans:property name="exceptionMappings">
+			 <beans:props>
+				<beans:prop key="org.springframework.security.authentication.InternalAuthenticationServiceException">/indexPwdChange.xhtml</beans:prop>
+				<beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login_error</beans:prop>
+				<beans:prop key="org.springframework.security.authentication.CredentialsExpiredException">/indexPwdChange.xhtml</beans:prop>
+				<beans:prop key="org.springframework.security.authentication.LockedException">/locked</beans:prop>
+				<beans:prop key="org.springframework.security.authentication.DisabledException">/disabled</beans:prop>										
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	 -->		
+	
+	<beans:bean id="exceptionAuthFilter" class="com.portalclientes.spring.security.MyAuthenticationFailureListener" />
+	
+	<beans:bean id="mySuccessHandler" class="com.portalclientes.spring.security.MySuccessHandler" />
+	
+	<!-- 
+		<beans:bean id="succesHandler" class=""
+	 -->
+	
+	<!-- <authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="usuario" password="password" authorities="ROLE_CLIENT_MEMBER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager> -->
+
+</beans:beans>

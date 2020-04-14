@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction action="#{infoCliente.cargaInfoCliente}" />																
+			</f:metadata>
+		</ui:define>
+	
+		<ui:define name="titulo">Mantenimiento</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>Ejecuta procesos</li></ui:define>
+		
+		<ui:define name="contenido">
+ 			<h:form id="form" styleClass="form-inline">
+ 						
+				<h:commandButton action="#{altaCliente.asignaPaisAClientes}" value="Asigna Pais a clientes dados de alta" styleClass="btn btn-primary" />			 			 																																									
+						
+			</h:form>	
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

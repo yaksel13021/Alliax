@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:sec="http://www.springframework.org/security/tags">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+	
+		<ui:define name="titulo">#{lblMain.ttlAccesoVtas}</ui:define>
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlAccesoVtas}</li></ui:define>
+		
+		<ui:define name="contenido">		
+			<h:form id="form" styleClass="form-inline">
+		
+		<f:metadata>
+        	<f:viewParam name="trk" value="#{selecProveedor.trk}" />
+		</f:metadata>	
+		
+ 			<h:panelGroup layout="block" styleClass="panel panel-primary">
+	 			<h:panelGroup id="ttlGeneral" class="panel-collapse collapse in" layout="block">
+		 			<h:panelGroup id="filtrosBox" layout="block" styleClass="form-inline"> 			
+						<h:panelGroup layout="block" styleClass="form-group" style="margin: 10px 0px 10px 10px;">
+							<h:outputText value="#{lblMain.noCliente}" />  <br />
+							<h:inputText label="#{lblMain.noCliente}" value="#{selecCliente.noCliente}" styleClass="form-control input-sm" style="margin-right: 10px;">
+								<f:validateLength minimum="5" maximum="16" />	
+							</h:inputText>					
+						</h:panelGroup>													
+						<h:panelGroup layout="block" styleClass="form-group" style="margin: 10px 0px 10px 10px;">
+							<h:commandButton action="#{selecCliente.buscaCliente}" value="#{lblMain.btnBuscar}" styleClass="btn btn-default" />&nbsp;								
+						</h:panelGroup> 			 		
+		 			 </h:panelGroup>
+		 		</h:panelGroup>
+	 		</h:panelGroup>
+
+			</h:form>
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

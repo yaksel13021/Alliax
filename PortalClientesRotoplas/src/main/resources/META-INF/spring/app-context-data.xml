@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:jee="http://www.springframework.org/schema/jee" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+	http://www.springframework.org/schema/jdbc 
+	http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+	http://www.springframework.org/schema/data/jpa 
+	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<description>Configuracion para Portal de Clientes Rotoplas Spring MVC y JPA</description>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+	</bean>
+		
+	<context:property-placeholder location="classpath:/META-INF/jdbc.properties" />
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+		<property name="entityManagerFactory" ref="emf" />	
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="192.168.15.56" /> 
+		<property name="port" value="587" />
+		<!-- <property name="host" value="10.128.160.30" />  AlxMail -->
+	</bean>
+	
+	
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			 <value>
+			  resource.loader=class
+			  class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			 </value>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="packagesToScan" value="com.alliax.portalclientes.domain" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>
+				<prop key="hibernate.max_fetch_deep">3</prop>
+				<prop key="hibernate.batch_size">10</prop>
+				<prop key="hibernate.show_Sql">true</prop>
+			</props>
+		</property>	
+	</bean>
+	
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="com.alliax.portalclientes" />
+	
+	<jpa:repositories base-package="com.alliax.portalclientes.repository"
+		entity-manager-factory-ref="emf"
+		transaction-manager-ref="transactionManager" />
+	
+</beans>

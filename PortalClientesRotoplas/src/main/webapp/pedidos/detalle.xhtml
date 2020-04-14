@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction action="#{detalle.cargaDetallePartidas}" onPostback="false" />
+			</f:metadata>
+		</ui:define>
+		
+	
+		<ui:define name="titulo">Resumen</ui:define>
+		
+		<ui:define name="breadcrumb">
+			<li><h:link outcome="listado">#{lblMain.ttlListadoPedidos}</h:link></li>
+			<li class="active">#{lblMain.ttlDetallePedido}</li>
+		</ui:define>
+		
+		<ui:define name="contenido">
+			<h:form enctype="multipart/form-data" id="form">
+				
+				
+			<h:panelGroup layout="block" styleClass="process-bar" rendered="#{not detalle.mobileDevice}">
+			    <ol>
+				    <li class="#{detalle.estiloFormFlow('Pend')}" id="step-1" style="padding-top: 12px;">
+		    			<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.estatusGlobal}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+								#{detalle.pedido.estatusGeneral eq 'VSAC' ? detalle.pedido.estatusGeneralDes : 
+									(detalle.pedido.estatusGeneral eq 'HELD' ? detalle.pedido.estatusGeneralDes : 
+										(detalle.pedido.estatusGeneral eq 'CANC' ? detalle.pedido.estatusGeneralDes :
+											lblMain.Pend ))}
+						</h:panelGroup>
+				    </li>
+				    <li class="#{detalle.estiloFormFlow('Rele')}" id="step-2" style="padding-top: 12px;">
+				    	<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.ReleDesc}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+							#{lblMain.Rele}
+						</h:panelGroup>				        
+				    </li>
+				
+				    <li class="#{detalle.estiloFormFlow('Proc')}" id="step-3" style="padding-top: 12px;">
+				    	<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.ProcDesc}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+							#{lblMain.Proc}
+						</h:panelGroup>
+				    </li>
+				    
+				    <li class="#{detalle.estiloFormFlow('Pinv')}" id="step-4" style="width: 136px; padding-top: 12px;">
+				    	<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.PinvDesc}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+							#{lblMain.Pinv}
+						</h:panelGroup>
+				    </li>
+				
+				    <li class="#{detalle.estiloFormFlow('Conc')}" id="step-6" style="padding-top: 12px;">						
+				    	<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.ConcDesc}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+							#{lblMain.Conc}
+						</h:panelGroup>
+				    </li>
+				
+				    <li class="#{detalle.estiloFormFlow('Comp')}" id="step-7" style="padding-top: 12px;">
+				    	<h:panelGroup layout="inline"
+							aria-hidden="true"
+							onmouseover="$(this).popover({html:'true', content: '#{lblMain.CompDesc}',placement: 'bottom'}); $(this).popover('show');" 
+							onmouseout="$(this).popover('toggle');">
+							#{lblMain.Comp}
+						</h:panelGroup>
+				    </li>						
+			    </ol>
+			</h:panelGroup>
+			
+			<!-- Standard version -->
+			<h:panelGroup layout="block" styleClass="container-fluid">
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.docComercial}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{detalle.pedido.documentoComercial}" />
+					</h:panelGroup>
+														
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.pedido}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{detalle.pedido.pedidoCliente}" />
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" styleClass="row">											
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.fechaCreacion}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{detalle.pedido.fechaCreacion}" >
+							<f:convertDateTime dateStyle="default" />
+						</h:outputLabel>
+					</h:panelGroup>																		
+						
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.monto}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{detalle.pedido.monto}">
+							<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+						</h:outputLabel> #{detalle.pedido.moneda}							
+					</h:panelGroup>
+				</h:panelGroup>
+							
+				<h:panelGroup layout="block" styleClass="row">					
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.destinatario}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{detalle.pedido.destinatario}" />
+					</h:panelGroup>
+				
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{lblMain.estatus}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:panelGroup layout="inline"
+							styleClass="#{detalle.pedido.estatusGlobal eq 'COMP' ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-info-sign'}" 
+							style="#{detalle.pedido.estatusGeneral eq 'COMP' ? 'color:#00CC00;' : 'color:#F0AD4E;'}">
+							#{detalle.pedido.estatusGeneralDes}
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>				
+			</h:panelGroup>
+																															
+									
+			<ul id="myTabs" class="nav nav-tabs" style="margin-top: 10px;">
+				<li role="presentation" class="active">
+			  		<h:outputLink value="#form\:partidas" id="tabPartidas" onclick="$(this).tab('show');">#{lblMain.partidas}</h:outputLink>				  	
+			  	</li>
+			  	<li role="presentation">
+		  			<f:ajax listener="#{detalle.obtieneFacturas}" event="click" render="tabDetalle" execute="@this">
+			  			<h:outputLink value="#form\:facturas" id="tabFacturas" onclick="$(this).tab('show');">#{lblMain.facturas}</h:outputLink>
+		  			</f:ajax>
+			  	</li>
+			</ul>
+				
+
+				<h:panelGroup layout="block" styleClass="tab-content" id="tabDetalle">
+    				<h:panelGroup layout="block" id="partidas" styleClass="#{detalle.classPartidas}">
+    					<!-- Standard version Posiciones -->
+    					<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty detalle.partidas and not detalle.mobileDevice}">
+    						<h:panelGroup layout="block" styleClass="row header-bordered">
+								<h:panelGroup layout="block" styleClass="col-sm-1 tblCell10" style="text-align:center;">    								
+		    						<h:outputText value="#{lblMain.posicionSm}"/>
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-md-1" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.noMaterialSm}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.descripcion}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-md-1" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.cantidadSm}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-md-1" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.cantEntregadaSm}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-sm-1" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.unidadMedida}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-sm-2" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.monto}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-sm-2" style="text-align:center;">	
+		    						<h:outputText value="#{lblMain.precioNeto}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-md-1" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.fechaEntregaSm}" />
+		    					</h:panelGroup>
+		    					<h:panelGroup layout="block" styleClass="col-sm-2" style="text-align:center;">
+		    						<h:outputText value="#{lblMain.estatus}" />
+		    					</h:panelGroup>
+    						</h:panelGroup>
+    					
+	    					<ui:repeat value="#{detalle.partidas}" var="partida">
+	    						<h:panelGroup layout="block" styleClass="row single-bordered">
+									<h:panelGroup layout="block" styleClass="col-sm-1 tblCell10">	    						
+		    							<h:outputLabel value="#{partida.posicion}" />
+		    						</h:panelGroup>
+		    						    								    						
+		    						<h:panelGroup layout="block" styleClass="col-md-1">
+		    							<h:outputLabel value="#{partida.noMaterial}" />
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-md-2">
+		    							<h:outputLabel value="#{partida.descripcion}" />
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-md-1 alxright-align">
+		    							<h:outputLabel value="#{partida.cantidadStr}" />
+		    						</h:panelGroup>    						
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-md-1 alxright-align">
+		    							<h:outputLabel value="#{partida.cantidadEntregadaStr}" />
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-sm-1">
+		    							<h:outputLabel value="#{partida.unidadMedida}" />
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-sm-2 alxright-align">
+		    							<h:outputLabel value="#{partida.monto}">
+		    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+		    								#{partida.moneda}
+		    							</h:outputLabel>
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-sm-2 alxright-align">
+		    							<h:outputLabel value="#{partida.precioNeto}">
+		    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+		    							</h:outputLabel> #{partida.moneda}
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-md-1">
+		    							<h:outputLabel value="#{partida.fechaEntrega}">
+		    								<f:convertDateTime dateStyle="default" />
+		    							</h:outputLabel>
+		    						</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-sm-2">
+										<h:panelGroup layout="inline"											 
+											style="#{partida.estatusGeneral eq 'TINV' ? 'color:#00CC00;' : 'color:#F0AD4E;'}" 
+											styleClass="#{partida.estatusGeneral eq 'TINV' ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-info-sign'}">											
+											#{partida.estatusGeneralDes}
+										</h:panelGroup>
+										
+										<ui:remove>
+											
+										</ui:remove>
+										
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    				</ui:repeat>
+    					</h:panelGroup>
+    					
+    					<!-- Mobile Version Posiciones -->
+    					<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty detalle.partidas and detalle.mobileDevice}">   					
+	    					<ui:repeat value="#{detalle.partidas}" var="partida">
+	    						<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">    								
+			    						<h:outputText value="#{lblMain.posicionSm}" styleClass="lblheader"/>
+			    					</h:panelGroup>
+		    					
+									<h:panelGroup layout="block" styleClass="col-xs-7">	    						
+		    							<h:outputLabel value="#{partida.posicion}" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    					
+		    					<h:panelGroup layout="block" styleClass="row">
+			    					<h:panelGroup layout="block" styleClass="col-xs-5">
+			    						<h:outputText value="#{lblMain.noMaterialSm}" styleClass="lblheader" />
+			    					</h:panelGroup>
+		    						    								    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.noMaterial}" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    						
+		    					<h:panelGroup layout="block" styleClass="row">
+			    					<h:panelGroup layout="block" styleClass="col-xs-5" >
+			    						<h:outputText value="#{lblMain.descripcion}" styleClass="lblheader" />
+			    					</h:panelGroup>		    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.descripcion}" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    						
+		    					<h:panelGroup layout="block" styleClass="row">
+			    					<h:panelGroup layout="block" styleClass="col-xs-5">
+			    						<h:outputText value="#{lblMain.cantidadSm}" styleClass="lblheader" />
+			    					</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.cantidadStr}" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>   						
+		    						
+		    					<h:panelGroup layout="block" styleClass="row">
+			    					<h:panelGroup layout="block" styleClass="col-xs-5">
+			    						<h:outputText value="#{lblMain.cantEntregadaSm}" styleClass="lblheader" />
+			    					</h:panelGroup>		    						
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.cantidadEntregada}" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    					
+		    					<h:panelGroup layout="block" styleClass="row">
+		    						<h:panelGroup layout="block" styleClass="col-xs-5">
+		    							<h:outputLabel value="#{partida.unidadMedida}" styleClass="lblheader" />
+		    						</h:panelGroup>
+		    						
+			    					<h:panelGroup layout="block" styleClass="col-xs-7">
+			    						<h:outputText value="#{lblMain.unidadMedida}" />
+			    					</h:panelGroup>
+		    					</h:panelGroup>
+		    					
+		    					<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+			    						<h:outputText value="#{lblMain.monto}" styleClass="lblheader" />
+			    					</h:panelGroup>
+		    					 
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.monto}">
+		    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+		    							</h:outputLabel> #{partida.moneda}
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    						
+		    					<h:panelGroup layout="block" styleClass="row">		    					
+			    					<h:panelGroup layout="block" styleClass="col-xs-5">	
+			    						<h:outputText value="#{lblMain.precioNeto}" styleClass="lblheader" />
+			    					</h:panelGroup>
+		    					
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.precioNeto}">
+		    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+		    							</h:outputLabel> #{partida.moneda}
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    						
+		    					<h:panelGroup layout="block" styleClass="row">
+			    					<h:panelGroup layout="block" styleClass="col-xs-5">
+			    						<h:outputText value="#{lblMain.fechaEntregaSm}" styleClass="lblheader" />
+			    					</h:panelGroup>		    						
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.fechaEntrega}">
+		    								<f:convertDateTime dateStyle="default" />
+		    							</h:outputLabel>
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    						
+		    					<h:panelGroup layout="block" styleClass="row row-mobile">
+									<h:panelGroup layout="block" styleClass="col-xs-5" >
+			    						<h:outputText value="#{lblMain.estatus}" styleClass="lblheader" />
+			    					</h:panelGroup>
+		    						
+		    						<h:panelGroup layout="block" styleClass="col-xs-7">
+		    							<h:outputLabel value="#{partida.estatusGeneralDes}" styleClass="#{partida.estatusGeneral eq 'TINV' ? 'text-success' : 'text-warning' }" />
+		    						</h:panelGroup>
+		    					</h:panelGroup>
+		    				</ui:repeat>
+    					</h:panelGroup>    					    					
+    				</h:panelGroup>
+    				    				
+    				    							    				    				    				
+					<h:panelGroup layout="block" id="facturas" styleClass="#{detalle.classFacturas}">
+					
+						<!-- Standard version Facturas -->
+						<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not detalle.mobileDevice}" >
+							<h:panelGroup layout="block" styleClass="row header-bordered">
+								<h:panelGroup layout="block" styleClass="col-md-1">
+									<h:outputText value="&nbsp;" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-md-2">
+									<h:outputText value="#{lblMain.docFactura}" styleClass="bold" />
+								</h:panelGroup>
+						
+								<h:panelGroup layout="block" styleClass="col-sm-2">
+									<h:outputText value="#{lblMain.fecha}" styleClass="bold" />
+								</h:panelGroup>			
+								
+								<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center">
+									<h:outputText value="#{lblMain.impuestoNeto}" styleClass="bold" />
+								</h:panelGroup>																		    				
+						    				
+								<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center">
+									<h:outputText value="#{lblMain.monto}" styleClass="bold" />
+								</h:panelGroup>    				    				
+						    				
+								<h:panelGroup layout="block" styleClass="col-md-1">
+									<h:outputText value="" />
+								</h:panelGroup>
+							</h:panelGroup>
+																				
+							<ui:repeat value="#{detalle.facturas}" var="factura">
+								<h:panelGroup layout="block" styleClass="row single-bordered">
+									
+									<h:panelGroup layout="block" styleClass="col-md-1" style="text-align:center;">
+										<f:ajax listener="#{detalle.verDetalleFacturaClick}" event="click" render="form\:tabDetalle" execute="@this">											
+											<h:panelGroup layout="inline" styleClass="#{factura.muestraDetalle eq true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right'}" style="cursor:pointer;"></h:panelGroup>												
+										</f:ajax>
+									</h:panelGroup>
+									
+									<h:panelGroup layout="block" styleClass="col-md-2">
+										<h:outputLabel value="#{factura.docFactura}" />
+									</h:panelGroup>
+								
+									<h:panelGroup layout="block" styleClass="col-sm-2">
+										<h:outputLabel value="#{factura.fechaFactura}">
+											<f:convertDateTime dateStyle="default" />
+										</h:outputLabel>
+									</h:panelGroup>
+								
+									<h:panelGroup layout="block" styleClass="col-md-2 align-right">
+										<h:outputLabel value="#{factura.montoImp}">
+											<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+										</h:outputLabel> #{factura.moneda}						
+									</h:panelGroup>								
+								
+									<h:panelGroup layout="block" styleClass="col-md-2 align-right">
+										<h:outputLabel value="#{factura.montoNeto}">
+											<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+										</h:outputLabel> #{factura.moneda}
+									</h:panelGroup>							
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" rendered="#{not empty factura.detalleFactura and factura.muestraDetalle == true}">
+									<h:panelGroup layout="block" styleClass="row header">
+										<h:panelGroup layout="block" styleClass="col-md-1">					
+											<h:outputText value="&nbsp;" />
+										</h:panelGroup>	
+										<h:panelGroup layout="block" styleClass="col-md-1">
+											<h:outputText value="#{lblMain.posicion}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-1">
+											<h:outputText value="#{lblMain.noMaterial}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-3">
+											<h:outputText value="#{lblMain.descripcion}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-1">
+											<h:outputText value="#{lblMain.cantidad}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-1">
+											<h:outputText value="#{lblMain.unidadMedida}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+											<h:outputText value="#{lblMain.monto}" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+											<h:outputText value="#{lblMain.impuestoNeto}" />
+										</h:panelGroup>									
+									</h:panelGroup>
+								
+									<ui:repeat value="#{factura.detalleFactura}" var="detafac">
+										<h:panelGroup layout="block" styleClass="row single">
+											<h:panelGroup layout="block" styleClass="col-md-1">					
+												<h:outputText value="" />
+											</h:panelGroup>												
+											<h:panelGroup layout="block" styleClass="col-md-1">
+												<h:outputLabel value="#{detafac.posicion}" />
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-1">
+												<h:outputLabel value="#{detafac.material}" />
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-3">
+												<h:outputLabel value="#{detafac.descripcion}" />
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-1 alxright-align">
+												<h:outputLabel value="#{detafac.cantidadStr}" />
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-1">
+												<h:outputLabel value="#{detafac.unidadMedida}" />
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+												<h:outputLabel value="#{detafac.montoNeto}" >
+													<f:convertNumber type="currency" locale="es_MX" />
+												</h:outputLabel> #{detafac.moneda}
+											</h:panelGroup>
+											
+											<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+												<h:outputLabel value="#{detafac.impuesto}" >
+													<f:convertNumber type="currency" locale="es_MX" />
+												</h:outputLabel> #{detafac.moneda}											
+											</h:panelGroup>											
+										</h:panelGroup>
+									</ui:repeat>
+									
+									<h:panelGroup layout="block" styleClass="row single" rendered="#{empty factura.detalleFactura}">
+										<h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
+									</h:panelGroup>
+									
+								</h:panelGroup>																															
+							</ui:repeat>														
+						</h:panelGroup>
+						
+						<!-- Mobile version Facturas -->
+						<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty detalle.partidas and detalle.mobileDevice}">
+																				
+							<ui:repeat value="#{detalle.facturas}" var="factura">
+								<h:panelGroup layout="block" styleClass="row">																																			
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.docFactura}" styleClass="lblheader" />
+									</h:panelGroup>
+									
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{factura.docFactura}" />
+									</h:panelGroup>
+								</h:panelGroup>
+									
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.fecha}" styleClass="lblheader" />
+									</h:panelGroup>	
+																
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{factura.fechaFactura}">
+											<f:convertDateTime dateStyle="default" />
+										</h:outputLabel>
+									</h:panelGroup>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.impuestoNeto}" styleClass="lblheader" />
+									</h:panelGroup>										
+								
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{factura.montoImp}">
+											<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+										</h:outputLabel> #{factura.moneda}						
+									</h:panelGroup>		
+								</h:panelGroup>		
+								
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-5">
+										<h:outputText value="#{lblMain.monto}" styleClass="lblheader" />
+									</h:panelGroup>
+								
+									<h:panelGroup layout="block" styleClass="col-xs-7">
+										<h:outputLabel value="#{factura.montoNeto}">
+											<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+										</h:outputLabel>
+									</h:panelGroup>
+								</h:panelGroup>
+									
+								<h:panelGroup layout="block" styleClass="row row-mobile">
+									<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5">
+										<f:ajax listener="#{detalle.verDetalleFacturaClick}" event="click" render="form\:tabDetalle" execute="@this">											
+											<h:panelGroup layout="inline" styleClass="btn btn-primary" style="cursor:pointer;" rendered="#{not factura.muestraDetalle}">
+												#{lblMain.btnDetalle}
+											</h:panelGroup>
+											<h:panelGroup layout="inline" styleClass="btn btn-primary" style="cursor:pointer;" rendered="#{factura.muestraDetalle}">
+												#{lblMain.btnOcultarDetalle}
+											</h:panelGroup>
+										</f:ajax>
+									</h:panelGroup>
+								</h:panelGroup>							
+																	
+								<h:panelGroup layout="block" rendered="#{not empty factura.detalleFactura and factura.muestraDetalle == true}">								
+									<ui:repeat value="#{factura.detalleFactura}" var="detafac">											
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">					
+												<h:outputText value="#{lblMain.posicion}" styleClass="lblheader" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.posicion}" />
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.noMaterial}" styleClass="lblheader" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.material}" />
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.descripcion}" styleClass="lblheader" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.descripcion}" />
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.cantidad}" styleClass="lblheader" />
+											</h:panelGroup>																							
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.cantidadStr}" />
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row">										
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.unidadMedida}" styleClass="lblheader" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.unidadMedida}" />
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.monto}" styleClass="lblheader" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.montoNeto}" >
+													<f:convertNumber type="currency" locale="es_MX" />
+												</h:outputLabel> #{detafac.moneda}
+											</h:panelGroup>
+										</h:panelGroup>
+											
+										<h:panelGroup layout="block" styleClass="row row-mobile">										
+											<h:panelGroup layout="block" styleClass="col-xs-5 col-xs-offset-1">
+												<h:outputText value="#{lblMain.impuestoNeto}" styleClass="lblheader" />
+											</h:panelGroup>											
+											<h:panelGroup layout="block" styleClass="col-xs-6">
+												<h:outputLabel value="#{detafac.impuesto}" >
+													<f:convertNumber type="currency" locale="es_MX" />
+												</h:outputLabel> #{detafac.moneda}											
+											</h:panelGroup>
+										</h:panelGroup>																				
+									</ui:repeat>
+									
+								</h:panelGroup>																															
+							</ui:repeat>						
+						</h:panelGroup>
+								
+						<h:panelGroup layout="block" styleClass="row single" rendered="#{empty detalle.facturas}">
+							<h:outputText value="#{lblMain.noHayResultadosRel}" style="font-weight:bold;" />
+						</h:panelGroup>												
+					</h:panelGroup>		
+  				</h:panelGroup>
+
+			</h:form>	
+					
+			<ui:remove>
+				<script>
+					//Define the role attributes to the panels
+					//$(this).attr('href','#form\\:facturas2');
+					//$(this).attr('aria-controls','form\\:facturas2');
+				</script>
+			</ui:remove>
+			
+			<script>
+			    jsf.ajax.addOnEvent(function(data) {
+			        var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+			        var ajaxloader = document.getElementById("img_overlay");
+			
+			        switch (ajaxstatus) {
+			            case "begin": // This is called right before ajax request is been sent.
+			                ajaxloader.style.display = 'block';
+			                break;
+			
+			            case "complete": // This is called right after ajax response is received.
+			                ajaxloader.style.display = 'none';
+			                break;
+			
+			            case "success": // This is called when ajax response is successfully processed.
+			                // NOOP.
+			                break;
+			        }
+			    });
+			</script>
+			
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

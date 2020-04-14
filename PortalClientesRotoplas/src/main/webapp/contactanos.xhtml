@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+<h:body>
+	
+	<ui:composition template="/templateBoot.xhtml">
+		<ui:define name="metadata">
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.contactanos}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.contactanos}</li></ui:define>
+		
+		<ui:define name="contenido">		
+					<script>
+						$(document).ready(function(){
+							$('#myForm').submit(function(event){							
+								//event.preventDefault();			                                
+							});	
+						});
+				
+					</script>
+								
+			<h:panelGroup rendered="#{param['sended'] == 'true'}">
+				<div id="chr-main-avisos" class="well well-sm">
+					<ul id="messages"><li class="text-success">Petición enviada satisfactoriamente</li></ul>
+				</div>
+			</h:panelGroup>
+			
+			<form id="myForm" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
+			    
+				<input type="hidden" name="orgid" value="00D550000006xEA"/>
+				<input type="hidden" name="retURL" value="http://portalsrmqas.rotoplas.com:50003/PortalClientes/contactanos.xhtml?sended=true"/>
+				<input type="hidden" id="00N55000003mwzK" maxlength="50" name="00N55000003mwzK" size="20" value="#{template.usuarioLogueado.noCliente}"/>
+				<input type="hidden" id="00N55000003mwzP" maxlength="50" name="00N55000003mwzP" size="20" />
+				<input type="hidden" id="external" name="external" value="1" />				
+				<input type="hidden" id="email" maxlength="80" name="email" size="20"  value="#{template.usuarioLogueado.email}"/>
+								
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Nombre del contacto</label>
+						</div>
+					    <div class="col-md-3">
+							<input id="name" maxlength="80" name="name" size="20" type="text" class="form-control input-sm" required="true"/>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Teléfono</label>
+						</div>
+					    <div class="col-md-3">
+							<input  id="phone" maxlength="14" name="phone" size="20" type="text" class="form-control input-sm" required="true"/>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Email</label>
+						</div>
+					    <div class="col-md-3">							
+							<input id="00N55000003mpKo" maxlength="80" name="00N55000003mpKo" size="20" type="email" class="form-control input-sm" required="true"/>							
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Motivo de la queja</label>
+						</div>
+					    <div class="col-md-3">
+							<select  id="00N55000003mwze" name="00N55000003mwze" title="Tipo de Incidencias" class="form-control" required="true">								
+								<option value="">--Ninguno--</option>
+								<option value="RT Captura de domicilio equivocado b">Captura domicilio equivocado</option>
+								<option value="RT Demora en recepcion b">Demora en recepción</option>
+								<option value="RT Entrega de producto erroneo b">Entrega de producto erróneo</option>
+								<option value="RT Error de captura de pedido b">Error en captura de pedido</option>
+								<option value="RT Faltante de entrega b">Faltante en entrega</option>
+								<option value="RT Inconformidad por dictamen">Inconformidad por dictamen en Servicio Técnico</option>
+								<option value="RT_Producto danado_mal estado">Producto dañado/mal estado</option>
+								<option value="RT_Producto mal terminado">Producto mal terminado</option>
+								<option value="RT_Producto no coincide con ficha tecnica">Producto no coincide con ficha técnica</option>
+								<option value="RT_Queja de servicio">Queja de servici recibido</option>
+							</select>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Planta</label>
+						</div>
+					    <div class="col-md-3">
+							<select id="00N55000003mpKy" name="00N55000003mpKy" title="Planta" class="form-control">
+								<option value="">--Ninguno--</option>
+								<option value="ANAHUAC">ANAHUAC</option>
+								<option value="GOLFO">GOLFO</option>
+								<option value="GUADALAJARA">GUADALAJARA</option>
+								<option value="LEON">LEON</option>
+								<option value="MONTERREY">MONTERREY</option>
+								<option value="PACIFICO">PACIFICO</option>
+								<option value="SUR">SUR</option>
+								<option value="TUX">TUX</option>
+								<option value="TUXTLA">TUXTLA</option>
+								<option value="COSTA RICA">COSTA RICA</option>
+								<option value="EL SALVADOR">EL SALVADOR</option>
+								<option value="GUATEMALA">GUATEMALA</option>
+								<option value="HONDURAS">HONDURAS</option>
+								<option value="NICARAGUA">NICARAGUA</option>
+							</select>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Tipo de Documento</label>
+						</div>
+					    <div class="col-md-3">
+							<select  id="00N55000003mq19" name="00N55000003mq19" title="Tipo de Documento" class="form-control">
+								<option value="">--Ninguno--</option>
+								<option value="Folio de Queja">Folio de Queja</option>
+								<option value="Folio de Servicio Tecnico">Folio de Servicio Técnico</option>
+								<option value="No De Devolucion">No. De Devolución</option>
+								<option value="No De Factura">No. De Factura</option>
+								<option value="No De Nota de Credito">No. De Nota de Crédito</option>
+								<option value="No De Pedido">No.De Pedido</option>
+								<option value="Orden Compra sin captura">Orden Compra sin captura</option>
+							</select>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">No. de documento</label>
+						</div>
+					    <div class="col-md-3">							
+							<input  id="00N55000003mpLD" name="00N55000003mpLD" size="20" type="text" class="form-control input-sm"/>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label">Comentarios</label>
+						</div>
+					    <div class="col-md-3">														
+							<textarea  id="00N55000003mpLI" name="00N55000003mpLI" rows="5" type="text" wrap="soft" class="form-control" required="true"></textarea>
+						</div>						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="control-label"> </label>
+						</div>
+						<div class="col-md-3">
+						    <select id="recordType" name="recordType" hidden="true">
+						       <option value="01255000000YHIC"></option> 
+						       <!--<option value="01255000000YHIC">RT Queja</option>-->
+						    </select> 
+						</div>
+					</div>
+					
+																								
+					<div class="form-group row">
+						<div class="col-md-2">							
+						</div>
+					    <div class="col-md-3">														
+							<input type="submit" name="submit" value="Enviar Petición" class="btn btn-primary" />
+						</div>						
+					</div>
+					
+									
+										
+				</div>
+				
+			</form>
+		 					 					 			
+		 				 						  			  																																			
+				
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

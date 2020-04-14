@@ -1,0 +1,8 @@
+#SAP Roto FN QAS
+
+jco.client.user=c.dloredo
+jco.client.passwd=inicio
+jco.client.ashost=192.168.12.16
+jco.client.client=300
+jco.client.sysnr=03
+jco.client.langu=ES

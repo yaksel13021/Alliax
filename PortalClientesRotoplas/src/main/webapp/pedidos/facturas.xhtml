@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction action="#{detalle.cargaDetallePartidas}" onPostback="false" />
+			</f:metadata>
+		</ui:define>
+		
+	
+		<ui:define name="titulo">Resumen</ui:define>
+		
+		<ui:define name="breadcrumb">
+			<li><h:link outcome="listado">#{lblMain.ttlListadoPedidos}</h:link></li>
+			<li class="active">#{lblMain.ttlDetallePedido}</li>
+		</ui:define>
+		
+		<ui:define name="contenido">
+			<h:form enctype="multipart/form-data" id="form">
+				<h:panelGroup layout="block" styleClass="panel panel-primary">
+					<h:panelGroup layout="block" styleClass="panel-heading">
+						<h:outputLabel value="#{lblMain.informacionGeneral}"
+							onclick="$('#form\\:ttlGeneral').collapse('toggle')" styleClass="panelCollapse-title" />
+					</h:panelGroup>
+					
+					<h:panelGroup id="ttlGeneral" class="panel-collapse collapse in" layout="block">						
+						<h:panelGrid columns="6" 
+							styleClass="table table-bordered" 
+							headerClass="col-xs-3">					
+						
+							<h:column>							
+								<h:outputText value="#{lblMain.docComercial}" style="font-weight:bold" />								
+							</h:column>
+							
+							<h:column>
+								<h:outputText value="#{lblMain.pedido}" style="font-weight:bold" />
+							</h:column>
+							
+							<h:column>
+								<h:outputText value="#{lblMain.fechaCreacion}" style="font-weight:bold" />
+							</h:column>
+							
+							<h:column>
+								<h:outputText value="#{lblMain.monto}" style="font-weight:bold" />						
+							</h:column>
+							
+							<h:column >
+								<h:outputText value="#{lblMain.destinatario}" style="font-weight:bold" />							
+							</h:column>
+							
+							<h:column >
+								<h:outputText value="#{lblMain.estatus}" style="font-weight:bold" />
+							</h:column>
+														
+							<h:column>
+								<h:outputLabel value="#{detalle.pedido.documentoComercial}" />
+							</h:column>
+							
+							<h:column>
+								<h:outputLabel value="#{detalle.pedido.pedidoCliente}" />
+							</h:column>
+							
+							<h:column >								
+								<h:outputLabel value="#{detalle.pedido.fechaCreacion}" >
+									<f:convertDateTime dateStyle="default" />
+								</h:outputLabel>
+							</h:column>
+							
+							<h:column>
+								<h:outputLabel value="#{detalle.pedido.monto}">
+									<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+								</h:outputLabel> #{detalle.pedido.moneda}
+							</h:column>
+							
+							<h:column>
+								<h:outputLabel value="#{detalle.pedido.destinatario}" />
+							</h:column>
+							
+							<h:column>															
+								<h:panelGroup layout="inline"
+									styleClass="#{detalle.pedido.estatusGlobal eq 'A' ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-info-sign'}" 
+									style="#{detalle.pedido.estatusGlobal eq 'A' ? 'color:#00CC00;' : 'color:#F0AD4E;'}" 
+									aria-hidden="true"
+									onmouseover="$(this).popover({title:'#{lblMain.infoEstatus}', html:'true', content: '#{lblMain.estatusGlobal}: #{detalle.pedido.estatusGlobalDes} &lt;br /&gt; #{lblMain.estatusCredito}: #{detalle.pedido.estatusGlobalDes} &lt;br /&gt; #{lblMain.estatusEntrega}: #{detalle.pedido.estatusEntregaDes} ',placement: 'right'}); $(this).popover('show');" 
+									onmouseout="$(this).popover('toggle');">
+									#{detalle.pedido.estatusGlobalDes}
+								</h:panelGroup>								
+							</h:column>
+						</h:panelGrid>						
+					</h:panelGroup>			
+				</h:panelGroup>
+				
+					<f:ajax listener="#{detalle.obtieneFacturas}" render="facturas" execute="@this">
+						<h:link value="Test" />
+					</f:ajax>
+			
+				
+				<ul id="myTabs" class="nav nav-tabs">
+					<li role="presentation" class="active">
+				  		<h:outputLink value="#form\:partidas" id="tabPartidas" onclick="$(this).tab('show');">#{lblMain.partidas}</h:outputLink>				  	
+				  	</li>
+				  	<li role="presentation">
+				  			<ui:remove>
+					  			<f:ajax listener="#{detalle.obtieneFacturas}" render="facturas" execute="@this">
+						  			<h:commandLink action="#form\:facturas" value="#{lblMain.facturas}" id="tabFacturas" onclick="$(this).attr('href','#form\\:facturas'); $(this).tab('show');" />
+					  			</f:ajax>
+				  			</ui:remove>		  		
+					  		
+					  		<h:outputLink value="#form\:facturas" id="tabFacturas" onclick="$(this).tab('show');">#{lblMain.facturas}</h:outputLink>					  		
+				  	</li>
+				</ul>
+				
+
+
+				<h:panelGroup layout="block" styleClass="tab-content">
+    				<h:panelGroup layout="block" id="partidas" styleClass="tab-pane active">    				
+    					<h:dataTable value="#{detalle.partidas}" var="partida"
+    						rendered="#{not empty detalle.partidas}"
+    						styleClass="table table-bordered table-striped">
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.posicion}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.posicion}" />
+    						</h:column>    						
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.noMaterial}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.noMaterial}" />
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.descripcion}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.descripcion}" />
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.cantidad}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.cantidad}" />
+    						</h:column>    						
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.cantEntregada}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.cantidadEntregada}" />
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.unidadMedida}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.unidadMedida}" />
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.monto}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.monto}">
+    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+    							</h:outputLabel>#{partida.moneda}
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.precioNeto}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.precioNeto}">
+    								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+    							</h:outputLabel>
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.fechaEntrega}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.fechaEntrega}">
+    								<f:convertDateTime dateStyle="default" />
+    							</h:outputLabel>
+    						</h:column>
+    						
+    						<h:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{lblMain.estatus}" />
+    							</f:facet>
+    							<h:outputLabel value="#{partida.estatusDes}" styleClass="#{partida.estatus eq 'P' ? 'text-warning' : 'text-success' }" />
+    						</h:column>
+    					</h:dataTable>
+    				</h:panelGroup>
+    				
+    				
+					<h:panelGroup layout="block" id="facturas" styleClass="tab-pane" >						
+						<h:panelGroup>
+							<h:dataTable value="#{detalle.facturas}" var="factura" rendered="#{not empty detalle.facturas}"
+							styleClass="table table-bordered table-striped">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{lblMain.docFactura}" />
+									</f:facet>
+									<h:outputLabel value="#{factura.docFactura}" />
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{lblMain.fecha}" />
+									</f:facet>
+									<h:outputLabel value="#{factura.fechaFactura}">
+										<f:convertDateTime dateStyle="default" />
+									</h:outputLabel>
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{lblMain.impuestoNeto}" />
+									</f:facet>
+									<h:outputLabel value="#{factura.montoImp}">
+										<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+									</h:outputLabel>									
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{lblMain.monto}" />
+									</f:facet>
+									<h:outputLabel value="#{factura.montoNeto}">
+										<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+									</h:outputLabel>
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{lblMain.moneda}" />
+									</f:facet>
+									<h:outputLabel value="#{factura.moneda}" />
+								</h:column>								
+							</h:dataTable>
+						</h:panelGroup>
+					</h:panelGroup>			
+  				</h:panelGroup>
+				
+				
+			
+			</h:form>			
+			<ui:remove>
+				<script>
+					//Define the role attributes to the panels
+					//$(this).attr('href','#form\\:facturas2');
+					//$(this).attr('aria-controls','form\\:facturas2');
+				</script>
+			</ui:remove>
+			
+			<script>
+			    jsf.ajax.addOnEvent(function(data) {
+			        var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+			        var ajaxloader = document.getElementById("ajaxloader");
+			
+			        switch (ajaxstatus) {
+			            case "begin": // This is called right before ajax request is been sent.
+			                ajaxloader.style.display = 'block';
+			                break;
+			
+			            case "complete": // This is called right after ajax response is received.
+			                ajaxloader.style.display = 'none';
+			                break;
+			
+			            case "success": // This is called when ajax response is successfully processed.
+			                // NOOP.
+			                break;
+			        }
+			    });
+			</script>			
+			<img id="ajaxloader" src="ajaxloader.gif" style="display: none;" />
+			
+			
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

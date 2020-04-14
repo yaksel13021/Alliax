@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlAltaClienteVendedor}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlAltaClienteVendedor}</li></ui:define>
+		
+		<ui:define name="contenido">
+ 			<h:form id="form" styleClass="form-horizontal"> 			
+				<h:panelGroup layout="block" styleClass="container-fluid">													
+						<h:panelGroup styleClass="form-group row" layout="block">
+							<h:panelGroup layout="block" styleClass="col-md-2">
+						    	<h:outputLabel value="#{lblMain.numeroCliente}" styleClass="control-label"   />																				
+							</h:panelGroup>							
+							<h:panelGroup layout="block" styleClass="col-md-3">							
+								<h:inputText value="#{altaClienteVendedor.noCliente}" styleClass="form-control input-sm" />
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup styleClass="form-group row" layout="block">
+							<h:panelGroup layout="block" styleClass="col-md-2">
+						    	<h:outputLabel value="#{lblMain.usuarioVentas}" styleClass="control-label"  />
+						   </h:panelGroup>
+						    <h:panelGroup layout="block" styleClass="col-md-3">
+								<h:inputText value="#{altaClienteVendedor.vendedor}" styleClass="form-control input-sm"  />
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup styleClass="form-group row" layout="block">
+						    <h:panelGroup layout="block" styleClass="col-md-2">
+														    
+						    </h:panelGroup>
+						    <h:panelGroup layout="block" styleClass="col-md-1">
+						    	<h:commandButton action="#{altaClienteVendedor.guardaClienteVendedor}" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary" />						   
+						    </h:panelGroup>
+						    <h:panelGroup layout="block" styleClass="col-md-1">
+								<h:commandButton action="#{altaClienteVendedor.listaClienteVendedor}" value="#{lblMain.btnBuscar}" styleClass="btn" />
+							</h:panelGroup>
+						</h:panelGroup>					
+				</h:panelGroup>				
+ 			</h:form>
+
+			<h:panelGroup id="lista" layout="block" styleClass="container-fluid" style="margin-top:15px;">
+				
+				<h:dataTable value="#{altaClienteVendedor.list}" var="usr" styleClass="table table-striped" rendered="#{not empty altaClienteVendedor.list}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.numeroCliente}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.noCliente}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.usuarioVentas}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.vendedor}" />
+					</h:column>					
+					<h:column>
+						<f:facet name="header" >
+							<h:outputText value="" />
+						</f:facet>
+						<f:ajax listener="#{altaClienteVendedor.eliminaClienteVendedor(usr.noCliente,usr.vendedor)}" event="click" render="lista" execute="@this">											
+							<h:panelGroup layout="inline" styleClass="glyphicon glyphicon-trash" style="cursor:pointer; color: #FF0000;" />
+						</f:ajax>
+					</h:column>
+				</h:dataTable>
+
+			</h:panelGroup>						
+																				
+			
+			
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty altaClienteVendedor.mensaje}" style="margin-top:15px;">			
+				<h:outputText value="#{altaClienteVendedor.mensaje}" style="font-weight:bold;" />
+			</h:panelGroup>
+				
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

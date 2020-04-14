@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlAltaSociedadClienteCorreoMasiva}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlAltaSociedadClienteCorreoMasiva}</li></ui:define>
+		
+		<ui:define name="contenido">
+ 			<h:form id="form" styleClass="form-inline">
+ 			
+ 			<h:panelGroup rendered="#{empty altaSociedadClienteCorreo.cargaMasivaLista}">
+				<h:panelGroup layout="block" styleClass="container-fluid">
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup styleClass="col-lg-12">
+							<h:outputLabel value="#{lblMain.listaSociedadClienteCorreo}" style="margin-right: 5px;" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="col-md-12">
+							<h:inputTextarea value="#{altaSociedadClienteCorreo.cargaMasivaBox}" styleClass="form-control" cols="50" rows="10" required="true" requiredMessage="#{lblMain.msgRequeridoMasiva}" style="margin-right: 10px;" validator="#{altaSociedadClienteCorreo.validaArchivo}" />
+						</h:panelGroup>						
+						<h:panelGroup layout="block" styleClass="col-md-6" style="margin-top:10px;">
+							<h:commandButton action="#{altaSociedadClienteCorreo.leeArchivo}" value="#{lblMain.btnCargarArchivo}" styleClass="btn btn-primary" />
+						</h:panelGroup>						
+					</h:panelGroup>						
+				</h:panelGroup>			
+ 			</h:panelGroup>
+
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty altaSociedadClienteCorreo.cargaMasivaLista}" style="margin-top:15px;">
+				<h:dataTable value="#{altaSociedadClienteCorreo.cargaMasivaLista}" var="usr"
+				styleClass="table table-striped">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.sociedad}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.sociedad}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.noCliente}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.noCliente}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.nombre}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.nombreCliente}" />
+					</h:column>					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{lblMain.correo}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.correo}" />
+					</h:column>					
+					<h:column>
+						<f:facet name="header" >
+							<h:outputText value="#{lblMain.mensaje}" />
+						</f:facet>
+						<h:outputLabel value="#{usr.mensaje}" />
+					</h:column>
+				</h:dataTable>
+
+				<h:panelGroup layout="block" styleClass="row" rendered="#{altaSociedadClienteCorreo.processed eq false}">
+					<h:panelGroup layout="block" styleClass="col-xs-7 col-xs-offset-5 col-md-4 col-md-offset-2">
+						<h:commandButton action="#{altaSociedadClienteCorreo.creaUsuariosCliente}" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary" /> &nbsp;						
+						<h:commandButton action="altaMasivaSociedadClienteCorreo" value="#{lblMain.btnCancelar}" styleClass="btn btn-danger" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>						
+																				
+			</h:form>	
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

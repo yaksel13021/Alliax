@@ -1,0 +1,42 @@
+
+**** ERROR file opened at , SAP-REL 640,0,165 RFC-VER 3 881549 MT-SL
+T:3400 Error in program 'javaw': ======> Connect to SAP gateway failed
+Connect_PM  GWHOST=192.168.12.89, GWSERV=sapgw03, ASHOST=192.168.12.89, SYSNR=03
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner not reached (host 192.168.12.89, service 3303)
+
+TIME        Thu Mar 03 22:16:58 2016
+RELEASE     640
+COMPONENT   NI (network interface)
+VERSION     37
+RC          -10
+MODULE      nixxi_r.cpp
+LINE        8724
+DETAIL      NiPConnect2
+SYSTEM CALL SiPeekPendConn
+ERRNO       10060
+ERRNO TEXT  WSAETIMEDOUT: Connection timed out
+COUNTER     1
+
+
+**** ERROR file opened at , SAP-REL 640,0,165 RFC-VER 3 881549 MT-SL
+T:656 Error in program 'javaw': ======> Connect to SAP gateway failed
+Connect_PM  GWHOST=192.168.12.89, GWSERV=sapgw03, ASHOST=192.168.12.89, SYSNR=03
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner not reached (host 192.168.12.89, service 3303)
+
+TIME        Thu Mar 03 22:17:34 2016
+RELEASE     640
+COMPONENT   NI (network interface)
+VERSION     37
+RC          -10
+MODULE      nixxi_r.cpp
+LINE        8724
+DETAIL      NiPConnect2
+SYSTEM CALL SiPeekPendConn
+ERRNO       10060
+ERRNO TEXT  WSAETIMEDOUT: Connection timed out
+COUNTER     1
+

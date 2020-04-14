@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+	
+		<ui:define name="titulo">#{lblMain.ttlClientesRegistrados}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlClientesRegistrados}</li></ui:define>
+		
+		<ui:define name="contenido">					
+ 			<h:form id="form" styleClass="form-inline">
+ 			
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:outputLabel value="#{lblMain.numeroCliente}" style="margin-right: 5px;" />
+				<h:inputText value="#{listaClientes.noCliente}" styleClass="form-control input-sm" style="margin-right: 10px;" validator="#{listaClientes.validaNoCliente}" />						
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:commandButton action="#{listaClientes.buscaCliente}" value="#{lblMain.btnBuscar}" styleClass="btn btn-primary" />
+			</h:panelGroup>
+ 			
+ 			<!-- Standard Version - Listado Clientes -->			
+			<h:dataTable value="#{listaClientes.resultados}" var="usr" 
+				styleClass="table table-striped"
+				rendered="#{not empty listaClientes.resultados and listaClientes.usuarioSel == null and not listaClientes.mobileDevice}"
+				style="margin-top: 20px;">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{lblMain.numeroCliente}" />
+					</f:facet>
+					<h:outputLabel value="#{usr.noCliente}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{lblMain.usrLogin}" />
+					</f:facet>
+					<h:outputLabel value="#{usr.usuario}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{lblMain.estatus}" />
+					</f:facet>
+					<h:outputLabel value="#{listaClientes.descripcionEstatus(usr.estatus)}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value=" "/>
+					</f:facet>
+					<h:commandButton action="#{listaClientes.cargaInfoCliente}" value="#{lblMain.btnVer}" styleClass="btn btn-primary">
+						<f:setPropertyActionListener target="#{flash.usuarioSel}" value="#{usr}" />
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+			
+			
+			<!-- Mobile Version  - Listado Clientes -->
+			<h:panelGroup styleClass="container-fluid" rendered="#{not empty listaClientes.resultados and listaClientes.usuarioSel == null and listaClientes.mobileDevice}">
+				<ui:repeat value="#{listaClientes.resultados}" var="usr">
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-5">    								
+		   					<h:outputText value="#{lblMain.numeroCliente}" styleClass="lblheader" />
+		   				</h:panelGroup>
+		  					
+						<h:panelGroup layout="block" styleClass="col-xs-7">	    						
+							<h:outputLabel value="#{usr.noCliente}" />
+		 				</h:panelGroup>
+		 			</h:panelGroup>
+		 			
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-5">    								
+		   					<h:outputText value="#{lblMain.usrLogin}" styleClass="lblheader" />
+		   				</h:panelGroup>
+		  					
+						<h:panelGroup layout="block" styleClass="col-xs-7">	    						
+							<h:outputLabel value="#{usr.usuario}" />
+		 				</h:panelGroup>
+		 			</h:panelGroup>
+		 			
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-5">    								
+		   					<h:outputText value="#{lblMain.estatus}" styleClass="lblheader" />
+		   				</h:panelGroup>
+		  					
+						<h:panelGroup layout="block" styleClass="col-xs-7">	    						
+							<h:outputLabel value="#{listaClientes.descripcionEstatus(usr.estatus)}" />
+		 				</h:panelGroup>
+		 			</h:panelGroup>
+		 			
+		 			<h:panelGroup layout="block" styleClass="row row-mobile">
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5">
+							<h:commandButton action="#{listaClientes.cargaInfoCliente}" value="#{lblMain.btnDetalle}" styleClass="btn btn-primary">
+								<f:setPropertyActionListener target="#{flash.usuarioSel}" value="#{usr}" />
+							</h:commandButton>
+						</h:panelGroup>
+					</h:panelGroup>
+				</ui:repeat>
+			</h:panelGroup>
+			
+			<!-- Standard Version - Detalle cliente -->										
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{listaClientes.usuarioSel != null}" style="margin-top: 20px;">
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.usuarioSel.usuario}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.permisos}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:dataTable value="#{listaClientes.usuarioSel.roles}" var="permisos">
+							<h:column>
+								<h:outputText value="#{listaClientes.descripcionRol(permisos.rol)}" />
+							</h:column>							
+						</h:dataTable>
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.estatus}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.descripcionEstatus(listaClientes.usuarioSel.estatus)}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.ultimoAcceso}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputText value="#{listaClientes.usuarioSel.fechaEntrada}" >
+							<f:converter converterId="jodaDateTimeConverter" />
+						</h:outputText>
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">								
+						<h:outputLabel value="#{lblMain.numeroCliente}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.noCliente}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.nombre}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.nombre}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.email}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.email}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.pais}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.pais}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.estado}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.region}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.localidad}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{listaClientes.clienteInfo.ciudad}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-2 col-md-3 col-md-offset-1">
+						<h:commandButton value="#{lblMain.btnBloquear}" action="#{listaClientes.bloqueaUsuario}" styleClass="btn btn-danger" rendered="#{listaClientes.usuarioSel.estatus eq 'A' or listaClientes.usuarioSel.estatus eq 'F' or listaClientes.usuarioSel.estatus eq 'I'}" />							
+						<h:commandButton value="#{lblMain.btnDesbloquear}" action="#{listaClientes.desbloqueaUsuario}" styleClass="btn btn-success" rendered="#{listaClientes.usuarioSel.estatus eq 'F' or listaClientes.usuarioSel.estatus eq 'B' or listaClientes.usuarioSel.estatus eq 'N'}"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>																									
+					
+			
+			
+			
+			<h:panelGroup layout="block" rendered="#{empty listaClientes.resultados and facesContext.postback}" style="margin-top:10px;">
+				<h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
+			</h:panelGroup>
+						
+			</h:form>	
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

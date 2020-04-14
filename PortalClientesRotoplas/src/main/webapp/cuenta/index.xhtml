@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction action="#{infoCliente.cargaInfoCliente}" />																
+			</f:metadata>
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlInformacionCuenta}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlInformacionCuenta}</li></ui:define>
+		
+		<ui:define name="contenido">								
+ 			
+ 			
+		<h:panelGroup layout="block" styleClass="container-fluid">
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">													
+					<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.usuarioLogueado.username}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.numeroCliente}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.noCliente}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.nombre}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.nombre}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.email}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.email}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.pais}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.pais}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.estado}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.region}" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{lblMain.localidad}" styleClass="lblheader" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+					<h:outputLabel value="#{infoCliente.clienteInfo.ciudad}" />
+				</h:panelGroup>
+			</h:panelGroup>																				
+		</h:panelGroup>
+					
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

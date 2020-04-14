@@ -1,0 +1,183 @@
+@charset "utf-8";
+
+/* 
+    Document   : estilo
+    Created on : 03/03/2016, 03:28:27 PM
+    Author     : saul.ibarra
+    Description:
+       Colores y estilo.
+*/
+
+/**************TIULOS************/
+.bold {
+	font-weight: bold;
+}
+
+
+.label {
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.red {
+	color: #FF0000;
+}
+
+
+#img_overlay{
+    position:absolute;
+    top: 100px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 100px 0px 0px 0px;
+    padding: 100px 0px 0px 0px;
+    border: 0px none #ff0000;
+    z-index:90;
+    /*supported by current Mozilla, Safari, and Opera*/-moz-opacity: 0.7;
+    /*older Mozilla -khtml-opacity: 0.9;  */
+    /*older Safari filter: alpha(opacity=70); */
+    /*older IE */ filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+    display: none;
+}
+
+
+.process-bar{
+	clear:left;
+	margin: 0 auto 15px auto;
+	width: 720px;
+	/*border: 1px solid #000;*/
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
+
+.process-bar ol{
+    min-height: 38px;    
+}
+.process-bar li{
+	height: 46px;
+	width: 115px;
+	float: left;
+    display: inline;
+   	font-weight: 300;   
+   	margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+    /*border: 1px solid #000;*/
+ }
+.process-bar a{
+	padding:3px 2px 3px 10px;
+	display:inline-block;
+}
+.process-bar .order{display:none;}
+
+
+.stepIni{
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -18px -46px;
+   	background-repeat: no-repeat;
+}
+
+.stepIniSel{
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -18px 0px;
+   	background-repeat: no-repeat;
+}
+
+.stepSelectedPair{
+	background-image: url("http://localhost:8080/PortalClientes/images/stepSelectedPair.png");
+	background-position: -18px 0px;   	
+   	background-repeat: no-repeat;
+}
+
+.stepSelectedImpair{
+	background-image: url("http://localhost:8080/PortalClientes/images/stepSelectedImpair.png");   	
+   	background-repeat: no-repeat;
+   	background-position: -18px 0px;
+   	background-color: #E7E7E7;
+}
+
+.stepAfterSelectPair {
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -18px -276px; 
+   	background-repeat: no-repeat;  	
+}
+
+.stepImpairAfter {
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -18px -322px; 
+   	background-repeat: no-repeat; 	
+}
+
+.stepPair {
+	background-image: url("http://localhost:8080/PortalClientes/images/stepPair.png");   	
+   	background-repeat: no-repeat;
+   	background-position: -18px 0px;
+   	background-color: #F6F6F6;
+}
+
+.stepImpair, .stepImpairLong {
+	background-image: url("http://localhost:8080/PortalClientes/images/stepImpair.png");
+   	background-position: -18px 0px; 
+   	background-repeat: no-repeat;
+   	background-color: #E7E7E7;
+}
+
+.stepImpairLong {
+	background-image: url("http://localhost:8080/PortalClientes/images/stepImpairLong.png");
+	background-position: -10px 0px;
+}
+
+
+.stepLast {
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -34px -736px; 
+   	background-repeat: no-repeat;
+   	background-color: #FFF;
+   	width: 135px;
+}
+
+.stepLastImpair {
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: 0px -598px; 
+   	background-repeat: no-repeat; 	
+}
+
+
+.stepPast{
+	background-image: url("http://localhost:8080/PortalClientes/images/brand-289C.png");
+   	background-position: -18px -138px;
+   	font-weight: 300;   	
+   	margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.wasTranslated {
+	padding: 8px 10px 0 24px;
+}
+
+
+.stepTextSel {
+	font-size: 13px;
+	padding: 12px 10px 0 20px;
+	color: #FFF;
+}
+
+.stepText {
+	font-size: 13px;
+	padding: 14px 10px 0 13px;
+	color: #000;
+}
+
+
+
+

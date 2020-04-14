@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction action="#{infoCliente.cargaInfoCliente}" />																
+			</f:metadata>
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlAltaCliente}</ui:define>	
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlAltaCliente}</li></ui:define>
+		
+		<ui:define name="contenido">
+ 			<h:form id="form" styleClass="form-inline">
+ 			
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:outputLabel value="#{lblMain.numeroCliente}" style="margin-right: 5px;" />
+				<h:inputText value="#{altaCliente.noCliente}" styleClass="form-control input-sm" required="true" style="margin-right: 10px;" validator="#{altaCliente.validaNoCliente}" />						
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:commandButton action="#{altaCliente.cargaInfoCliente}" value="#{lblMain.btnBuscar}" styleClass="btn btn-primary" />
+			</h:panelGroup>
+ 			 							
+
+			<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty altaCliente.clienteInfo}" style="margin-top:15px;">
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.noCliente}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">							
+						<h:outputLabel value="#{lblMain.numeroCliente}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.noCliente}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.nombre}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.nombre}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.email}"  styleClass="lblheader"/>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.email}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.pais}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.pais}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{lblMain.estado}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">								
+						<h:outputLabel value="#{altaCliente.clienteInfo.region}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">								
+						<h:outputLabel value="#{lblMain.localidad}" styleClass="lblheader" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+						<h:outputLabel value="#{altaCliente.clienteInfo.ciudad}" />
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<ui:remove>
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+							<h:outputLabel value="#{lblMain.permisos}" styleClass="lblheader" />
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+							<h:panelGroup id="boxRoles">
+								<h:selectOneMenu value="#{altaCliente.rol}" styleClass="form-control input-sm">
+									<f:selectItems value="#{altaCliente.usrRolesSet}" var="rol"
+										itemLabel="#{rol.value}" itemValue="#{rol.key}" />
+								</h:selectOneMenu> &nbsp;
+								
+								<f:ajax listener="#{altaCliente.agregaRol}" render="boxRoles" execute="@form">
+									<h:commandButton value="#{lblMain.btnAgregar}" styleClass="btn btn-default" />
+								</f:ajax>
+								<h:dataTable value="#{altaCliente.rolesMapArray}" var="roles">
+									<h:column>
+										<h:outputText value="#{roles.value}" />
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</ui:remove>
+				
+			
+				<h:panelGroup layout="block" styleClass="row" rendered="#{empty facesContext.messageList}">
+					<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5 col-md-3 col-md-offset-2">
+						<h:commandButton action="#{altaCliente.creaUsuarioCliente}" value="#{lblMain.btnCrearUsuario}" styleClass="btn btn-primary" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>						
+					
+			
+			
+			<h:outputText value="#{lblMain.noHayResultados}" rendered="#{altaCliente.clienteInfo == null and facesContext.postback}" style="font-weight:bold;" />
+			
+			
+			</h:form>	
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>
