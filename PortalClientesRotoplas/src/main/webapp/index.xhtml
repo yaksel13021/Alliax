@@ -1,79 +1,81 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:sec="http://www.springframework.org/security/tags">
-		
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:sec="http://www.springframework.org/security/tags">
+      
 <h:body>
-	<ui:composition template="templateBoot.xhtml">
-	
-		<ui:define name="metadata">
-			
-				<h:outputStylesheet library="css" name="signin.css" />
-				<f:metadata>
-					<f:viewParam name="error" value="#{login.returnCode}" required="false" />
-					<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
-				</f:metadata>
-		</ui:define>
-	
-		<ui:define name="titulo">#{lblMain.ingresar}</ui:define>
-		
-		<ui:define name="breadcrumb"><li>#{lblMain.ingresar}</li></ui:define>
-		
-		<ui:define name="contenido">
-		
-			
-		
-			<h:panelGroup styleClass="container form-signin" layout="block">
-				<h:form styleClass="form-horizontal" id="login">
-					<h:inputHidden value="#{login.cambiaPassword}" />
-				
-					<ui:remove>
-		        		<h4 style="text-align:center;"><h:graphicImage library="images" name="logo.jpg" /></h4>      	
-		        	</ui:remove>		        	
-		        	
-		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:panelGroup styleClass="col-sm-6">
-		        			<h4 class="form-signin-heading">#{lblMain.signIn}</h4>
-		        		</h:panelGroup>
-		        	</h:panelGroup>
-		        	
-		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:outputLabel value="#{lblMain.usrLogin}" styleClass="col-md-2 control-label" />
-		        		<h:panelGroup styleClass="col-sm-10" layout="block">
-		        			<h:inputText id="j_username" value="#{login.usuario}" styleClass="form-control" required="true" requiredMessage="#{lblMain.usuarioReq}"  />
-		        		</h:panelGroup>
-		        	</h:panelGroup>
-		        	
-		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:outputLabel styleClass="col-md-2 control-label" value="#{lblMain.usrPassword}" />
-		        		<h:panelGroup styleClass="col-sm-10" layout="block">
-		        			<h:inputSecret id="j_password" value="#{login.password}" styleClass="form-control input-sm" required="true" requiredMessage="#{lblMain.passwordReq}" />
-		        		</h:panelGroup>	        	
-		        	</h:panelGroup>
-		        	
-		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:panelGroup styleClass="col-sm-offset-2 col-sm-6">
-		        			<h:commandButton id="ingresar" action="#{login.doLogin}" value="#{lblMain.btnLogin}" styleClass="btn btn-primary" />		        		
-		        		</h:panelGroup>
-		        	</h:panelGroup>
-		        	
-		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:panelGroup styleClass="col-sm-offset-2 col-sm-10">
-		        			<h:link outcome="recuperaPassword" value="#{lblMain.restearPwd}" />
-		        		</h:panelGroup>
-		        	</h:panelGroup>
-		        		       		
-		      </h:form>
-	      
-	      </h:panelGroup>
+	<ui:composition template="template.xhtml">
+		<ui:define name="top">
+			<h:form id="navegacion">
+				<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
+					<h:commandLink action="#" class="navbar-brand">
+						<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}"
+							height="70" alt="Rotoplas" />
+					</h:commandLink>
 
+					<h:panelGroup layout="block" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            			<i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+					</h:panelGroup>
+				</nav>
+			</h:form>
 		</ui:define>
+		<ui:define name="content">
+			<h:form id="login">
+				<!-- Main Content -->
+				<h:panelGroup layout="block" class="main">
+					<h:panelGroup layout="block" class="container-fluid outer">
+						<h:panelGroup layout="block" class="row justify-content-center middle">
+							<h:panelGroup layout="block" class="col-xl-10 col-lg-12 col-md-9">
+								<h4 class="colorTitulos">#{lblMain.portalCD}</h4>
+								<h:panelGroup layout="block" class="card o-hidden border-0 shadow-lg" style="background-color: #236192 !important;">
+									<h:panelGroup layout="block" class="card-body p-0 h-100-percent">
+										<!-- Nested Row within Card Body -->
+										<h:panelGroup layout="block" class="row">
+											<h:panelGroup layout="block" class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+												<h:graphicImage value="#{resource['lookAndFeel/img/log.png']}" class="w-100-percent h-100-percent"
+													alt="#{lblMain.portalCD}" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+												<h:panelGroup layout="block" class="pb-5 pr-5 pl-5 pt-2">
+													<h1 class="h4  mb-4 LetraEstilo">#{lblMain.registro}</h1>
+													<h:panelGroup layout="block" class="form-group">
+														<h:inputText 
+															class="form-control form-control-user"
+															id="j_username" aria-describedby="emailHelp"
+															a:placeholder="#{lblMain.usrLogin}" required="true" value="#{login.usuario}"
+															requiredMessage="#{lblMain.usuarioReq}"/>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="form-group">
+														<h:inputSecret
+															class="form-control form-control-user"
+															id="j_password"
+															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
+															requiredMessage="#{lblMain.passwordReq}"/>
+													</h:panelGroup>
 	
+													<h:commandLink action="#{login.doLogin}"
+														class="btn botonEstilo btn-user btn-block"> #{lblMain.btnPortal} </h:commandLink>
+													<hr />
+													<h:panelGroup layout="block" class="text-center pt-1">
+														<h:commandLink action="#" class="small LetraEstilo">
+															#{lblMain.restearPwd}
+														</h:commandLink>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+				<!-- End of Main Content -->
+			</h:form>
+		</ui:define>
 	</ui:composition>
-	
-</h:body>		
-		
+</h:body>
 </html>
