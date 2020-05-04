@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Portal Clientes DES</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="#{resource['lookAndFeel/vendor/fontawesome-free/css/all.min.css']}" rel="stylesheet" type="text/css" />
+	<link
+	    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	    rel="stylesheet" />
+	<!-- icons --> 
+	<h:outputStylesheet library="webjars" name="font-awesome/5.13.0/css/all-jsf.css" />
+	
+	<!-- Custom styles for this template-->
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-grid.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-reboot.min.css']}" rel="stylesheet" />
+	
+	<link href="#{resource['lookAndFeel/css/estilos.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/datatables.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/css/responsive.bootstrap4.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Select2/select2.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Select2/select2-bootstrap.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker3.min.css']}" rel="stylesheet" />
+	<ui:insert name="metadata">
+	</ui:insert>
+</h:head>
+<h:body id="page-top">
+	<!-- Main Content -->
+	<ui:insert name="top">
+		<h:form id="navegacion">
+			<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
+				<h:link outcome="pedidos" class="navbar-brand">
+					<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}" height="70"
+						alt="Rotoplas" />
+				</h:link>
+				<h:panelGroup layout="block" class="navbar-toggler"
+					data-toggle="collapse" data-target="#navbarCollapse">
+					<i class="fas fa-bars" style="color: #fff; font-size: 28px;"></i>
+				</h:panelGroup>
+				<h:panelGroup layout="block" class="collapse navbar-collapse"
+					id="navbarCollapse">
+					<ul class="navbar-nav">
+						<li class="active"><h:link outcome=""
+								class="nav-item nav-link active textMenuStyle ">
+								<span
+									style="padding-right: 9px;" />
+											#{lblMain.pedidos}</h:link></li>
+						<li><a href="#"
+								class="nav-item nav-link textMenuStyle">
+								<span 
+									style="padding-right: 9px;" />
+											#{lblMain.busqueda}</a></li>
+						<li><h:link outcome="estadoCuenta"
+								class="nav-item nav-link textMenuStyle">
+								<span style="padding-right: 9px;" />
+											#{lblMain.estadoCuenta}</h:link></li>
+						<li><a href="#"
+								class="nav-item nav-link disabled textMenuStyle" tabindex="-1">
+								<span 
+									style="padding-right: 9px;" />
+											#{lblMain.adminOps}</a></li>
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li class="loginButtonMenu"><h:link outcome="index"
+								class="nav-item nav-link textMenuStyle">
+								<strong>#{lblMain.usrLogin}</strong>
+							</h:link></li>
+					</ul>
+				</h:panelGroup>
+			</nav>
+		</h:form>
+	</ui:insert>
+
+	<ui:insert name="content">
+	</ui:insert>
+
+	<ui:insert name="footer">
+		<!-- Footer -->
+		<footer>
+			<h:panelGroup layout="block" class="container">
+				<h:panelGroup layout="block" class="row ">
+					<h:panelGroup layout="block"
+						class="col clearfix copyright text-center my-auto">
+						<h:panelGroup layout="block" class="float-left">
+							<span><strong>#{lblMain.avisoPrivacidad}</strong></span>
+						</h:panelGroup>
+						<h:panelGroup layout="block" class="float-right ">
+							<span><strong>#{lblMain.grupoRotoplas}</strong></span>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</footer>
+		<!-- End of Footer -->
+	</ui:insert>
+
+	<ui:insert name="modal">
+	</ui:insert>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="#{resource['lookAndFeel/vendor/jquery/jquery.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/PopperJs/popper.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap.min.js']}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="#{resource['lookAndFeel/vendor/jquery-easing/jquery.easing.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/datatables.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/jquery.dataTables.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/dataTables.responsive.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/responsive.bootstrap4.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datepicker/js/bootstrap-datepicker.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datepicker/locales/bootstrap-datepicker.es.min.js']}"></script>
+	<ui:insert name="scriptJS">
+	</ui:insert>
+	
+</h:body>
+</html>

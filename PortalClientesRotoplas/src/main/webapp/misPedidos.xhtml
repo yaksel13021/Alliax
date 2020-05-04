@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form id="misPedidos">
+				<!-- Main Content -->
+				<h:panelGroup layout="block" class="container containerFiltersOne">
+					<div class="accordion" id="myAccordion">
+						<h:panelGroup layout="block" class="row">
+							<h:panelGroup layout="block"
+								class="col-lg-10 col-md-4 col-sm-4 col-xs-4-">
+								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
+							</h:panelGroup>
+							<h:panelGroup layout="block"
+								class="col-lg-2 col-md-6 col-sm-6 col-xs-6"
+								style="padding-top: 10px;">
+								<h:panelGroup layout="block" style="text-align: right;">
+									<h:commandLink action="crearPedido">
+										<i class="fa fa-file fa-2x"></i>#{lblMain.crearPedido}</h:commandLink>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup layout="block" class="row">
+							<h:panelGroup layout="block" class="col-12">
+								<h:panelGroup layout="block" class="card">
+									<div id="item1Header"
+										class="card-header" data-toggle="collapse"
+										data-target="#expandable1" aria-expanded="true"
+										aria-controls="expandable1" type="button" 
+										style="background-color: #236192;color: white;">
+										<h5 class="mb-0">#{lblMain.filtros}</h5>
+									</div>
+									<div id="expandable1"
+										class="collapse show" aria-labelledby="item1Header"
+										data-parent="#myAccordion">
+										<h:panelGroup layout="block" class="card-body">
+											<h:panelGroup layout="block" class="row">
+												<h:panelGroup layout="block" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" class="form-group flex">
+														<h:outputLabel for="select_estatus"
+															class="labelLeftInput fillWidthAvaible">
+															#{lblMain.estatus}
+														</h:outputLabel>
+														<h:selectOneMenu class="form-control dropdownActive"
+															id="select_estatus" name="select_estatus">
+															<f:selectItem itemValue="0" itemLabel="#{lblMain.todos}" />
+															<f:selectItem itemValue="1" itemLabel="#{lblMain.globalA}" />
+															<f:selectItem itemValue="2" itemLabel="#{lblMain.globalB}" />
+															<f:selectItem itemValue="3" itemLabel="#{lblMain.Vsac}" />
+														</h:selectOneMenu>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block"  class="form-group flex">
+														<h:outputLabel for="date_start"
+															class="labelLeftInput fillWidthAvaible">
+															#{lblMain.fechaI}
+														</h:outputLabel>
+														<h:panelGroup layout="block"
+															class="input-group date date-start">
+															<h:inputText id="date_start" name="date_start"
+																class="form-control" />
+															<h:panelGroup layout="block" class="input-group-append">
+																<span class="input-group-text far fa-calendar-alt"></span>
+															</h:panelGroup>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" class="form-group flex">
+														<h:outputLabel for="date_end"
+															class="labelLeftInput fillWidthAvaible">
+															#{lblMain.fechaF}
+														</h:outputLabel>
+														<h:panelGroup layout="block"
+															class="input-group date date-end">
+															<h:inputText id="date_end" name="date_end"
+																class="form-control" />
+															<h:panelGroup layout="block" class="input-group-append">
+																<span class="input-group-text far fa-calendar-alt"></span>
+															</h:panelGroup>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" class="form-group flex">
+														<h:outputLabel for="select_por"
+															class="labelLeftInput fillWidthAvaible">
+															#{lblMain.por}
+														</h:outputLabel>
+														<h:selectOneMenu class="form-control dropdownActive"
+															name="select_por" id="select_por">
+															<f:selectItem itemValue="0" itemLabel="#{lblMain.todos}" />
+															<f:selectItem itemValue="1" itemLabel="#{lblMain.docComercial}" />
+															<f:selectItem itemValue="2" itemLabel="#{lblMain.pedido}" />
+														</h:selectOneMenu>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+											<h:panelGroup layout="block" class="row">
+												<h:panelGroup layout="block" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<button id="setFilters"
+														class="btn btn-primary float-right" role="button"
+														name="setFilters" type="button">
+														#{lblMain.aplicarFiltro}
+													</button>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</div>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup layout="block" class="row hidden exampleContent">
+							<h:panelGroup layout="block" class="col-12">
+								<h:panelGroup layout="block" class="card text-center">
+									<h:panelGroup layout="block" class="card-body">
+										<table id="example" class="table table-striped  table-hover"
+											width="100%">
+											<thead>
+												<tr>
+													<th>#{lblMain.docComercial}</th>
+													<th>#{lblMain.pedido}</th>
+													<th>#{lblMain.monto}</th>
+													<th>#{lblMain.fechaCreacion}</th>
+													<th>#{lblMain.estatus}</th>
+													<th>#{lblMain.destinatario}</th>
+												</tr>
+											</thead>
+										</table>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</div>
+				</h:panelGroup>
+				<!-- End of Main Content -->
+			</h:form>
+		</ui:define>
+		<ui:define name="modal">
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModal" aria-hidden="true">
+				<h:panelGroup layout="block"
+					class="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
+					role="document">
+					<h:panelGroup layout="block" class="modal-content">
+
+						<!-- Modal Header -->
+						<h:panelGroup layout="block" class="modal-header">
+							<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
+							<buton id="closeModal" class="close" data-dismiss="modal">x</buton>
+						</h:panelGroup>
+
+						<!-- Modal body -->
+						<h:panelGroup layout="block" class="modal-body">
+							<h:panelGroup layout="block" class="container-fluid">
+								<h:panelGroup layout="block" class="row">
+									<h:panelGroup layout="block" class="col-lg-3 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-3">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary  mb-1">
+																#{lblMain.docComercial}
+															</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">
+																454545
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-file-alt fa-3x text-gray-300"></i>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" class="col-lg-3 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-2">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary  mb-1">
+																#{lblMain.pedido}
+															</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">
+																10034343
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-clipboard-list fa-3x text-gray-300" />
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" class="col-lg-3 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-2">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary mb-1">#{lblMain.fechaCreacion}
+															</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">
+																11 Abril 2020
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-calendar-alt fa-3x text-gray-300"></i>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" class="col-lg-3 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-2">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary  mb-1">#{lblMain.monto}</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">
+																$29,879.34
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-dollar-sign fa-3x text-gray-300"></i>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" class="col-lg-3 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-2">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary  mb-1">#{lblMain.estatus}
+															</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">
+																Verificar SAC
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-calendar-check	 fa-3x text-gray-300"></i>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" class="col-lg-9 mb-4">
+										<h:panelGroup layout="block"
+											class="card border-left-primary shadow h-100 py-2">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block"
+													class="row no-gutters align-items-center">
+													<h:panelGroup layout="block" class="col mr-2">
+														<h:panelGroup layout="block"
+															class="text-md font-weight-bold text-primary  mb-1">#{lblMain.destinatario}
+															</h:panelGroup>
+														<h:panelGroup layout="block"
+															class="h6 mb-0 font-weight-bold text-gray-800">Con.
+																Suc. Periférico /Tablaje Catastral 97210 Mérida Sin
+																Distrito/colonia
+															</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="col-auto">
+														<i class="fas fa-shipping-fast fa-3x text-gray-300"></i>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+								<h:panelGroup layout="block" class="row">
+									<h:panelGroup layout="block"
+										class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+										<h:panelGroup layput="block"
+											style="display: inline-block; width: 100%; overflow-y: auto;">
+											<ul class="timeline" id="timeline">
+												<li class="li complete"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Vsac}</h4>
+													</h:panelGroup></li>
+												<li class="li"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Rele}</h4>
+													</h:panelGroup></li>
+												<li class="li"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Proc}</h4>
+													</h:panelGroup></li>
+												<li class="li"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Pinv}</h4>
+													</h:panelGroup></li>
+												<li class="li"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Conc}</h4>
+													</h:panelGroup></li>
+												<li class="li"><h:panelGroup layout="block"
+														class="status">
+														<h4>#{lblMain.Comp}</h4>
+													</h:panelGroup></li>
+											</ul>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+							<br />
+							<h:panelGroup layout="block" class="card text-center">
+								<h:panelGroup layout="block" class="card-header">
+									<ul class="nav nav-tabs card-header-tabs">
+										<li class="nav-item"><a class="nav-link active"
+												href="#menu1">#{lblMain.partidas}</a></li>
+										<li class="nav-item"><a class="nav-link "
+												id="menu2Id" href="#menu2">#{lblMain.facturas}</a></li>
+									</ul>
+								</h:panelGroup>
+								<h:panelGroup layout="block" class="card-body">
+									<h:panelGroup layout="block" id="nav-tabContent"
+										class="tab-content">
+										<h:panelGroup layout="block" id="menu1"
+											class="tab-pane active ">
+											<br />
+											<h:panelGroup layout="block" class="row">
+												<h:panelGroup layout="block" class="col-12">
+													<table id="example2"
+														class="table table-striped  table-hover" width="100%">
+														<thead>
+															<tr>
+																<th>#{lblMain.posicionSm}</th>
+																<th>#{lblMain.noMaterialSm}</th>
+																<th>#{lblMain.descripcion}</th>
+																<th>#{lblMain.cantidadSm}</th>
+																<th>#{lblMain.cantEntregadaSm}</th>
+																<th>#{lblMain.unidadMedida}</th>
+																<th>#{lblMain.monto}</th>
+																<th>#{lblMain.precioNeto}</th>
+																<th>#{lblMain.fechaEntregaSm}</th>
+																<th>#{lblMain.estatus}</th>
+															</tr>
+														</thead>
+													</table>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" id="menu2"
+											class="container-fluid tab-pane fade pr-0 pl-0">
+											<br />
+											<h:panelGroup layout="block" class="row">
+												<h:panelGroup layout="block" class="col-12">
+													<table id="example3"
+														class="table table-striped  table-hover" width="100%">
+														<thead>
+															<tr>
+																<th>#{lblMain.docFactura}</th>
+																<th>#{lblMain.docFactura}</th>
+																<th>#{lblMain.impuestoNeto}</th>
+																<th>#{lblMain.monto}</th>
+															</tr>
+														</thead>
+													</table>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+							<!-- Modal footer -->
+							<h:panelGroup layout="block" class="modal-footer">
+								<button class="btn btn-danger" data-dismiss="modal">
+									#{lblMain.btnCerrar}
+								</button>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+		<ui:define name="scriptJS">
+			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
