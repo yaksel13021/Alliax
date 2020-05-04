@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:sec="http://www.springframework.org/security/tags">
+		
+<h:body>
+	<ui:composition template="templateBoot.xhtml">
+	
+		<ui:define name="metadata">
+			
+				<h:outputStylesheet library="css" name="signin.css" />
+				<f:metadata>
+					<f:viewParam name="error" value="#{login.returnCode}" required="false" />
+					<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
+				</f:metadata>
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ingresar}</ui:define>
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ingresar}</li></ui:define>
+		
+		<ui:define name="contenido">
+		
+			
+		
+			<h:panelGroup styleClass="container form-signin" layout="block">
+				<h:form styleClass="form-horizontal" id="login">
+					<h:inputHidden value="#{login.cambiaPassword}" />
+				
+					<ui:remove>
+		        		<h4 style="text-align:center;"><h:graphicImage library="images" name="logo.jpg" /></h4>      	
+		        	</ui:remove>		        	
+		        	
+		        	<h:panelGroup styleClass="form-group" layout="block">
+		        		<h:panelGroup styleClass="col-sm-6">
+		        			<h4 class="form-signin-heading">#{lblMain.signIn}</h4>
+		        		</h:panelGroup>
+		        	</h:panelGroup>
+		        	
+		        	<h:panelGroup styleClass="form-group" layout="block">
+		        		<h:outputLabel value="#{lblMain.usrLogin}" styleClass="col-md-2 control-label" />
+		        		<h:panelGroup styleClass="col-sm-10" layout="block">
+		        			<h:inputText id="j_username" value="#{login.usuario}" styleClass="form-control" required="true" requiredMessage="#{lblMain.usuarioReq}"  />
+		        		</h:panelGroup>
+		        	</h:panelGroup>
+		        	
+		        	<h:panelGroup styleClass="form-group" layout="block">
+		        		<h:outputLabel styleClass="col-md-2 control-label" value="#{lblMain.usrPassword}" />
+		        		<h:panelGroup styleClass="col-sm-10" layout="block">
+		        			<h:inputSecret id="j_password" value="#{login.password}" styleClass="form-control input-sm" required="true" requiredMessage="#{lblMain.passwordReq}" />
+		        		</h:panelGroup>	        	
+		        	</h:panelGroup>
+		        	
+		        	<h:panelGroup styleClass="form-group" layout="block">
+		        		<h:panelGroup styleClass="col-sm-offset-2 col-sm-6">
+		        			<h:commandButton id="ingresar" action="#{login.doLogin}" value="#{lblMain.btnLogin}" styleClass="btn btn-primary" />		        		
+		        		</h:panelGroup>
+		        	</h:panelGroup>
+		        	
+		        	<h:panelGroup styleClass="form-group" layout="block">
+		        		<h:panelGroup styleClass="col-sm-offset-2 col-sm-10">
+		        			<h:link outcome="recuperaPassword" value="#{lblMain.restearPwd}" />
+		        		</h:panelGroup>
+		        	</h:panelGroup>
+		        		       		
+		      </h:form>
+	      
+	      </h:panelGroup>
+
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>

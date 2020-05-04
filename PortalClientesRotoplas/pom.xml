@@ -408,7 +408,14 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>     
+
+		<!-- icon -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>5.13.0</version>
+		</dependency>   
 	</dependencies>
     <build>
         <plugins>

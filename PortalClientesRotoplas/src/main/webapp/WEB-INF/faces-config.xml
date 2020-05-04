@@ -6,6 +6,15 @@
     version="2.2">
     
     <!-- JSF and Spring are integrated -->
-
+    <application>
+		<locale-config>
+			<default-locale>es</default-locale>
+			<supported-locale>pt</supported-locale>
+		</locale-config> 
+		<resource-bundle>
+			<base-name>com.alliax.portalclientes.locale.Labels</base-name>
+			<var>lblMain</var>
+		</resource-bundle>
+	</application>
 
 </faces-config>
