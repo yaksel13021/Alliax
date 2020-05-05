@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:sec="http://www.springframework.org/security/tags">
+		
+<h:body>
+	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="metadata">
+			<link href="/PortalClientes/css/justified-nav.css" rel="stylesheet" type="text/css" media="screen" />			
+		</ui:define>
+		
+	
+		<ui:define name="titulo">#{lblMain.ttlInicio}</ui:define>
+		
+		<ui:define name="breadcrumb"></ui:define>
+		
+		<ui:define name="contenido">
+					
+			<h:panelGroup layout="block" styleClass="container">
+									
+				<h1>#{lblMain.portalCR}</h1>
+										
+				
+				<h:form>
+				<h:panelGroup layout="block" styleClass="row" style="margin-top: 25px;">			        			       
+			       <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+			        <h:panelGroup layout="block" styleClass="col-md-4" rendered="#{template.usuarioLogueado.pais eq 'MX'}">				        
+				        <div class="contenidoBanner">
+					    	<h:link outcome="/pedidos/listado" styleClass="btm">				        	
+					        	<h:graphicImage library="images" name="pedidosWide.png" alt="profesionalFondo" styleClass="fondo" />
+					            <img src="/PortalClientes/images/profesional_arq.png" alt="profesionalArquitecto" class="objeto" />
+								<div class="desSeccInf">
+									<p>#{lblMain.pedidosTextDesc}</p>	
+								</div>								
+					            <span class="titulo colorProfesional">
+		                        	<img src="/PortalClientes/images/esquina-roja.png" alt="roja" />
+					            	<p>#{lblMain.pedidos}</p>
+					            </span>
+					        </h:link>
+						</div>
+					</h:panelGroup>
+					</sec:authorize>
+															
+					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">																		
+					<h:panelGroup layout="block" styleClass="col-md-4" rendered="#{template.usuarioLogueado.pais eq 'MX'}">
+				        <div class="contenidoBanner">
+					    	<h:link outcome="/consultaExistencia" styleClass="btm">					    					        						        
+					        	<h:graphicImage library="images" name="existencias.png" alt="Eistencias" styleClass="fondo" />					            
+								<div class="desSeccInf">
+									<p>#{lblMain.existenciaTextDesc}</p>	
+								</div>								
+					            <span class="titulo colorResponsabilidad">
+		                        	<img src="/PortalClientes/images/esquina-turquesa.png" alt="roja" />
+					            	<p>#{lblMain.busqueda}</p>
+					            </span>
+					        </h:link>
+						</div>
+					</h:panelGroup>
+					</sec:authorize>
+					
+					<ui:remove>
+						<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+						<h:panelGroup layout="block" styleClass="col-md-4">
+					        <div class="contenidoBanner">
+					        	<h:panelGroup styleClass="btm">
+						        	<h:graphicImage library="images" name="ListaPrecios.png" alt="Eistencias" styleClass="fondo" />					            
+									<div class="desSeccInf">
+										<div>
+											#{lblMain.listaPreciosTextDesc}<br />
+											<ul>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('tuboplus')}" immediate="true" target="_blank" >#{lblMain.listaListaPreciosTuberia}</h:commandLink></li>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('construccion')}" immediate="true" target="_blank" >#{lblMain.listaListaPreciosConstruccion}</h:commandLink></li>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('industriales')}" immediate="true" target="_blank" >#{lblMain.listaPreciosIndustriales}</h:commandLink></li>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('AgroIndustria')}" immediate="true" target="_blank" >#{lblMain.listaPreciosAgroindustria}</h:commandLink></li>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('purificadores')}" immediate="true" target="_blank" >#{lblMain.listaPreciosPurificadores}</h:commandLink></li>
+												<li><h:commandLink actionListener="#{template.listaPreciosPdf('coladeras')}" immediate="true" target="_blank" >#{lblMain.listaPreciosColaderasRegistros}</h:commandLink></li>
+											</ul>																							
+										</div>									
+									</div>								
+						            <span class="titulo colorHogar">
+			                        	<img src="/PortalClientes/images/esquina-azul.png" alt="azul" />
+						            	<p>#{lblMain.listaPrecios}</p>
+						            </span>
+								</h:panelGroup>
+					        </div>
+					    </h:panelGroup>
+					    </sec:authorize>
+					</ui:remove>
+					
+<!-- 			       <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER"> -->
+			        <h:panelGroup layout="block" styleClass="col-md-4" >				        
+				        <div class="contenidoBanner">
+					    	<h:link outcome="/estadoCuenta/listado"  styleClass="btm">				        	
+					        	<h:graphicImage library="images" name="lupaEstadoCuenta.png" alt="estadoCuentaFondo" styleClass="fondo" />
+								<div class="desSeccInf">
+									<p>#{lblMain.estadoCuentaTextDesc}</p>	
+								</div>								
+					            <span class="titulo colorProfesional">
+		                        	<img src="/PortalClientes/images/esquina-roja.png" alt="roja" />
+					            	<p>#{lblMain.estadoCuenta}</p>
+					            </span>
+					        </h:link>
+						</div>
+					</h:panelGroup>
+<!-- 					</sec:authorize> -->
+							
+				</h:panelGroup>
+				</h:form>
+			</h:panelGroup>
+			
+			<ui:remove>
+	            <div class="contBaner">
+			        <div class="contenidoBanner">
+				    	<a href="profesional/" class="btm">
+				        	<img src="/PortalClientes/images/profesional_bg.jpg" alt="profesionalFondo" class="fondo" />
+				            <img src="/PortalClientes/images/profesional_arq.png" alt="profesionalArquitecto" class="objeto" />
+							<div class="desSeccInf">
+								<p>Conoce la amplia gama de productos y soluciones integrales que tenemos para todas tus obras. </p>	
+							</div>								
+				            <span class="titulo colorProfesional">
+	                        	<img src="/PortalClientes/images/esquina-roja.png" alt="roja" />
+				            	<p>PROFESIONAL</p>
+				            </span>
+				        </a>
+					</div>
+				</div>
+			</ui:remove>				
+			
+			
+			
+
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>
