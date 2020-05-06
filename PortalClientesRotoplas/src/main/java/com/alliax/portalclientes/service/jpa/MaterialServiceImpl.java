@@ -76,10 +76,18 @@ public class MaterialServiceImpl implements MaterialService {
                 materialData = line.split(cvsSplitBy);
 
                 material.setSku(materialData[0]);
-                material.setDescripcion(materialData[1]);
-                material.setUnidadMedida(materialData[2]);
-                material.setUrlFoto(materialData[3]);
 
+                if(materialData.length>1) {
+                    material.setDescripcion(materialData[1]);
+                }
+
+                if(materialData.length>2) {
+                    material.setUnidadMedida(materialData[2]);
+                }
+
+                if(materialData.length>3) {
+                    material.setUrlFoto(materialData[3]);
+                }
                 material.setTipoMaterial(tipoMaterial);
 
                 records.add(material);
