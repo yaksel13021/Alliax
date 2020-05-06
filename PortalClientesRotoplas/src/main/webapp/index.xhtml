@@ -13,29 +13,29 @@
 		<ui:define name="content">
 			<h:form id="login">
 				<!-- Main Content -->
-				<h:panelGroup layout="block" class="main">
-					<h:panelGroup layout="block" class="container-fluid outer">
-						<h:panelGroup layout="block" class="row justify-content-center middle">
-							<h:panelGroup layout="block" class="col-xl-10 col-lg-12 col-md-9">
+				<h:panelGroup layout="block" styleClass="main">
+					<h:panelGroup layout="block" styleClass="container-fluid wrapper">
+						<h:panelGroup layout="block" styleClass="row justify-content-center">
+							<h:panelGroup layout="block" styleClass="col-xl-10 col-lg-12 col-md-9">
 								<h4 class="colorTitulos">#{lblMain.portalCD}</h4>
-								<h:panelGroup layout="block" class="card o-hidden border-0 shadow-lg" style="background-color: #236192 !important;">
-									<h:panelGroup layout="block" class="card-body p-0 h-100-percent">
+								<h:panelGroup layout="block" styleClass="card o-hidden border-0 shadow-lg" style="background-color: #236192 !important;">
+									<h:panelGroup layout="block" styleClass="card-body p-0 h-100-percent">
 										<!-- Nested Row within Card Body -->
-										<h:panelGroup layout="block" class="row">
-											<h:panelGroup layout="block" class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-												<h:graphicImage value="#{resource['lookAndFeel/img/log.png']}" class="w-100-percent h-100-percent"
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+												<h:graphicImage value="#{resource['lookAndFeel/img/log.png']}" styleClass="w-100-percent h-100-percent"
 													alt="#{lblMain.portalCD}" />
 											</h:panelGroup>
-											<h:panelGroup layout="block" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-												<h:panelGroup layout="block" class="pb-5 pr-5 pl-5 pt-2">
+											<h:panelGroup layout="block" styleClass="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+												<h:panelGroup layout="block" styleClass="pb-5 pr-5 pl-5 pt-5">
 													<h1 class="h4  mb-4 LetraEstilo">#{lblMain.registro}</h1>
-													<h:panelGroup layout="block" class="form-group">
+													<h:panelGroup layout="block" styleClass="form-group">
 														<h:inputText styleClass="form-control form-control-user"
 															id="j_username"
 															a:placeholder="#{lblMain.usrLogin}" required="true" value="#{login.usuario}"
 															requiredMessage="#{lblMain.usuarioReq}"/>
 													</h:panelGroup>
-													<h:panelGroup layout="block" class="form-group">
+													<h:panelGroup layout="block" styleClass="form-group">
 														<h:inputSecret styleClass="form-control form-control-user"
 															id="j_password"
 															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
@@ -45,8 +45,8 @@
 													<h:commandButton action="#{login.doLogin}" 
 														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
 													<hr />
-													<h:panelGroup layout="block" class="text-center pt-1">
-														<h:commandLink action="recuperaPassword" class="small LetraEstilo">
+													<h:panelGroup layout="block" styleClass="text-center pt-1">
+														<h:commandLink action="recuperaPassword" styleClass="small LetraEstilo">
 															#{lblMain.restearPwd}
 														</h:commandLink>
 													</h:panelGroup>

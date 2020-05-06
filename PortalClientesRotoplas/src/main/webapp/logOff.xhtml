@@ -1,51 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:c="http://java.sun.com/jsp/jstl/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
 		
 <h:body>
 	<ui:composition template="templateBoot.xhtml">
-				
-		<ui:define name="titulo">#{lblMain.salir}</ui:define>
 		
-		<ui:define name="breadcrumb"><li>#{lblMain.salir}</li></ui:define>
-		
-		<ui:define name="contenido">					
-		
-			<h:panelGroup styleClass="container form-signin" layout="block" style="text-align:center;">				
-				
-		        	     			        	
+		<ui:define name="content">
+			<h:form id="logout">
+				<h:panelGroup styleClass="container form-signin" layout="block" style="text-align:center;">
 		        	<h:panelGroup styleClass="form-group" layout="block">
 		        		<h:panelGroup styleClass="col-sm-10">
 		        			<h4 class="form-signin-heading">#{lblMain.cerrarSession}</h4>
 		        		</h:panelGroup>
 		        	</h:panelGroup>
-		        	
 		        	<h:panelGroup styleClass="form-group" layout="block">
-		        		<h:panelGroup styleClass="col-sm-10">		        			
-		        			<h:link outcome="/index.xhtml?faces-redirect=true" value="#{lblMain.btnComenzar}" styleClass="btn btn-default" />		        		
+		        		<h:panelGroup styleClass="pb-5 pr-5 pl-5 pt-5">
+		        			<h:commandButton action="/index.xhtml?faces-redirect=true" styleClass="btn botonEstilo btn-user btn-block" value="#{lblMain.btnComenzar}" /> 
 		        		</h:panelGroup>
 		        	</h:panelGroup>
-	      </h:panelGroup>
-
+		        </h:panelGroup>
+		    </h:form>
 		</ui:define>
-		
-<!-- 		<ui:remove> -->
-<!-- 		<ui:define name="metadata"> -->
-<!-- 			<f:metadata> -->
-<!-- 				<f:event listener="#{template.salir}" type="preRenderView" />			 -->
-<!-- 				<ui:remove> -->
-<!-- 					<f:viewAction action="#{template.salir}" phase="APPLY_REQUEST_VALUES" /> -->
-<!-- 				</ui:remove> -->
-<!-- 			</f:metadata>									 -->
-<!-- 		</ui:define> -->
-<!-- 		</ui:remove> -->
-	
 	</ui:composition>
-	
-</h:body>		
-		
+</h:body>	
 </html>

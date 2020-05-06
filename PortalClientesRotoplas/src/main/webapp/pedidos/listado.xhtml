@@ -1,313 +1,502 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets">
-		
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
 <h:body>
 	<ui:composition template="../templateBoot.xhtml">
-		<ui:define name="metadata">
-		</ui:define>
-		
-	
-		<ui:define name="titulo">#{lblMain.ttlListadoPedidos}</ui:define>
-		
-		<ui:define name="breadcrumb"><li>#{lblMain.ttlListadoPedidos}</li></ui:define>
-		
-		<ui:define name="contenido">
-		
-			<h:panelGroup layout="block" >
-				<h:panelGroup layout="block" styleClass="container">
-					<h3>#{lblMain.registrosPendientes}</h3>
-					
-					<h:form id="form" styleClass="form-inline">
-
-					<script>
-						$(window).load(function () {
-							 jsf.ajax.addOnEvent(function(data) {
-							 if (data.status === 'success') {
-								  $('#form\\:frm_fechaIni').datepicker({
-										defaultDate: "+0w",		          	   	
-						          	  	dateFormat: "dd/mm/yy",
-						          	  	altField: "#form\\:frm_fechaIniAlt",
-						          	  	altFormat: "yymmdd",
-										changeMonth: false,
-										numberOfMonths: 1,
-										onClose: function( selectedDate ) {	    	 	    	 	    	  
-									   		$( '#form\\:frm_fechaFin' ).datepicker( "option", "minDate", selectedDate );	    	  	    	  
-										}
-									});
-								  
-								  $('#form\\:frm_fechaFin').datepicker({
-										defaultDate: "+1w",		          	   	
-						          	  	dateFormat: "dd/mm/yy",
-						          	  	altField: "#form\\:frm_fechaFinAlt",
-						          	  	altFormat: "yymmdd",
-										changeMonth: false,
-										numberOfMonths: 1,						
-										onClose: function( selectedDate ) {
-											$( '#form\\:frm_fechaIni' ).datepicker( "option", "maxDate", selectedDate );
-										}						
-									});
-							   }
-							 });
-							});			
-					
-						$(function() {
-						$.datepicker.setDefaults( $.datepicker.regional["es"] );
-				         }); 
-					</script>
-
-					<h:inputHidden value="true">
-						<f:validator binding="#{listadoPedidosValidator}" />
-						<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
-						<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />							
-						<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
-						<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
-					</h:inputHidden>
-
-
-					<h:panelGroup layout="block" styleClass="form-group">						
-						<h:outputLabel value="#{lblMain.estatus}" style="margin-right: 5px;" />
-						<h:selectOneMenu value="#{listaPedidos.estatus}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;">
-							<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" 
-								itemValue="#{estatus.key}" itemLabel="#{estatus.value}"/>							
-						</h:selectOneMenu>
-					</h:panelGroup>
-					
-					
-					<h:panelGroup layout="block" styleClass="form-group">						
-						<h:outputLabel value="#{lblMain.fecha}" style="margin-right: 5px;" />
-						<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control input-sm" style="margin-right: 10px;" binding="#{frm_rangoDias}">
-							<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" 
-								itemValue="#{rango.key}" itemLabel="#{rango.value}"/>
-								<f:ajax execute="@this" render="boxFecha" />														
-						</h:selectOneMenu>
-					</h:panelGroup>
-					
-					<h:panelGroup id="boxFecha" layout="block" styleClass="form-group">
-						<h:panelGroup rendered="#{listaPedidos.rangoDias eq 'F' || listaPedidos.rangoDias eq 'P'}" >
-							<h:outputLabel value="#{lblMain.fecha}" style="margin-right: 5px"  />								
-							<h:inputText id="frm_fechaIni" name="frm_fechaIni" styleClass="form-control input-sm" style="margin-right: 0px; width: 90px;" />
-							<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />						
-						</h:panelGroup>
-						<h:panelGroup rendered="#{listaPedidos.rangoDias eq 'P'}">
-							<h:outputLabel value="#{lblMain.al}" style="margin: 0 0;" />
-							<h:inputText id="frm_fechaFin" styleClass="form-control input-sm" style="margin-right: 0px; width: 90px;" />
-						</h:panelGroup>
-						
-						<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />																	
-					</h:panelGroup>
-																							
-					<h:panelGroup layout="block" styleClass="form-group">
-						<h:outputLabel value="Por" style="margin-left: 10px; margin-right: 5px;" />
-						<h:selectOneMenu id="frm_tipoDocumento" value="#{listaPedidos.tipoDocumento}" styleClass="form-control input-sm" style="margin-right: 10px;" binding="#{frm_tipoDocumento}">
-							<f:selectItem itemLabel="#{lblMain.pedido}" itemValue="Pedido" />
-							<f:selectItem itemLabel="#{lblMain.docComercial}" itemValue="docComercial" />
-						</h:selectOneMenu>
-						<h:inputText value="#{listaPedidos.documento}" styleClass="form-control input-sm" style="margin-right: 10px;" />						
-					</h:panelGroup>
-					
-					<h:panelGroup layout="block" styleClass="form-group">
-						<h:commandButton action="#{listaPedidos.buscaPedidos}" value="#{lblMain.btnBuscar}" styleClass="btn btn-primary" />
-					</h:panelGroup>
-									
-					<!-- Version standard -->																
-					<h:dataTable value="#{listaPedidos.listadoPedidos}" var="pedido" 
-						styleClass="table table-striped"
-						rendered="#{not empty listaPedidos.listadoPedidos and not listaPedidos.mobileDevice}"
-						style="margin-top: 20px;"
-						columnClasses="ttblCell10,tblCell10,tblCell15 align-right,tblCell10,tblCell15,tblCell30,tblCell10">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="#{lblMain.docComercial}" />
-							</f:facet>
-							<h:outputLabel value="#{pedido.documentoComercial}" />
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="#{lblMain.pedido}" />
-							</f:facet>
-							<h:outputLabel value="#{pedido.pedidoCliente}" /> 
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">
-								<h:panelGroup layout="block" style="text-align:center;">
-									<h:outputText value="#{lblMain.monto}"  />
+		<ui:define name="content">
+			<!-- Main Content -->
+			<h:form id="form">
+				<h:panelGroup layout="block" styleClass="container containerFiltersOne">
+					<div class="accordion" id="myAccordion">
+						<h:panelGroup layout="block" styleClass="row">
+							<h:panelGroup layout="block"
+								styleClass="col-lg-10 col-md-4 col-sm-4 col-xs-4-">
+								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
+							</h:panelGroup>
+							<h:panelGroup layout="block"
+								styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
+								style="padding-top: 10px;">
+								<h:panelGroup layout="block" style="text-align: right;">
+									<h:commandLink action="crearPedido">
+										<i class="fa fa-file fa-2x"></i>
+										#{lblMain.crearPedido}
+									</h:commandLink>
 								</h:panelGroup>
-							</f:facet>
-							<h:outputLabel value="#{pedido.monto}">
-								<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-							</h:outputLabel> #{pedido.moneda}
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="#{lblMain.fechaCreacion}" />
-							</f:facet>
-							<h:outputLabel value="#{pedido.fechaCreacion}">
-								<f:convertDateTime dateStyle="default" />
-							</h:outputLabel>
-						</h:column>
-
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="#{lblMain.estatus}" />
-							</f:facet>
-								
-							<h:panelGroup layout="inline"
-								styleClass="#{pedido.estatusGlobal eq 'C' ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-info-sign'}" 
-								style="#{pedido.estatusGlobal eq 'C' ? 'color:#00CC00;' : 'color:#F0AD4E;'}">
-								#{pedido.estatusGeneralDes}
 							</h:panelGroup>
-						</h:column>
-								
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="#{lblMain.destinatario}" />
-							</f:facet>
-							<h:outputLabel value="#{pedido.destinatario}" />
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="" />
-							</f:facet>
-							
-							<h:panelGroup>
-								<h:commandButton value="#{lblMain.btnVer}" action="detalle.xhtml?faces-redirect=true" styleClass="btn btn-primary">
-									<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
-								</h:commandButton>
+						</h:panelGroup>
+						<h:inputHidden value="true">
+							<f:validator binding="#{listadoPedidosValidator}" />
+							<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
+							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />							
+							<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
+							<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
+						</h:inputHidden>
+						<h:panelGroup layout="block" styleClass="row">
+							<h:panelGroup layout="block" styleClass="col-12">
+								<h:panelGroup layout="block" styleClass="card">
+									<div id="item1Header"
+										class="card-header" data-toggle="collapse"
+										data-target="#expandable1" aria-expanded="true"
+										aria-controls="expandable1" type="button" 
+										style="background-color: #236192;color: white;">
+										<h5 class="mb-0">#{lblMain.filtros}</h5>
+									</div>
+									<div id="expandable1"
+										class="collapse show" aria-labelledby="item1Header"
+										data-parent="#myAccordion">
+										<h:panelGroup layout="block" styleClass="card-body">
+											<h:panelGroup layout="block" styleClass="row">
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" styleClass="form-group flex">
+														<h:outputLabel for="select_estatus" 
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.estatus}
+														</h:outputLabel>
+														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive"
+															id="select_estatus" name="select_estatus" required="true" >
+															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
+														</h:selectOneMenu>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" styleClass="form-group flex">
+														<h:outputLabel for="frm_rangoDias" 
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.fecha}
+														</h:outputLabel>
+														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive">
+															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
+															<f:ajax execute="@this" render="boxFecha" />
+														</h:selectOneMenu>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block"  styleClass="form-group flex">
+														<h:outputLabel for="frm_fechaIni"
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.fechaI}
+														</h:outputLabel>
+														<h:panelGroup layout="block"
+															styleClass="input-group date date-start">
+															<h:inputText id="frm_fechaIni"
+																styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}"/>
+															<h:panelGroup layout="block" styleClass="input-group-append">
+																<span class="input-group-text far fa-calendar-alt"></span>
+															</h:panelGroup>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" styleClass="form-group flex">
+														<h:outputLabel for="frm_fechaFin"
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.fechaF}
+														</h:outputLabel>
+														<h:panelGroup layout="block"
+															styleClass="input-group date date-end">
+															<h:inputText id="frm_fechaFin"
+																styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}" />
+															<h:panelGroup layout="block" styleClass="input-group-append">
+																<span class="input-group-text far fa-calendar-alt"></span>
+															</h:panelGroup>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" styleClass="form-group flex">
+														<h:outputLabel for="select_por"
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.por}
+														</h:outputLabel>
+														<h:selectOneMenu styleClass="form-control dropdownActive" value="#{listaPedidos.tipoDocumento}"
+															id="frm_tipoDocumento" binding="#{frm_tipoDocumento}">
+															<f:selectItem itemValue="#{lblMain.pedido}" itemLabel="#{lblMain.pedido}" />
+															<f:selectItem itemValue="#{lblMain.docComercial}" itemLabel="#{lblMain.docComercial}" />
+														</h:selectOneMenu>
+													</h:panelGroup>
+												</h:panelGroup>
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+													<h:panelGroup layout="block" styleClass="form-group flex">
+														<h:outputLabel
+															styleClass="labelLeftInput fillWidthAvaible">
+															#{lblMain.documento}
+														</h:outputLabel>
+														<h:inputText value="#{listaPedidos.documento}" styleClass="form-control" />
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="row">
+												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<h:commandButton action="#{listaPedidos.buscaPedidos}"
+														 styleClass="btn btn-primary float-right" 
+														 value="#{lblMain.aplicarFiltro}" id="setFilters" >
+														 <f:ajax execute="setFilters" render="table1 expandable1" />
+													</h:commandButton> 
+													<!-- <button id="setFilters" class="btn btn-primary float-right" role="button"
+			                                            name="setFilters">Aplicar
+			                                            filtros</button>  -->
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</div>
+								</h:panelGroup>
 							</h:panelGroup>
-						</h:column>
-					</h:dataTable>
-					
-	
-					<!-- Version movil -->
-					<h:panelGroup layout="block" styleClass="container-fluid" rendered="#{not empty listaPedidos.listadoPedidos and listaPedidos.mobileDevice}">
-						<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.docComercial}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-	    							<h:outputLabel value="#{pedido.documentoComercial}" />
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.pedido}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-	    							<h:outputLabel value="#{pedido.pedidoCliente}" />
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.monto}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-									<h:outputLabel value="#{pedido.monto}">
-										<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-									</h:outputLabel> #{pedido.moneda}
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.fechaCreacion}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-									<h:outputLabel value="#{pedido.fechaCreacion}">
-										<f:convertDateTime dateStyle="default" />
-									</h:outputLabel>
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.estatus}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-	    							<h:outputLabel value="#{pedido.estatusGeneralDes}" />
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-xs-5">    								
-			    					<h:outputText value="#{lblMain.destinatario}" styleClass="lblheader" />
-			    				</h:panelGroup>
-		    					
-								<h:panelGroup layout="block" styleClass="col-xs-7">	    						
-	    							<h:outputLabel value="#{pedido.destinatario}" />
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-	    					
-							<h:panelGroup layout="block" styleClass="row row-mobile">
-								<h:panelGroup layout="block" styleClass="col-xs-6 col-xs-offset-5">    								
-									<h:commandButton value="#{lblMain.btnVerPedido}" action="detalle.xhtml?faces-redirect=true" styleClass="btn btn-primary">
-										<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />									
-									</h:commandButton>
-	    						</h:panelGroup>
-	    					</h:panelGroup>
-						</ui:repeat>
-					</h:panelGroup>
-					
-									
-					</h:form>
-					
-					<h:panelGroup rendered="#{empty listaPedidos.listadoPedidos and facesContext.postback}" layout="block" style="margin-top:10px;">
-						<h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
-					</h:panelGroup>					
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="row hidden exampleContent" id="table1">
+							<h:panelGroup layout="block" styleClass="col-12">
+								<h:panelGroup layout="block" styleClass="card text-center">
+									<h:panelGroup layout="block" styleClass="card-body">
+										<h:dataTable value="#{listaPedidos.listadoPedidos}" var="pedido" styleClass="table table-striped  table-hover" rendered="#{not empty listaPedidos.listadoPedidos}" style="width: 100%" id="example">
+											<thead>
+												<tr>
+													<th>#{lblMain.docComercial}</th>
+													<th>#{lblMain.pedido}</th>
+													<th>#{lblMain.monto}</th>
+													<th>#{lblMain.fechaCreacion}</th>
+													<th>#{lblMain.estatus}</th>
+													<th>#{lblMain.destinatario}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
+													<tr>				
+						    							<th><h:outputLabel value="#{pedido.documentoComercial}" /></th>						
+						    							<th><h:outputLabel value="#{pedido.pedidoCliente}" /></th>				
+														<th><h:outputLabel value="#{pedido.monto}">
+															<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+														</h:outputLabel> #{pedido.moneda}</th> 						
+														<th><h:outputLabel value="#{pedido.fechaCreacion}">
+															<f:convertDateTime dateStyle="default" />
+														</h:outputLabel></th>		
+						    							<th><h:outputLabel value="#{pedido.estatusGeneralDes}" /></th> 						
+						    							<th><h:outputLabel value="#{pedido.destinatario}" /></th>
+						    						</tr>
+												</ui:repeat>
+											</tbody>
+										</h:dataTable>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</div>
 				</h:panelGroup>
-			</h:panelGroup>
-						
-			<script>		
-				$(function() {
-				$.datepicker.setDefaults( $.datepicker.regional["es"] );
-				  $('#form\\:frm_fechaIni').datepicker({
-						defaultDate: "+0w",		          	   	
-		          	  	dateFormat: "dd/mm/yy",
-		          	  	altField: "#form\\:frm_fechaIniAlt",
-		          	  	altFormat: "yymmdd",
-						changeMonth: false,
-						numberOfMonths: 1,
-						onClose: function( selectedDate ) {	    	 	    	 	    	  
-					   		$( '#form\\:frm_fechaFin' ).datepicker( "option", "minDate", selectedDate );	    	  	    	  
-						}
-					});
-				  
-				  $('#form\\:frm_fechaFin').datepicker({
-						defaultDate: "+1w",		          	   	
-		          	  	dateFormat: "dd/mm/yy",
-		          	  	altField: "#form\\:frm_fechaFinAlt",
-		          	  	altFormat: "yymmdd",
-						changeMonth: false,
-						numberOfMonths: 1,						
-						onClose: function( selectedDate ) {
-							$( '#form\\:frm_fechaIni' ).datepicker( "option", "maxDate", selectedDate );
-						}						
-					});
-					
-		         }); 
-			</script>			
-			
-			
-
+				<!-- End of Main Content -->
+			</h:form>
 		</ui:define>
-	
+		<ui:define name="modal">
+			<h:form id="modal">
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModal" aria-hidden="true">
+					<h:panelGroup layout="block"
+						styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
+						role="document">
+						<h:panelGroup layout="block" styleClass="modal-content">
+
+							<!-- Modal Header -->
+							<h:panelGroup layout="block" styleClass="modal-header">
+								<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
+								<button id="closeModal" class="close" data-dismiss="modal" value="X" />
+							</h:panelGroup>
+
+							<!-- Modal body -->
+							<h:panelGroup layout="block" styleClass="modal-body">
+								<h:panelGroup layout="block" styleClass="container-fluid">
+									<h:panelGroup layout="block" styleClass="row">
+										<h:panelGroup layout="block" styleClass="col-lg-3 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-3">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary  mb-1">
+																	#{lblMain.docComercial}
+																</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																	<h:outputLabel value="#{pedido.documentoComercial}" />
+																</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-file-alt fa-3x text-gray-300"></i>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-lg-3 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-2">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary  mb-1">
+																	#{lblMain.pedido}
+																</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																	<h:outputLabel value="#{pedido.pedidoCliente}" />
+																</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-clipboard-list fa-3x text-gray-300" />
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-lg-3 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-2">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary mb-1">#{lblMain.fechaCreacion}
+																</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																	<h:outputLabel value="#{pedido.fechaCreacion}" >
+																		<f:convertDateTime dateStyle="default" />
+																	</h:outputLabel>
+																</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-calendar-alt fa-3x text-gray-300"></i>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-lg-3 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-2">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary  mb-1">#{lblMain.monto}</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																	<h:outputLabel value="#{pedido.monto}">
+																		<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+																	</h:outputLabel> #{detalle.pedido.moneda}	
+																</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-dollar-sign fa-3x text-gray-300"></i>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-lg-3 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-2">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary  mb-1">#{lblMain.estatus}
+																</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																	#{detalle.pedido.estatusGeneralDes}
+																</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-calendar-check	 fa-3x text-gray-300"></i>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-lg-9 mb-4">
+											<h:panelGroup layout="block"
+												styleClass="card border-left-primary shadow h-100 py-2">
+												<h:panelGroup layout="block" styleClass="card-body">
+													<h:panelGroup layout="block"
+														styleClass="row no-gutters align-items-center">
+														<h:panelGroup layout="block" styleClass="col mr-2">
+															<h:panelGroup layout="block"
+																styleClass="text-md font-weight-bold text-primary  mb-1">#{lblMain.destinatario}
+																</h:panelGroup>
+															<h:panelGroup layout="block"
+																styleClass="h6 mb-0 font-weight-bold text-gray-800">
+																<h:outputLabel value="#{pedido.destinatario}" />
+															</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" styleClass="col-auto">
+															<i class="fas fa-shipping-fast fa-3x text-gray-300"></i>
+														</h:panelGroup>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="row">
+										<h:panelGroup layout="block"
+											styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<h:panelGroup layput="block"
+												style="display: inline-block; width: 100%; overflow-y: auto;">
+												<ul class="timeline" id="timeline">
+													<li class="li #{pedido.estatusGeneral eq 'Vsac' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Vsac}</h4>
+														</h:panelGroup></li>
+													<li class="li #{pedido.estatusGeneral eq 'Rele' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Rele}</h4>
+														</h:panelGroup></li>
+													<li class="li #{pedido.estatusGeneral eq 'Proc' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Proc}</h4>
+														</h:panelGroup></li>
+													<li class="li #{pedido.estatusGeneral eq 'Pinv' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Pinv}</h4>
+														</h:panelGroup></li>
+													<li class="li #{pedido.estatusGeneral eq 'Conc' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Conc}</h4>
+														</h:panelGroup></li>
+													<li class="li #{pedido.estatusGeneral eq 'Comp' ? 'complete' : ''}"><h:panelGroup layout="block"
+															class="status">
+															<h4>#{lblMain.Comp}</h4>
+														</h:panelGroup></li>
+												</ul>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+								<br />
+								<h:panelGroup layout="block" styleClass="card text-center">
+									<h:panelGroup layout="block" styleClass="card-header">
+										<ul class="nav nav-tabs card-header-tabs">
+											<li class="nav-item"><a class="nav-link active"
+													href="#menu1">#{lblMain.partidas}</a></li>
+											<li class="nav-item"><a class="nav-link "
+													id="menu2Id" href="#menu2">#{lblMain.facturas}</a></li>
+										</ul>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="card-body">
+										<h:panelGroup layout="block" id="nav-tabContent"
+											styleClass="tab-content">
+											<h:panelGroup layout="block" id="menu1"
+												styleClass="tab-pane active ">
+												<br />
+												<h:panelGroup layout="block" styleClass="row">
+													<h:panelGroup layout="block" styleClass="col-12">
+														<h:dataTable id="example2" value="#{detalle.partidas}" var="partida" rendered="#{not empty detalle.partidas}"
+															styleClass="table table-striped  table-hover" style="width: 100%">
+															<thead>
+																<tr>
+																	<th>#{lblMain.posicionSm}</th>
+																	<th>#{lblMain.noMaterialSm}</th>
+																	<th>#{lblMain.descripcion}</th>
+																	<th>#{lblMain.cantidadSm}</th>
+																	<th>#{lblMain.cantEntregadaSm}</th>
+																	<th>#{lblMain.unidadMedida}</th>
+																	<th>#{lblMain.monto}</th>
+																	<th>#{lblMain.precioNeto}</th>
+																	<th>#{lblMain.fechaEntregaSm}</th>
+																	<th>#{lblMain.estatus}</th>
+																</tr>
+															</thead>
+															<tbody>
+																<ui:repeat value="#{detalle.partidas}" var="partida">
+																	<tr>			
+																		<th><h:outputLabel value="#{partida.posicion}" /></th>
+																		<th><h:outputLabel value="#{partida.noMaterial}" /></th>
+																		<th><h:outputLabel value="#{partida.descripcion}" /></th>
+																		<th><h:outputLabel value="#{partida.cantidadStr}" /></th>
+																		<th><h:outputLabel value="#{partida.cantidadEntregada}" /></th>
+																		<th><h:outputLabel value="#{partida.unidadMedida}" /></th>
+																		<th><h:outputLabel value="#{partida.monto}">
+																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+																		</h:outputLabel> #{partida.moneda}</th>
+																		<th><h:outputLabel value="#{partida.precioNeto}">
+																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+																		</h:outputLabel> #{partida.moneda}</th>
+																		<th><h:outputLabel value="#{partida.fechaEntrega}">
+																			<f:convertDateTime dateStyle="default" />
+																		</h:outputLabel></th>
+																		<th><h:outputLabel value="#{partida.estatusGeneral}" /></th>
+																	</tr>
+																</ui:repeat>
+															</tbody>
+														</h:dataTable>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+											<h:panelGroup layout="block" id="menu2"
+												styleClass="container-fluid tab-pane fade pr-0 pl-0">
+												<br />
+												<h:panelGroup layout="block" styleClass="row">
+													<h:panelGroup layout="block" styleClass="col-12">
+														<h:dataTable id="example3" value="#{detalle.facturas}" var="factura" rendered="#{not empty detalle.facturas}"
+															styleClass="table table-striped  table-hover" style="width: 100%">
+															<thead>
+																<tr>
+																	<th>#{lblMain.docFactura}</th>
+																	<th>#{lblMain.fecha}</th>
+																	<th>#{lblMain.impuestoNeto}</th>
+																	<th>#{lblMain.monto}</th>
+																</tr>
+															</thead>
+															<tbody>
+																<ui:repeat value="#{detalle.facturas}" var="factura">
+																	<tr>
+																		<th><h:outputLabel value="#{factura.docFactura}" /></th>
+																		<th><h:outputLabel value="#{factura.fechaFactura}">
+																			<f:convertDateTime dateStyle="default" />
+																		</h:outputLabel></th>
+																		<th><h:outputLabel value="#{factura.montoImp}">
+																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+																		</h:outputLabel> #{factura.moneda}</th>
+																		<th><h:outputLabel value="#{factura.montoNeto}">
+																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+																		</h:outputLabel></th>
+																	</tr>
+																</ui:repeat>
+															</tbody>
+														</h:dataTable>
+													</h:panelGroup>
+												</h:panelGroup>
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+								<!-- Modal footer -->
+								<h:panelGroup layout="block" styleClass="modal-footer">
+									<button class="btn btn-danger" data-dismiss="modal">
+										#{lblMain.btnCerrar}
+									</button>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+
+		<ui:define name="scriptJS">
+			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
+		</ui:define>
 	</ui:composition>
-	
 </h:body>		
 		
 </html>

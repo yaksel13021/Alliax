@@ -23,7 +23,7 @@ public class JSONAutocomplete {
 	public static String toJSON(){
 		List<JSONCliente> list = new ArrayList<>();
 		 list.add( new JSONCliente("98123","Home Depot Mexico S.A. de C.V","MX") );
-		 list.add(new JSONCliente("32409","Ferretería del Estado de México","MX"));
+		 list.add(new JSONCliente("32409","FerreterÃ­a del Estado de MÃ©xico","MX"));
 	     list.add(new JSONCliente("98723","Tienda Importante a nivel Nacional","MX"));
 	     List<JSONCliente> list2 = new ArrayList<>();
 	     list2.add( new JSONCliente("98123","Home2 Depot Mexico S.A. de C.V","MX") );
