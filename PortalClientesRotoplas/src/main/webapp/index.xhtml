@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
       
 <h:body>
-	<ui:composition template="template.xhtml">
-		<ui:define name="top">
-			<h:form id="navegacion">
-				<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
-					<h:commandLink action="#" class="navbar-brand">
-						<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}"
-							height="70" alt="Rotoplas" />
-					</h:commandLink>
-
-					<h:panelGroup layout="block" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            			<i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-					</h:panelGroup>
-				</nav>
-			</h:form>
-		</ui:define>
+	<ui:composition template="templateBoot.xhtml">
 		<ui:define name="content">
 			<h:form id="login">
 				<!-- Main Content -->
@@ -42,25 +30,23 @@
 												<h:panelGroup layout="block" class="pb-5 pr-5 pl-5 pt-2">
 													<h1 class="h4  mb-4 LetraEstilo">#{lblMain.registro}</h1>
 													<h:panelGroup layout="block" class="form-group">
-														<h:inputText 
-															class="form-control form-control-user"
-															id="j_username" aria-describedby="emailHelp"
+														<h:inputText styleClass="form-control form-control-user"
+															id="j_username"
 															a:placeholder="#{lblMain.usrLogin}" required="true" value="#{login.usuario}"
 															requiredMessage="#{lblMain.usuarioReq}"/>
 													</h:panelGroup>
 													<h:panelGroup layout="block" class="form-group">
-														<h:inputSecret
-															class="form-control form-control-user"
+														<h:inputSecret styleClass="form-control form-control-user"
 															id="j_password"
 															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
 															requiredMessage="#{lblMain.passwordReq}"/>
 													</h:panelGroup>
 	
-													<h:commandLink action="#{login.doLogin}"
-														class="btn botonEstilo btn-user btn-block"> #{lblMain.btnPortal} </h:commandLink>
+													<h:commandButton action="#{login.doLogin}" 
+														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
 													<hr />
 													<h:panelGroup layout="block" class="text-center pt-1">
-														<h:commandLink action="#" class="small LetraEstilo">
+														<h:commandLink action="recuperaPassword" class="small LetraEstilo">
 															#{lblMain.restearPwd}
 														</h:commandLink>
 													</h:panelGroup>
