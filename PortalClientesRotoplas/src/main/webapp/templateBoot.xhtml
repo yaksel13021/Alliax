@@ -1,286 +1,247 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:c="http://java.sun.com/jsp/jstl/core"
-		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-		xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
 	
 <h:head>
-	<link rel="icon" type="image/png" href="/PortalClientes/images/LogoIcoFull.png" />
-	<link rel="apple-touch-icon" href="/PortalClientes/images/LogoIcoFull.png"/>
-	<meta name="author" content="alliax,saul.ibarra" />
 	<meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="expires" content="-1" />
-	<meta http-equiv="Window-target" content="_top" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>	
-    <meta name="MobileOptimized" content="600" />	
-    <!-- Bootstrap core CSS -->	        	
-	<link href="/PortalClientes/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/PortalClientes/css/docs.min.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/PortalClientes/js/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />	 
-	<link href="/PortalClientes/js/DataTables-1.10.18/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" media="screen" />     	
-   	
-   	<!-- override css for rotoplas -->	
-	<link href="/PortalClientes/css/estilo.css" rel="stylesheet" />
-	<link href="/PortalClientes/css/estiloRoto.css" rel="stylesheet" />
-	<!-- <link href="/PortalClientes/css/stylesEsp1440.css" rel="stylesheet" />-->
-	<!-- <link href="/PortalClientes/css/stylesRoto.css" rel="stylesheet" /> -->
-   	
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    	
-   	<!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/PortalClientes/js/bootstrap.min.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Portal Clientes DES</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="#{resource['lookAndFeel/vendor/fontawesome-free/css/all.min.css']}" rel="stylesheet" type="text/css" />
+	<link
+	    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	    rel="stylesheet" />
+	<!-- icons --> 
+	<h:outputStylesheet library="webjars" name="font-awesome/5.13.0/css/all-jsf.css" />
 	
-   	<!-- JQuery and JQuery UI files -->
-	<script src="/PortalClientes/js/jquery-ui-1.11.4/external/jquery/jquery-1.11.3.js"></script>
-	<script src="/PortalClientes/js/jquery-ui-1.11.4/jquery-ui.js"></script>
-	<script src="/PortalClientes/js/jquery-ui-1.11.4/locale/datepicker-es.js"></script>	
+	<!-- Custom styles for this template-->
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-grid.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-reboot.min.css']}" rel="stylesheet" />
 	
-	<ui:insert name="metadata"></ui:insert>
-	<title>Portal Clientes Rotoplas - <ui:insert name="titulo">Titulo</ui:insert></title>
+	<link href="#{resource['lookAndFeel/css/estilos.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/datatables.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/css/responsive.bootstrap4.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Select2/select2.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Select2/select2-bootstrap.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker.min.css']}" rel="stylesheet" />
+	<link href="#{resource['lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker3.min.css']}" rel="stylesheet" />
+
+	<ui:insert name="metadata">
+		
+	</ui:insert>
 </h:head>
 
 <h:body>
-	
-	<h:panelGroup layout="block" id="img_overlay" style="display:none; text-align:center;">
-		<h:graphicImage id="ajaxloader" library="images" name="loadingcircle.gif" />
-	</h:panelGroup>
-
-		
-	<div class="navbar navbar-inverse navbar-static-top" role="navigation">
-		<h:panelGroup styleClass="container" layout="block" >
-			<h:panelGroup styleClass="navbar-header" layout="block">
+	<!-- Main Content -->
+	<ui:insert name="top">
+		<h:form id="navegacion">
+			<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
 	        	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
-		        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-			            <span class="sr-only">Toggle navigation</span>
-			            <span class="icon-bar"></span>
-			            <span class="icon-bar"></span>
-			            <span class="icon-bar"></span>
-		          	</button>
+		        	
 	          	</sec:authorize>
 	          	
-	          	<h:link styleClass="navbar-brand" outcome="/inicio">	          		
-	          	    <c:choose>
-	          	    	<c:when test="#{sec:areAllGranted('ROLE_ANONYMOUS')}">
-	          	    		<h:graphicImage library="images" name="logo.png" style="width: 189px; height: 67px; valign:top;" />
-	          	    	</c:when>
-	          	    	<c:otherwise>
-	          	    		<h:graphicImage library="images" name="logo.png" rendered="#{template.usuarioLogueado.pais != 'BR'}" style="width: 189px; height: 67px; valign:top;" />
-	          	    		<h:graphicImage library="images" name="logo_br.png" rendered="#{template.usuarioLogueado.pais eq 'BR'}" style="width: 189px; height: 85px; margin-left:-5px; margin-right: 44px; valign:top;" />
-	          	    	</c:otherwise>
-	          	    </c:choose>       	    	          		
-	          	</h:link>
-			</h:panelGroup>
-			
-			<c:if test="#{empty lblMain}">
-			    <h:outputText value="#{template.changeLocaleLoad('')}" />
-				<script>
- 					location.reload();
- 				</script>
-			</c:if>
+	          	<h:link outcome="inicio" styleClass="navbar-brand">
+	          		<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}" height="70" alt="Rotoplas" />
+				</h:link>
 
-			<h:form >                                                           
-	        	<h:commandLink actionListener="#{template.changeLocaleLoad('es')}" value="#{lblMain.espaniol}" styleClass="top-menu" style="color: #FFFFFF !important;" /> |                                                                                                           	                            
-	            <h:commandLink actionListener="#{template.changeLocaleLoad('pt')}" value="#{lblMain.portugues}" styleClass="top-menu" style="color: #FFFFFF !important" />                               
-	        </h:form>
-	        
-	        
-	        <h:panelGroup styleClass="navbar-collapse collapse" layout="block" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
-	        	<ul class="nav navbar-nav">
-	            	<li class="#{paginaActual eq 'resumen' ? 'active' : paginaActual}">
-	            		<h:link outcome="/inicio" value="#{lblMain.pedidos}" rendered="#{paginaInicio}" />
-	            	</li>
-	            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
-							<li>
-								<h:link outcome="/pedidos/listado" rendered="#{template.usuarioLogueado.pais eq 'MX'}" style="text-align:center">
-		            				<h:panelGroup styleClass="glyphicon glyphicon-shopping-cart" /> <br />
-		            				#{lblMain.pedidos}
-		            			</h:link> 
-		            		</li>	            			            		
-	            	</sec:authorize>
-	            	
-	            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
-			            	<li>		            		
-			            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" style="text-align:center">
-				            		<h:panelGroup styleClass="glyphicon glyphicon-zoom-in" /> <br />
-				            		#{lblMain.busqueda}
-			            		</h:link>
-			            	</li>	            		            
+				<h:panelGroup layout="block" styleClass="navbar-toggler"
+					data-toggle="collapse" data-target="#navbarCollapse">
+					<i class="fas fa-bars" style="color: #fff; font-size: 28px;"></i>
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" styleClass="collapse navbar-collapse"
+					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
+					<ul class="navbar-nav">
+						<li class="#{paginaActual eq 'resumen' ? 'active' : paginaActual}">
+		            		<h:link outcome="/inicio" value="#{lblMain.pedidos}" rendered="#{paginaInicio}" />
+		            	</li>
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
+								<li>
+									<h:link outcome="/misPedidos" styleClass="nav-item nav-link active textMenuStyle ">
+									<span style="padding-right: 9px;" />
+											#{lblMain.pedidos}
+									</h:link>
+			            		</li>	            			            		
+		            	</sec:authorize>
 		            	
-	            	</sec:authorize>
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
+				            	<li>		            		
+				            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+				            			<span style="padding-right: 9px;" />
+											#{lblMain.busqueda}
+				            		</h:link>
+				            	</li>
+		            	</sec:authorize>
 
-	            	<li>
-	            		<h:link outcome="/estadoCuenta/listado" rendered="true" style="text-align:center">
-		            		<h:panelGroup styleClass="glyphicon glyphicon-list" /> <br />
-		            		#{lblMain.estadoCuenta}
-	            		</h:link>
-	            	</li>
+		            	<li>
+		            		<h:link outcome="/estadoCuenta" rendered="true" styleClass="nav-item nav-link textMenuStyle">
+			            		<span style="padding-right: 9px;" />
+			            		#{lblMain.estadoCuenta}
+		            		</h:link>
+		            	</li>
 
-	            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
-	            		<h:panelGroup rendered="#{template.usuarioLogueado.pais == 'MX'}">
-			            	<li class="dropdown">		            	
-								<a href="/PortalClientes/#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">							
-								<h:panelGroup styleClass="glyphicon glyphicon-list-alt" /> <br />
-								#{lblMain.ligasInteres}							
-								<span class="caret"></span></a>
-		              			<ul class="dropdown-menu" role="menu">
-		                			<li><h:outputLink value="http://www.rotoplas.com" target="_blank">#{lblMain.rotoLiga1}</h:outputLink></li>
-		                			<li><h:outputLink value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink></li>	                			
-		                			<li><h:outputLink value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink></li>
-		                			<li><h:outputLink value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink></li>
-		                			<li><h:outputLink value="https://twitter.com/fandelagua" target="_blank">${lblMain.rotoLigaTwit}</h:outputLink></li>	                			             		
-		                		</ul>
-			                </li>
-	                	</h:panelGroup>
-			        </sec:authorize>	                
-	                
-	                <h:panelGroup>
-	                	<li class="dropdown">
-							<a href="/PortalClientes/#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">							
-							<h:panelGroup styleClass="glyphicon glyphicon-question-sign" /> <br />
-							#{lblMain.ayuda}					
-							<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-							    <!-- Manual de usuario -->
-							    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
-							    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
-							    </sec:authorize>
-							    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
-							    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
-							    </sec:authorize>
-							    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
-							    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
-							    </sec:authorize>
-							    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
-							    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
-							    </sec:authorize>
-							    
-							    <!-- Manual de Envio Masivo -->
-		    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-	                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-							    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_Envio_Masivo.pdf" target="_blank">#{lblMain.manualEnvioMasivo}</h:outputLink></li>
-							    </sec:authorize>							    
-							    							    								   
-							    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
-							  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>
-									<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
-										<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
-									</h:panelGroup>	
-							    </sec:authorize>
-
-								<!-- Manual de administrador -->
-								<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">								
-									<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-								</sec:authorize>
-				    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">								
-									<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-								</sec:authorize>
-					   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">								
-									<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-								</sec:authorize>
-					   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">								
-									<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-								</sec:authorize>
-					   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">								
-									<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-								</sec:authorize>																
-							</ul>        		
-	                	</li>
-	                </h:panelGroup>
-	                
-	                <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-	                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-<!-- 		                <h:panelGroup rendered="#{sec:areAllGranted('ROLE_ADMIN_MEMBER')}"> -->
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
+		            		<h:panelGroup rendered="#{template.usuarioLogueado.pais == 'MX'}">
+				            	<li class="dropdown">		            	
+									<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+										#{lblMain.ligasInteres}
+									</a>
+			              			<ul class="dropdown-menu" role="menu">
+			                			<li><h:outputLink value="http://www.rotoplas.com" target="_blank">#{lblMain.rotoLiga1}</h:outputLink></li>
+			                			<li><h:outputLink value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink></li>	                			
+			                			<li><h:outputLink value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink></li>
+			                			<li><h:outputLink value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink></li>
+			                			<li><h:outputLink value="https://twitter.com/fandelagua" target="_blank">${lblMain.rotoLigaTwit}</h:outputLink></li>
+			                		</ul>
+				                </li>
+		                	</h:panelGroup>
+				        </sec:authorize>	                
+		                
 		                <h:panelGroup>
 		                	<li class="dropdown">
-		                		<a href="/PortalClientes/#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">
-		                		<h:panelGroup styleClass="glyphicon glyphicon-cog" /> <br />	                		
-		                		#{lblMain.adminOps}<span class="caret"></span></a>
-		                		<ul class="dropdown-menu" role="menu">
-		                		    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
-			                			<li><h:link outcome="/admin/listadoClientes" value="#{lblMain.clientesRegistados}" /></li>
-			                			<li><h:link outcome="/admin/altaCliente" value="#{lblMain.altaCliente}" /></li>		                		
-			                			<li><h:link outcome="/admin/altaMasiva" value="#{lblMain.altaClienteMasiva}" /></li>
-			                			<li><h:link outcome="/admin/listadoUsuarios" value="#{lblMain.altaUsuario}" /></li>
-			                		</sec:authorize>
-			                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-			                		                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-			                			<li><h:link outcome="/ejecutivo/EnvioMasivoSociedadClienteCorreo" value="#{lblMain.ttlEnvioMasivoEstadoCuenta}" /></li>
-			                		</sec:authorize>
-			                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">		                		
-				                		<li class="menu-item dropdown dropdown-submenu">
-	                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuClienteVendedor}</a>
-	                            			<ul class="dropdown-menu">
-	                                			<li class="menu-item ">
-	                                    			<h:link outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                                    			                                    			
-	                                    			<h:link outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
-	                                			</li>
-	                            			</ul>
-	                       				 </li>
-	                       			</sec:authorize>
-                       				 <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-	                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">	                                            
+								<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+									#{lblMain.ayuda}
+								</a>
+								<ul class="dropdown-menu" role="menu">
+								    <!-- Manual de usuario -->
+								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
+								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    </sec:authorize>
+								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
+								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    </sec:authorize>
+								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
+								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    </sec:authorize>
+								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    </sec:authorize>
+								    
+								    <!-- Manual de Envio Masivo -->
+			    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_Envio_Masivo.pdf" target="_blank">#{lblMain.manualEnvioMasivo}</h:outputLink></li>
+								    </sec:authorize>							    
+								    							    								   
+								    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
+								  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>
+										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
+											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+										</h:panelGroup>	
+								    </sec:authorize>
+
+									<!-- Manual de administrador -->
+									<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">								
+										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									</sec:authorize>
+					    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">								
+										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									</sec:authorize>
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">								
+										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									</sec:authorize>
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">								
+										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									</sec:authorize>
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">								
+										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									</sec:authorize>																
+								</ul>        		
+		                	</li>
+		                </h:panelGroup>
+		                
+		                <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+	<!-- 		                <h:panelGroup rendered="#{sec:areAllGranted('ROLE_ADMIN_MEMBER')}"> -->
+			                <h:panelGroup>
+			                	<li class="dropdown">
+			                		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">                		
+			                			#{lblMain.adminOps}
+			                		</a>
+			                		<ul class="dropdown-menu" role="menu">
+			                		    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
+				                			<li><h:link outcome="/admin/listadoClientes" value="#{lblMain.clientesRegistados}" /></li>
+				                			<li><h:link outcome="/admin/altaCliente" value="#{lblMain.altaCliente}" /></li>		                		
+				                			<li><h:link outcome="/admin/altaMasiva" value="#{lblMain.altaClienteMasiva}" /></li>
+				                			<li><h:link outcome="/admin/listadoUsuarios" value="#{lblMain.altaUsuario}" /></li>
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+				                		                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+				                			<li><h:link outcome="/ejecutivo/EnvioMasivoSociedadClienteCorreo" value="#{lblMain.ttlEnvioMasivoEstadoCuenta}" /></li>
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">		                		
 					                		<li class="menu-item dropdown dropdown-submenu">
-		                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuSociedadClienteCorreo}</a>
+		                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuClienteVendedor}</a>
 		                            			<ul class="dropdown-menu">
 		                                			<li class="menu-item ">
-		                                    			<h:link outcome="/ejecutivo/altaSociedadClienteCorreo" value="#{lblMain.menuIndividual}" />                                    			                                    			
-		                                    			<h:link outcome="/ejecutivo/altaMasivaSociedadClienteCorreo" value="#{lblMain.menuMasiva}" />
+		                                    			<h:link outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                                    			                                    			
+		                                    			<h:link outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
 		                                			</li>
 		                            			</ul>
 		                       				 </li>
-	                       			  </sec:authorize>                   				 
-		                		</ul>
-		                	</li>	                	
-		                </h:panelGroup>
-	                </sec:authorize>
-	                <ui:remove>	                	                	               
-		            	<li>
-		            		<h:link outcome="/contactanos" rendered="true" style="text-align:center">
-			            		<h:panelGroup styleClass="glyphicon glyphicon-earphone" /> <br />
-			            		#{lblMain.contactanos} 
-		            		</h:link>
-		            	</li>
-	            	</ui:remove>
-	            	
-	            	           
-	          	</ul>
-	          	
-          	
-	          	
-	          	<h:panelGroup styleClass="container" layout="block">
-		          	<ul class="nav navbar-nav navbar-right">
+		                       			</sec:authorize>
+	                       				 <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">	                                            
+						                		<li class="menu-item dropdown dropdown-submenu">
+			                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuSociedadClienteCorreo}</a>
+			                            			<ul class="dropdown-menu">
+			                                			<li class="menu-item ">
+			                                    			<h:link outcome="/ejecutivo/altaSociedadClienteCorreo" value="#{lblMain.menuIndividual}" />                                    			                                    			
+			                                    			<h:link outcome="/ejecutivo/altaMasivaSociedadClienteCorreo" value="#{lblMain.menuMasiva}" />
+			                                			</li>
+			                            			</ul>
+			                       				 </li>
+		                       			  </sec:authorize>               				 
+			                		</ul>
+			                	</li>	                	
+			                </h:panelGroup>
+		                </sec:authorize>
+		                <ui:remove>	                	                	               
+			            	<li>
+			            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
+				            		#{lblMain.contactanos} 
+			            		</h:link>
+			            	</li>
+		            	</ui:remove>
+		          	</ul>
+		          	<ul class="navbar-nav ml-auto">
                   	    
 		          	
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
@@ -290,10 +251,11 @@
 		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
 		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
 			            	<li class="dropdown">
-			              		<a href="/PortalClientes/#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">
-				              		<h:panelGroup styleClass="glyphicon glyphicon-user" /> <br />
+			              		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+			              			<strong>
 				              		#{template.usuarioLogueado.noCliente}
-			              			<span class="caret"></span></a>
+			              			</strong>
+			              		</a>
 		              			<ul class="dropdown-menu" role="menu">
 		                			<li class="dropdown-header">#{lblmain.opciones}</li>
 		                			<li><h:link outcome="/cuenta/index" value="#{lblMain.miCuenta}" /></li>                			                			
@@ -307,71 +269,58 @@
 			            	</li>
 			            </sec:authorize>
 		          	</ul>
-	          	</h:panelGroup>
-	        </h:panelGroup>	       
-		</h:panelGroup>
-	</div>
+				</h:panelGroup>
+			</nav>
+		</h:form>
+	</ui:insert>
 	
-	
-	
-
-	<h:panelGroup id="main-container" styleClass="container" layout="block">
-
-		<ui:remove>
-		    <h:panelGroup id="chr-header-welcome">
-		        <ui:insert name="infoUsuario"></ui:insert>
-		    </h:panelGroup>
-	
-			    
-			<h:panelGroup id="menu-logo" layout="block">
-		    	<ui:insert name="menu"></ui:insert>
-	    	</h:panelGroup>
-    	</ui:remove>
-						
-		<!-- //Este div muestra avisos -->			
-		<h:panelGroup id="chr-main-avisos" layout="block" rendered="#{not empty facesContext.messageList}" styleClass="well well-sm">				
-			<h:messages id="messages" infoClass="text-success" layout="list" errorClass="text-danger" fatalClass="text-danger" warnClass="text-warning" showSummary="false" showDetail="true" />			
-		</h:panelGroup>
-		
-	
-		<div id="info_emp_wait" style="text-align: center;">
-			<!-- Este div muestra la imagen de espera de ajax -->
-		</div>
-			
-		<h:panelGroup id="chr-breadcrumb" layout="block"> 				
-			<ol class="breadcrumb">
-			 	<li><h:link outcome="/inicio">#{lblMain.portalCR}</h:link></li>
-			  	<ui:insert name="breadcrumb">breadcrumb</ui:insert>
-			</ol>
+	<ui:insert name="content">
 				
-			<ui:insert name="contenido">Cuerpo</ui:insert>		
-		</h:panelGroup>
-				
-	</h:panelGroup>
-	<h:panelGroup id="footer" layout="block">
-		<h:panelGroup styleClass="container" layout="block" style="text-align: right">			
-			<h:outputLabel value="&#169;&#160; #{lblMain.gpoRotoplas}&#160;"/>		
-		</h:panelGroup>	
-	</h:panelGroup>	
+	</ui:insert>
 	
+	<ui:insert name="footer">
+		<!-- Footer -->
+		<footer>
+			<h:panelGroup layout="block" styleClass="container">
+				<h:panelGroup layout="block" styleClass="row ">
+					<h:panelGroup layout="block"
+						styleClass="col clearfix copyright text-center my-auto">
+						<h:panelGroup layout="block" styleClass="float-left">
+							<span><strong>#{lblMain.avisoPrivacidad}</strong></span>
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="float-right ">
+							<span><strong>#{lblMain.grupoRotoplas}</strong></span>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</footer>
+		<!-- End of Footer -->
+	</ui:insert>
+	
+	<ui:insert name="modal">
+	</ui:insert>
 
+	<!-- Bootstrap core JavaScript-->
+	<script src="#{resource['lookAndFeel/vendor/jquery/jquery.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/PopperJs/popper.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap.min.js']}"></script>
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/PortalClientes/js/ie10-viewport-bug-workaround.js"></script>
-    
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->    
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->    
-    <script src="/PortalClientes/js/jquery-ui-1.11.4/jquery-ui.js"></script>    
-    <script src="/PortalClientes/js/bootstrap.min.js"></script>
-    <!-- <script src="/PortalClientes/js/docs.min.js"></script> -->     
-    <!-- <script src="/PortalClientes/js/jquery.canvasjs.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-<!--     <script src="/PortalClientes/js/Chart.min.js"></script> -->
-    <script src="/PortalClientes/js/DataTables-1.10.18/js/dataTables.bootstrap.min.js"></script>    
-    <script src="/PortalClientes/js/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
-    
+	<!-- Core plugin JavaScript-->
+	<script src="#{resource['lookAndFeel/vendor/jquery-easing/jquery.easing.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/datatables.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/jquery.dataTables.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/dataTables.responsive.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/responsive.bootstrap4.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datepicker/js/bootstrap-datepicker.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/vendor/Datepicker/locales/bootstrap-datepicker.es.min.js']}"></script>
+
+	<ui:insert name="scriptJS">
+
+	</ui:insert>
 
 </h:body>
 </html>
