@@ -191,3 +191,36 @@ function validNumber(e) {
         e.currentTarget.value = e.currentTarget.value.substring(indexLetter, 0);
     }
 }
+
+function confirmModal(titulo, mensaje, cancelarTexto, confirmarTexto, show, callback) {
+    loadMustacheTemplate('modalConfirm_template', 'modalConfirm_target', {
+        titulo: titulo,
+        mensaje: mensaje,
+        cancelarTexto: cancelarTexto,
+        confirmarTexto: confirmarTexto
+    });
+    if (show) {
+        $('#modelConfirm').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+    }
+    $('[data-identifier="confirmBtnModel"]').off().on('click', function (e) {
+        e.preventDefault();
+        setTimeout(() => {
+            $('#modelConfirm').modal('hide');
+        }, 0);
+
+        if (callback) {
+            var rtn = e.currentTarget.dataset.btn == 'false' ? false : true;
+            callback(rtn);
+        }
+    });
+}
+
+function mensajes() {
+    return {
+        Generico01: 'Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000'
+    }
+}

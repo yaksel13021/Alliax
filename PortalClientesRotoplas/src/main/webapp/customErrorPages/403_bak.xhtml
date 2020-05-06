@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:sec="http://www.springframework.org/security/tags">
+		
+<h:body>
+	<ui:composition template="../templateBoot.xhtml">
+	
+		<ui:define name="metadata">			
+				<h:outputStylesheet library="css" name="signin.css" />
+				<f:metadata>					
+					<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
+				</f:metadata>
+		</ui:define>
+	
+		<ui:define name="titulo">#{lblMain.ttlError403}</ui:define>
+		
+		<ui:define name="breadcrumb"><li>#{lblMain.ttlError403}</li></ui:define>
+		
+		<ui:define name="contenido">
+									
+			<h4 style="text-align:center; margin-top:50px;">
+				#{lblMain.error403}
+			</h4>					        			        			        		      
+
+		</ui:define>
+	
+	</ui:composition>
+	
+</h:body>		
+		
+</html>
