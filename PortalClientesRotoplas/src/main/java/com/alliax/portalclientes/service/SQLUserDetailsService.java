@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 
+import com.alliax.portalclientes.controller.InfoClienteConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -69,7 +70,14 @@ public class SQLUserDetailsService implements UserDetailsService {
 
 		//Consulta SAP para ver
 		ClienteInfo clienteInfo = null;
-		try{ clienteInfo = infoClienteRfc.obtieneInfoCliente(arg0);  }catch(Exception e){ logger.error("Error getResultTables " + e.toString(),e);}		
+		try{
+			clienteInfo = infoClienteRfc.obtieneInfoCliente(arg0);
+		}catch(Exception e){
+			logger.error("Error getResultTables " + e.toString(),e);
+			InfoClienteConfig config = new InfoClienteConfig();
+			clienteInfo = config.informacionCliente();
+		}
+
 		if(clienteInfo != null && clienteInfo.getStatusSAP() != null && clienteInfo.getStatusSAP().equals("C")){
 			logger.error("Usuario Bloqueado en SAP");
 			throw new DisabledException("Usuario deshabilitado");
