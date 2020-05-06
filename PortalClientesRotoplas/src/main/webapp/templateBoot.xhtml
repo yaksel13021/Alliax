@@ -16,13 +16,10 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 
-	<title>Portal Clientes DES</title>
+	<title>Portal Clientes</title>
 
 	<!-- Custom fonts for this template-->
-	<link href="#{resource['lookAndFeel/vendor/fontawesome-free/css/all.min.css']}" rel="stylesheet" type="text/css" />
-	<link
-	    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	    rel="stylesheet" />
+	
 	<!-- icons --> 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.13.0/css/all-jsf.css" />
 	
@@ -45,16 +42,12 @@
 	</ui:insert>
 </h:head>
 
-<h:body>
+<h:body id="page-top">
 	<!-- Main Content -->
 	<ui:insert name="top">
 		<h:form id="navegacion">
 			<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
-	        	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
-		        	
-	          	</sec:authorize>
-	          	
-	          	<h:link outcome="inicio" styleClass="navbar-brand">
+	          	<h:link outcome="/inicio" styleClass="navbar-brand">
 	          		<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}" height="70" alt="Rotoplas" />
 				</h:link>
 
@@ -66,25 +59,27 @@
 				<h:panelGroup layout="block" styleClass="collapse navbar-collapse"
 					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
 					<ul class="navbar-nav">
-						<li class="#{paginaActual eq 'resumen' ? 'active' : paginaActual}">
-		            		<h:link outcome="/inicio" value="#{lblMain.pedidos}" rendered="#{paginaInicio}" />
-		            	</li>
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
 								<li>
-									<h:link outcome="/misPedidos" styleClass="nav-item nav-link active textMenuStyle ">
+									<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
 									<span style="padding-right: 9px;" />
 											#{lblMain.pedidos}
 									</h:link>
-			            		</li>	            			            		
+			            		</li>       		
 		            	</sec:authorize>
+
+		            	<li>
+		            		<h:link outcome="/cotizaciones" styleClass="nav-item nav-link textMenuStyle ">
+					         #{lblMain.cotizaciones}</h:link>
+					    </li>
 		            	
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
-				            	<li>		            		
-				            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
-				            			<span style="padding-right: 9px;" />
-											#{lblMain.busqueda}
-				            		</h:link>
-				            	</li>
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">          		
+			            	<li>		            		
+			            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+			            			<span style="padding-right: 9px;" />
+										#{lblMain.busqueda}
+			            		</h:link>
+			            	</li>
 		            	</sec:authorize>
 
 		            	<li>
@@ -94,156 +89,114 @@
 		            		</h:link>
 		            	</li>
 
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">	            		
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
 		            		<h:panelGroup rendered="#{template.usuarioLogueado.pais == 'MX'}">
 				            	<li class="dropdown">		            	
-									<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+									<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										#{lblMain.ligasInteres}
 									</a>
-			              			<ul class="dropdown-menu" role="menu">
-			                			<li><h:outputLink value="http://www.rotoplas.com" target="_blank">#{lblMain.rotoLiga1}</h:outputLink></li>
-			                			<li><h:outputLink value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink></li>	                			
-			                			<li><h:outputLink value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink></li>
-			                			<li><h:outputLink value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink></li>
-			                			<li><h:outputLink value="https://twitter.com/fandelagua" target="_blank">${lblMain.rotoLigaTwit}</h:outputLink></li>
-			                		</ul>
+			              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                			<h:outputLink styleClass="dropdown-item" value="http://www.rotoplas.com" target="_blank">#{lblMain.rotoLiga1}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="https://twitter.com/fandelagua" target="_blank">${lblMain.rotoLigaTwit}</h:outputLink>
+			                		</div>
 				                </li>
 		                	</h:panelGroup>
 				        </sec:authorize>	                
 		                
 		                <h:panelGroup>
-		                	<li class="dropdown">
-								<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+		                	<li class="nav-item dropdown">
+								<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									#{lblMain.ayuda}
 								</a>
-								<ul class="dropdown-menu" role="menu">
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								    <!-- Manual de usuario -->
 								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
-								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
 								    </sec:authorize>
 								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
-								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_pe.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
 								    </sec:authorize>
 								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
-								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
 								    </sec:authorize>
 								    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
-								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>
+								    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_br.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
 								    </sec:authorize>
 								    
 								    <!-- Manual de Envio Masivo -->
 			    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 		                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-								    	<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_Envio_Masivo.pdf" target="_blank">#{lblMain.manualEnvioMasivo}</h:outputLink></li>
+								    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_Envio_Masivo.pdf']}" target="_blank">#{lblMain.manualEnvioMasivo}</h:outputLink>
 								    </sec:authorize>							    
 								    							    								   
 								    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
 								  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>							
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ar.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>							
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="/PortalClientes/resources/files/PC_Manual_de_Usuario_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>		
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
 										</h:panelGroup>
 										<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
-											<li><h:outputLink value="/PortalClientes/resources/files/PC_Manual_de_Usuario_br.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink></li>								
+											<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_br.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
 										</h:panelGroup>	
 								    </sec:authorize>
 
 									<!-- Manual de administrador -->
-									<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">								
-										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+									<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">			
+										<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 									</sec:authorize>
-					    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">								
-										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+					    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">
+					    				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 									</sec:authorize>
-						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">								
-										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">
+										<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 									</sec:authorize>
-						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">								
-										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">							<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 									</sec:authorize>
-						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">								
-										<li><h:outputLink value="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf" target="_blank">#{lblMain.manualAdmin}</h:outputLink></li>
-									</sec:authorize>																
-								</ul>        		
+						   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">							<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
+									</sec:authorize>
+								</div>
 		                	</li>
 		                </h:panelGroup>
 		                
 		                <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-	<!-- 		                <h:panelGroup rendered="#{sec:areAllGranted('ROLE_ADMIN_MEMBER')}"> -->
 			                <h:panelGroup>
 			                	<li class="dropdown">
-			                		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">                		
+			                		<a href="/PortalClientes/#" class="dropdown-toggle disabled nav-item nav-link textMenuStyle" data-toggle="dropdown">
 			                			#{lblMain.adminOps}
 			                		</a>
-			                		<ul class="dropdown-menu" role="menu">
-			                		    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
-				                			<li><h:link outcome="/admin/listadoClientes" value="#{lblMain.clientesRegistados}" /></li>
-				                			<li><h:link outcome="/admin/altaCliente" value="#{lblMain.altaCliente}" /></li>		                		
-				                			<li><h:link outcome="/admin/altaMasiva" value="#{lblMain.altaClienteMasiva}" /></li>
-				                			<li><h:link outcome="/admin/listadoUsuarios" value="#{lblMain.altaUsuario}" /></li>
-				                		</sec:authorize>
-				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-				                		                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-				                			<li><h:link outcome="/ejecutivo/EnvioMasivoSociedadClienteCorreo" value="#{lblMain.ttlEnvioMasivoEstadoCuenta}" /></li>
-				                		</sec:authorize>
-				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">		                		
-					                		<li class="menu-item dropdown dropdown-submenu">
-		                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuClienteVendedor}</a>
-		                            			<ul class="dropdown-menu">
-		                                			<li class="menu-item ">
-		                                    			<h:link outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                                    			                                    			
-		                                    			<h:link outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
-		                                			</li>
-		                            			</ul>
-		                       				 </li>
-		                       			</sec:authorize>
-	                       				 <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">	                                            
-						                		<li class="menu-item dropdown dropdown-submenu">
-			                            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{lblMain.menuSociedadClienteCorreo}</a>
-			                            			<ul class="dropdown-menu">
-			                                			<li class="menu-item ">
-			                                    			<h:link outcome="/ejecutivo/altaSociedadClienteCorreo" value="#{lblMain.menuIndividual}" />                                    			                                    			
-			                                    			<h:link outcome="/ejecutivo/altaMasivaSociedadClienteCorreo" value="#{lblMain.menuMasiva}" />
-			                                			</li>
-			                            			</ul>
-			                       				 </li>
-		                       			  </sec:authorize>               				 
-			                		</ul>
-			                	</li>	                	
+			                	</li>            	
 			                </h:panelGroup>
-		                </sec:authorize>
-		                <ui:remove>	                	                	               
-			            	<li>
-			            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
-				            		#{lblMain.contactanos} 
-			            		</h:link>
-			            	</li>
-		            	</ui:remove>
+		                </sec:authorize>               	                	               
+		            	<li>
+		            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
+			            		#{lblMain.contactanos}
+		            		</h:link>
+		            	</li>
 		          	</ul>
 		          	<ul class="navbar-nav ml-auto">
-                  	    
-		          	
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
 		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
 		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
@@ -258,12 +211,10 @@
 			              		</a>
 		              			<ul class="dropdown-menu" role="menu">
 		                			<li class="dropdown-header">#{lblmain.opciones}</li>
-		                			<li><h:link outcome="/cuenta/index" value="#{lblMain.miCuenta}" /></li>                			                			
+		                			<li><h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" /></li>                			                			
 		                			<li class="divider"></li>
 		                			<li>
-		                				<h:form style="padding:3px 20px">
-		                					<h:commandLink value="#{lblMain.salir}" action="#{template.salir}"/>
-		                				</h:form>
+		                				<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
 		                			</li>
 		              			</ul>
 			            	</li>
@@ -273,11 +224,15 @@
 			</nav>
 		</h:form>
 	</ui:insert>
-	
+
+	<!-- cuerpo -->
 	<ui:insert name="content">
-				
-	</ui:insert>
 	
+	</ui:insert>
+
+	<ui:insert name="modal">
+	</ui:insert>
+
 	<ui:insert name="footer">
 		<!-- Footer -->
 		<footer>
@@ -296,9 +251,6 @@
 			</h:panelGroup>
 		</footer>
 		<!-- End of Footer -->
-	</ui:insert>
-	
-	<ui:insert name="modal">
 	</ui:insert>
 
 	<!-- Bootstrap core JavaScript-->

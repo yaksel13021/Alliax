@@ -15,8 +15,8 @@
 				<!-- Main Content -->
 				<h:panelGroup layout="block" styleClass="container cardContainer">
 					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
-						<h:panelGroup layout="block" styleClass="row">
-							<h:link outcome="misPedidos" styleClass="w-100-percent">
+						<h:panelGroup layout="block" styleClass="row" rendered="#{template.usuarioLogueado.pais eq 'MX'}">
+							<h:link outcome="/pedidos/listado" styleClass="w-100-percent">
 								<h:panelGroup layout="block" styleClass="card mb-0 FondoAzulFuerte whiteColor">
 									<h:panelGroup layout="block"
 										styleClass="row no-gutters h-100-percent">
@@ -40,7 +40,7 @@
 						</h:panelGroup>
 					</sec:authorize>
 					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
-						<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="row" rendered="#{template.usuarioLogueado.pais eq 'MX'}">
 							<h:link outcome="/consultaExistencia" styleClass="w-100-percent">
 								<h:panelGroup layout="block"
 									styleClass="card mb-0 FondoAzulMedio whiteColor">
