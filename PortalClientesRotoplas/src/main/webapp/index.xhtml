@@ -10,8 +10,15 @@
       
 <h:body>
 	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewParam name="error" value="#{login.returnCode}" required="false" />
+				<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
+			</f:metadata>
+		</ui:define>
 		<ui:define name="content">
 			<h:form id="login">
+				<h:inputHidden value="#{login.cambiaPassword}" />
 				<!-- Main Content -->
 				<h:panelGroup layout="block" styleClass="main">
 					<h:panelGroup layout="block" styleClass="container-fluid wrapper">
@@ -46,9 +53,9 @@
 														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
 													<hr />
 													<h:panelGroup layout="block" styleClass="text-center pt-1">
-														<h:commandLink action="recuperaPassword" styleClass="small LetraEstilo">
+														<h:link outcome="recuperaPassword" styleClass="small LetraEstilo">
 															#{lblMain.restearPwd}
-														</h:commandLink>
+														</h:link>
 													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>
