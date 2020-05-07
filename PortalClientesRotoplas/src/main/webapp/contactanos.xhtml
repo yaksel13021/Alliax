@@ -14,7 +14,7 @@
 		<ui:define name="content">	
 					<script>
 						$(document).ready(function(){
-							$('#myForm').submit(function(event){							
+							$('#form').submit(function(event){							
 								//event.preventDefault();			                                
 							});	
 						});
@@ -27,15 +27,13 @@
 				</div>
 			</h:panelGroup>
 			
-			<form id="myForm" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
-			    
+			<form id="form" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
 				<input type="hidden" name="orgid" value="00D550000006xEA"/>
 				<input type="hidden" name="retURL" value="http://portalsrmqas.rotoplas.com:50003/PortalClientes/contactanos.xhtml?sended=true"/>
 				<input type="hidden" id="00N55000003mwzK" maxlength="50" name="00N55000003mwzK" size="20" value="#{template.usuarioLogueado.noCliente}"/>
 				<input type="hidden" id="00N55000003mwzP" maxlength="50" name="00N55000003mwzP" size="20" />
 				<input type="hidden" id="external" name="external" value="1" />				
 				<input type="hidden" id="email" maxlength="80" name="email" size="20"  value="#{template.usuarioLogueado.email}"/>
-								
 				<div class="container-fluid">
 					<div class="form-group row">
 						<div class="col-md-2">
@@ -45,7 +43,6 @@
 							<input id="name" maxlength="80" name="name" size="20" type="text" class="form-control input-sm" required="true"/>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Teléfono</label>
@@ -54,7 +51,6 @@
 							<input  id="phone" maxlength="14" name="phone" size="20" type="text" class="form-control input-sm" required="true"/>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Email</label>
@@ -63,7 +59,6 @@
 							<input id="00N55000003mpKo" maxlength="80" name="00N55000003mpKo" size="20" type="email" class="form-control input-sm" required="true"/>							
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Motivo de la queja</label>
@@ -84,7 +79,6 @@
 							</select>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Planta</label>
@@ -109,7 +103,6 @@
 							</select>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Tipo de Documento</label>
@@ -127,7 +120,6 @@
 							</select>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">No. de documento</label>
@@ -136,7 +128,6 @@
 							<input  id="00N55000003mpLD" name="00N55000003mpLD" size="20" type="text" class="form-control input-sm"/>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label">Comentarios</label>
@@ -145,7 +136,6 @@
 							<textarea  id="00N55000003mpLI" name="00N55000003mpLI" rows="5" type="text" wrap="soft" class="form-control" required="true"></textarea>
 						</div>						
 					</div>
-					
 					<div class="form-group row">
 						<div class="col-md-2">
 							<label class="control-label"> </label>
@@ -156,25 +146,16 @@
 						       <!--<option value="01255000000YHIC">RT Queja</option>-->
 						    </select> 
 						</div>
-					</div>
-					
-																								
+					</div>																		
 					<div class="form-group row">
 						<div class="col-md-2">							
 						</div>
 					    <div class="col-md-3">														
 							<input type="submit" name="submit" value="Enviar Petición" class="btn btn-primary" />
 						</div>						
-					</div>
-					
-									
-										
+					</div>				
 				</div>
-				
 			</form>
-		 					 					 			
-		 				 						  			  																																			
-				
 		</ui:define>
 	
 	</ui:composition>

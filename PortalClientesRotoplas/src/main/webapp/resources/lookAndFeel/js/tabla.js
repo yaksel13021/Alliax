@@ -670,7 +670,7 @@ var dataEstCuenta = [{
   Npedido: "0000598133",
   ordenDeCompra: "507175",
   factSap: "1100529741",
-  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F	",
+  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F ",
   xml: "",
   pdf: "",
   facturaRelac: "90187898",
@@ -697,11 +697,11 @@ $(document).ready(function () {
   }
 
   var expampleDTFunc = function (data) {
-    $expampleDT = $("#example").DataTable({
+    $expampleDT = $("[id='form:example']").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      data: data,
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
 
@@ -755,11 +755,11 @@ $(document).ready(function () {
   // expampleDTFunc(inpescIngreso);
 
   var example2Func = function (data) {
-    $example2 = $("#example2").DataTable({
+    $example2 = $("[id='form:example2']").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      data: data,
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
       columns: [
@@ -815,11 +815,11 @@ $(document).ready(function () {
 
 
   var example3Func = function (data) {
-    $example3 = $("#example3").DataTable({
+    $example3 = $("[id='form:example3']").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      data: data,
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
       columns: [
@@ -960,17 +960,17 @@ $(document).ready(function () {
       }, 200);
     });
 
-    $("#setFilters").off().on('click', function (e) {
-      var estatus = $("#select_estatus :selected").val(),
-        fechaInicio = $("#date_start").val(),
-        fechaFin = $("#date_end").val(),
-        por = $("#select_por :selected").val();
+    $("[id='form:setFilters']").off().on('click', function (e) {
+      var estatus = $("[id='form:select_estatus'] :selected").val(),
+        fechaInicio = $("[id='form:frm_fechaIni']").val(),
+        fechaFin = $("[id='form:frm_fechaFin']").val(),
+        por = $("[id='form:frm_tipoDocumento'] :selected").val();
 
       var filter = inpescIngreso.filter(function (a, b) {
         var convFecha = moment(a.creado, 'DD/MM/YYYY');
         return (!fechaInicio || convFecha >= moment(fechaInicio, 'DD/MM/YYYY')) &&
-          (!fechaFin || convFecha <= moment(fechaFin, 'DD/MM/YYYY')) &&
-          (!estatus || estatus == 0 || a.estatusId == estatus)
+          (!fechaFin || convFecha <= moment(fechaFin, 'DD/MM/YYYY')) /*&&
+          (!estatus || estatus == 0 || a.estatusId == estatus)*/
       });
 
       if (por) {
