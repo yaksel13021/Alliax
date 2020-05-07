@@ -701,7 +701,7 @@ $(document).ready(function () {
       paging: true,
       searching: false,
       lengthChange: false,
-      /*data: data,*/
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
 
@@ -755,11 +755,11 @@ $(document).ready(function () {
   // expampleDTFunc(inpescIngreso);
 
   var example2Func = function (data) {
-    $example2 = $("#example2").DataTable({
+    $example2 = $("[id='form:example2']").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      data: data,
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
       columns: [
@@ -815,11 +815,11 @@ $(document).ready(function () {
 
 
   var example3Func = function (data) {
-    $example3 = $("#example3").DataTable({
+    $example3 = $("[id='form:example3']").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      data: data,
+      /*data: data, */
       scrollY: true,
       "scrollX": true,
       columns: [

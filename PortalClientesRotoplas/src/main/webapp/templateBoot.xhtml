@@ -61,20 +61,16 @@
 					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
 					<ul class="navbar-nav">
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
-								<li>
-									<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
-									<span style="padding-right: 9px;" />
-											#{lblMain.pedidos}
-									</h:link>
-			            		</li>       		
+							<li>
+								<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
+								<span style="padding-right: 9px;" />
+										#{lblMain.pedidos}
+								</h:link>
+		            		</li>       		
 		            	</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
-		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
-		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
-		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+		            								,ROLE_ADMIN_MEMBER">
 			            	<li>
 			            		<h:link outcome="/cotizaciones" styleClass="nav-item nav-link textMenuStyle ">
 						         #{lblMain.cotizaciones}</h:link>
@@ -91,13 +87,9 @@
 		            	</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
-		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
-		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
-		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+		            								,ROLE_ADMIN_MEMBER">
 			            	<li>
-			            		<h:link outcome="/estadoCuenta" rendered="true" styleClass="nav-item nav-link textMenuStyle">
+			            		<h:link outcome="/estadoCuenta/listado" styleClass="nav-item nav-link textMenuStyle">
 				            		<span style="padding-right: 9px;" />
 				            		#{lblMain.estadoCuenta}
 			            		</h:link>
