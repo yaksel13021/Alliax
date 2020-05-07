@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("materialService")
@@ -49,4 +55,60 @@ public class MaterialServiceImpl implements MaterialService {
         return materialRepository.findByTipoMaterialOrderByDescripcionAsc(tipoMaterial);
     }
 
+    @Override
+    public void loadFromFile(InputStream inputStream, String tipoMaterial) {
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        Material material = null;
+        String[] materialData = null;
+
+        List<Material> records = new ArrayList<>();
+
+        //Estructura de linea
+        //SKU,DESCRIPCION, UNIDAD_MEDIDA, URL_FOTO
+        try {
+
+            br = new BufferedReader(new InputStreamReader(inputStream));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                materialData = line.split(cvsSplitBy);
+
+                material.setSku(materialData[0]);
+
+                if(materialData.length>1) {
+                    material.setDescripcion(materialData[1]);
+                }
+
+                if(materialData.length>2) {
+                    material.setUnidadMedida(materialData[2]);
+                }
+
+                if(materialData.length>3) {
+                    material.setUrlFoto(materialData[3]);
+                }
+                material.setTipoMaterial(tipoMaterial);
+
+                records.add(material);
+            }
+
+            if(records.size() > 0) {
+                materialRepository.save(records);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 }

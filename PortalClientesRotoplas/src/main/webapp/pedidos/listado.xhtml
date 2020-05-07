@@ -34,7 +34,7 @@
 						<h:inputHidden value="true">
 							<f:validator binding="#{listadoPedidosValidator}" />
 							<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
-							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />							
+							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
 							<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 							<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
 						</h:inputHidden>
@@ -46,6 +46,7 @@
 										data-target="#expandable1" aria-expanded="true"
 										aria-controls="expandable1" type="button" 
 										style="background-color: #236192;color: white;">
+										<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
 										<h5 class="mb-0">#{lblMain.filtros}</h5>
 									</div>
 									<div id="expandable1"
@@ -55,12 +56,10 @@
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
-														<h:outputLabel for="select_estatus" 
-															styleClass="labelLeftInput fillWidthAvaible">
+														<h:outputLabel for="select_estatus" styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.estatus}
 														</h:outputLabel>
-														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive"
-															id="select_estatus" name="select_estatus" required="true" >
+														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="select_estatus">
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 														</h:selectOneMenu>
 													</h:panelGroup>
@@ -137,11 +136,8 @@
 													<h:commandButton action="#{listaPedidos.buscaPedidos}"
 														 styleClass="btn btn-primary float-right" 
 														 value="#{lblMain.aplicarFiltro}" id="setFilters" >
-														 <f:ajax execute="setFilters" render="table1 expandable1" />
-													</h:commandButton> 
-													<!-- <button id="setFilters" class="btn btn-primary float-right" role="button"
-			                                            name="setFilters">Aplicar
-			                                            filtros</button>  -->
+														 <f:ajax execute="setFilters" render="expandable1 example" />
+													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
 										</h:panelGroup>
@@ -149,38 +145,39 @@
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
-						<h:panelGroup layout="block" styleClass="row hidden exampleContent" id="table1">
+						<h:panelGroup layout="block" styleClass="row hidden exampleContent">
 							<h:panelGroup layout="block" styleClass="col-12">
 								<h:panelGroup layout="block" styleClass="card text-center">
 									<h:panelGroup layout="block" styleClass="card-body">
-										<h:dataTable value="#{listaPedidos.listadoPedidos}" var="pedido" styleClass="table table-striped  table-hover" rendered="#{not empty listaPedidos.listadoPedidos}" style="width: 100%" id="example">
-											<thead>
-												<tr>
-													<th>#{lblMain.docComercial}</th>
-													<th>#{lblMain.pedido}</th>
-													<th>#{lblMain.monto}</th>
-													<th>#{lblMain.fechaCreacion}</th>
-													<th>#{lblMain.estatus}</th>
-													<th>#{lblMain.destinatario}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
-													<tr>				
-						    							<th><h:outputLabel value="#{pedido.documentoComercial}" /></th>						
-						    							<th><h:outputLabel value="#{pedido.pedidoCliente}" /></th>				
-														<th><h:outputLabel value="#{pedido.monto}">
-															<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-														</h:outputLabel> #{pedido.moneda}</th> 						
-														<th><h:outputLabel value="#{pedido.fechaCreacion}">
-															<f:convertDateTime dateStyle="default" />
-														</h:outputLabel></th>		
-						    							<th><h:outputLabel value="#{pedido.estatusGeneralDes}" /></th> 						
-						    							<th><h:outputLabel value="#{pedido.destinatario}" /></th>
-						    						</tr>
-												</ui:repeat>
-											</tbody>
-										</h:dataTable>
+										<table id="form:example" class="table table-striped  table-hover" width="100%">
+			                                <thead>
+			                                    <tr>
+			                                        <th>Doc. comercial</th>
+			                                        <th>Orden de compra</th>
+			                                        <th>Monto</th>
+			                                        <th>Creado</th>
+			                                        <th>Estatus</th>
+			                                        <th>Destino</th>
+			                                    </tr>
+			                                </thead>
+			                                <tbody>
+			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
+			                                		<tr>
+			                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>
+			                                			<td><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
+			                                			<td><h:outputLabel value="#{pedido.monto}">
+																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+															</h:outputLabel> #{pedido.moneda}</td>
+			                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
+																<f:convertDateTime dateStyle="default" />
+															</h:outputLabel></td>
+			                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
+			                                			<td><h:outputLabel value="#{pedido.destinatario}" />
+			                                			</td>
+			                                		</tr>
+			                                	</ui:repeat>
+			                                </tbody>
+			                            </table>
 									</h:panelGroup>
 								</h:panelGroup>
 							</h:panelGroup>
@@ -419,22 +416,22 @@
 															<tbody>
 																<ui:repeat value="#{detalle.partidas}" var="partida">
 																	<tr>			
-																		<th><h:outputLabel value="#{partida.posicion}" /></th>
-																		<th><h:outputLabel value="#{partida.noMaterial}" /></th>
-																		<th><h:outputLabel value="#{partida.descripcion}" /></th>
-																		<th><h:outputLabel value="#{partida.cantidadStr}" /></th>
-																		<th><h:outputLabel value="#{partida.cantidadEntregada}" /></th>
-																		<th><h:outputLabel value="#{partida.unidadMedida}" /></th>
-																		<th><h:outputLabel value="#{partida.monto}">
+																		<td><h:outputLabel value="#{partida.posicion}" /></td>
+																		<td><h:outputLabel value="#{partida.noMaterial}" /></td>
+																		<td><h:outputLabel value="#{partida.descripcion}" /></td>
+																		<td><h:outputLabel value="#{partida.cantidadStr}" /></td>
+																		<td><h:outputLabel value="#{partida.cantidadEntregada}" /></td>
+																		<td><h:outputLabel value="#{partida.unidadMedida}" /></td>
+																		<td><h:outputLabel value="#{partida.monto}">
 																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																		</h:outputLabel> #{partida.moneda}</th>
-																		<th><h:outputLabel value="#{partida.precioNeto}">
+																		</h:outputLabel> #{partida.moneda}</td>
+																		<td><h:outputLabel value="#{partida.precioNeto}">
 																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																		</h:outputLabel> #{partida.moneda}</th>
-																		<th><h:outputLabel value="#{partida.fechaEntrega}">
+																		</h:outputLabel> #{partida.moneda}</td>
+																		<td><h:outputLabel value="#{partida.fechaEntrega}">
 																			<f:convertDateTime dateStyle="default" />
-																		</h:outputLabel></th>
-																		<th><h:outputLabel value="#{partida.estatusGeneral}" /></th>
+																		</h:outputLabel></td>
+																		<td><h:outputLabel value="#{partida.estatusGeneral}" /></td>
 																	</tr>
 																</ui:repeat>
 															</tbody>
@@ -460,16 +457,16 @@
 															<tbody>
 																<ui:repeat value="#{detalle.facturas}" var="factura">
 																	<tr>
-																		<th><h:outputLabel value="#{factura.docFactura}" /></th>
-																		<th><h:outputLabel value="#{factura.fechaFactura}">
+																		<td><h:outputLabel value="#{factura.docFactura}" /></td>
+																		<td><h:outputLabel value="#{factura.fechaFactura}">
 																			<f:convertDateTime dateStyle="default" />
-																		</h:outputLabel></th>
-																		<th><h:outputLabel value="#{factura.montoImp}">
+																		</h:outputLabel></td>
+																		<td><h:outputLabel value="#{factura.montoImp}">
 																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																		</h:outputLabel> #{factura.moneda}</th>
-																		<th><h:outputLabel value="#{factura.montoNeto}">
+																		</h:outputLabel> #{factura.moneda}</td>
+																		<td><h:outputLabel value="#{factura.montoNeto}">
 																			<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																		</h:outputLabel></th>
+																		</h:outputLabel></td>
 																	</tr>
 																</ui:repeat>
 															</tbody>

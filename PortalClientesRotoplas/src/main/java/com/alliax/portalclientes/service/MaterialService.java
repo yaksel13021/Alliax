@@ -2,6 +2,7 @@ package com.alliax.portalclientes.service;
 
 import com.alliax.portalclientes.domain.Material;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface MaterialService {
@@ -14,4 +15,6 @@ public interface MaterialService {
     public List<Material> findByTipoMaterial(String tipoMaterial);
 
     public Material save(Material material);
+
+    public void loadFromFile(InputStream inputStream, String tipoMaterial);
 }
