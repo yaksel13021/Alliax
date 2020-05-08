@@ -162,11 +162,11 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<ui:repeat var="#{pedido.documentoComercial}" value="#{listaPedidos.listadoPedidos}">
-			                                		<h:commandButton id="guardaPedido">
-				                                		<tr>
+			                                	<ui:repeat var="#{pedido}" value="#{listaPedidos.listadoPedidos}">
+				                                	<tr>
+				                                		<h:commandButton>
 				                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>
-				                                			<td>><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
+				                                			<td><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
 				                                			<td><h:outputLabel value="#{pedido.monto}">
 																	<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 																</h:outputLabel> #{pedido.moneda}</td>
@@ -176,10 +176,10 @@
 				                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
 				                                			<td><h:outputLabel value="#{pedido.destinatario}" />
 				                                			</td>
-				                                		</tr>
-				                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
-				                                		<f:ajax execute="guardaPedido" render="modal" />
-				                                	</h:commandButton>
+					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+					                                		<f:ajax execute="@this" render="modal" />
+					                                	</h:commandButton>
+				                                	</tr>
 			                                	</ui:repeat>
 			                                </tbody>
 			                            </table>
@@ -191,7 +191,9 @@
 				</h:panelGroup>
 				<!-- End of Main Content -->
 				<f:view id="modal">
-					<f:viewParam action="#{detalle.cargaDetallePartidas}" />
+					<f:metadata>
+						<f:viewParam action="#{detalle.cargaDetallePartidas}" />
+					</f:metadata>
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 					aria-labelledby="myModal" aria-hidden="true">
 					<h:panelGroup layout="block"

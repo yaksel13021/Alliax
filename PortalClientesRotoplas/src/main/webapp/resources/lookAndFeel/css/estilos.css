@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Rotoplas-Bold-Web";
-  src: url("#{resource['lookAndFeel/fonts/Rotoplas-Regular-Web.ttf']}");
+  src: url("../fonts/Rotoplas-Regular-Web.ttf");
 }
 
 .FondoAzulOscuro {
@@ -772,27 +772,4 @@ table.dataTable tbody td.no-padding {
 .trigger-btn {
   display: inline-block;
   margin: 100px auto;
-}
-
-.card-header .title {
-  font-size: 17px;
-  color: #000;
-}
-.card-header .accicon {
-float: right;
-font-size: 20px;  
-width: 1.2em;
-}
-.card-header{
-cursor: pointer;
-border-bottom: none;
-}
-.card{
-border: 1px solid #ddd;
-}
-.card-body{
-border-top: 1px solid #ddd;
-}
-.card-header:not(.collapsed) .rotate-icon {
-transform: rotate(180deg);
 }
