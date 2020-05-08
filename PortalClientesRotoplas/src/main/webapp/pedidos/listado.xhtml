@@ -162,7 +162,7 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<ui:repeat var="#{pedido.documentoComercial}" value="#{listaPedidos.listadoPedidos}">
+			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
 			                                		<h:commandButton>
 				                                		<tr>
 				                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>

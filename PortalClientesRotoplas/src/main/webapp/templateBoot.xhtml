@@ -231,7 +231,8 @@
 			              			</strong>
 			              		</a>
 		              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		                			<h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" />               			                <h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
+		                			<!--<h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" />-->
+		                			<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
 		              			</div>
 			            	</li>
 			            </sec:authorize>
