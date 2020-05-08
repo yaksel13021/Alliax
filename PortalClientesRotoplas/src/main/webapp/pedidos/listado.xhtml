@@ -163,7 +163,7 @@
 			                                </thead>
 			                                <tbody>
 			                                	<ui:repeat var="#{pedido.documentoComercial}" value="#{listaPedidos.listadoPedidos}">
-			                                		<h:commandButton>
+			                                		<h:commandButton id="guardaPedido">
 				                                		<tr>
 				                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>
 				                                			<td>><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
@@ -178,7 +178,7 @@
 				                                			</td>
 				                                		</tr>
 				                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
-				                                		<f:ajax execute="@this" render="modal" />
+				                                		<f:ajax execute="guardaPedido" render="modal" />
 				                                	</h:commandButton>
 			                                	</ui:repeat>
 			                                </tbody>
@@ -191,7 +191,7 @@
 				</h:panelGroup>
 				<!-- End of Main Content -->
 				<f:view id="modal">
-					<f:viewAction action="#{detalle.cargaDetallePartidas}" />
+					<f:viewParam action="#{detalle.cargaDetallePartidas}" />
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 					aria-labelledby="myModal" aria-hidden="true">
 					<h:panelGroup layout="block"
@@ -352,6 +352,9 @@
 											styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 											<h:panelGroup layput="block"
 												style="display: inline-block; width: 100%; overflow-y: auto;">
+												<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
+													<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+												</h:commandButton>
 												<ul class="timeline" id="timeline">
 													<li class="li #{detalle.pedido.estatusGeneral eq 'Vsac' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
@@ -480,6 +483,9 @@
 								</h:panelGroup>
 								<!-- Modal footer -->
 								<h:panelGroup layout="block" styleClass="modal-footer">
+                                	<h:commandButton id="cancelarPedido" styleClass="btn btn-primary float-left" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}" value="#{lblMain.btnCancelarPedido}">
+										<f:ajax execute="cancelarPedido" render="example2" />
+									</h:commandButton>
 									<button class="btn btn-danger" data-dismiss="modal">
 										#{lblMain.btnCerrar}
 									</button>
