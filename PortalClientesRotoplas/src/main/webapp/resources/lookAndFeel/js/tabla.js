@@ -670,7 +670,7 @@ var dataEstCuenta = [{
   Npedido: "0000598133",
   ordenDeCompra: "507175",
   factSap: "1100529741",
-  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F	",
+  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F ",
   xml: "",
   pdf: "",
   facturaRelac: "90187898",
@@ -951,7 +951,7 @@ $(document).ready(function () {
     //   example3Func(data3);
     // });
 
-    $('#example tbody').off().on('click', 'tr', function () {
+    $("[id='form:example'] tbody").off().on('click', 'tr', function () {
       var data = $expampleDT.row(this).data();
       $("#myModal").modal("toggle");
       if ($example2) {
