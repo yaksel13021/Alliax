@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
       
 <h:body>
-	<ui:composition template="template.xhtml">
-		<ui:define name="top">
-			<h:form id="navegacion">
-				<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
-					<h:commandLink action="#" class="navbar-brand">
-						<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}"
-							height="70" alt="Rotoplas" />
-					</h:commandLink>
-
-					<h:panelGroup layout="block" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            			<i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-					</h:panelGroup>
-				</nav>
-			</h:form>
+	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewParam name="error" value="#{login.returnCode}" required="false" />
+				<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
+			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<h:form id="login">
+				<h:inputHidden value="#{login.cambiaPassword}" />
 				<!-- Main Content -->
-				<h:panelGroup layout="block" class="main">
-					<h:panelGroup layout="block" class="container-fluid outer">
-						<h:panelGroup layout="block" class="row justify-content-center middle">
-							<h:panelGroup layout="block" class="col-xl-10 col-lg-12 col-md-9">
+				<h:panelGroup layout="block" styleClass="main">
+					<h:panelGroup layout="block" styleClass="container-fluid wrapper">
+						<h:panelGroup layout="block" styleClass="row justify-content-center">
+							<h:panelGroup layout="block" styleClass="col-xl-10 col-lg-12 col-md-9">
 								<h4 class="colorTitulos">#{lblMain.portalCD}</h4>
-								<h:panelGroup layout="block" class="card o-hidden border-0 shadow-lg" style="background-color: #236192 !important;">
-									<h:panelGroup layout="block" class="card-body p-0 h-100-percent">
+								<h:panelGroup layout="block" styleClass="card o-hidden border-0 shadow-lg" style="background-color: #236192 !important;">
+									<h:panelGroup layout="block" styleClass="card-body p-0 h-100-percent">
 										<!-- Nested Row within Card Body -->
-										<h:panelGroup layout="block" class="row">
-											<h:panelGroup layout="block" class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-												<h:graphicImage value="#{resource['lookAndFeel/img/log.png']}" class="w-100-percent h-100-percent"
+										<h:panelGroup layout="block" styleClass="row">
+											<h:panelGroup layout="block" styleClass="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+												<h:graphicImage value="#{resource['lookAndFeel/img/log.jpg']}" styleClass="w-100-percent h-100-percent"
 													alt="#{lblMain.portalCD}" />
 											</h:panelGroup>
-											<h:panelGroup layout="block" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-												<h:panelGroup layout="block" class="pb-5 pr-5 pl-5 pt-2">
+											<h:panelGroup layout="block" styleClass="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+												<h:panelGroup layout="block" styleClass="pb-5 pr-5 pl-5 pt-5">
 													<h1 class="h4  mb-4 LetraEstilo">#{lblMain.registro}</h1>
-													<h:panelGroup layout="block" class="form-group">
-														<h:inputText 
-															class="form-control form-control-user"
-															id="j_username" aria-describedby="emailHelp"
+													<h:panelGroup layout="block" styleClass="form-group">
+														<h:inputText styleClass="form-control form-control-user"
+															id="j_username"
 															a:placeholder="#{lblMain.usrLogin}" required="true" value="#{login.usuario}"
 															requiredMessage="#{lblMain.usuarioReq}"/>
 													</h:panelGroup>
-													<h:panelGroup layout="block" class="form-group">
-														<h:inputSecret
-															class="form-control form-control-user"
+													<h:panelGroup layout="block" styleClass="form-group">
+														<h:inputSecret styleClass="form-control form-control-user"
 															id="j_password"
 															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
 															requiredMessage="#{lblMain.passwordReq}"/>
 													</h:panelGroup>
 	
-													<h:commandLink action="#{login.doLogin}"
-														class="btn botonEstilo btn-user btn-block"> #{lblMain.btnPortal} </h:commandLink>
+													<h:commandButton action="#{login.doLogin}" 
+														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
 													<hr />
-													<h:panelGroup layout="block" class="text-center pt-1">
-														<h:commandLink action="#" class="small LetraEstilo">
+													<h:panelGroup layout="block" styleClass="text-center pt-1">
+														<h:link outcome="recuperaPassword" styleClass="small LetraEstilo">
 															#{lblMain.restearPwd}
-														</h:commandLink>
+														</h:link>
 													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>

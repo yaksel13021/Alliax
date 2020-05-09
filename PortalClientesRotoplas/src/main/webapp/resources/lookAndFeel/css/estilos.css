@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Rotoplas-Bold-Web";
-  src: url("../fonts/Rotoplas-Regular-Web.ttf");
+  src: url("#{resource['lookAndFeel/fonts/Rotoplas-Regular-Web.ttf']}");
 }
 
 .FondoAzulOscuro {
@@ -671,6 +671,152 @@ table.dataTable tbody td.no-padding {
 
 .btn-warning:hover {
   background: #ddd;
-  color:   #212529;
+  color: #212529;
   border-color: #292a2b;
+}
+
+.resumenCuentaTabs .nav-tabs {
+  margin-bottom: 1rem;
+}
+
+/* MODAL DE CONFIRMACION */
+.modal-confirm {
+  color: #636363;
+  width: 400px;
+}
+.modal-confirm .modal-content {
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  align-items: center;
+}
+.modal-confirm .modal-header {
+  border-bottom: none;
+  position: relative;
+  width: 100%;
+}
+.modal-confirm h4 {
+  text-align: center;
+  font-size: 26px;
+  margin: 30px 0 -10px;
+}
+.modal-confirm .close {
+  position: absolute;
+  top: -5px;
+  right: -2px;
+}
+.modal-confirm .modal-body {
+  color: #999;
+}
+.modal-confirm .modal-footer {
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 10px 15px 25px;
+}
+.modal-confirm .modal-footer a {
+  color: #999;
+}
+.modal-confirm .icon-box {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  z-index: 9;
+  text-align: center;
+  border: 3px solid #f15e5e;
+}
+.modal-confirm .icon-box i {
+  color: #f15e5e;
+  font-size: 46px;
+  display: inline-block;
+  margin-top: 13px;
+}
+.modal-confirm .icon-box svg {
+  color: #f15e5e;
+  font-size: 46px;
+  display: inline-block;
+  margin-top: 13px;
+}
+.modal-confirm .btn {
+  color: #fff;
+  border-radius: 4px;
+  background: #60c7c1;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  min-width: 120px;
+  border: none;
+  min-height: 40px;
+  border-radius: 3px;
+  margin: 0 5px;
+  outline: none !important;
+}
+.modal-confirm .btn-info {
+  background: #c1c1c1;
+}
+.modal-confirm .btn-info:hover,
+.modal-confirm .btn-info:focus {
+  background: #a8a8a8;
+}
+.modal-confirm .btn-danger {
+  background: #f15e5e;
+}
+.modal-confirm .btn-danger:hover,
+.modal-confirm .btn-danger:focus {
+  background: #ee3535;
+}
+.trigger-btn {
+  display: inline-block;
+  margin: 100px auto;
+}
+
+card-header .title {
+  font-size: 17px;
+  color: #000;
+}
+.card-header .accicon {
+float: right;
+font-size: 20px;  
+width: 1.2em;
+}
+.card-header{
+cursor: pointer;
+border-bottom: none;
+}
+.card{
+border: 1px solid #ddd;
+}
+.card-body{
+border-top: 1px solid #ddd;
+}
+.card-header:not(.collapsed) .rotate-icon {
+transform: rotate(180deg);
+}
+
+.text-gray-300{color:#dddfeb!important}
+.border-left-primary{border-left:.25rem solid #4e73df!important}
+.pb-2,.py-2{padding-bottom:.5rem!important}
+.pt-2, .py-2 {
+  padding-top: .5rem!important;
+}
+.h-100 {
+  height: 100%!important;
+}
+.shadow {
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #e3e6f0;
+  border-radius: .35rem;
 }

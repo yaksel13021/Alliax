@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:sec="http://www.springframework.org/security/tags">
+      
+<h:body>
+  <ui:composition template="templateBoot.xhtml">
+    <ui:define name="metadata">
+      <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+    </ui:define>
+    <ui:define name="content">
+      <h:form id="login">
+      <!-- Main Content -->
+        <div class="container containerFiltersOne">
+          <div class="accordion" id="myAccordion">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div id="item1Header" class="card-header" type="button" data-toggle="collapse"
+                    data-target="#expandable1" aria-expanded="true" aria-controls="expandable1"
+                    style="background-color: #236192;color: white;">
+                    <h5 class="mb-0">Filtros</h5>
+                  </div>
+                  <div id="expandable1" class="collapse show" aria-labelledby="item1Header" data-parent="#myAccordion">
+                    <div class="card-body">
+                 
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <div class="form-group ">
+                            <label for="date_start" class=" ">Fecha de corte</label>
+                            <div class="input-group date date-start">
+                              <input id="date_start" name="date_start" type="text" class="form-control" />
+                              <div class="input-group-append">
+                                <span class="input-group-text far fa-calendar-alt"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <div class="f">
+                            <label for="select_buscarPor" class="">No Cotización</label>
+                            <input type="text" class="form-control" id="input_nMatDesc" name="input_nMatDesc"
+                              placeholder="">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <button id="buscar" class="btn btn-primary float-right" role="button"
+                            name="buscar">Buscar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+
+          <div class="row hidden">
+            <div class="col-12">
+              <div class="card text-center">
+                <div id="cardDynamicBody" class="card-body">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          
+        </div>
+      <!-- End of Main Content -->
+
+      </h:form>
+    </ui:define>
+
+      <!-- Bootstrap core JavaScript-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/PopperJs/popper.min.js"></script>
+      <script src="vendor/Bootstrap4/js/bootstrap.min.js"></script>
+
+      <!-- Core plugin JavaScript-->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+      <script src="vendor/Datatables/datatables.min.js"></script>
+      <script src="vendor/Datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+      <script src="vendor/Datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
+      <script src="vendor/Datatables/Responsive-2.2.3/js/dataTables.responsive.min.js"></script>
+      <script src="vendor/Datatables/Responsive-2.2.3/js/responsive.bootstrap4.min.js"></script>
+      <script src="vendor/Moment/moment.min.js"></script>
+      <script src="vendor/Select2/select2.min.js"></script>
+      <script src="vendor/Datepicker/js/bootstrap-datepicker.min.js"></script>
+      <script src="vendor/Datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+      <script src="vendor/Underscore/underscore.js"></script>
+      <script src="vendor/ChartJs/Chart.min.js"></script>
+      <script src="vendor/ChartJs/Labels/chartjs-plugin-labels.js"></script>
+      <script src="vendor/ChartJs/Plugins/Datalabels/chartjs-plugin-datalabels.min.js"></script>
+     
+     
+      <script src="vendor/Underscore/underscore.js"></script>
+    <script src="vendor/Toastr/toastr.min.js"></script>
+    <script src="vendor/Mustache/mustache.min.js"></script>
+      <script src="vendor/MatchHeight/jquery.matchHeight-min.js"></script>
+    
+      <script src="vendor/Moment/moment.min.js"></script>
+      <script src="js/tools-table-v2.js"></script>
+      <script src="js/sessionStorage.js"></script>
+      <script src="js/commonFunctions.js"></script>
+      <script src="js/cotizaciones.js"></script>
+      
+      <script id="select2_template" type="x-tmpl-mustache">
+        {{#.}}
+        <option value="{{value}}" data-identifier="{{identifier}}" {{{dataAtributos}}}>{{descripcion}}</option>
+        {{/.}}
+    </script>
+
+    <script id="button_template" type="x-tmpl-mustache">
+      <button id="{{id}}" class="btn btn-primary {{class}}" role="{{role}}" name="{{name}}">{{text}}</button>
+  </script>
+
+    <script id="listaCotizacion_template" type="x-tmpl-mustache">
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+                  <div id="dt_searchListaCotizacion_content" style="width: 100%">
+                      <table id="dt_searchListaCotizacion" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
+                          <thead>
+                              <tr>
+                                  <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+                                  <th class="no-wrap" data-prority="1" data-dt-columnName="nCotizar" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>No cotización</th>
+                                  <th class="no-wrap" data-prority="2" data-dt-columnName="material" data-columnWidth="25%" data-dt-orderable>Material</th>
+                                  <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
+                                  <th class="no-wrap" data-prority="4" data-dt-columnName="cantidad" data-columnWidth="25%" data-dt-orderable>Cantidad</th>
+                                  <th class="no-wrap" data-prority="5" data-dt-columnName="UnidadMedida" data-columnWidth="25%" data-dt-orderable>Unidad de medida</th>
+                                  <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
+                                  <th class="no-wrap" data-prority="5" data-dt-render="free" data-columnWidth="25%" data-dt-orderable>Acción</th>
+                              </tr>
+                          </thead>
+                          <tbody></tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <br>
+      </div>
+  </script>
+
+  <script id="detallePedido_template" type="x-tmpl-mustache">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+                <div id="detallePedido_content" style="width: 100%">
+                    <table id="detallePedido" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
+                        <thead>
+                            <tr>
+                                <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+                                <th class="no-wrap" data-prority="1" data-dt-columnName="pos" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>Pos.</th>
+                                <th class="no-wrap" data-prority="2" data-dt-columnName="Nmaterial" data-columnWidth="25%" data-dt-orderable>No.Mat</th>
+                                <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
+                                <th class="no-wrap" data-prority="4" data-dt-columnName="cant" data-columnWidth="25%" data-dt-orderable>Cant.</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="cantEnt" data-columnWidth="25%" data-dt-orderable>Cant. ent</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable>UM</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="25%" data-dt-orderable>Monto</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="precNeto" data-columnWidth="25%" data-dt-orderable>Precio neto</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="fecEnt" data-columnWidth="25%" data-dt-orderable>Fec Ent</th>
+                                <th class="no-wrap" data-prority="5" data-dt-columnName="Estatus" data-columnWidth="25%" data-dt-orderable>Estatus</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button id="cotizar" class="btn btn-primary float-right" role="button"
+              name="buscar">Cotizar flete</button>
+          </div>
+        </div>
+    </div>
+</script>
+
+<script id="cotizacionFlete_template" type="x-tmpl-mustache">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group text-left">
+          <label for="" class=""><strong>Cotización</strong></label>
+          <label for="" id="Labelcotizacion"class="">12133434</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="form-group text-left">
+            <label for="" class=" ">Fecha de expiración</label>
+            <div class="input-group date date-start1">
+              <input id="date_startExpiracion" name="date_startExpiracion" type="text" class="form-control" />
+              <div class="input-group-append">
+                <span class="input-group-text far fa-calendar-alt"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="form-group text-left">
+            <label for="" class="">MXN</label>
+            <input type="text" class="form-control" id="input_nMatDesc" name="input_nMatDesc"
+              placeholder="">
+          </div>
+        </div>
+     
+    </div>
+      <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+              <div id="cotizacionFlete_content" style="width: 100%">
+                  <table id="cotizacionFlete" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
+                      <thead>
+                          <tr>
+                              <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+                              <th class="no-wrap" data-prority="1" data-dt-columnName="pos" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>Pos.</th>
+                              <th class="no-wrap" data-prority="2" data-dt-columnName="Nmaterial" data-columnWidth="25%" data-dt-orderable>No.Mat</th>
+                              <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
+                              <th class="no-wrap" data-prority="4" data-dt-columnName="cant" data-columnWidth="25%" data-dt-orderable>Cant.</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="cantEnt" data-columnWidth="25%" data-dt-orderable>Cant. ent</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable>UM</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="25%" data-dt-orderable>Monto</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="precNeto" data-columnWidth="25%" data-dt-orderable>Precio neto</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="fecEnt" data-columnWidth="25%" data-dt-orderable>Fec Ent</th>
+                              <th class="no-wrap" data-prority="5" data-dt-columnName="Estatus" data-columnWidth="25%" data-dt-orderable>Estatus</th>
+                          </tr>
+                      </thead>
+                      <tbody></tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <button id="grabar" class="btn btn-primary float-right" role="button"
+            name="buscar">Grabar</button>
+        </div>
+      </div>
+  </div>
+</script>
+  </ui:composition>
+</h:body>
+</html>
