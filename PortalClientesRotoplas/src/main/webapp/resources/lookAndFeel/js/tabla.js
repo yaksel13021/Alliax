@@ -670,7 +670,7 @@ var dataEstCuenta = [{
   Npedido: "0000598133",
   ordenDeCompra: "507175",
   factSap: "1100529741",
-  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F ",
+  factFiscal: "CAFDDCF0-792B-4803-A417-372A891F451F	",
   xml: "",
   pdf: "",
   facturaRelac: "90187898",
@@ -755,7 +755,7 @@ $(document).ready(function () {
   // expampleDTFunc(inpescIngreso);
 
   var example2Func = function (data) {
-    $example2 = $("[id='form:example2']").DataTable({
+    $example2 = $("#example2").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
@@ -815,7 +815,7 @@ $(document).ready(function () {
 
 
   var example3Func = function (data) {
-    $example3 = $("[id='form:example3']").DataTable({
+    $example3 = $("#example3").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
@@ -939,7 +939,20 @@ $(document).ready(function () {
       }, 100);
     });
 
-    $("tbody > tr .colorLetra").off().on("click", function () {
+    // $("tbody > tr .colorLetra").off().on("click", function () {
+    //   $("#myModal").modal("toggle");
+    //   if ($example2) {
+    //     $example2.clear().destroy();
+    //   }
+    //   if ($example3) {
+    //     $example3.clear().destroy();
+    //   }
+    //   example2Func(data2);
+    //   example3Func(data3);
+    // });
+
+    $('#example tbody').off().on('click', 'tr', function () {
+      var data = $expampleDT.row(this).data();
       $("#myModal").modal("toggle");
       if ($example2) {
         $example2.clear().destroy();
@@ -960,7 +973,7 @@ $(document).ready(function () {
       }, 200);
     });
 
-    $("[id='form:setFilters']").off().on('click', function (e) {
+    $("[id='form:setFilters']").off().on('click', function (e) { //[id='from:']
       var estatus = $("[id='form:select_estatus'] :selected").val(),
         fechaInicio = $("[id='form:frm_fechaIni']").val(),
         fechaFin = $("[id='form:frm_fechaFin']").val(),
