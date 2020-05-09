@@ -650,7 +650,7 @@ var inpescIngreso = [{
 },
 ];
 
-var dataEstCuenta = [{
+/*var dataEstCuenta = [{
   tipoDocumento: "Nota de Credito",
   Npedido: "0410040814",
   ordenDeCompra: "507228",
@@ -681,7 +681,7 @@ var dataEstCuenta = [{
   importe: "$22,500",
   estatus: "A VENCER"
 }
-]
+]*/
 
 $(document).ready(function () {
   var $expampleDT = null;
@@ -882,8 +882,8 @@ $(document).ready(function () {
         { data: "ordenDeCompra", class: "colorLetra1" },
         { data: "factSap", class: "colorLetra1" },
         { data: "factFiscal", class: "colorLetra1" },
-        { "defaultContent": '<button type="button" class="btn btn-primary btn-xs">XML</button>' },
-        { "defaultContent": '<button type="button" class="btn btn-danger btn-xs">PDF</button>' },
+        { data: "xml" },
+        { data: "pdf" },
         { data: "facturaRelac", class: "colorLetra1" },
         { data: "UUid", class: "colorLetra1" },
         { data: "fechaFact", class: "colorLetra1" },
@@ -895,7 +895,20 @@ $(document).ready(function () {
       columnDefs: [{
         targets: -1,
         className: "dt-body-right",
-      },],
+      },
+		{
+		  targets: 5,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+		  }
+		},
+		{
+		  targets: 6,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+		  }
+		}
+      ],
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         if (iDisplayIndex % 2 == 0) {
           $("td", nRow).css("background-color", "rgb(0,144,208,.3)");
@@ -1083,7 +1096,8 @@ $(document).ready(function () {
 });
 
 var initChartDoughnut = function () {
-  var model = [
+  var model = modelGrafica;
+   /*[
     {
       name: 'Dato1',
       value: '125'
@@ -1100,7 +1114,7 @@ var initChartDoughnut = function () {
       name: 'Dato3',
       value: '568'
     }
-  ];
+  ];*/
 
   var group = _.groupBy(model, function (a, e) { return a.name; });
   var keys = Object.keys(group);
@@ -1110,7 +1124,7 @@ var initChartDoughnut = function () {
     var current = group[keys[a]];
     modelDemo.push({
       key: keys[a],
-      total: current.length,
+      total: current[0].value,
       status: false,
       remaining: current
     });
