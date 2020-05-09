@@ -192,7 +192,7 @@
 				<f:view id="modal">
 					<c:when test="#{not empty sessionScope.pedidoSel}">
 						<f:metadata>
-							<f:viewAction action="#{detalle.cargaDetallePartidas}" />
+							<f:viewAction action="#{detalle.cargaDetallePartidas}" if="#{not empty sessionScope.pedidoSel}"/>
 						</f:metadata>
 					</c:when>
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -397,8 +397,7 @@
 											<li class="nav-item"><a class="nav-link "
 													href="#menu2">#{lblMain.facturas}
 												<f:ajax listener="#{detalle.obtieneFacturas}" event="click" execute="@this" />
-													
-												</a></li>
+											</a></li>
 										</ul>
 									</h:panelGroup>
 									<h:panelGroup layout="block" styleClass="card-body">
@@ -489,7 +488,7 @@
 								</h:panelGroup>
 								<!-- Modal footer -->
 								<h:panelGroup layout="block" styleClass="modal-footer">
-								<h:commandButton action="detalle.cancelarPedido(detalle.pedido.pedidoCliente)" id="cancelarPedido" styleClass="btn btn-primary float-left" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
+									<h:commandButton action="detalle.cancelarPedido(detalle.pedido.pedidoCliente)" id="cancelarPedido" styleClass="btn btn-primary float-left" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
 										<f:ajax execute="cancelarPedido" render="form:example" />
 									</h:commandButton>
 									<button class="btn btn-danger" data-dismiss="modal">
