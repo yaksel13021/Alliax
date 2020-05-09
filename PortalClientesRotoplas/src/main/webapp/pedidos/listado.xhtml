@@ -162,24 +162,54 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<ui:repeat var="#{pedido.documentoComercial}" value="#{listaPedidos.listadoPedidos}">
-			                                		<h:commandButton id="guardaPedido">
-				                                		<tr>
-				                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>
-				                                			<td>><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.monto}">
-																	<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																</h:outputLabel> #{pedido.moneda}</td>
-				                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
-																	<f:convertDateTime dateStyle="default" />
-																</h:outputLabel></td>
-				                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.destinatario}" />
-				                                			</td>
-				                                		</tr>
-				                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
-				                                		<f:ajax execute="guardaPedido" render="modal" />
-				                                	</h:commandButton>
+			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
+				                                	<tr>
+				                                		<td>
+				                                		<h:commandButton style="display: none; text-align: center;">
+				                                			<h:outputLabel value="#{pedido.documentoComercial}" />
+					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.pedidoCliente}" />
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton></td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.monto}">
+																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.fechaCreacion}">
+																<f:convertDateTime dateStyle="default" />
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.estatusGeneralDes}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+			                                			</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.destinatario}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+			                                			</td>
+				                                	</tr>
 			                                	</ui:repeat>
 			                                </tbody>
 			                            </table>
@@ -191,7 +221,11 @@
 				</h:panelGroup>
 				<!-- End of Main Content -->
 				<f:view id="modal">
-					<f:viewParam action="#{detalle.cargaDetallePartidas}" />
+					<c:when test="#{not empty sessionScope.pedidoSel}">
+						<f:metadata>
+							<f:viewAction action="#{detalle.cargaDetallePartidas}" if="#{not empty sessionScope.pedidoSel}"/>
+						</f:metadata>
+					</c:when>
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 					aria-labelledby="myModal" aria-hidden="true">
 					<h:panelGroup layout="block"
@@ -202,7 +236,7 @@
 							<!-- Modal Header -->
 							<h:panelGroup layout="block" styleClass="modal-header">
 								<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
-								<button id="closeModal" class="close" data-dismiss="modal" value="X" />
+								<button id="closeModal" class="close" data-dismiss="modal">X</button>
 							</h:panelGroup>
 
 							<!-- Modal body -->
@@ -353,30 +387,30 @@
 											<h:panelGroup layput="block"
 												style="display: inline-block; width: 100%; overflow-y: auto;">
 												<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
-													<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+													<f:setPropertyActionListener value="#{detalle.pedido}" target="#{sessionScope.pedidoSel}" />
 												</h:commandButton>
 												<ul class="timeline" id="timeline">
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Vsac' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Vsac}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Rele' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'RELE' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Rele}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Proc' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'PROC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Proc}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Pinv' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'PINV' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Pinv}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Conc' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'CONC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Conc}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Comp' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'COMP' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Comp}</h4>
 														</h:panelGroup></li>
@@ -392,14 +426,16 @@
 											<li class="nav-item"><a class="nav-link active"
 													href="#menu1">#{lblMain.partidas}</a></li>
 											<li class="nav-item"><a class="nav-link "
-													id="menu2Id" href="#menu2">#{lblMain.facturas}</a></li>
+													href="#menu2">#{lblMain.facturas}
+												<f:ajax listener="#{detalle.obtieneFacturas}" event="click" execute="@this" />
+											</a></li>
 										</ul>
 									</h:panelGroup>
 									<h:panelGroup layout="block" styleClass="card-body">
 										<h:panelGroup layout="block" id="nav-tabContent"
 											styleClass="tab-content">
-											<h:panelGroup layout="block" id="menu1"
-												styleClass="tab-pane active ">
+											<div id="menu1"
+												class="tab-pane active ">
 												<br />
 												<h:panelGroup layout="block" styleClass="row">
 													<h:panelGroup layout="block" styleClass="col-12">
@@ -443,9 +479,9 @@
 														</table>
 													</h:panelGroup>
 												</h:panelGroup>
-											</h:panelGroup>
-											<h:panelGroup layout="block" id="menu2"
-												styleClass="container-fluid tab-pane fade pr-0 pl-0">
+											</div>
+											<div id="menu2"
+												class="container-fluid tab-pane fade pr-0 pl-0">
 												<br />
 												<h:panelGroup layout="block" styleClass="row">
 													<h:panelGroup layout="block" styleClass="col-12">
@@ -477,14 +513,14 @@
 														</table>
 													</h:panelGroup>
 												</h:panelGroup>
-											</h:panelGroup>
+											</div>
 										</h:panelGroup>
 									</h:panelGroup>
 								</h:panelGroup>
 								<!-- Modal footer -->
 								<h:panelGroup layout="block" styleClass="modal-footer">
-                                	<h:commandButton id="cancelarPedido" styleClass="btn btn-primary float-left" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}" value="#{lblMain.btnCancelarPedido}">
-										<f:ajax execute="cancelarPedido" render="example2" />
+									<h:commandButton action="#{detalle.cancelarPedido(detalle.pedido.pedidoCliente)}" id="cancelarPedido" styleClass="btn btn-primary float-left" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
+										<f:ajax execute="cancelarPedido" render="form:example" />
 									</h:commandButton>
 									<button class="btn btn-danger" data-dismiss="modal">
 										#{lblMain.btnCerrar}
