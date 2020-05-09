@@ -165,20 +165,49 @@
 			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
 				                                	<tr>
 				                                		<td>
-				                                		<h:commandLink style="text-decoration:none;color:black;">
-					                                		<h:outputLabel value="#{pedido.documentoComercial}" />
+				                                		<h:commandButton style="display: none; text-align: center;">
+				                                			<h:outputLabel value="#{pedido.documentoComercial}" />
 					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
 				                                			<f:ajax execute="@this" render="modal" />
-				                                		</h:commandLink></td>
-			                                			<td><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
-			                                			<td><h:outputLabel value="#{pedido.monto}">
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.pedidoCliente}" />
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton></td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.monto}">
 																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-															</h:outputLabel> #{pedido.moneda}</td>
-			                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.fechaCreacion}">
 																<f:convertDateTime dateStyle="default" />
-															</h:outputLabel></td>
-			                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
-			                                			<td><h:outputLabel value="#{pedido.destinatario}" />
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.estatusGeneralDes}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
+			                                			</td>
+			                                			<td>
+			                                			<h:commandButton style="display: none; text-align: center; ">
+			                                				<h:outputLabel value="#{pedido.destinatario}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render="modal" />
+				                                		</h:commandButton>
 			                                			</td>
 				                                	</tr>
 			                                	</ui:repeat>
