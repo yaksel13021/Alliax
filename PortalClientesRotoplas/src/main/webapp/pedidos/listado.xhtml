@@ -165,19 +165,21 @@
 			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
 				                                	<tr>
 				                                		<td>
-				                                		<h:commandLink style="text-decoration:none;color:black;"><h:outputLabel value="#{pedido.documentoComercial}" /><f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                		<h:commandLink style="text-decoration:none;color:black;">
+					                                		<h:outputLabel value="#{pedido.documentoComercial}" />
+					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
 				                                			<f:ajax execute="@this" render="modal" />
 				                                		</h:commandLink></td>
-				                                			<td><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.monto}">
-																	<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																</h:outputLabel> #{pedido.moneda}</td>
-				                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
-																	<f:convertDateTime dateStyle="default" />
-																</h:outputLabel></td>
-				                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.destinatario}" />
-				                                			</td>
+			                                			<td><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
+			                                			<td><h:outputLabel value="#{pedido.monto}">
+																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+															</h:outputLabel> #{pedido.moneda}</td>
+			                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
+																<f:convertDateTime dateStyle="default" />
+															</h:outputLabel></td>
+			                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
+			                                			<td><h:outputLabel value="#{pedido.destinatario}" />
+			                                			</td>
 				                                	</tr>
 			                                	</ui:repeat>
 			                                </tbody>
@@ -488,7 +490,7 @@
 								</h:panelGroup>
 								<!-- Modal footer -->
 								<h:panelGroup layout="block" styleClass="modal-footer">
-									<h:commandButton action="detalle.cancelarPedido(detalle.pedido.pedidoCliente)" id="cancelarPedido" styleClass="btn btn-primary float-left" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
+									<h:commandButton action="#{detalle.cancelarPedido(detalle.pedido.pedidoCliente)}" id="cancelarPedido" styleClass="btn btn-primary float-left" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
 										<f:ajax execute="cancelarPedido" render="form:example" />
 									</h:commandButton>
 									<button class="btn btn-danger" data-dismiss="modal">
