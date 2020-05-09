@@ -109,28 +109,31 @@ public class Helper {
 	 */
 	public static String getMontoFormateado(Object m, String pais){
 		String mf = "";
-		DecimalFormat df;
-		switch(pais){
+		try {
+			DecimalFormat df;
+			switch (pais) {
 			case "BR":
 				DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-				 dfs.setDecimalSeparator(',');
-				 dfs.setGroupingSeparator('.');
-				df = new DecimalFormat( getSignoPesos(pais) + "#,##0.00", dfs);
+				dfs.setDecimalSeparator(',');
+				dfs.setGroupingSeparator('.');
+				df = new DecimalFormat(getSignoPesos(pais) + "#,##0.00", dfs);
 				break;
-			default: 
-				df = new DecimalFormat( getSignoPesos(pais) + "#,##0.00" );
+			default:
+				df = new DecimalFormat(getSignoPesos(pais) + "#,##0.00");
+			}
+
+			if (m instanceof BigDecimal) {
+				mf = df.format(m);
+			} else if (m instanceof Integer) {
+				mf = df.format(m);
+			} else if (m instanceof String) {
+				mf = df.format(m);
+			} else {
+				mf = df.format(m);
+			}
+		} catch (Exception e) {
+
 		}
-		
-		if(m instanceof BigDecimal){
-			mf = df.format(m);
-		}else if(m instanceof Integer){
-			mf = df.format(m);
-		}else if(m instanceof String){
-			mf = df.format(m);
-		}else{
-			mf = df.format(m);
-		}
-		
 		return mf;
 	}
 	
