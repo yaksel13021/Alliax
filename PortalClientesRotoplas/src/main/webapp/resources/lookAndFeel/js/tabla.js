@@ -697,11 +697,11 @@ $(document).ready(function () {
   }
 
   var expampleDTFunc = function (data) {
-    $expampleDT = $("[id='form:example']").DataTable({
+    $expampleDT = $("#example").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      /*data: data, */
+      /*data: data,*/
       scrollY: true,
       "scrollX": true,
 
@@ -951,9 +951,13 @@ $(document).ready(function () {
     //   example3Func(data3);
     // });
 
-    $("[id='form:example'] tbody").off().on('click', 'tr', function () {
-      var data = $expampleDT.row(this).data();
-      $("#myModal").modal("toggle");
+    $("#example tbody").off().on('click', 'tr', function () {
+      var data = $expampleDT.row(0).data();
+      if(data != "" || data != null ){
+          /*example2Func(data2);
+          example3Func(data3);-*/
+          $("#myModal").modal("toggle");
+      }
       if ($example2) {
         $example2.clear().destroy();
       }
@@ -974,7 +978,7 @@ $(document).ready(function () {
     });
 
     $("[id='form:setFilters']").off().on('click', function (e) { //[id='from:']
-      var estatus = $("[id='form:select_estatus'] :selected").val(),
+      var estatus = $("[id='form:frm_estatus'] :selected").val(),
         fechaInicio = $("[id='form:frm_fechaIni']").val(),
         fechaFin = $("[id='form:frm_fechaFin']").val(),
         por = $("[id='form:frm_tipoDocumento'] :selected").val();
@@ -986,7 +990,7 @@ $(document).ready(function () {
           (!estatus || estatus == 0 || a.estatusId == estatus)*/
       });
 
-      if (por) {
+      /*if (por) {
         switch (por) {
           case '1':
             filter.sort(function (a, e) {
@@ -1001,7 +1005,7 @@ $(document).ready(function () {
           default:
             break;
         }
-      }
+      }*/
 
       if ($expampleDT) {
         $expampleDT.clear().destroy();
