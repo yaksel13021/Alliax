@@ -650,7 +650,7 @@ var inpescIngreso = [{
 },
 ];
 
-var dataEstCuenta = [{
+/*var dataEstCuenta = [{
   tipoDocumento: "Nota de Credito",
   Npedido: "0410040814",
   ordenDeCompra: "507228",
@@ -681,7 +681,7 @@ var dataEstCuenta = [{
   importe: "$22,500",
   estatus: "A VENCER"
 }
-]
+]*/
 
 $(document).ready(function () {
   var $expampleDT = null;
@@ -697,11 +697,11 @@ $(document).ready(function () {
   }
 
   var expampleDTFunc = function (data) {
-    $expampleDT = $("[id='form:example']").DataTable({
+    $expampleDT = $("#example").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
-      /*data: data, */
+      /*data: data,*/
       scrollY: true,
       "scrollX": true,
 
@@ -755,7 +755,7 @@ $(document).ready(function () {
   // expampleDTFunc(inpescIngreso);
 
   var example2Func = function (data) {
-    $example2 = $("[id='form:example2']").DataTable({
+    $example2 = $("#example2").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
@@ -815,7 +815,7 @@ $(document).ready(function () {
 
 
   var example3Func = function (data) {
-    $example3 = $("[id='form:example3']").DataTable({
+    $example3 = $("#example3").DataTable({
       paging: true,
       searching: false,
       lengthChange: false,
@@ -882,8 +882,8 @@ $(document).ready(function () {
         { data: "ordenDeCompra", class: "colorLetra1" },
         { data: "factSap", class: "colorLetra1" },
         { data: "factFiscal", class: "colorLetra1" },
-        { "defaultContent": '<button type="button" class="btn btn-primary btn-xs">XML</button>' },
-        { "defaultContent": '<button type="button" class="btn btn-danger btn-xs">PDF</button>' },
+        { data: "xml" },
+        { data: "pdf" },
         { data: "facturaRelac", class: "colorLetra1" },
         { data: "UUid", class: "colorLetra1" },
         { data: "fechaFact", class: "colorLetra1" },
@@ -895,7 +895,20 @@ $(document).ready(function () {
       columnDefs: [{
         targets: -1,
         className: "dt-body-right",
-      },],
+      },
+		{
+		  targets: 5,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+		  }
+		},
+		{
+		  targets: 6,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+		  }
+		}
+      ],
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         if (iDisplayIndex % 2 == 0) {
           $("td", nRow).css("background-color", "rgb(0,144,208,.3)");
@@ -939,8 +952,25 @@ $(document).ready(function () {
       }, 100);
     });
 
-    $("tbody > tr .colorLetra").off().on("click", function () {
-      $("#myModal").modal("toggle");
+    // $("tbody > tr .colorLetra").off().on("click", function () {
+    //   $("#myModal").modal("toggle");
+    //   if ($example2) {
+    //     $example2.clear().destroy();
+    //   }
+    //   if ($example3) {
+    //     $example3.clear().destroy();
+    //   }
+    //   example2Func(data2);
+    //   example3Func(data3);
+    // });
+
+    $("#example tbody").off().on('click', 'tr', function () {
+      var data = $expampleDT.row(0).data();
+      if(data != "" || data != null ){
+          /*example2Func(data2);
+          example3Func(data3);-*/
+          $("#myModal").modal("toggle");
+      }
       if ($example2) {
         $example2.clear().destroy();
       }
@@ -960,8 +990,8 @@ $(document).ready(function () {
       }, 200);
     });
 
-    $("[id='form:setFilters']").off().on('click', function (e) {
-      var estatus = $("[id='form:select_estatus'] :selected").val(),
+    $("[id='form:setFilters']").off().on('click', function (e) { //[id='from:']
+      var estatus = $("[id='form:frm_estatus'] :selected").val(),
         fechaInicio = $("[id='form:frm_fechaIni']").val(),
         fechaFin = $("[id='form:frm_fechaFin']").val(),
         por = $("[id='form:frm_tipoDocumento'] :selected").val();
@@ -973,7 +1003,7 @@ $(document).ready(function () {
           (!estatus || estatus == 0 || a.estatusId == estatus)*/
       });
 
-      if (por) {
+      /*if (por) {
         switch (por) {
           case '1':
             filter.sort(function (a, e) {
@@ -988,7 +1018,7 @@ $(document).ready(function () {
           default:
             break;
         }
-      }
+      }*/
 
       if ($expampleDT) {
         $expampleDT.clear().destroy();
@@ -1070,7 +1100,8 @@ $(document).ready(function () {
 });
 
 var initChartDoughnut = function () {
-  var model = [
+  var model = modelGrafica;
+   /*[
     {
       name: 'Dato1',
       value: '125'
@@ -1087,7 +1118,7 @@ var initChartDoughnut = function () {
       name: 'Dato3',
       value: '568'
     }
-  ];
+  ];*/
 
   var group = _.groupBy(model, function (a, e) { return a.name; });
   var keys = Object.keys(group);
@@ -1097,7 +1128,7 @@ var initChartDoughnut = function () {
     var current = group[keys[a]];
     modelDemo.push({
       key: keys[a],
-      total: current.length,
+      total: current[0].value,
       status: false,
       remaining: current
     });

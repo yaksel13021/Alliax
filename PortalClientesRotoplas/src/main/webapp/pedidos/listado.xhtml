@@ -10,7 +10,6 @@
 
 <h:body>
 	<ui:composition template="../templateBoot.xhtml">
-		
 		<ui:define name="content">
 		<!-- Main Content -->
 			<h:form id="form">
@@ -57,27 +56,28 @@
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
-														<h:outputLabel for="select_estatus" styleClass="labelLeftInput fillWidthAvaible">
+														<h:outputLabel for="frm_estatus" styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.estatus}
 														</h:outputLabel>
-														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="select_estatus">
+														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus">
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
 													<h:panelGroup layout="block" styleClass="form-group flex">
 														<h:outputLabel for="frm_rangoDias" 
 															styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.fecha}
 														</h:outputLabel>
-														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive">
+														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}">
 															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
-															<f:ajax execute="@this" render="boxFecha" />
+															<f:ajax execute="@this" render=":boxFechaI :boxfechaF @all"/>
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+											
+												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'F' || listaPedidos.rangoDias eq 'P'}">
 													<h:panelGroup layout="block"  styleClass="form-group flex">
 														<h:outputLabel for="frm_fechaIni"
 															styleClass="labelLeftInput fillWidthAvaible">
@@ -87,14 +87,15 @@
 															styleClass="input-group date date-start">
 															<h:inputText id="frm_fechaIni"
 																styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}"/>
+															<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
 															</h:panelGroup>
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-													<h:panelGroup layout="block" styleClass="form-group flex">
+												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'P'}" >
+													<h:panelGroup layout="block" styleClass="form-group flex" >
 														<h:outputLabel for="frm_fechaFin"
 															styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.fechaF}
@@ -102,7 +103,8 @@
 														<h:panelGroup layout="block"
 															styleClass="input-group date date-end">
 															<h:inputText id="frm_fechaFin"
-																styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}" />
+																styleClass="form-control" required="true" />
+															<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
 															</h:panelGroup>
@@ -111,7 +113,7 @@
 												</h:panelGroup>
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
-														<h:outputLabel for="select_por"
+														<h:outputLabel for="frm_tipoDocumento"
 															styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.por}
 														</h:outputLabel>
@@ -136,8 +138,8 @@
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<h:commandButton action="#{listaPedidos.buscaPedidos}"
 														 styleClass="btn btn-primary float-right" 
-														 value="#{lblMain.aplicarFiltro}" id="setFilters">
-														 <f:ajax execute="setFilters" render="form:example" immediate="true" />
+														 value="#{lblMain.aplicarFiltro}" id="setFilters" >
+														 <f:ajax execute=":setFilters" render="@this"  />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -149,8 +151,8 @@
 						<h:panelGroup layout="block" styleClass="row hidden exampleContent">
 							<h:panelGroup layout="block" styleClass="col-12">
 								<h:panelGroup layout="block" styleClass="card text-center" >
-									<h:panelGroup layout="block" styleClass="card-body">
-										<table id="form:example" class="table table-striped  table-hover" width="100%">
+									<h:panelGroup layout="block" styleClass="card-body" >
+										<table id="example" class="table table-striped  table-hover" width="100%">
 			                                <thead>
 			                                    <tr>
 			                                        <th>Doc. comercial</th>
@@ -162,24 +164,54 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<ui:repeat var="#{pedido.documentoComercial}" value="#{listaPedidos.listadoPedidos}">
-			                                		<h:commandButton id="guardaPedido">
-				                                		<tr>
-				                                			<td><h:outputLabel value="#{pedido.documentoComercial}" /></td>
-				                                			<td>><h:outputLabel value="#{pedido.pedidoCliente}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.monto}">
-																	<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																</h:outputLabel> #{pedido.moneda}</td>
-				                                			<td><h:outputLabel value="#{pedido.fechaCreacion}">
-																	<f:convertDateTime dateStyle="default" />
-																</h:outputLabel></td>
-				                                			<td><h:outputLabel value="#{pedido.estatusGeneralDes}" /></td>
-				                                			<td><h:outputLabel value="#{pedido.destinatario}" />
-				                                			</td>
-				                                		</tr>
-				                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
-				                                		<f:ajax execute="guardaPedido" render="modal" />
-				                                	</h:commandButton>
+			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
+				                                	<tr styleClass="tr:hover{text-color: white}">
+				                                		<td>
+				                                		<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+				                                			<h:outputLabel value="#{pedido.documentoComercial}" />
+					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
+				                                		</h:commandLink>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+			                                				<h:outputLabel value="#{pedido.pedidoCliente}" />
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
+				                                		</h:commandLink></td>
+			                                			<td>
+			                                			<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+			                                				<h:outputLabel value="#{pedido.monto}">
+																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
+				                                		</h:commandLink>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+			                                				<h:outputLabel value="#{pedido.fechaCreacion}">
+																<f:convertDateTime dateStyle="default" />
+															</h:outputLabel>
+															<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
+				                                		</h:commandLink>
+				                                		</td>
+			                                			<td>
+			                                			<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+			                                				<h:outputLabel value="#{pedido.estatusGeneralDes}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
+				                                		</h:commandLink>
+			                                			</td>
+			                                			<td>
+			                                			<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+			                                				<h:outputLabel value="#{pedido.destinatario}" />
+			                                				<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:ajax execute="@this" render=":modal" immediate="true" />
+				                                		</h:commandLink>
+			                                			</td>
+				                                	</tr>
 			                                	</ui:repeat>
 			                                </tbody>
 			                            </table>
@@ -190,19 +222,26 @@
 					</div>
 				</h:panelGroup>
 				<!-- End of Main Content -->
-				<f:view id="modal">
-					<f:viewParam action="#{detalle.cargaDetallePartidas}" />
+				<f:view id="modal" >
+					<c:when test="#{not empty sessionScope and not empty listaPedidos.listadoPedidos}">
+						<f:metadata>
+							<f:viewAction action="#{detalle.cargaDetallePartidas}" onPostback="true" if="#{not empty sessionScope.pedidoSel}"/>
+						</f:metadata>
+					</c:when>
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-					aria-labelledby="myModal" aria-hidden="true">
+					aria-labelledby="myModal">
 					<h:panelGroup layout="block"
 						styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
-						role="document">
+						role="document" >
 						<h:panelGroup layout="block" styleClass="modal-content">
 
 							<!-- Modal Header -->
 							<h:panelGroup layout="block" styleClass="modal-header">
 								<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
-								<button id="closeModal" class="close" data-dismiss="modal" value="X" />
+								<h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
+									<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}"/>
+									<f:ajax execute="@this"></f:ajax>
+								</h:commandButton>
 							</h:panelGroup>
 
 							<!-- Modal body -->
@@ -353,30 +392,30 @@
 											<h:panelGroup layput="block"
 												style="display: inline-block; width: 100%; overflow-y: auto;">
 												<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
-													<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+													<f:setPropertyActionListener value="#{detalle.pedido}" target="#{sessionScope.pedidoSel}" />
 												</h:commandButton>
 												<ul class="timeline" id="timeline">
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Vsac' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Vsac}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Rele' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'RELE' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Rele}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Proc' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'PROC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Proc}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Pinv' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'PINV' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Pinv}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Conc' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'CONC' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Conc}</h4>
 														</h:panelGroup></li>
-													<li class="li #{detalle.pedido.estatusGeneral eq 'Comp' ? 'complete' : ''}"><h:panelGroup layout="block"
+													<li class="li #{detalle.pedido.estatusGeneral eq 'COMP' ? 'complete' : ''}"><h:panelGroup layout="block"
 															class="status">
 															<h4>#{lblMain.Comp}</h4>
 														</h:panelGroup></li>
@@ -392,14 +431,16 @@
 											<li class="nav-item"><a class="nav-link active"
 													href="#menu1">#{lblMain.partidas}</a></li>
 											<li class="nav-item"><a class="nav-link "
-													id="menu2Id" href="#menu2">#{lblMain.facturas}</a></li>
+													href="#menu2">#{lblMain.facturas}
+												<f:ajax listener="#{detalle.obtieneFacturas}" event="click" execute="@this"/>
+											</a></li>
 										</ul>
 									</h:panelGroup>
 									<h:panelGroup layout="block" styleClass="card-body">
 										<h:panelGroup layout="block" id="nav-tabContent"
 											styleClass="tab-content">
-											<h:panelGroup layout="block" id="menu1"
-												styleClass="tab-pane active ">
+											<div id="menu1"
+												class="tab-pane active ">
 												<br />
 												<h:panelGroup layout="block" styleClass="row">
 													<h:panelGroup layout="block" styleClass="col-12">
@@ -443,9 +484,9 @@
 														</table>
 													</h:panelGroup>
 												</h:panelGroup>
-											</h:panelGroup>
-											<h:panelGroup layout="block" id="menu2"
-												styleClass="container-fluid tab-pane fade pr-0 pl-0">
+											</div>
+											<div id="menu2"
+												class="container-fluid tab-pane fade pr-0 pl-0">
 												<br />
 												<h:panelGroup layout="block" styleClass="row">
 													<h:panelGroup layout="block" styleClass="col-12">
@@ -477,18 +518,19 @@
 														</table>
 													</h:panelGroup>
 												</h:panelGroup>
-											</h:panelGroup>
+											</div>
 										</h:panelGroup>
 									</h:panelGroup>
 								</h:panelGroup>
 								<!-- Modal footer -->
 								<h:panelGroup layout="block" styleClass="modal-footer">
-                                	<h:commandButton id="cancelarPedido" styleClass="btn btn-primary float-left" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}" value="#{lblMain.btnCancelarPedido}">
-										<f:ajax execute="cancelarPedido" render="example2" />
+									<h:commandButton id="cancelarPedido" styleClass="btn btn-primary" value="#{lblMain.btnCancelarPedido}" disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
+										<f:ajax execute="cancelarPedido" render="form:example footer-row2" />
 									</h:commandButton>
-									<button class="btn btn-danger" data-dismiss="modal">
-										#{lblMain.btnCerrar}
-									</button>
+									<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
+										<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}" />
+										<f:ajax execute="@this" render=":modal" />
+									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
@@ -498,6 +540,19 @@
 			</h:form>
 		</ui:define>
 		<ui:define name="scriptJS">
+			<script type="text/javascript">
+				
+				var closeModal = function () {
+					$('#myModal').modal('hide');
+				}
+				
+				$("#menu2").off().on('click', function () {
+					if ($dataT3) {
+				        $dataT3.clear().destroy();
+				    }
+				    example3Func();
+				});
+			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 		</ui:define>
 	</ui:composition>
