@@ -1160,7 +1160,7 @@ var initChartDoughnut = function () {
   for (var i = 0; i < dta.data.length; i++) {
     var dataModel = charts.doughnut.models.dataset();
     dataModel = {
-      label: 'DEMO',
+      label: 'Saldo',
       labels: dta.labels,
       data: dta.data[i],
       backgroundColor: [],
@@ -1173,7 +1173,7 @@ var initChartDoughnut = function () {
   model.options = {
     title: {
       display: true,
-      text: 'DEMO'
+      text: 'Saldo'
     },
     elements: {
       center: {

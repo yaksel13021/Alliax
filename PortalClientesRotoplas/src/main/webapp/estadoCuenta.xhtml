@@ -301,15 +301,39 @@
 				var dataEstCuenta = [];
 				var modelGrafica = [];
 				function initMostrarPropiedades() {
+					var xmlBody = "";
+					var pdfBody = "";
 					<ui:repeat value="#{edoCta.detalle}" var="detalle">
+						if('MX' === "#{edoCta.estadoCuenta.pais}") {
+							xmlBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=xml";
+							pdfBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=pdf";  
+						}
+						if('AR' === "#{edoCta.estadoCuenta.pais}") {
+							if("#{detalle.noFactura}" != '') {
+								if("#{detalle.notaEntrega}" != '') {
+									pdfBody = "edoCta.descargaFacturaArgentina(detalle.noFactura, detalle.notaEntrega)";  
+								}
+							}
+						}
+						if('PE' === "#{edoCta.estadoCuenta.pais}") {
+							if("#{detalle.notaEntrega}" != '') {
+								xmlBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'xml')";  
+								pdfBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'pdf')"
+							}	
+						}
+						if('GT' === "#{edoCta.estadoCuenta.pais}") {
+							if("#{detalle.noFactura}" != '') {
+								pdfBody = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=#{detalle.noFactFiscal}"
+							}
+						}
 						dataEstCuenta.push({
 							  tipoDocumento: "#{detalle.tipoDocumento}",
 							  Npedido: "#{detalle.noPedido}",
 							  ordenDeCompra: "#{detalle.ordenCompra}",
 							  factSap: "#{detalle.noFactura}",
 							  factFiscal: "#{detalle.noFactFiscal}",
-							  xml: "",
-							  pdf: "",
+							  xml: xmlBody,
+							  pdf: pdfBody,  
 							  facturaRelac: "#{detalle.facturaRelacionada}",
 							  UUid: "#{detalle.UUIDRelacionado}",
 							  fechaFact: "#{detalle.fechaFactura}",
