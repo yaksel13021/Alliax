@@ -896,18 +896,18 @@ $(document).ready(function () {
         targets: -1,
         className: "dt-body-right",
       },
-    {
-      targets: 5,
-      render: function (data, type, row, meta) {
-        return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
-      }
-    },
-    {
-      targets: 6,
-      render: function (data, type, row, meta) {
-        return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
-      }
-    }
+		{
+		  targets: 5,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+		  }
+		},
+		{
+		  targets: 6,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+		  }
+		}
       ],
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         if (iDisplayIndex % 2 == 0) {

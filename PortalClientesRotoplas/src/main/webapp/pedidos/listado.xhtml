@@ -37,6 +37,7 @@
 							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
 							<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 							<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
+							<f:attribute name="frm_estatus" value="#{frm_estatus}" />
 						</h:inputHidden>
 						<h:panelGroup layout="block" styleClass="row">
 							<h:panelGroup layout="block" styleClass="col-12">
@@ -135,9 +136,9 @@
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<h:commandButton action="#{listaPedidos.buscaPedidos}"
-														 styleClass="btn btn-primary float-right" 
-														 value="#{lblMain.aplicarFiltro}" id="setFilters">
-														 <f:ajax execute=":validate @form" render="@this :tab1 :example" />
+																	 styleClass="btn btn-primary float-right"
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" >
+														<f:ajax execute="@form" render="@this"  />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
