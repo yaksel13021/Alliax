@@ -529,9 +529,10 @@
 											<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{detalle.pedidoCancelado=='0'}"/>
 											<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{detalle.pedidoCancelado=='1'}"/>
 									
-											<!-- disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"  -->
+											<!--   -->
 									
 											<h:commandButton rendered="#{detalle.pedidoCancelado!='0'}" styleClass="btn btn-primary" 
+											disabled="#{detalle.pedido.estatusGeneral eq 'Vsac' or detalle.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
 											value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 											<f:ajax execute="@this" render=":modal1" />
 											</h:commandButton>
