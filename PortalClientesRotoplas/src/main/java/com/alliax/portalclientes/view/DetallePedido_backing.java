@@ -93,13 +93,14 @@ public class DetallePedido_backing extends AbstractBackingGen {
 			//if(this.getSessionMap().get("pedidoSel") != null) {
 				this.setPedido((OrdenVenta)this.getSessionMap().get("pedidoSel"));
 				//this.setPedido((OrdenVenta)this.getFlash().get("pedidoSel"));
-				
-				DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido",DetallePedidoRFC.class);
-				this.setPartidas(
-						detalle.detallePedido(this.getPedido().getDocumentoComercial(),
-								this.getUsuarioLogueado().getLanguage()));
-				
-				this.setFacturas(detalle.getListaFacturas());
+				if(getPedido() != null) {
+					DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
+					this.setPartidas(
+							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
+									this.getUsuarioLogueado().getLanguage()));
+
+					this.setFacturas(detalle.getListaFacturas());
+				}
 			//}
 		} catch(Exception e){
 			logger.error("Error al desplegar detalle del pedido. " + e.getLocalizedMessage());
