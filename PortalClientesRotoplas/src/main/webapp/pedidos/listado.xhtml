@@ -37,6 +37,7 @@
 							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
 							<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 							<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
+							<f:attribute name="frm_estatus" value="#{frm_estatus}" />
 						</h:inputHidden>
 						<h:panelGroup layout="block" styleClass="row">
 							<h:panelGroup layout="block" styleClass="col-12">
@@ -59,7 +60,7 @@
 														<h:outputLabel for="frm_estatus" styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.estatus}
 														</h:outputLabel>
-														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus">
+														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 														</h:selectOneMenu>
 													</h:panelGroup>
@@ -137,9 +138,9 @@
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<h:commandButton action="#{listaPedidos.buscaPedidos}"
-														 styleClass="btn btn-primary float-right" 
-														 value="#{lblMain.aplicarFiltro}" id="setFilters" >
-														 <f:ajax execute=":setFilters" render="@this"  />
+																	 styleClass="btn btn-primary float-right"
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" >
+														<f:ajax execute="@form" render="@this"  />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
