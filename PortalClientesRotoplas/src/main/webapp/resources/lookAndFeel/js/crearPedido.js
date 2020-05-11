@@ -15,7 +15,7 @@ var crearPedido = (function () {
 
     var initEvents = function () {
         // BOTONES DE SIGUIENTE
-        $("#btn_CrearPedidosNext").off().on("click", function (e) {
+        $("#btnContinuarColp1").off().on("click", function (e) {
             e.preventDefault();
             if (!validStepOne()) {
                 return;
@@ -23,8 +23,8 @@ var crearPedido = (function () {
             $('#headingOne').prop('disabled', true);
             $('#headingThree').prop('disabled', false).click();
             $('#cardDynamicHeaderTitle').html('Selección de Materiales');
-            loadMustacheTemplate('seleccionMateriales_template', 'cardDynamicBody');
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            loadMustacheTemplate('seleccionMateriales_template', 'crearPedido:cardDynamicBody');
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -34,7 +34,7 @@ var crearPedido = (function () {
                     }]
                 }
             });
-            $('#cardDynamicFooter').show();
+            $("[id='crearPedido:cardDynamicFooter']").show();
             setTimeout(function () {
                 $('.isResizable').matchHeight();
             }, 100)
@@ -80,9 +80,13 @@ var crearPedido = (function () {
 
             RESS.setProductosSeleccionados(filterResult);
 
-            var valuesStepOne = $('#filterStepOne').serializeForm();
-            loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { noPedido: valuesStepOne.input_numeroPedido, destino: valuesStepOne.select_direccionEntrega, info: true, seguirComprando: true, productSelected: true });
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            //var valuesStepOne = $('#filterStepOne').serializeForm();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("#select_direccionEntrega");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -110,9 +114,13 @@ var crearPedido = (function () {
                 })
                 return;
             }
-            var valuesStepOne = $('#filterStepOne').serializeForm();
-            loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { noPedido: valuesStepOne.input_numeroPedido, destino: valuesStepOne.select_direccionEntrega, info: true, facturacion: true });
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            //var valuesStepOne = $('#filterStepOne').serializeForm();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("#select_direccionEntrega");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, facturacion: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [
@@ -143,17 +151,24 @@ var crearPedido = (function () {
             if (!validFacturacion()) {
                 return;
             }
-            var values = $('#facturacionForm').serializeForm();
-            RESS.setCFDISeleccionado(values.select_cfdi);
-            RESS.setMetodoPagoSeleccionado(values.select_metodoPago);
+           // var values = $('#facturacionForm').serializeForm();
+            var select_cfdi = $('#select_cfdi');
+            var select_metodoPago = $('#select_metodoPago');
+
+            RESS.setCFDISeleccionado(select_cfdi.val());
+            RESS.setMetodoPagoSeleccionado(select_metodoPago.val());
 
             var ressValues = RESS.getRESSObject(),
                 seleccionMateriales = ressValues.seleccionMateriales;
 
             if (seleccionMateriales === 'AMC') {
-                var valuesStepOne = $('#filterStepOne').serializeForm();
-                loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { info: true, noPedido: valuesStepOne.input_numeroPedido, destino: valuesStepOne.select_direccionEntrega, resumencuenta: true });
-                loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+                //var valuesStepOne = $('#filterStepOne').serializeForm();
+
+                var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+                var select_direccionEntrega = $("#select_direccionEntrega");
+
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true });
+                loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
                         btnList: [
@@ -179,8 +194,8 @@ var crearPedido = (function () {
                         initEvents();
                     });
             } else {
-                loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { comentarios: true });
-                loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true });
+                loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
                         btnList: [
@@ -209,10 +224,10 @@ var crearPedido = (function () {
             if (!validUsoMaterial()) {
                 return;
             }
-            var values = $('#usoMaterialForm').serializeForm();
-            RESS.setUsoMaterialSeleccionado(values.select_usoMateriales);
-            loadMustacheTemplate('searchProducts_template', 'cardDynamicBody');
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            //var values = $('#usoMaterialForm').serializeForm();
+            RESS.setUsoMaterialSeleccionado($('#select_usoMateriales').val());
+            loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -274,9 +289,13 @@ var crearPedido = (function () {
             }
 
             RESS.setComentarios(tableResultArr);
-            var valuesStepOne = $('#filterStepOne').serializeForm();
-            loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { info: true, noPedido: valuesStepOne.input_numeroPedido, destino: valuesStepOne.select_direccionEntrega, resumencuenta: true, showComentarios: true });
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+           //var valuesStepOne = $('#filterStepOne').serializeForm();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("#select_direccionEntrega");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [
@@ -309,9 +328,10 @@ var crearPedido = (function () {
         $('div.AMC_content').off().on('click', function (e) {
             e.preventDefault();
             RESS.setSeleccionMateriales('AMC');
-            $('#cardDynamicFooter').show();
-            loadMustacheTemplate('searchProducts_template', 'cardDynamicBody');
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+
+            $("[id='crearPedido:cardDynamicFooter']").show();
+            loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -332,16 +352,19 @@ var crearPedido = (function () {
                 .then(function (rs) {
                     initEvents();
                     if (!rs) {
-                        $('#btn_cancelAll').click();
+                        //$('#btn_cancelAll').click();
                     }
                 });
         });
         $('div.I_content').off().on('click', function (e) {
             e.preventDefault();
             RESS.setSeleccionMateriales('IND');
-            $('#cardDynamicFooter').show();
-            loadMustacheTemplate('selectedProducts_template', 'cardDynamicBody', { usoMaterial: true });
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            $("[id='crearPedido:cardDynamicFooter']").show();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("#select_direccionEntrega");
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', {  noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(),usoMaterial: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -372,8 +395,12 @@ var crearPedido = (function () {
         $('#btn_cancelAll').off().on('click', function (e) {
             e.preventDefault();
             RESS.removeRESSObjext();
-            $('#cardDynamicFooter, #cardDynamicBody').html(null)
-            $('#cardDynamicFooter').hide();
+            $("[id='crearPedido:cardDynamicFooter']").html(null);
+            $("[id='crearPedido:cardDynamicBody']").html(null);
+
+            $("[id='crearPedido:cardDynamicFooter']").hide();
+
+
             $('#headingOne').prop('disabled', false).click();
             $('#headingThree').prop('disabled', true);
             $('#cardDynamicHeaderTitle').html('Selección de Materiales');
@@ -381,9 +408,10 @@ var crearPedido = (function () {
         // SEGUIR COMPRANDO EN LISTA DE PRODUCTOS SELECCIONADOS
         $('#btn_seguirComprando').off().on('click', function (e) {
             e.preventDefault();
-            $('#cardDynamicFooter').show();
-            loadMustacheTemplate('searchProducts_template', 'cardDynamicBody');
-            loadMustacheTemplate('cardDynamicFooter_template', 'cardDynamicFooter', {
+            $("[id='crearPedido:cardDynamicFooter']").show();
+
+            loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
                     btnList: [{
@@ -483,6 +511,7 @@ var crearPedido = (function () {
         fill: function (loadPreviusValues) {
             return this.data()
                 .then(function (rs) {
+
                     if (!rs) {
                         showToastr(mensajes().Generico01, 'Aviso', {
                             type: typeNotification.warning
@@ -490,10 +519,11 @@ var crearPedido = (function () {
                         return false;
                     }
                     RESS.setProductos(rs);
-
+                    alert("RS Antes DT " + rs);
                     if ($dt) {
                         $dt.clear().destroy();
                     }
+                    alert("Query selector " + document.querySelector('#dt_searchProducts'));
                     $dt = document.querySelector('#dt_searchProducts').rssDataTable({
                         order: [0, 'asc'],
                         scrollX: true,
@@ -517,6 +547,7 @@ var crearPedido = (function () {
                             }
                         }
                     });
+                    alert("RS DESPUES DT " + rs);
                     return true;
                 })
                 .catch(function () {
@@ -571,6 +602,7 @@ var crearPedido = (function () {
                     noSku: '74656894'
                 }
                 ];
+
                 resolve(model);
             });
         }
@@ -628,7 +660,7 @@ var crearPedido = (function () {
                                     })
                                     return;
                                 }
-                                confirmModal('Eliminar elemento', '¿ Seguro que desea eliminar esta partida ?', 'Cancelar', 'Confirmar', true, function (rs) {
+                            confirmModal('Eliminar elemento', '¿ Seguro que desea eliminar esta partida ?', 'Cancelar', 'Confirmar', true, function (rs) {
                                     if (rs) {
                                         var dta = data,
                                             findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.id === data.id; });
@@ -1089,14 +1121,13 @@ var crearPedido = (function () {
     };
 
     var validStepOne = function () {
-        var values = $('#filterStepOne').serializeForm();
-        if (!values.select_direccionEntrega) {
+        if (!($("#select_direccionEntrega").val())) {
             showToastr('Seleccione una dirección de entrega', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
         }
-        if (!values.input_numeroPedido) {
+        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
@@ -1106,14 +1137,17 @@ var crearPedido = (function () {
     };
 
     var validFacturacion = function () {
-        var values = $('#facturacionForm').serializeForm();
-        if (!values.select_cfdi) {
+        //var values = $('#facturacionForm').serializeForm();
+        var select_cfdi = $('#select_cfdi');
+        var select_metodoPago = $('#select_metodoPago');
+
+        if (!select_cfdi.val()) {
             showToastr('Seleccione un CFDI', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
         }
-        if (!values.select_metodoPago) {
+        if (!select_metodoPago.val()) {
             showToastr('Seleccione un método de pago', 'Aviso', {
                 type: typeNotification.warning
             })
@@ -1123,8 +1157,10 @@ var crearPedido = (function () {
     };
 
     var validUsoMaterial = function () {
-        var values = $('#usoMaterialForm').serializeForm();
-        if (!values.select_usoMateriales) {
+       // var values = $('#usoMaterialForm').serializeForm();
+
+        var select_usoMateriales = $('#select_usoMateriales');
+        if (!select_usoMateriales.val()) {
             showToastr('Seleccione un uso para el material', 'Aviso', {
                 type: typeNotification.warning
             })
