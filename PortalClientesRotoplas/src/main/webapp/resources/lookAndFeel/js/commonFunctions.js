@@ -10,8 +10,14 @@ function loadMustacheTemplate(mustacheTemplateId, mustacheTemplateTargetId, data
     Mustache.parse(mustacheTemplate); // optional, speeds up future uses
 
     var rendered = Mustache.render(mustacheTemplate, data);
-
-    $('#' + mustacheTemplateTargetId).html(rendered);
+    alert(rendered);
+    if(mustacheTemplateTargetId != null){
+        if(mustacheTemplateTargetId.indexOf(":") > -1){
+            $("[id='" + mustacheTemplateTargetId + "']").html(rendered);
+        }else{
+            $('#' + mustacheTemplateTargetId).html(rendered);
+        }
+    }
 }
 
 function renderMustacheTemplate(mustacheTemplateId, data) {

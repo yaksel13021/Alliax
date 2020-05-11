@@ -9,6 +9,8 @@ public class Pedido {
     private String nroTelefonoFijo;
     private String horarioRecepcion;
 
+
+
     private PedidoEncabezado pedidoEncabezado;
     private List<PedidoPartidas> pedidoPartidas;
     private List<PedidoReferenciaUbicacion> pedidoReferenciaUbicacion;
