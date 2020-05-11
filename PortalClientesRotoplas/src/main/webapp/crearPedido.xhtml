@@ -17,75 +17,80 @@
 		<ui:define name="content">
 			<h:form id="crearPedido">
 				<h:panelGroup layout="block" class="container ">
-					<h:panelGroup layout="block" id="accordion" class="accordion">
-						<h:panelGroup layout="block" class="card no-border-radius">
-							<div class="card-header" id="headingOne" type="button"
-								data-toggle="collapse" data-target="#collapseOne"
-								aria-expanded="true" aria-controls="collapseOne">
-								<h5 class="mb-0">#{lblMain.crearPedido}</h5>
-							</div>
-							<h:panelGroup layout="block" id="collapseOne" class="collapse show"
-								aria-labelledby="headingOne" data-parent="#accordion">
-								<h:form id="filterStepOne">
-									<h:panelGroup layout="block" class="card-body">
-										<h:panelGroup layout="block" class="container">
-											<h:panelGroup layout="block" class="row">
-												<h:panelGroup layout="block" class="col-lg-6 col-md-6col-sm-6 col-xs-6">
-													<h:outputLabel for="" class="">
-														#{lblMain.selectDirEntrega}
-													</h:outputLabel>
-												</h:panelGroup>
-												<h:panelGroup layout="block" class="col-lg-6 col-md-6col-sm-6 col-xs-6">
-													<h:outputLabel for="" class="">
-														#{lblMain.noPedidoCliente}
-													</h:outputLabel>
-												</h:panelGroup>
-											</h:panelGroup>
-											<h:panelGroup layout="block" class="row">
-												<h:panelGroup layout="block" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-													<h:panelGroup layout="block" class="form-group flex">
-														<select class="form-control dropdownActive"
-															id="select_direccionEntrega"
-															name="select_direccionEntrega"></select>
+					<div id="accordion" class="accordion">
+						<h:panelGroup layout="block" >
+							<h:panelGroup layout="block" class="card no-border-radius">
+								<div class="card-header" id="headingOne"
+									data-toggle="collapse" data-target="#collapseOne"
+									aria-expanded="true" aria-controls="collapseOne">
+									<h5 class="mb-0">#{lblMain.crearPedido}</h5>
+								</div>
+								<div id="collapseOne" class="collapse show"
+									 aria-labelledby="headingOne" data-parent="#accordion">
+									<h:panelGroup layout="block">
+										<h:form id="filterStepOne">
+											<h:panelGroup layout="block" class="card-body">
+												<h:panelGroup layout="block" class="container">
+													<h:panelGroup layout="block" class="row">
+														<h:panelGroup layout="block" class="col-lg-6 col-md-6col-sm-6 col-xs-6">
+															<h:outputLabel for="" class="">
+																#{lblMain.selectDirEntrega}
+															</h:outputLabel>
+														</h:panelGroup>
+														<h:panelGroup layout="block" class="col-lg-6 col-md-6col-sm-6 col-xs-6">
+															<h:outputLabel for="" class="">
+																#{lblMain.noPedidoCliente}
+															</h:outputLabel>
+														</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="row">
+														<h:panelGroup layout="block" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+															<h:panelGroup layout="block" class="form-group flex">
+																<select class="form-control dropdownActive"
+																	id="select_direccionEntrega"
+																	name="select_direccionEntrega"></select>
+															</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup layout="block" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+															<h:inputText class="form-control"
+																id="input_numeroPedido" name="input_numeroPedido"
+																a:placeholder="#{lblMain.numeroPedido}" />
+														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup layout="block" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-													<h:inputText class="form-control"
-														id="input_numeroPedido" name="input_numeroPedido"
-														a:placeholder="#{lblMain.numeroPedido}" />
+											</h:panelGroup>
+											<h:panelGroup layout="block" class="card-footer border-top-none">
+												<h:panelGroup layout="block" class="container">
+													<h:panelGroup layout="block" class="row">
+														<h:panelGroup layout="block" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+															 <button id="btnContinuarColp1"
+																class="btn btn-primary float-right" role="button"
+																name="setFilters">#{lblMain.btnContinuar}</button>
+														</h:panelGroup>
+													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>
-										</h:panelGroup>
+										</h:form>
 									</h:panelGroup>
-									<h:panelGroup layout="block" class="card-footer border-top-none">
-										<h:panelGroup layout="block" class="container">
-											<h:panelGroup layout="block" class="row">
-												<h:panelGroup layout="block" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													 <button id="btnContinuarColp1"
-														class="btn btn-primary float-right" role="button"
-														name="setFilters">#{lblMain.btnContinuar}</button>
-												</h:panelGroup>
-											</h:panelGroup>
-										</h:panelGroup>
-									</h:panelGroup>
-								</h:form>
+								</div>
+							</h:panelGroup>
+							<h:panelGroup layout="block" class="card no-border-radius">
+								<div class="card-header" id="headingThree"
+									data-toggle="collapse" data-target="#collapseThree"
+									aria-expanded="true" aria-controls="collapseThree">
+									<h5 id="cardDynamicHeaderTitle" class="mb-0">
+										#{lblMain.selectMaterial}
+									</h5>
+								</div>
+								<div id="collapseThree" class="collapse"
+									aria-labelledby="headingThree" data-parent="#accordion">
+									<h:panelGroup layout="block" id="cardDynamicBody" class="card-body"></h:panelGroup>
+									<h:panelGroup layout="block" id="cardDynamicFooter" class="card-footer border-top-none"></h:panelGroup>
+								</div>
 							</h:panelGroup>
 						</h:panelGroup>
-						<h:panelGroup layout="block" class="card no-border-radius">
-							<div class="card-header" id="headingThree" type="button"
-								data-toggle="collapse" data-target="#collapseThree"
-								aria-expanded="true" aria-controls="collapseThree">
-								<h5 id="cardDynamicHeaderTitle" class="mb-0">
-									#{lblMain.selectMaterial}
-								</h5>
-							</div>
-							<div id="collapseThree" class="collapse"
-								aria-labelledby="headingThree" data-parent="#accordion">
-								<h:panelGroup layout="block" id="cardDynamicBody" class="card-body"></h:panelGroup>
-								<h:panelGroup layout="block" id="cardDynamicFooter" class="card-footer border-top-none"></h:panelGroup>
-							</div>
-						</h:panelGroup>
-					</h:panelGroup>
+						<div id="modalConfirm_target"></div>
+					</div>
 				</h:panelGroup>
 				<!-- End of Main Content -->
 			</h:form>
@@ -111,10 +116,10 @@
 		    <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
 		    <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
 		    <script src="#{resource['lookAndFeel/js/crearPedido.js']}"></script>
-    
+
 			<script id="select2_template" type="x-tmpl-mustache">
 				{{#.}}
-				<option value="{{value}}" data-identifier="{{identifier}}" {{{dataAtributos}}}>{{descripcion}}</option>
+				<option value="{{value}}" data-identifier="{{identifier}}">{{descripcion}}</option>
 				{{/.}}
 			</script>
 			<script id="seleccionMateriales_template" type="x-tmpl-mustache">
@@ -122,16 +127,15 @@
 					<div class="row">
 						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable">
 							<div class="card h-100-percent AMC_content cursor-pointer">
-								<img class="card-img-top" src="img/almaCliente.png">
+								<img class="card-img-top" src="img/almaCliente.png"></img>
 								<div class="card-block" style=" padding: 1em;">
 									<h5 class="text-bold">Almacenamiento Mejoramiento Conducción</h5>
 								</div>
-
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable cursor-pointer">
 							<div class="card h-100-percent I_content">
-								<img class="card-img-top" src="img/industriaCliente.png">
+								<img class="card-img-top" src="img/industriaCliente.png"></img>
 								<div class="card-block" style=" padding: 1em;">
 									<h5 class="text-bold">Industria</h5>
 								</div>
@@ -141,21 +145,24 @@
 				</div>
 			</script>
 			<script id="input_cantidad_template" type="x-tmpl-mustache">
-				<input type="text" class="form-control input_searchProductCantidad" name="input_searchProductCantidad" placeholder="Cantidad">
+				<input type="text" class="form-control input_searchProductCantidad" name="input_searchProductCantidad" placeholder="Cantidad"></input>
+			</script>
+			<script id="input_template" type="x-tmpl-mustache">
+				<input type="text" class="form-control {{class}}" name="{{name}}" placeholder="{{placeholder}}"></input>
 			</script>
 			<script id="searchProducts_template" type="x-tmpl-mustache">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div id="dt_searchProducts_content" style="width: 100%">
-								<table id="dt_searchProducts" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="0,1,2,2" data-dt-excelBtnColumns="0,1,2,3">
+								<table id="dt_searchProducts" class="table table-hover table-striped table-bordered" width="100%">
 									<thead>
 										<tr>
 											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 											<th class="no-wrap" data-prority="1" data-dt-render="free" data-columnWidth="25%">Cantidad</th>
-											<th class="no-wrap" data-prority="2" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>Descripcion</th>
-											<th class="no-wrap" data-prority="3" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable>UM</th>
-											<th class="no-wrap" data-prority="4" data-dt-columnName="noSku" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>No. sku</th>
+											<th class="no-wrap" data-prority="2" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">Descripcion</th>
+											<th class="no-wrap" data-prority="3" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable="true">UM</th>
+											<th class="no-wrap" data-prority="4" data-dt-columnName="noSku" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">No. sku</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -163,7 +170,7 @@
 							</div>
 						</div>
 					</div>
-					<br>
+					<br></br>
 				</div>
 			</script>
 			<script id="cardDynamicFooter_template" type="x-tmpl-mustache">
@@ -219,20 +226,20 @@
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div id="dt_ProductsSelected_content" style="width: 100%">
-								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="0,1,2,2" data-dt-excelBtnColumns="0,1,2,3">
+								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn="true" data-dt-excelBtn="true" data-dt-pdfBtnColumns="0,1,2,2" data-dt-excelBtnColumns="0,1,2,3">
 									<thead>
 										<tr>
 											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 											<th class="no-wrap" data-prority="1" data-dt-render="actions" data-columnWidth="5%"></th>
 											<th class="no-wrap" data-prority="2" data-dt-columnName="pos" data-columnWidth="10%">Pos</th>
-											<th class="no-wrap" data-prority="3" data-dt-columnName="noMaterial" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>Numero Material</th>
-											<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable>Descripcion</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>Cantidad</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>UM</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>Monto</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>Precio Neto</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="mon" data-columnWidth="10%" data-dt-searcheable data-dt-orderable>Moneda</th>
-											<th class="no-wrap" data-prority="5" data-dt-render="fecha" data-dt-columnName="fecha" data-columnWidth="15%" data-dt-searcheable data-dt-orderable>Fecha</th>
+											<th class="no-wrap" data-prority="3" data-dt-columnName="noMaterial" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Numero Material</th>
+											<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable="true">Descripcion</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Cantidad</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">UM</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Monto</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Precio Neto</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="mon" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Moneda</th>
+											<th class="no-wrap" data-prority="5" data-dt-render="fecha" data-dt-columnName="fecha" data-columnWidth="15%" data-dt-searcheable="true" data-dt-orderable="true">Fecha</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -242,23 +249,155 @@
 					</div>
 					{{/productSelected}}
 					{{#facturacion}}
-					<div class="row">
-						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-							<label><strong>Uso CFDI</strong></label>
-							<div class="form-group flex">
-								<select class="form-control dropdownActive" id="select_cfdi" name="select_cfdi"></select>
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+								<label><strong>Uso CFDI</strong></label>
+								<div class="form-group flex">
+									<select class="form-control dropdownActive" id="select_cfdi" name="select_cfdi"></select>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-							<label><strong>Método de pago</strong></label>
-							<div class="form-group flex">
-								<select class="form-control dropdownActive" id="select_metodoPago" name="select_metodoPago"></select>
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+								<label><strong>Método de pago</strong></label>
+								<div class="form-group flex">
+									<select class="form-control dropdownActive" id="select_metodoPago" name="select_metodoPago"></select>
+								</div>
 							</div>
 						</div>
-					</div>
 					{{/facturacion}}
+					{{#resumencuenta}}
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12 mt-4 resumenCuentaTabs">
+							<nav>
+								<div class="nav nav-tabs" id="nav-tab" role="tablist">
+									<a class="nav-item nav-link active" id="nav-partidas-tab" data-toggle="tab" href="#nav-partidas" role="tab" aria-controls="nav-partidas" aria-selected="true">Partidas</a>
+									<a class="nav-item nav-link" id="nav-facturacion-tab" data-toggle="tab" href="#nav-facturacion" role="tab" aria-controls="nav-facturacion" aria-selected="false">Facturacion</a>
+									{{#showComentarios}}
+									<a class="nav-item nav-link" id="nav-comentarios-tab" data-toggle="tab" href="#nav-comentarios" role="tab" aria-controls="nav-comentarios" aria-selected="false">Comentarios</a>
+									{{/showComentarios}}
+								</div>
+							</nav>
+							<div class="tab-content" id="nav-tabContent">
+								<div class="tab-pane fade show active" id="nav-partidas" role="tabpanel" aria-labelledby="nav-partidas-tab">
+									<div id="dt_ResumenCuentaPartidas_content" style="width: 100%">
+										<table id="dt_ResumenCuentaPartidas" class="table table-hover table-striped table-bordered" width="100%" >
+											<thead>
+												<tr>
+													<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+													<th class="no-wrap" data-prority="2" data-dt-columnName="pos" data-columnWidth="10%">Pos</th>
+													<th class="no-wrap" data-prority="3" data-dt-columnName="noMaterial" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Numero Material</th>
+													<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable ="true">Descripcion</th>
+													<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Cantidad</th>
+													<th class="no-wrap" data-prority="6" data-dt-columnName="cantidadEnt" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Cantidad Ent</th>
+													<th class="no-wrap" data-prority="7" data-dt-columnName="um" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">UM</th>
+													<th class="no-wrap" data-prority="8" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Monto</th>
+													<th class="no-wrap" data-prority="9" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Precio Neto</th>
+													<th class="no-wrap" data-prority="10" data-dt-render="fechaEnt" data-dt-columnName="fechaEnt" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
+													<th class="no-wrap" data-prority="1" data-dt-columnName="estatus" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Estatus</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-facturacion" role="tabpanel" aria-labelledby="nav-facturacion-tab">
+									<div id="dt_ResumenCuentaFacturacion_content" style="width: 100%">
+										<table id="dt_ResumenCuentaFacturacion" class="table table-hover table-striped table-bordered" width="100%" >
+											<thead>
+												<tr>
+													<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+													<th class="no-wrap" data-prority="2" data-dt-columnName="cfdi" data-columnWidth="10%">CFDI</th>
+													<th class="no-wrap" data-prority="3" data-dt-columnName="metodoPago" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Metodo de pago</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-comentarios" role="tabpanel" aria-labelledby="nav-comentarios-tab">
+									<div class="row">
+										<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+											<div id="dt_ResumenCuentaComentarios_content" style="width: 100%">
+												<table id="dt_ResumenCuentaComentarios" class="table table-hover table-striped table-bordered" width="100%" >
+													<thead>
+														<tr>
+															<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+															<th class="no-wrap" data-prority="2" data-dt-columnName="datosEntrega" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">Datos de entrega</th>
+															<th class="no-wrap" data-prority="1" data-dt-columnName="descripcion" data-columnWidth="25%">Descripción</th>
+														</tr>
+													</thead>
+													<tbody></tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{/resumencuenta}}
+					{{#usoMaterial}}
+					<form id="usoMaterialForm">
+					<div class="row">
+						<div class="col-sm-6 col-md-6 col-lg-6 mt-4">
+							<label><strong>¿ Los materiales seran para uso ?</strong></label>
+							<div class="form-group flex">
+								<select class="form-control dropdownActive" id="select_usoMateriales" name="select_usoMateriales"></select>
+							</div>
+						</div>
+					</div>
+					</form>
+					{{/usoMaterial}}
+					{{#comentarios}}
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+							<div id="dt_comentarios_content" style="width: 100%">
+								<table id="dt_comentarios" class="table table-hover table-striped table-bordered" width="100%" >
+									<thead>
+										<tr>
+											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+											<th class="no-wrap" data-prority="2" data-dt-columnName="datosEntrega" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">Datos de entrega</th>
+											<th class="no-wrap" data-prority="1" data-dt-render="free" data-columnWidth="25%">Descripción</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					{{/comentarios}}
+				</div>
+			</script>
+			<script id="modalConfirm_template" type="x-tmpl-mustache">
+				<div id="modelConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalConfirm_template" aria-hidden="true">
+					<div class="modal-dialog modal-confirm" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-12">
+											<div class="icon-box">
+												<i class="fas fa-times"></i>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<h4 class="modal-title">{{titulo}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<p>{{mensaje}}</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-info" data-identifier="confirmBtnModel" data-dismiss="modal" data-btn="false">{{cancelarTexto}}</button>
+								<button type="button" class="btn btn-danger" data-identifier="confirmBtnModel" data-btn="true">{{confirmarTexto}}</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</script>
 		</ui:define>

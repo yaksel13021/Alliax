@@ -1,80 +1,57 @@
-package com.alliax.portalclientes.domain;
+package com.alliax.portalclientes.view;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.alliax.portalclientes.controller.BuscarDestinatariosMercanciasRFC;
+import com.alliax.portalclientes.model.DestinatarioMercancia;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity
-@Table(name="Pedido")
-public class Pedido {
-    @Id
-    @Column(name="idPedido")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long idPedido;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import java.util.List;
 
-    @Column(name="destino")
+@ManagedBean(name="pedido")
+@SessionScoped
+public class Pedido_backing extends AbstractBackingGen {
+
+    @Autowired
+    BuscarDestinatariosMercanciasRFC buscarDestinatariosMercanciasRFC;
+
+    private String idPedido;
+
     private String destino;
-    @Column(name="nroCliente")
     private String nroCliente;
-    @Column(name="nroPedido")
     private String nroPedido;
-    @Column(name="destinatario")
     private String destinatario;
-    @Column(name="codigoPostal")
     private String codigoPostal;
-    @Column(name="organizacionVenta")
     private String organizacionVenta;
-    @Column(name="sociedad")
     private String sociedad;
-    @Column(name="destinatarioMercancia")
     private String destinatarioMercancia;
-    @Column(name="clasePedido")
     private String clasePedido;
-    @Column(name="tipoMaterial")
     private String tipoMaterial;
-    @Column(name="estatus")
     private String estatus;
-    @Column(name="metodoPago")
     private String metodoPago;
-    @Column(name="usoCFDI")
     private String usoCFDI;
-    @Column(name="comprobanteBancario")
     private String comprobanteBancario;
-    @Column(name="datosEntrega")
     private String datosEntrega;
-    @Column(name="nombreContacto")
     private String nombreContacto;
-    @Column(name="apellidoContacto")
     private String apellidoContacto;
-    @Column(name="telefonoContacto")
     private String telefonoContacto;
-    @Column(name="telefonoFijoContacto")
     private String telefonoFijoContacto;
-    @Column(name="horarioRecepcion")
     private String horarioRecepcion;
-    @Column(name="referenciaUbicacion")
     private String referenciaUbicacion;
-    @Column(name="productoAlmacenar")
     private String productoAlmacenar;
-    @Column(name="capacidadesTransporte")
     private String capacidadesTransporte;
-    @Column(name="equipoEspecial")
     private String equipoEspecial;
-    @Column(name="noCotizacion")
     private String noCotizacion;
-    @Column(name="estatusCotizacion")
     private String estatusCotizacion;
-    @Column(name="correoElectronico")
     private String correoElectronico;
 
-    public long getIdPedido() {
+    private List<DestinatarioMercancia> destinatarioMercancias;
+
+    public String getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(long idPedido) {
+    public void setIdPedido(String idPedido) {
         this.idPedido = idPedido;
     }
 
@@ -293,4 +270,18 @@ public class Pedido {
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
     }
+
+    public List<DestinatarioMercancia> getDestinatarioMercancias() {
+        return destinatarioMercancias;
+    }
+
+    public void setDestinatarioMercancias(List<DestinatarioMercancia> destinatarioMercancias) {
+        this.destinatarioMercancias = destinatarioMercancias;
+    }
+
+    public String buscarDestinatarioMercancias(){
+
+        return "";
+    }
+
 }
