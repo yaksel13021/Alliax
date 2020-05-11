@@ -55,16 +55,24 @@ var buscarPor = null;
     },
     data: function () {
       return new Promise(function (resolve, reject) {
-        var model = [
-          {
-            id: 1,
-            descripcion: "Localidad",
-          },
-          {
-            id: 2,
-            descripcion: "Planta",
-          },
-        ];
+          var a = document.getElementById("test").value;
+          var b = a.split(",")
+          var model = [];
+          for (var i=0; i<b.length; i++) {
+              var dato;
+              if(i === b.length-1){
+                  var dat = b[i].split("=")[1];
+                  dato = dat.split("]")[0];
+              }else{
+                  dato = b[i].split("=")[1];
+              }
+              model.push(
+                  {
+                      id: i+1,
+                      descripcion: dato,
+                  }
+              );
+          }
         resolve(model);
       });
     },
@@ -120,17 +128,31 @@ var buscarPor = null;
     },
     data: function () {
       return new Promise(function (resolve, reject) {
-        var model = [
-          {
-            id: 1,
-            descripcion: "Golfo",
-          },
-          {
-            id: 2,
-            descripcion: "Guadalajara",
-          },
-        ];
-        resolve(model);
+          $("#tipo").val($("#select_buscarPor option:selected").text());
+          document.getElementById('hiddenForm:invisibleClickTarget').click();
+          setTimeout(() => {
+              var a = document.getElementById("some").value;
+              var b = a.split(",")
+              var model = [];
+              for (var i=0; i<b.length; i++) {
+                  var dato;
+                  if(i === b.length-1){
+                      var dat = b[i].split("=")[1];
+                      dato = dat.split("]")[0];
+                  }else{
+                      dato = b[i].split("=")[1];
+                  }
+                  model.push(
+                      {
+                          id: i+1,
+                          descripcion: dato,
+                      }
+                  );
+              }
+              resolve(model);
+          }, 1000);
+
+
       });
     },
   };
@@ -184,17 +206,28 @@ var buscarPor = null;
     },
     data: function () {
       return new Promise(function (resolve, reject) {
-        var model = [
-          {
-            id: 1,
-            descripcion: "Tamaulipas",
-          },
-          {
-            id: 2,
-            descripcion: "Nuevo León",
-          },
-        ];
+          document.getElementById('hiddenFormp:invisibleClickTargetplanta').click();
+          setTimeout(() => {
+          var a = document.getElementById("somes").value;
+          var b = a.split(",")
+          var model = [];
+          for (var i=0; i<b.length; i++) {
+              var dato;
+              if(i === b.length-1){
+                  var dat = b[i].split("=")[1];
+                  dato = dat.split("]")[0];
+              }else{
+                  dato = b[i].split("=")[1];
+              }
+              model.push(
+                  {
+                      id: i+1,
+                      descripcion: dato,
+                  }
+              );
+          }
         resolve(model);
+          }, 1000);
       });
     },
   };
@@ -247,17 +280,28 @@ var buscarPor = null;
         });
     },
     data: function () {
+        $('#tipo').val(document.getElementById("select_buscarPor").value)
+        document.getElementById('hiddenForm:invisibleClickTarget').click();
+
       return new Promise(function (resolve, reject) {
-        var model = [
-          {
-            id: 1,
-            descripcion: "Tamaulipas",
-          },
-          {
-            id: 2,
-            descripcion: "Nuevo León",
-          },
-        ];
+          var a = document.getElementById("localidad").value;
+          var b = a.split(",")
+          var model = [];
+          for (var i=0; i<b.length; i++) {
+              var dato;
+              if(i === b.length-1){
+                  var dat = b[i].split("=")[1];
+                  dato = dat.split("]")[0];
+              }else{
+                  dato = b[i].split("=")[1];
+              }
+              model.push(
+                  {
+                      id: i+1,
+                      descripcion: dato,
+                  }
+              );
+          }
         resolve(model);
       });
     },
@@ -303,17 +347,20 @@ var buscarPor = null;
     },
     data: function () {
         return new Promise(function (resolve, reject) {
-            var model = [{
-                id: 1,
-                material: '5003094',
-                descripcion: 'Prueba material',
-                planta: 'Centro Rotoplas Monterrey',
-                stockLibre: "1",
-                um: "24 PZA"
-            },
-           
-            ];
-            resolve(model);
+            alert(document.getElementById("productois").value)
+            setTimeout(() => {
+                var model = [{
+                    id: 1,
+                    material: '5003094',
+                    descripcion: 'Prueba material',
+                    planta: 'Centro Rotoplas Monterrey',
+                    stockLibre: "1",
+                    um: "24 PZA"
+                },
+
+                ];
+                resolve(model);
+            }, 1000)
         });
     }
 };
@@ -323,19 +370,23 @@ var buscarPor = null;
     if (buscarPor == 1) {
       $(".localidad").show();
       $(".planta").hide();
-      comboEstado.fill();
-      comboLocaliad.fill();
+      /*comboEstado.fill();
+      comboLocaliad.fill();*/
     } else {
       $(".planta").show();
       $(".localidad").show();
-      comboPlanta.fill();
+      /*comboPlanta.fill();
       comboEstado.fill();
-      comboLocaliad.fill();
+      comboLocaliad.fill();*/
     }
   });
 
-  $('#buscar').off().on('click', function () {
-  
+    $("#select_planta").on("change", function () {
+        /*comboEstado.fill();*/
+    });
+
+  $('#boxMatBoton').off().on('click', function () {
+
     if($("#input_nMatDesc").val() !== "" && $("#input_nMatDesc").val().length > 0){
     loadMustacheTemplate('searchProducts_template', 'cardDynamicBody');
     cargarDTSearchProductos.fill();
@@ -355,15 +406,49 @@ var buscarPor = null;
 
   });
 
-
-
-
-
-
   return {
     init: init,
   };
 })();
-$(document).ready(function () {
-  consultaExistencia.init();
-});
+function reload(){
+   setTimeout(() => {
+        var select = document.getElementById("form:select_buscarPor"); //El <select>
+        var value = select.value;
+        if (value == 1) {
+            $(".local").show();
+            $(".plantas").hide();
+        } else if(value ==2){
+            $(".plantas").show();
+            $(".local").hide();
+        }else{
+            $(".plantas").hide();
+            $(".local").hide();
+        }
+        }, 200);
+}
+
+
+function llenar() {
+    alert("AasAS")
+    $dt = document.querySelector('#dt_searchProducts').rssDataTable({
+        order: [0, 'asc'],
+        scrollX: true,
+        searching: true,
+        paging: true,
+        data: rs,
+        responsive: true,
+        free: function (data, type, row, meta) {
+
+        },
+        rowCallback: function (row, data, api) {
+
+        }
+    });
+    setTimeout(() => {
+        alert(document.getElementById("form:productois").value)
+        cargarDTSearchProductos.fill();
+    }, 2000);
+}
+
+
+
