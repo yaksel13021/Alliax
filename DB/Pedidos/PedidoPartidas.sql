@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[PedidoPartidas](
-	[idPedido] [id](50) NOT NULL,
+	[idPedido] [int] NOT NULL,
 	[sku] [varchar](20) NOT NULL,
 	[cantidad] [varchar](15) NULL,
 	[precioNeto] [varchar](15) NULL,
