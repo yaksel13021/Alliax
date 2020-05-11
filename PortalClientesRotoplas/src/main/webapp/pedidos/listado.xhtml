@@ -31,7 +31,7 @@
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
-						<h:inputHidden value="true">
+						<h:inputHidden value="true" id="validator">
 							<f:validator binding="#{listadoPedidosValidator}" />
 							<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
 							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
@@ -59,7 +59,7 @@
 														<h:outputLabel for="frm_estatus" styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.estatus}
 														</h:outputLabel>
-														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus">
+														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 														</h:selectOneMenu>
 													</h:panelGroup>
@@ -70,14 +70,12 @@
 															styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.fecha}
 														</h:outputLabel>
-														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}">
+														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}" onchange="fechaBox()">
 															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
-															<f:ajax execute="@this" render=":boxFechaI :boxfechaF @all"/>
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
-											
-												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'F' || listaPedidos.rangoDias eq 'P'}">
+												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden">
 													<h:panelGroup layout="block"  styleClass="form-group flex">
 														<h:outputLabel for="frm_fechaIni"
 															styleClass="labelLeftInput fillWidthAvaible">
@@ -94,7 +92,7 @@
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'P'}" >
+												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden" >
 													<h:panelGroup layout="block" styleClass="form-group flex" >
 														<h:outputLabel for="frm_fechaFin"
 															styleClass="labelLeftInput fillWidthAvaible">
@@ -130,7 +128,7 @@
 															styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.documento}
 														</h:outputLabel>
-														<h:inputText value="#{listaPedidos.documento}" styleClass="form-control" />
+														<h:inputText id="frm_documento" value="#{listaPedidos.documento}" styleClass="form-control" binding="#{frm_documento}"/>
 													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -138,8 +136,8 @@
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<h:commandButton action="#{listaPedidos.buscaPedidos}"
 														 styleClass="btn btn-primary float-right" 
-														 value="#{lblMain.aplicarFiltro}" id="setFilters" >
-														 <f:ajax execute=":setFilters" render="@this"  />
+														 value="#{lblMain.aplicarFiltro}" id="setFilters">
+														 <f:ajax execute=":validate @form" render="@this :tab1 :example" />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -164,12 +162,12 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<ui:repeat var="pedido" value="#{listaPedidos.listadoPedidos}">
-				                                	<tr styleClass="tr:hover{text-color: white}">
+			                                	<ui:repeat id="tab1" var="pedido" value="#{listaPedidos.listadoPedidos}" >
+				                                	<tr >
 				                                		<td>
-				                                		<h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+				                                		<h:commandLink style="text-decoration: none;color: black; display: block; " styleClass="colorLetra" >
 				                                			<h:outputLabel value="#{pedido.documentoComercial}" />
-					                                		<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
+				                                			<f:setPropertyActionListener value="#{pedido}" target="#{sessionScope.pedidoSel}" />
 				                                			<f:ajax execute="@this" render=":modal" immediate="true"/>
 				                                		</h:commandLink>
 				                                		</td>
@@ -223,9 +221,14 @@
 				</h:panelGroup>
 				<!-- End of Main Content -->
 				<f:view id="modal" >
-					<c:when test="#{not empty sessionScope and not empty listaPedidos.listadoPedidos}">
+					<c:when test="#{not empty sessionScope.pedidoSel and not empty listaPedidos.listadoPedidos}">
 						<f:metadata>
-							<f:viewAction action="#{detalle.cargaDetallePartidas}" onPostback="true" if="#{not empty sessionScope.pedidoSel}"/>
+							<c:if test="not empty detalle">
+								<f:event type="postValidateEvent" listener="#{detalle.cargaDetallePartidas}"></f:event>
+							</c:if>
+							<c:otherwise>
+								<f:viewAction action="#{detalle.cargaDetallePartidas}" onPostback="true"/>
+							</c:otherwise>
 						</f:metadata>
 					</c:when>
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -234,13 +237,11 @@
 						styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
 						role="document" >
 						<h:panelGroup layout="block" styleClass="modal-content">
-
 							<!-- Modal Header -->
 							<h:panelGroup layout="block" styleClass="modal-header">
 								<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
 								<h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
-									<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}"/>
-									<f:ajax execute="@this"></f:ajax>
+									<f:ajax execute="@this" render=":example" />
 								</h:commandButton>
 							</h:panelGroup>
 
@@ -528,8 +529,7 @@
 										<f:ajax execute="cancelarPedido" render="form:example footer-row2" />
 									</h:commandButton>
 									<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
-										<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}" />
-										<f:ajax execute="@this" render=":modal" />
+										<f:ajax execute="@this" render=":example"/>
 									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
@@ -541,17 +541,32 @@
 		</ui:define>
 		<ui:define name="scriptJS">
 			<script type="text/javascript">
+				var val = null;
+				var fechaBox = function () {
+					val = $("select[name='form:frm_rangoDias'] option:selected").val();
+					
+					if(val == "F" || val == "P"){
+						$("[id='form:boxFechaI']").removeClass('hidden');
+					} else {
+						$("[id='form:boxFechaI']").addClass('hidden');
+					}
+					
+					if(val == "P"){
+						$("[id='form:boxFechaF']").removeClass('hidden');
+					} else {
+						$("[id='form:boxFechaF']").addClass('hidden');
+					}
+					
+					
+				}
 				
 				var closeModal = function () {
 					$('#myModal').modal('hide');
 				}
 				
-				$("#menu2").off().on('click', function () {
-					if ($dataT3) {
-				        $dataT3.clear().destroy();
-				    }
-				    example3Func();
-				});
+				/*$("#example tbody").on('click', 'tr', function () {
+					var d = $expampleDT.row( this ).data();
+				});*/
 			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 		</ui:define>

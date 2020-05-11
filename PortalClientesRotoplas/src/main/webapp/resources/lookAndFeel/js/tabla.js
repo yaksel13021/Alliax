@@ -650,7 +650,7 @@ var inpescIngreso = [{
 },
 ];
 
-var dataEstCuenta = [{
+/*var dataEstCuenta = [{
   tipoDocumento: "Nota de Credito",
   Npedido: "0410040814",
   ordenDeCompra: "507228",
@@ -681,7 +681,7 @@ var dataEstCuenta = [{
   importe: "$22,500",
   estatus: "A VENCER"
 }
-]
+]*/
 
 $(document).ready(function () {
   var $expampleDT = null;
@@ -882,8 +882,8 @@ $(document).ready(function () {
         { data: "ordenDeCompra", class: "colorLetra1" },
         { data: "factSap", class: "colorLetra1" },
         { data: "factFiscal", class: "colorLetra1" },
-        { "defaultContent": '<button type="button" class="btn btn-primary btn-xs">XML</button>' },
-        { "defaultContent": '<button type="button" class="btn btn-danger btn-xs">PDF</button>' },
+        { data: "xml" },
+        { data: "pdf" },
         { data: "facturaRelac", class: "colorLetra1" },
         { data: "UUid", class: "colorLetra1" },
         { data: "fechaFact", class: "colorLetra1" },
@@ -895,7 +895,20 @@ $(document).ready(function () {
       columnDefs: [{
         targets: -1,
         className: "dt-body-right",
-      },],
+      },
+    {
+      targets: 5,
+      render: function (data, type, row, meta) {
+        return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+      }
+    },
+    {
+      targets: 6,
+      render: function (data, type, row, meta) {
+        return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+      }
+    }
+      ],
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         if (iDisplayIndex % 2 == 0) {
           $("td", nRow).css("background-color", "rgb(0,144,208,.3)");
@@ -952,10 +965,10 @@ $(document).ready(function () {
     // });
 
     $("#example tbody").off().on('click', 'tr', function () {
-      var data = $expampleDT.row(0).data();
-      if(data != "" || data != null ){
+      var data = $expampleDT.rows();
+      if(data != "" && data != null ){
           /*example2Func(data2);
-          example3Func(data3);-*/
+          example3Func(data3);*/
           $("#myModal").modal("toggle");
       }
       if ($example2) {
@@ -1015,6 +1028,7 @@ $(document).ready(function () {
       expampleDTFunc(filter);
       $('.collapse').collapse('hide');
       events();
+      /*setSelect();*/
     });
 
     $('#setFiltersEstadoCuenta').off().on('click', function () {
@@ -1043,6 +1057,10 @@ $(document).ready(function () {
       }
     };
   }
+  
+  /*var setSelect = function () {
+    $("id=['form:frm_estatus']").val($('.dropdownActive').val()).trigger('change');
+  }*/
 
   $('.dropdownActive').select2({
     theme: "bootstrap",
@@ -1087,7 +1105,8 @@ $(document).ready(function () {
 });
 
 var initChartDoughnut = function () {
-  var model = [
+  var model = modelGrafica;
+   /*[
     {
       name: 'Dato1',
       value: '125'
@@ -1104,7 +1123,7 @@ var initChartDoughnut = function () {
       name: 'Dato3',
       value: '568'
     }
-  ];
+  ];*/
 
   var group = _.groupBy(model, function (a, e) { return a.name; });
   var keys = Object.keys(group);
@@ -1114,7 +1133,7 @@ var initChartDoughnut = function () {
     var current = group[keys[a]];
     modelDemo.push({
       key: keys[a],
-      total: current.length,
+      total: current[0].value,
       status: false,
       remaining: current
     });
@@ -1146,7 +1165,7 @@ var initChartDoughnut = function () {
   for (var i = 0; i < dta.data.length; i++) {
     var dataModel = charts.doughnut.models.dataset();
     dataModel = {
-      label: 'DEMO',
+      label: 'Saldo',
       labels: dta.labels,
       data: dta.data[i],
       backgroundColor: [],
@@ -1159,7 +1178,7 @@ var initChartDoughnut = function () {
   model.options = {
     title: {
       display: true,
-      text: 'DEMO'
+      text: 'Saldo'
     },
     elements: {
       center: {
