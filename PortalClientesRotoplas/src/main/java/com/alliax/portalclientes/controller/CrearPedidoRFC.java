@@ -101,18 +101,18 @@ public class CrearPedidoRFC {
 
             //Llenar estructura
             this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"KUNNR");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"KUNN2");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"DOC_TYPE");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"SALES_ORG");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"DISTR_CHAN");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"DIVISION");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"ORD_REASON");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"CUST_GRP4");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"PURCH_NO_C");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"COMPANY");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"CURRENCY");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"MET_PAGO");
-            this.structure.setValue(pedido.getPedidoEncabezado().getNroCliente(),"USO_CFDI");
+            this.structure.setValue(pedido.getPedidoEncabezado().getNroDestinatarioMercancias(),"KUNN2");
+            this.structure.setValue(pedido.getPedidoEncabezado().getClasePedido(),"DOC_TYPE");
+            this.structure.setValue(pedido.getPedidoEncabezado().getOrganizacionVenta(),"SALES_ORG");
+            this.structure.setValue(pedido.getPedidoEncabezado().getCanalDistribucion(),"DISTR_CHAN");
+            this.structure.setValue(pedido.getPedidoEncabezado().getSector(),"DIVISION");
+            this.structure.setValue(pedido.getPedidoEncabezado().getMotivoPedido(),"ORD_REASON");
+            this.structure.setValue(pedido.getPedidoEncabezado().getSegmento(),"CUST_GRP4");
+            this.structure.setValue(pedido.getPedidoEncabezado().getNroPedidoCliente(),"PURCH_NO_C");
+            this.structure.setValue(pedido.getPedidoEncabezado().getSociedad(),"COMPANY");
+            this.structure.setValue(pedido.getPedidoEncabezado().getMoneda(),"CURRENCY");
+            this.structure.setValue(pedido.getPedidoEncabezado().getMetodoPago(),"MET_PAGO");
+            this.structure.setValue(pedido.getPedidoEncabezado().getUsoCFDI(),"USO_CFDI");
 
             //Llenar tabla de partidas
             PedidoPartidas pedidoPartidas = null;

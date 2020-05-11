@@ -61,7 +61,7 @@
 					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
 					<ul class="navbar-nav">
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
-							<li>
+							<li class="#{view.viewId == '/pedidos/listado.xhtml' or view.viewId == '/inicio.xhtml' ? 'active' : ''}">
 								<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
 								<span style="padding-right: 9px;" />
 										#{lblMain.pedidos}
@@ -71,14 +71,14 @@
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
 		            								,ROLE_ADMIN_MEMBER">
-			            	<li>
+			            	<li class="#{view.viewId == '/cotizaciones.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/cotizaciones" styleClass="nav-item nav-link textMenuStyle ">
 						         #{lblMain.cotizaciones}</h:link>
 						    </li>
 					    </sec:authorize>
 		            	
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">          		
-			            	<li>		            		
+			            	<li class="#{view.viewId == '/consultaExistencia.xhtml' ? 'active' : ''}">		            		
 			            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
 			            			<span style="padding-right: 9px;" />
 										#{lblMain.busqueda}
@@ -88,8 +88,8 @@
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
 		            								,ROLE_ADMIN_MEMBER">
-			            	<li>
-			            		<h:link outcome="/estadoCuenta/listado" styleClass="nav-item nav-link textMenuStyle">
+			            	<li class="#{view.viewId == '/estadoCuenta.xhtml' ? 'active' : ''}">
+			            		<h:link outcome="/estadoCuenta" styleClass="nav-item nav-link textMenuStyle">
 				            		<span style="padding-right: 9px;" />
 				            		#{lblMain.estadoCuenta}
 			            		</h:link>
@@ -210,7 +210,7 @@
 		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
 		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
 		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">              
-			            	<li>
+			            	<li class="#{view.viewId == '/contactanos.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
 				            		#{lblMain.contactanos}
 			            		</h:link>
