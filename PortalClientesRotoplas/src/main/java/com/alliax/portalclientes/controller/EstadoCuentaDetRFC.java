@@ -159,6 +159,7 @@ public class EstadoCuentaDetRFC {
     			resultado.setFechaCorte(this.structure.getDate("CORTE_DATE"));
     			resultado.setPais( this.structure.getString("COUNTRY") );
     			resultado.setSignoPesos( Helper.getSignoPesos(resultado.getPais()) );
+    			logger.info("::::::::Estado Cuenta SAP:::::: " + resultado.toString());
     		}
     		
     		List<EstadoCuentaDet> detalle = new ArrayList<EstadoCuentaDet>();
@@ -184,7 +185,7 @@ public class EstadoCuentaDetRFC {
     			item.setEntrega(this.table.getString("ENTREGA"));
     			item.setFacturaRelacionada(this.table.getString("FACTURA_REF"));
     			item.setUUIDRelacionado(this.table.getString("FACT_FISCAL_REF"));
-    			
+    			logger.info("::::::::Detalle Estado Cuenta SAP:::::: " + item.toString());
     			detalle.add(item);    			
     		}
     		resultado.setDetalle(detalle);
