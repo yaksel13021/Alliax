@@ -10,6 +10,15 @@
       
 <h:body>
 	<ui:composition template="templateBoot.xhtml">
+		<ui:define name="scriptJS">
+			<script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+			<script src="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.js']}"></script>
+			<script src="#{resource['lookAndFeel/vendor/ChartJs/Labels/chartjs-plugin-labels.js']}"></script>
+			<script src="#{resource['lookAndFeel/vendor/ChartJs/Plugins/Datalabels/chartjs-plugin-datalabels.min.js']}"></script>
+			<script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+			<script src="#{resource['lookAndFeel/js/charts.js']}"></script>
+			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
+		</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<!-- Main Content -->
@@ -35,7 +44,7 @@
 															class="labelLeftInput fillWidthAvaible">
 																#{lblMain.empresa}
 														</h:outputLabel>
-														<h:selectOneMenu class="form-control dropdownActive"
+														<h:selectOneMenu value="#{edoCta.empresa}" class="form-control dropdownActive"
 															id="select_estatus" name="select_estatus">
 															<f:selectItems value="#{edoCta.clienteCompanySet}" var="emp"
 																itemValue="#{emp.key}" itemLabel="#{emp.value}" />
@@ -54,6 +63,7 @@
 																style="margin-right: 0px; width: 90px;" autocomplete="off" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
+																<h:inputHidden id="frm_fechaCorteAlt" name="frm_fechaCorteAlt" value="#{edoCta.fechaCorte}" />
 															</h:panelGroup>
 														</h:panelGroup>
 													</h:panelGroup>
@@ -61,10 +71,10 @@
 											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<h:commandButton action="#{edoCta.generarEstadoCuenta}"
+													<h:commandButton id="setFiltersEstadoCuenta"
 																	 styleClass="btn btn-primary btn-lg float-right"
-																	 value="#{lblMain.btnGenerar}" id="setFiltersEstadoCuenta" >
-														<f:ajax execute="@form" render="@this"  />
+																	 value="#{lblMain.btnGenerar}" >
+														<f:ajax execute="@form" render="datosFiscalesGenerales botonesXLSPDF llenadoGraficasTablas" listener="#{edoCta.generarEstadoCuenta}" />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -75,8 +85,8 @@
 						</h:panelGroup>
 						<br />
 						<h:panelGroup layout="block" styleClass="container-fluid hidden">
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-lg-4 isResizable">
+							<h:panelGroup id = "datosFiscalesGenerales" layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-lg-4">
 									<!-- Default Card Example -->
 									<h:panelGroup layout="block" styleClass="card mb-4 h-100-percent">
 										<h:panelGroup layout="block" styleClass="card-header">
@@ -126,7 +136,7 @@
 										</h:panelGroup>
 									</h:panelGroup>
 								</h:panelGroup>
-								<h:panelGroup layout="block" styleClass="col-lg-4 isResizable">
+								<h:panelGroup layout="block" styleClass="col-lg-4">
 									<!-- Default Card Example -->
 									<h:panelGroup layout="block" styleClass="card mb-4 h-100-percent">
 										<h:panelGroup layout="block" styleClass="card-header">
@@ -209,20 +219,21 @@
 										</h:panelGroup>
 									</h:panelGroup>
 								</h:panelGroup>
-								<h:panelGroup layout="block" styleClass="col-lg-4 isResizable">
+								<h:panelGroup layout="block" styleClass="col-lg-4">
 									<!-- Default Card Example -->
 									<h:panelGroup layout="block" styleClass="card mb-4 h-100-percent">
 										<h:panelGroup layout="block" styleClass="card-header">#{lblMain.grafica}</h:panelGroup>
 										<h:panelGroup layout="block" styleClass="card-body">
 											<div class="chart-container h-200" data-height="h-200"
-												style="height: 100%; width: 100%;">
+												style="width: 100%;">
 												<canvas id="chart_puertos_origen"></canvas>
 											</div>
 										</h:panelGroup>
 									</h:panelGroup>
 								</h:panelGroup>
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="row">
+							<br></br>
+							<h:panelGroup id = "botonesXLSPDF" layout="block" styleClass="row">
 								<!-- Earnings (Monthly) Card Example -->
 								<h:panelGroup layout="block" styleClass="col-xl-2 col-md-2 mb-2">
 									<h:panelGroup layout="block" styleClass="card border-left-success shadow  py-2">
@@ -261,7 +272,7 @@
 							<h:panelGroup layout="block" styleClass="col-12">
 								<h:panelGroup layout="block" styleClass="card text-center">
 									<h:panelGroup layout="block" styleClass="card-body">
-										<table id="tablaEstCuenta"
+										<table id="idtablaEstCuenta"
 											class="table table-striped  table-hover" width="100%">
 											<thead>
 												<tr>
@@ -289,78 +300,72 @@
 					</div>
 				</h:panelGroup>
 				<!-- End of Main Content -->
-			</h:form>
-		</ui:define>
-		
-		<ui:define name="scriptJS">
-			<script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
-			<script src="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.js']}"></script>
-			<script src="#{resource['lookAndFeel/vendor/ChartJs/Labels/chartjs-plugin-labels.js']}"></script>
-			<script src="#{resource['lookAndFeel/vendor/ChartJs/Plugins/Datalabels/chartjs-plugin-datalabels.min.js']}"></script>
-			<script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
-			<script src="#{resource['lookAndFeel/js/charts.js']}"></script>
-			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
-			<script>
-				var dataEstCuenta = [];
-				var modelGrafica = [];
-				function initMostrarPropiedades() {
-					var xmlBody = "";
-					var pdfBody = "";
-					<ui:repeat value="#{edoCta.detalle}" var="detalle">
-						if('MX' === "#{edoCta.estadoCuenta.pais}") {
-							xmlBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=xml";
-							pdfBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=pdf";  
-						}
-						if('AR' === "#{edoCta.estadoCuenta.pais}") {
-							if("#{detalle.noFactura}" != '') {
-								if("#{detalle.notaEntrega}" != '') {
-									pdfBody = "edoCta.descargaFacturaArgentina(detalle.noFactura, detalle.notaEntrega)";  
+				<h:panelGroup id = "llenadoGraficasTablas" layout="block" styleClass="hidden" >
+					<script>
+						dataEstCuenta = [];
+						var modelGrafica = [];
+						function initMostrarPropiedades() {
+							var xmlBody = "";
+							var pdfBody = "";
+							<ui:repeat value="#{edoCta.detalle}" var="detalle">
+								if('MX' === "#{edoCta.estadoCuenta.pais}") {
+									xmlBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=xml";
+									pdfBody = "http://webrotoplas.ekomercio.com/WSRotoplas_XML_PDF/?uuid=#{detalle.noFactFiscal}&amp;file=pdf";  
 								}
-							}
+								if('AR' === "#{edoCta.estadoCuenta.pais}") {
+									if("#{detalle.noFactura}" != '') {
+										if("#{detalle.notaEntrega}" != '') {
+											pdfBody = "edoCta.descargaFacturaArgentina(detalle.noFactura, detalle.notaEntrega)";  
+										}
+									}
+								}
+								if('PE' === "#{edoCta.estadoCuenta.pais}") {
+									if("#{detalle.notaEntrega}" != '') {
+										xmlBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'xml')";  
+										pdfBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'pdf')"
+									}	
+								}
+								if('GT' === "#{edoCta.estadoCuenta.pais}") {
+									if("#{detalle.noFactura}" != '') {
+										pdfBody = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=#{detalle.noFactFiscal}"
+									}
+								}
+								dataEstCuenta.push({
+									  tipoDocumento: "#{detalle.tipoDocumento}",
+									  Npedido: "#{detalle.noPedido}",
+									  ordenDeCompra: "#{detalle.ordenCompra}",
+									  factSap: "#{detalle.noFactura}",
+									  factFiscal: "#{detalle.noFactFiscal}",
+									  xml: xmlBody,
+									  pdf: pdfBody,  
+									  facturaRelac: "#{detalle.facturaRelacionada}",
+									  UUid: "#{detalle.UUIDRelacionado}",
+									  fechaFact: "#{detalle.fechaFactura}",
+									  vencimiento: "#{detalle.fechaVenc}",
+									  diasMora: "#{detalle.diasMora}",
+									  importe: "#{edoCta.getMontoFormateado( detalle.importe )}",
+									  estatus: "#{detalle.estatus}"
+									});
+							</ui:repeat>
 						}
-						if('PE' === "#{edoCta.estadoCuenta.pais}") {
-							if("#{detalle.notaEntrega}" != '') {
-								xmlBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'xml')";  
-								pdfBody = "edoCta.descargaFacturaPeru(detalle.notaEntrega, 'pdf')"
-							}	
-						}
-						if('GT' === "#{edoCta.estadoCuenta.pais}") {
-							if("#{detalle.noFactura}" != '') {
-								pdfBody = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=#{detalle.noFactFiscal}"
-							}
-						}
-						dataEstCuenta.push({
-							  tipoDocumento: "#{detalle.tipoDocumento}",
-							  Npedido: "#{detalle.noPedido}",
-							  ordenDeCompra: "#{detalle.ordenCompra}",
-							  factSap: "#{detalle.noFactura}",
-							  factFiscal: "#{detalle.noFactFiscal}",
-							  xml: xmlBody,
-							  pdf: pdfBody,  
-							  facturaRelac: "#{detalle.facturaRelacionada}",
-							  UUid: "#{detalle.UUIDRelacionado}",
-							  fechaFact: "#{detalle.fechaFactura}",
-							  vencimiento: "#{detalle.fechaVenc}",
-							  diasMora: "#{detalle.diasMora}",
-							  importe: "#{edoCta.getMontoFormateado( detalle.importe )}",
-							  estatus: "#{detalle.estatus}"
+						function initMostrarPropiedadesGrafica() {
+							modelGrafica.push({
+								name: "#{lblMain.vencidoGrafica}",
+								value: "#{edoCta.estadoCuenta.saldoVencido}"
 							});
-					</ui:repeat>
-				}
-				function initMostrarPropiedadesGrafica() {
-					modelGrafica.push({
-						name: "#{lblMain.vencidoGrafica}",
-						value: "#{edoCta.estadoCuenta.saldoVencido}"
-					});
-					modelGrafica.push({
-						name: "#{lblMain.avencerGrafica}",
-						value: "#{edoCta.estadoCuenta.saldoVencer}"
-					});
-				}
-				initMostrarPropiedadesGrafica();
-				initMostrarPropiedades();
-				initChartDoughnut();
-			</script>
+							modelGrafica.push({
+								name: "#{lblMain.avencerGrafica}",
+								value: "#{edoCta.estadoCuenta.saldoVencer}"
+							});
+						}
+						initMostrarPropiedadesGrafica();
+						initMostrarPropiedades();
+						debugger
+						initChartDoughnut();
+						tablaEstCuenta();
+					</script>
+				</h:panelGroup>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

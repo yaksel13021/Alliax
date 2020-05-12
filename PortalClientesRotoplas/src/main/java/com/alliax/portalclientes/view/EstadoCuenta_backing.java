@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -144,7 +146,7 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 							
 			logger.info("::::::::FechaCortePortal:::::: " + this.getFechaCorte() );
 			this.setEstadoCuenta(
-					this.edoCtaRFC.detalleEstadoCuenta(cliente, this.getEmpresa(), this.getFechaCorte(), "ES"));
+					this.edoCtaRFC.detalleEstadoCuenta(cliente, this.getEmpresa(), this.getFechaCorteStr(), "ES"));
 			this.setDetalle(this.getEstadoCuenta().getDetalle());
 			
 			if(this.estadoCuenta == null || this.estadoCuenta.getDetalle() == null){
@@ -600,6 +602,20 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 		this.mensajeError = mensajeError;
 	}
 
-
+	public String getFechaCorteStr() {
+		String nuevaFechaCorte = fechaCorte;
+		if(!Fecha.validarFechayyyyMMdd(fechaCorte)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+		    try {
+		    	Date parseDate = sdf.parse(fechaCorte);
+				nuevaFechaCorte = sdf2.format(parseDate);
+			} catch (ParseException e) {
+				logger.error("::::::::FechaCorte:::::::: No se pudo convertir");
+			}
+			this.fechaCorte = nuevaFechaCorte;
+		}
+		return nuevaFechaCorte;
+	}
 	
 }
