@@ -411,7 +411,6 @@ var buscarPor = null;
   };
 })();
 function reload(){
-   setTimeout(() => {
         var select = document.getElementById("form:select_buscarPor"); //El <select>
         var value = select.value;
         if (value == 1) {
@@ -464,8 +463,18 @@ function reload(){
             $(".plantas").hide();
             $(".local").hide();
         }
-        }, 200);
 }
+
+    function validaInput() {
+        if (document.getElementById("form:frm_noMaterial").value == "" && document.getElementById("form:frm_noMaterial").value.length == 0) {
+            showToastr('El No. de Material es obligatorio.', 'Aviso', {
+                type: typeNotification.warning
+            })
+        }else{
+            document.getElementById('form:butt').click();
+        }
+    }
+
 
 function filtrar() {
     if(document.getElementById("form:frm_noMaterial").value == "" && document.getElementById("form:frm_noMaterial").value.length == 0){
@@ -473,11 +482,43 @@ function filtrar() {
             type: typeNotification.warning
         })
     }else{
-        $('.collapse').collapse('hide');
+        var table = $('[id="form:productois"]').DataTable();
+        table.destroy();
+        //$('.collapse').collapse('hide');
+        $('[id="form:productois"]').DataTable({
+            paging: true,
+            searching: true,
+            lengthChange: false,
+            scrollY: true,
+            "scrollX": true,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },})
     }
 }
 
-$.fn.selectpicker.Constructor.BootstrapVersion = '4';
+function tablaMessage(){
+    showToastr('No se encontraron resultados con los criterios de busqueda especificados.', 'Aviso', {
+        type: typeNotification.warning
+    })
+}
 
 $(document).ready(function(e) {
     $('[id="form:select_buscarPor"]').select2({
@@ -490,6 +531,18 @@ $(document).ready(function(e) {
     });
 
 });
+
+function firstFill(){
+    $('[id="form:select_buscarPor"]').select2({
+        theme: "bootstrap",
+        allowClear: true,
+        placeholder: "Seleccione una opción",
+        language: Select2Languaje(),
+        multiple: false,
+        width: "100%",
+    });
+}
+
 
 
 
