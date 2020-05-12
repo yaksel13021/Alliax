@@ -199,6 +199,15 @@ public class EstadoCuenta implements java.io.Serializable{
 	public void setSignoPesos(String signoPesos) {
 		this.signoPesos = signoPesos;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "EstadoCuenta [numCliente=" + numCliente + ", nombre=" + nombre + ", nombre2=" + nombre2 + ", nombre3="
+				+ nombre3 + ", nombre4=" + nombre4 + ", rfc=" + rfc + ", tel=" + tel + ", tel2=" + tel2 + ", eMail="
+				+ eMail + ", moneda=" + moneda + ", limiteCredito=" + limiteCredito + ", saldoVencido=" + saldoVencido
+				+ ", saldoVencer=" + saldoVencer + ", total=" + total + ", creditoDisponible=" + creditoDisponible
+				+ ", fechaCorte=" + fechaCorte + ", pais=" + pais + ", signoPesos=" + signoPesos + ", muestraDetalle="
+				+ muestraDetalle + "]";
+	}
+	
 }
