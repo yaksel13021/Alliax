@@ -37,7 +37,8 @@
 														</h:outputLabel>
 														<h:selectOneMenu class="form-control dropdownActive"
 															id="select_estatus" name="select_estatus">
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.rotoplasSA}" />
+															<f:selectItems value="#{edoCta.clienteCompanySet}" var="emp"
+																itemValue="#{emp.key}" itemLabel="#{emp.value}" />
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
@@ -47,8 +48,10 @@
 																#{lblMain.fechaCorte}
 														</h:outputLabel>
 														<h:panelGroup layout="block" styleClass="input-group date date-start">
-															<h:inputText id="date_start" name="date_start"
-																class="form-control" />
+															<h:inputText id="frm_fechaCorte"
+																styleClass="form-control input-sm"
+																value="#{edoCta.fechaCorteShow}"
+																style="margin-right: 0px; width: 90px;" autocomplete="off" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
 															</h:panelGroup>
@@ -58,11 +61,11 @@
 											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<button id="setFiltersEstadoCuenta"
-														class="btn btn-primary float-right" role="button"
-														name="setFiltersEstadoCuenta" type="button">
-														#{lblMain.btnGenerar}
-													</button>
+													<h:commandButton action="#{edoCta.generarEstadoCuenta}"
+																	 styleClass="btn btn-primary btn-lg float-right"
+																	 value="#{lblMain.btnGenerar}" id="setFiltersEstadoCuenta" >
+														<f:ajax execute="@form" render="@this"  />
+													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
 										</h:panelGroup>
