@@ -965,10 +965,10 @@ $(document).ready(function () {
     // });
 
     $("#example tbody").off().on('click', 'tr', function () {
-      var data = $expampleDT.row(0).data();
-      if(data != "" || data != null ){
+      var data = $expampleDT.rows();
+      if(data != "" && data != null ){
           /*example2Func(data2);
-          example3Func(data3);-*/
+          example3Func(data3);*/
           $("#myModal").modal("toggle");
       }
       if ($example2) {
@@ -1028,6 +1028,7 @@ $(document).ready(function () {
       expampleDTFunc(filter);
       $('.collapse').collapse('hide');
       events();
+      /*setSelect();*/
     });
 
     $('#setFiltersEstadoCuenta').off().on('click', function () {
@@ -1056,6 +1057,10 @@ $(document).ready(function () {
       }
     };
   }
+  
+  /*var setSelect = function () {
+    $("id=['form:frm_estatus']").val($('.dropdownActive').val()).trigger('change');
+  }*/
 
   $('.dropdownActive').select2({
     theme: "bootstrap",
