@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
 
-@ManagedBean(name="pedido")
+@ManagedBean(name="pedidos")
 @SessionScoped
 public class Pedido_backing extends AbstractBackingGen {
 

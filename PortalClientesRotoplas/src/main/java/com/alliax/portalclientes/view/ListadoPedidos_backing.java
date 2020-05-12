@@ -6,6 +6,7 @@
 package com.alliax.portalclientes.view;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +18,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 
 
+import com.alliax.portalclientes.controller.CancelaPedidoRFC;
+import com.alliax.portalclientes.controller.DetallePedidoConfig;
+import com.alliax.portalclientes.controller.DetallePedidoRFC;
+import com.alliax.portalclientes.controller.FacturasConfig;
+import com.alliax.portalclientes.controller.FacturasPedidoRFC;
+import com.alliax.portalclientes.controller.ListaPedidosConfig;
+import com.alliax.portalclientes.model.Factura;
+import com.alliax.portalclientes.model.Item;
 import org.apache.log4j.Logger;
 
 import com.alliax.portalclientes.controller.ListaPedidosRFC;
@@ -26,7 +37,7 @@ import com.alliax.portalclientes.general.formato.Fecha;
 import com.alliax.portalclientes.model.OrdenVenta;
 import com.alliax.portalclientes.util.Helper;
 
-@ManagedBean(name="listaPedidos")
+@ManagedBean(name="listaPedidos", eager = true)
 @SessionScoped
 public class ListadoPedidos_backing extends AbstractBackingGen {
 
@@ -41,7 +52,17 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	private String fechaFinal;
 	private String estatus;
 	private String lang;
-	
+
+
+	private OrdenVenta pedido;
+	private List<Item> partidas;
+	private List<Factura> facturas;
+
+	private String classPartidas = "tab-pane active";
+	private String classFacturas = "tab-pane";
+
+	private String pedidoCancelado;
+
 	//@ManagedProperty(value="#{sessionScope.listadoPedidos}")/
 	private List<OrdenVenta> listadoPedidos;
 
@@ -230,16 +251,19 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			
 			//Elimina resultados de session
 			//this.getSessionMap().remove("listadoPedidos");
-						
-			this.setListadoPedidos(listado.busquedaPedidos(
-				this.getUsuarioLogueado().getNoCliente(),
-				this.getFechaInicial(),
-					this.getFechaFinal(),
+			try {
+				this.setListadoPedidos(listado.busquedaPedidos(
+						this.getUsuarioLogueado().getNoCliente(),
+						this.getFechaInicial(),
+						this.getFechaFinal(),
 						this.getNoPedido(),
-							this.getDocumentoComercial(),
-								estatus,
-									this.getUsuarioLogueado().getLanguage()));
-			
+						this.getDocumentoComercial(),
+						estatus,
+						this.getUsuarioLogueado().getLanguage()));
+			}catch (Exception e){
+				ListaPedidosConfig listaPedidosConfig = new ListaPedidosConfig();
+				this.setListadoPedidos(listaPedidosConfig.pedidos());
+			}
 			logger.info("Despues del set list");
 			
 			//Graba listado en session
@@ -259,5 +283,169 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 						FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
 		}
 		return "";
+	}
+
+	public void asignaPedido(){
+
+		OrdenVenta ov = this.getFacesContext().getApplication().evaluateExpressionGet(
+				this.getFacesContext(), "#{pedidoObj}", OrdenVenta.class);
+		this.setPedido(ov);
+		logger.info("asignaPedido " + ov);
+	}
+
+	/**
+	 * Action para cargar el detalle del pedido
+	 */
+	public void cargaDetallePartidas(){
+		try{
+
+			OrdenVenta ov = this.getFacesContext().getApplication().evaluateExpressionGet(
+					this.getFacesContext(), "#{pedidoObj}", OrdenVenta.class);
+			this.setPedido(ov);
+			logger.info("cargaDetallePartidas " + getPedido());
+			if(getPedido() != null) {
+				DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
+//					this.setPartidas(
+//							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
+//									this.getUsuarioLogueado().getLanguage()));
+
+				DetallePedidoConfig detalleConf = new DetallePedidoConfig();
+				setPartidas(detalleConf.partidas());
+
+				//this.setFacturas(detalle.getListaFacturas());
+			}
+			//}
+		} catch(Exception e){
+			logger.error("Error getPedido. " + getPedido());
+			logger.error("Error al desplegar detalle del pedido. " + e.getLocalizedMessage());
+			this.getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+							(new MessageFormat(this.getLblMain().getString("errDetallePedido")).format(
+									new Object[] {this.getPedido().getDocumentoComercial()}))));
+
+			DetallePedidoConfig detalle = new DetallePedidoConfig();
+			setPartidas(detalle.partidas());
+		}
+	}
+
+	/**
+	 * Metodo para Extraer las facturas de un pedido
+	 * @param abe
+	 */
+	public void obtieneFacturas(AjaxBehaviorEvent abe){
+		try {
+			logger.info("Buscando facturas del pedido ");
+			logger.info("Doc. Comercial: " + this.getPedido().getDocumentoComercial());
+
+			//if(this.getFacturas() == null){
+				this.setClassFacturas("tab-pane active");
+				this.setClassPartidas("tab-pane");
+
+				//List<Factura> test = new ArrayList<Factura>();
+
+				FacturasPedidoRFC facturas = this.getSpringContext().getBean("facturasPedido",FacturasPedidoRFC.class);
+
+				this.setFacturas(
+						facturas.busquedaFacturas(this.getPedido().getDocumentoComercial()));
+			//}
+		} catch(Exception e){
+			logger.error("Error al desplegar detalle del pedido " + e.getLocalizedMessage());
+
+			this.getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+							(new MessageFormat(this.getLblMain().getString("errListaFacturas")).format(
+									new Object[] {this.getPedido().getDocumentoComercial()}))));
+			FacturasConfig facturasConfig = new FacturasConfig();
+
+			this.setFacturas(facturasConfig.facturas());
+		}
+	}
+
+	/**
+	 * Metodo para Cancelar un pedido
+	 * @param nroPedido
+	 */
+	public void cancelarPedido(String nroPedido){
+		try {
+			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
+			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
+			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido);
+			logger.info("Cancelar pedido,  respuesta: " + cancelado);
+			this.setPedidoCancelado(cancelado);
+		} catch(Exception e){
+			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
+			//CancelaPedidoConfig cancelaPedidoConfig	= new CancelaPedidoConfig();
+			//String cancelado = cancelaPedidoConfig.cancelaPedido(nroPedido);
+			//this.setPedidoCancelado(cancelado);
+			this.getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+							(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
+									new Object[] {this.getPedido().getPedidoCliente()}))));
+		}
+	}
+
+	/**
+	 * Metodo para Copiar un pedido
+	 * @param nroPedido
+	 */
+	public void copiarPedido(String nroPedido){
+		try {
+			logger.info("Copiar pedido,  nroPedido: " + nroPedido);
+
+		} catch(Exception e){
+			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
+			//this.getFacesContext().addMessage(null,
+			//new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+			//(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
+			//new Object[] {this.getPedido().getPedidoCliente()}))));
+		}
+	}
+
+	public OrdenVenta getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(OrdenVenta pedido) {
+		this.pedido = pedido;
+	}
+
+	public List<Item> getPartidas() {
+		return partidas;
+	}
+
+	public void setPartidas(List<Item> partidas) {
+		this.partidas = partidas;
+	}
+
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public String getClassPartidas() {
+		return classPartidas;
+	}
+
+	public void setClassPartidas(String classPartidas) {
+		this.classPartidas = classPartidas;
+	}
+
+	public String getClassFacturas() {
+		return classFacturas;
+	}
+
+	public void setClassFacturas(String classFacturas) {
+		this.classFacturas = classFacturas;
+	}
+
+	public String getPedidoCancelado() {
+		return pedidoCancelado;
+	}
+
+	public void setPedidoCancelado(String pedidoCancelado) {
+		this.pedidoCancelado = pedidoCancelado;
 	}
 }
