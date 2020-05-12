@@ -18,7 +18,7 @@ public class ListaPedidosConfig {
 
 	@Bean
 	public List<OrdenVenta> pedidos() {
-		
+
 		List<OrdenVenta> lista = new ArrayList<OrdenVenta>();
 		
 		OrdenVenta ov = new OrdenVenta();
@@ -188,8 +188,6 @@ public class ListaPedidosConfig {
 		Comp=Completo*/
 		
 
-		
-		
 		return lista;
 	}
 }

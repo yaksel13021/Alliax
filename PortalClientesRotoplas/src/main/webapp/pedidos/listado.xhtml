@@ -489,8 +489,8 @@
 																	</tr>
 																	</thead>
 																	<tbody>
-																	<!--
-																	<ui:repeat value="#{detalle.facturas}" var="factura">
+
+																	<ui:repeat value="#{listaPedidos.facturas}" var="factura">
 																		<tr>
 																			<td><h:outputLabel value="#{factura.docFactura}" /></td>
 																			<td><h:outputLabel value="#{factura.fechaFactura}">
@@ -504,7 +504,7 @@
 																			</h:outputLabel></td>
 																		</tr>
 																	</ui:repeat>
-																	-->
+
 																	</tbody>
 																</table>
 															</h:panelGroup>
@@ -515,12 +515,21 @@
 										</h:panelGroup>
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
-											<h:commandButton id="cancelarPedido" styleClass="btn btn-primary" value="#{lblMain.btnCancelarPedido}" disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}">
-												<f:ajax execute="cancelarPedido" render="form:example footer-row2" />
-											</h:commandButton>
+											<h:panelGroup id = "panelDate">
+												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='0'}"/>
+												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='1'}"/>
+
+												<!--   -->
+
+												<h:commandButton rendered="#{listaPedidos.pedidoCancelado!='0'}" styleClass="btn btn-primary"
+																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
+													<f:ajax execute="@this" render=":modal1" />
+												</h:commandButton>
+											</h:panelGroup>
+
 											<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
-												<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}" />
-												<f:ajax execute="@this" render=":modal" />
+												<f:ajax execute="@this" render="form\:contentmodal" />
 											</h:commandButton>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -528,6 +537,33 @@
 							</h:panelGroup>
 					</div>
 				</f:view>
+				
+				<f:view id="modal1" >
+					<div class="modal fade" id="myModal1" aria-labelledby="myModal1">
+					<h:panelGroup style="padding:10% 33% 20% 33%;" layout="block"
+						styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx" >
+						<h:panelGroup layout="block" styleClass="modal-content">
+							<h:panelGroup layout="block" styleClass="modal-header">
+								<h2 class="address" style="font-size: 18px;">#{lblMain.confirmacion}</h2>
+							</h:panelGroup>
+							<h:panelGroup layout="block" styleClass="modal-body" style="font-size: 14px;">
+							#{lblMain.cancelarPedidosConfirmacion}
+								<br />
+								<h:panelGroup layout="block" styleClass="modal-footer">
+									<h:commandButton action="#{detalle.cancelarPedido(detalle.pedido.pedidoCliente)}" 
+									id="cancelarSi" styleClass="btn btn-primary" value="#{lblMain.btnAceptar}" onclick="closeModalCancelarPedido()">
+													<f:ajax execute="cancelarSi" render="panelDate" />
+									</h:commandButton>
+									<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCancelar}" onclick="closeModalCancelarPedido()">
+										<f:ajax execute="@this" render=":modal1" />
+									</h:commandButton>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+			</f:view>
+				
 			</h:form>
 		</ui:define>
 		<ui:define name="scriptJS">
@@ -535,6 +571,13 @@
 
 				var closeModal = function () {
 					$('#myModal').modal('hide');
+				}
+				
+				var openModalCancelarPedido = function () {
+					$('#myModal1').modal('show');
+				}
+				var closeModalCancelarPedido = function () {
+					$('#myModal1').modal('hide');
 				}
 
 				$("#menu2").off().on('click', function () {

@@ -22,6 +22,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
 
+import com.alliax.portalclientes.controller.CancelaPedidoRFC;
 import com.alliax.portalclientes.controller.DetallePedidoConfig;
 import com.alliax.portalclientes.controller.DetallePedidoRFC;
 import com.alliax.portalclientes.controller.FacturasConfig;
@@ -60,6 +61,7 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	private String classPartidas = "tab-pane active";
 	private String classFacturas = "tab-pane";
 
+	private String pedidoCancelado;
 
 	//@ManagedProperty(value="#{sessionScope.listadoPedidos}")/
 	private List<OrdenVenta> listadoPedidos;
@@ -359,6 +361,46 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 		}
 	}
 
+	/**
+	 * Metodo para Cancelar un pedido
+	 * @param nroPedido
+	 */
+	public void cancelarPedido(String nroPedido){
+		try {
+			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
+			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
+			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido);
+			logger.info("Cancelar pedido,  respuesta: " + cancelado);
+			this.setPedidoCancelado(cancelado);
+		} catch(Exception e){
+			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
+			//CancelaPedidoConfig cancelaPedidoConfig	= new CancelaPedidoConfig();
+			//String cancelado = cancelaPedidoConfig.cancelaPedido(nroPedido);
+			//this.setPedidoCancelado(cancelado);
+			this.getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+							(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
+									new Object[] {this.getPedido().getPedidoCliente()}))));
+		}
+	}
+
+	/**
+	 * Metodo para Copiar un pedido
+	 * @param nroPedido
+	 */
+	public void copiarPedido(String nroPedido){
+		try {
+			logger.info("Copiar pedido,  nroPedido: " + nroPedido);
+
+		} catch(Exception e){
+			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
+			//this.getFacesContext().addMessage(null,
+			//new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
+			//(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
+			//new Object[] {this.getPedido().getPedidoCliente()}))));
+		}
+	}
+
 	public OrdenVenta getPedido() {
 		return pedido;
 	}
@@ -397,5 +439,13 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 
 	public void setClassFacturas(String classFacturas) {
 		this.classFacturas = classFacturas;
+	}
+
+	public String getPedidoCancelado() {
+		return pedidoCancelado;
+	}
+
+	public void setPedidoCancelado(String pedidoCancelado) {
+		this.pedidoCancelado = pedidoCancelado;
 	}
 }

@@ -487,7 +487,7 @@ $(document).ready(function () {
       /*setSelect();*/
     });
 
-    $('#setFiltersEstadoCuenta').off().on('click', function () {
+    $("[id='form:setFiltersEstadoCuenta']").off().on('click', function () {
       if ($tablaEstCuentaDT) {
         $tablaEstCuentaDT.clear().destroy();
       }
