@@ -387,7 +387,7 @@ var buscarPor = null;
 
   $('#boxMatBoton').off().on('click', function () {
 
-    if($("#input_nMatDesc").val() !== "" && $("#input_nMatDesc").val().length > 0){
+    if(document.getElementById("form:frm_noMaterial").value !== "" && document.getElementById("form:frm_noMaterial").value.length > 0){
     loadMustacheTemplate('searchProducts_template', 'cardDynamicBody');
     cargarDTSearchProductos.fill();
     $('div.hidden').removeClass('hidden');
@@ -415,9 +415,49 @@ function reload(){
         var select = document.getElementById("form:select_buscarPor"); //El <select>
         var value = select.value;
         if (value == 1) {
+            $('[id="form:select_localidad"]').select2({
+                theme: "bootstrap",
+                allowClear: true,
+                placeholder: "Seleccione una opción",
+                language: Select2Languaje(),
+                multiple: false,
+                width: "100%",
+            });
+            $('[id="form:frm_localidad"]').select2({
+                theme: "bootstrap",
+                allowClear: true,
+                placeholder: "Seleccione una opción",
+                language: Select2Languaje(),
+                multiple: false,
+                width: "100%",
+            });
             $(".local").show();
             $(".plantas").hide();
         } else if(value ==2){
+            $('[id="form:frm_PlantaPta"]').select2({
+                theme: "bootstrap",
+                allowClear: true,
+                placeholder: "Seleccione una opción",
+                language: Select2Languaje(),
+                multiple: false,
+                width: "100%",
+            });
+            $('[id="form:frm_estadoPta"]').select2({
+                theme: "bootstrap",
+                allowClear: true,
+                placeholder: "Seleccione una opción",
+                language: Select2Languaje(),
+                multiple: false,
+                width: "100%",
+            });
+            $('[id="form:frm_localidadPta"]').select2({
+                theme: "bootstrap",
+                allowClear: true,
+                placeholder: "Seleccione una opción",
+                language: Select2Languaje(),
+                multiple: false,
+                width: "100%",
+            });
             $(".plantas").show();
             $(".local").hide();
         }else{
@@ -427,28 +467,30 @@ function reload(){
         }, 200);
 }
 
-
-function llenar() {
-    alert("AasAS")
-    $dt = document.querySelector('#dt_searchProducts').rssDataTable({
-        order: [0, 'asc'],
-        scrollX: true,
-        searching: true,
-        paging: true,
-        data: rs,
-        responsive: true,
-        free: function (data, type, row, meta) {
-
-        },
-        rowCallback: function (row, data, api) {
-
-        }
-    });
-    setTimeout(() => {
-        alert(document.getElementById("form:productois").value)
-        cargarDTSearchProductos.fill();
-    }, 2000);
+function filtrar() {
+    if(document.getElementById("form:frm_noMaterial").value == "" && document.getElementById("form:frm_noMaterial").value.length == 0){
+        showToastr('El No. de Material es obligatorio.', 'Aviso', {
+            type: typeNotification.warning
+        })
+    }else{
+        $('.collapse').collapse('hide');
+    }
 }
+
+$.fn.selectpicker.Constructor.BootstrapVersion = '4';
+
+$(document).ready(function(e) {
+    $('[id="form:select_buscarPor"]').select2({
+        theme: "bootstrap",
+        allowClear: true,
+        placeholder: "Seleccione una opción",
+        language: Select2Languaje(),
+        multiple: false,
+        width: "100%",
+    });
+
+});
+
 
 
 

@@ -34,9 +34,9 @@
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <h:panelGroup layout="block" styleClass="form-group flex">
                                                         <h:outputLabel value="#{lblMain.buscarPor}" styleClass="labelLeftInput fillWidthAvaible"/>
-                                                        <h:selectOneMenu  id="select_buscarPor" name="select_buscarPor" value="#{busqueda.tipoBusqueda}" class="form-control" onchange="reload()" >
+                                                        <h:selectOneMenu  id="select_buscarPor" name="select_buscarPor" value="#{busqueda.tipoBusqueda}" styleClass="form-control" onchange="reload()" >
+                                                            <f:selectItems  value="#{busqueda.catalogoBusquedaSet}" var="tipo" itemValue="#{tipo.key}" itemLabel="#{tipo.value}" style="font-size: 11px !important;" />
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
-                                                            <f:selectItems data-tokens="china" value="#{busqueda.catalogoBusquedaSet}" var="tipo" itemValue="#{tipo.key}" itemLabel="#{tipo.value}" />
                                                             <f:ajax execute="select_buscarPor" render="a b c d boxMatBoton" listener="#{busqueda.onTipoBusquedaChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
@@ -45,9 +45,9 @@
                                                 <h:panelGroup class="col-lg-3 col-md-3 col-sm-3 col-xs-3 local hidden" id ="b" >
                                                     <h:panelGroup layout="block" styleClass="form-group flex">
                                                         <h:outputLabel value="#{lblMain.estado}" styleClass="labelLeftInput fillWidthAvaible" />
-                                                        <h:selectOneMenu id="select_localidad" name="select_localidad" value="#{busqueda.idEstado}" required="true" styleClass="form-control" >
-                                                            <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+                                                        <h:selectOneMenu id="select_localidad" name="select_localidad" value="#{busqueda.idEstado}" required="true" styleClass="form-control" onchange="reload()" >
                                                             <f:selectItems   styleClass="form-control dropdownActive" value="#{busqueda.catalogoEstadoSet}" var="estado" itemValue="#{estado.key}" itemLabel="#{estado.value}" />
+                                                            <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
                                                             <f:ajax execute="@this" render="boxLocalidad" listener="#{busqueda.onEstadoChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
@@ -56,9 +56,9 @@
                                                     <h:panelGroup id="boxLocalidad" layout="block" styleClass="form-group flex ">
                                                         <h:panelGroup>
                                                             <h:outputLabel value="#{lblMain.localidad}" styleClass="labelLeftInput fillWidthAvaible" />
-                                                            <h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" >
-                                                                <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
+                                                            <h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" onchange="reload()">
                                                                 <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
+                                                                <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
                                                                 <f:ajax execute="@this" render="boxPlanta" listener="#{busqueda.onLocalidadChange}" />
                                                             </h:selectOneMenu>
                                                         </h:panelGroup>
@@ -82,7 +82,7 @@
                                                 <h:panelGroup class="col-lg-3 col-md-3 col-sm-3 col-xs-3 plantas hidden" id ="d">
                                                     <h:panelGroup layout="block" styleClass="form-group flex">
                                                         <h:outputLabel value="#{lblMain.planta}" styleClass="labelLeftInput fillWidthAvaible" />
-                                                        <h:selectOneMenu id="frm_PlantaPta" value="#{busqueda.idPlanta}" required="true" styleClass="form-control">
+                                                        <h:selectOneMenu id="frm_PlantaPta" value="#{busqueda.idPlanta}" required="true" styleClass="form-control" onchange="reload()">
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
                                                             <f:selectItems value="#{busqueda.catalogoPlantaSet}" var="planta" itemValue="#{planta.key}" itemLabel="#{planta.value}"/>
                                                             <f:ajax execute="frm_PlantaPta" render="e" listener="#{busqueda.onPlantaAllChange}" />
@@ -92,7 +92,7 @@
                                                 <h:panelGroup class="col-lg-3 col-md-3 col-sm-3 col-xs-3 plantas hidden" >
                                                     <h:panelGroup layout="block" styleClass="form-group flex" id ="e">
                                                         <h:outputLabel value="#{lblMain.estado}" styleClass="labelLeftInput fillWidthAvaible" />
-                                                        <h:selectOneMenu id="frm_estadoPta" value="#{busqueda.idEstado}" required="true" styleClass="form-control">
+                                                        <h:selectOneMenu id="frm_estadoPta" value="#{busqueda.idEstado}" required="true" styleClass="form-control" onchange="reload()">
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
                                                             <f:selectItems value="#{busqueda.catalogoEstadoSet}" var="estado" itemValue="#{estado.key}" itemLabel="#{estado.value}" />
                                                             <f:ajax execute="frm_estado" render="f" listener="#{busqueda.onEstadoChange}" />
@@ -102,7 +102,7 @@
                                                 <h:panelGroup class="col-lg-3 col-md-3 col-sm-3 col-xs-3 plantas hidden" >
                                                     <h:panelGroup layout="block" styleClass="form-group flex" id ="f">
                                                         <h:outputLabel value="#{lblMain.localidad}" styleClass="labelLeftInput fillWidthAvaible"/>
-                                                        <h:selectOneMenu id="frm_localidadPta" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control">
+                                                        <h:selectOneMenu id="frm_localidadPta" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" onchange="reload()">
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
                                                             <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
                                                         </h:selectOneMenu>
@@ -118,7 +118,9 @@
                                                         </h:panelGroup>
 
                                                         <h:panelGroup layout="block" styleClass="form-group" rendered="#{busqueda.tipoBusqueda != 0}">
-                                                            <h:commandButton id="invisibleClickTarget" value="#{lblMain.btnBuscar}"  action="#{busqueda.busquedaExistencia}" styleClass="btn btn-primary float-right"/>
+                                                            <h:commandButton onclick="filtrar()"  id="butt" value="#{lblMain.btnBuscar}"  styleClass="btn btn-primary float-right">
+                                                                <f:ajax execute="@form" render="products" listener="#{busqueda.busquedaExistencia}" />
+                                                            </h:commandButton>
                                                         </h:panelGroup>
                                                     </h:panelGroup>
                                                 </div>
@@ -130,99 +132,77 @@
                         </div>
                     </div>
 
+                    <h:panelGroup id="products">
+                        <c:if test="#{not empty busqueda.resultados}">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card text-center">
+                                        <div id="cardDynamicBody" class="card-body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+                                                        <div id="dt_searchProducts_content" style="width: 100%">
+                                                            <h:dataTable id ="productois" value="#{busqueda.resultados}" var="stock"
+                                                                         styleClass="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
+                                                                         style="margin-top: 10px;"
+                                                                         columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 "
+                                                                         width="100%"
+                                                                         data-dt-pdfBtn="true" data-dt-excelBtn="true">
+                                                                <h:column class="no-wrap" data-dt-searcheable="true" data-dt-orderable="true">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{lblMain.noMaterial}" />
+                                                                    </f:facet>
+                                                                    <h:outputLabel value="#{stock.noMaterial}" />
+                                                                </h:column>
 
-                    <div class="row">
-                        <div class = "col-12">
-                            <div class = "card text-center">
-                                <div class="card-body">
-                                    <div class="container">
-                                        <div class = "row">
-                                            <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                                                <div id="dt_searchProducts_content" style="width: 100%">
-                                                    <div id="dt_searchProducts_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                                        <div class="row">
-                                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
-                                                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                                                                <div id="dt_searchProducts_filter" class="dataTables_filter">
-                                                                    <label>Buscar:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dt_searchProducts"></input></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <h:dataTable id ="dt_searchProducts" value="#{busqueda.resultados}" var="stock"
-                                                                             rendered="#{not empty busqueda.resultados and not busqueda.mobileDevice}"
-                                                                             styleClass="table table-striped table-hover table-bordered"
-                                                                             style="margin-top: 10px;"
-                                                                             columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 "
-                                                                             width="100%"
-                                                                             data-dt-pdfBtn="true" data-dt-excelBtn="true">
-                                                                    <h:column data-dt-searcheable="true" data-dt-orderable="true">
+                                                                <h:column class="no-wrap" data-dt-orderable="true">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{lblMain.descripcion}" />
+                                                                    </f:facet>
+                                                                    <h:outputLabel value="#{stock.descripcion}" />
+                                                                </h:column>
+
+                                                                <ui:remove>
+                                                                    <h:column>
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.noMaterial}" />
+                                                                            <h:outputText value="#{lblMain.centro}" />
                                                                         </f:facet>
-                                                                        <h:outputLabel value="#{stock.noMaterial}" />
+                                                                        <h:outputLabel value="#{stock.noPlanta}" />
                                                                     </h:column>
+                                                                </ui:remove>
 
-                                                                    <h:column data-dt-orderable="true">
+                                                                <h:column class="no-wrap" data-dt-orderable="true">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{lblMain.planta}" />
+                                                                    </f:facet>
+                                                                    <h:outputLabel value="#{stock.planta}" />
+                                                                </h:column>
+
+                                                                <ui:remove>
+                                                                    <h:column>
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.descripcion}" />
+                                                                            <h:outputText value="#{lblMain.almacen}" />
                                                                         </f:facet>
-                                                                        <h:outputLabel value="#{stock.descripcion}" />
+                                                                        <h:outputLabel value="#{stock.almacen}" />
                                                                     </h:column>
+                                                                </ui:remove>
 
-                                                                    <ui:remove>
-                                                                        <h:column>
-                                                                            <f:facet name="header">
-                                                                                <h:outputText value="#{lblMain.centro}" />
-                                                                            </f:facet>
-                                                                            <h:outputLabel value="#{stock.noPlanta}" />
-                                                                        </h:column>
-                                                                    </ui:remove>
+                                                                <h:column class="no-wrap" data-dt-orderable="true">
+                                                                    <f:facet name="header">
+                                                                        <h:panelGroup layout="block" style="text-align:center;">
+                                                                            <h:outputText value="#{lblMain.stockLibre}" />
+                                                                        </h:panelGroup>
+                                                                    </f:facet>
+                                                                    <h:outputLabel value="#{stock.stockStr}" styleClass="align-right" />
+                                                                </h:column>
 
-                                                                    <h:column data-dt-orderable="true">
-                                                                        <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.planta}" />
-                                                                        </f:facet>
-                                                                        <h:outputLabel value="#{stock.planta}" />
-                                                                    </h:column>
-
-                                                                    <ui:remove>
-                                                                        <h:column>
-                                                                            <f:facet name="header">
-                                                                                <h:outputText value="#{lblMain.almacen}" />
-                                                                            </f:facet>
-                                                                            <h:outputLabel value="#{stock.almacen}" />
-                                                                        </h:column>
-                                                                    </ui:remove>
-
-                                                                    <h:column data-dt-orderable="true">
-                                                                        <f:facet name="header">
-                                                                            <h:panelGroup layout="block" style="text-align:center;">
-                                                                                <h:outputText value="#{lblMain.stockLibre}" />
-                                                                            </h:panelGroup>
-                                                                        </f:facet>
-                                                                        <h:outputLabel value="#{stock.stockStr}" styleClass="align-right" />
-                                                                    </h:column>
-
-                                                                    <h:column data-dt-orderable="true">
-                                                                        <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.unidadMedida}" />
-                                                                        </f:facet>
-                                                                        <h:outputLabel value="#{stock.umb}" />
-                                                                    </h:column>
-                                                                </h:dataTable>
-
-                                                                <h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
-                                                                    <h:outputText value="#{lblMain.sujetoDisponibilidad}" />
-                                                                </h:panelGroup>
-
-                                                                <h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
-                                                                    <h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
-                                                                </h:panelGroup>
-
-
-                                                            </div>
+                                                                <h:column class="no-wrap" data-dt-orderable="true">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{lblMain.unidadMedida}" />
+                                                                    </f:facet>
+                                                                    <h:outputLabel value="#{stock.umb}" />
+                                                                </h:column>
+                                                            </h:dataTable>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -231,8 +211,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+                        </c:if>
+                    </h:panelGroup>
+
+
+
+                    <h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
+                        <h:outputText value="#{lblMain.sujetoDisponibilidad}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
+                        <h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
+                    </h:panelGroup>
 
                     <!-- Standard Version - Tabla de resultados stock x no Material -->
 
@@ -253,31 +244,7 @@
             <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
             <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
             <script src="#{resource['lookAndFeel/js/consultaExistencias.js']}"></script>
-            <script id="searchProducts_template" type="x-tmpl-mustache">
-                <div class="container">
-                        <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                        <div id="dt_searchProducts_content" style="width: 100%">
-                        <table id="dt_searchProducts" class="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
-                width="100%"  data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
-                        <thead>
-                        <tr>
-                        <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%" data-dt-searcheable="true" ></th>
-                        <th class="no-wrap" data-prority="1" data-dt-columnName="material" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">Material</th>
-                        <th class="no-wrap" data-prority="2" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable="true">Descripción</th>
-                        <th class="no-wrap" data-prority="3" data-dt-columnName="planta" data-columnWidth="25%" data-dt-orderable="true">Planta</th>
-                        <th class="no-wrap" data-prority="4" data-dt-columnName="stockLibre" data-columnWidth="25%" data-dt-orderable="true">Stock libre</th>
-                <th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable="true">UM</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                        </table>
-                        </div>
-                        </div>
-                        </div>
-                        <br />
-                        </div>
-            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         </ui:define>
     </ui:composition>
 </h:body>
