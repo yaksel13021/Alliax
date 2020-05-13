@@ -71,7 +71,7 @@ public class SQLUserDetailsService implements UserDetailsService {
 		//Consulta SAP para ver
 		ClienteInfo clienteInfo = null;
 		try{
-			clienteInfo = infoClienteRfc.obtieneInfoCliente(arg0);
+			clienteInfo = infoClienteRfc.obtieneInfoCliente(usr.getParent()!=null?usr.getParent():arg0);
 		}catch(Exception e){
 			logger.error("Error getResultTables " + e.toString(),e);
 			InfoClienteConfig config = new InfoClienteConfig();

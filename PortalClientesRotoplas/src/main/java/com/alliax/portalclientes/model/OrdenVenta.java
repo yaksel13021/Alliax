@@ -30,7 +30,17 @@ public class OrdenVenta {
 	private String estatusGeneralDes; //GRL_STAT_H_D
 	private String razonBloqueo; //REASON_BLOCK
 	
+	private String pedidoCancelado;
 	
+	
+	
+	
+	public String getPedidoCancelado() {
+		return pedidoCancelado;
+	}
+	public void setPedidoCancelado(String pedidoCancelado) {
+		this.pedidoCancelado = pedidoCancelado;
+	}
 	public String getDocumentoComercial() {
 		return documentoComercial;
 	}
@@ -152,6 +162,7 @@ public class OrdenVenta {
 				", estatusGeneral='" + estatusGeneral + '\'' +
 				", estatusGeneralDes='" + estatusGeneralDes + '\'' +
 				", razonBloqueo='" + razonBloqueo + '\'' +
+				", pedidoCancelado='" + pedidoCancelado + '\'' +
 				'}';
 	}
 }

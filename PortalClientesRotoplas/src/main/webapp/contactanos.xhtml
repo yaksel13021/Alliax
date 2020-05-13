@@ -13,6 +13,12 @@
         <style>
             select:invalid { color: gray; }
         </style>
+        <ui:define name="metadata">
+            <link href="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
+        </ui:define>
         <ui:define name="content">
             <script>
                 $(document).ready(function () {
@@ -24,11 +30,7 @@
             </script>
 
             <h:panelGroup rendered="#{param['sended'] == 'true'}">
-                <div id="chr-main-avisos" class="well well-sm">
-                    <ul id="messages">
-                        <li class="text-success">Petición enviada satisfactoriamente</li>
-                    </ul>
-                </div>
+                <h:outputScript>succesReload()</h:outputScript>
             </h:panelGroup>
 
             <form id="form" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
@@ -73,7 +75,6 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select style="font-size: 11px !important;" id="00N55000003mwze" name="00N55000003mwze" title="Tipo de Incidencias" class="form-control dropdownActive" required="true">
-                                    <option value="0" disabled="selected hidden">Please Choose...</option>
                                     <option style="font-size: 11px !important;" value="RT Captura de domicilio equivocado b">Captura domicilio equivocado</option>
                                     <option style="font-size: 11px !important;" value="RT Demora en recepcion b">Demora en recepción</option>
                                     <option style="font-size: 11px !important;" value="RT Entrega de producto erroneo b">Entrega de producto erróneo</option>
@@ -93,7 +94,6 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select style="font-size: 11px !important;" id="00N55000003mpKy" name="00N55000003mpKy" title="Planta" class="form-control">
-                                    <option style="font-size: 11px !important;" value="">--Ninguno--</option>
                                     <option style="font-size: 11px !important;" value="ANAHUAC">ANAHUAC</option>
                                     <option style="font-size: 11px !important;" value="GOLFO">GOLFO</option>
                                     <option style="font-size: 11px !important;" value="GUADALAJARA">GUADALAJARA</option>
@@ -118,7 +118,6 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select style="font-size: 11px !important;" id="00N55000003mq19" name="00N55000003mq19" title="Tipo de Documento"
                                         class="form-control dropdownActive">
-                                    <option style="font-size: 11px !important;" value="">--Ninguno--</option>
                                     <option style="font-size: 11px !important;" value="Folio de Queja">Folio de Queja</option>
                                     <option style="font-size: 11px !important;" value="Folio de Servicio Tecnico">Folio de Servicio Técnico</option>
                                     <option style="font-size: 11px !important;" value="No De Devolucion">No. De Devolución</option>
@@ -144,12 +143,12 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <textarea id="00N55000003mpLI" name="00N55000003mpLI" rows="5" type="text" wrap="soft"
-                                          class="form-control" required="true"></textarea>
+                                          class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="form-group flex row">
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <input type="submit" name="submit" value="Enviar Petición" class="btn btn-primary"/>
+                                <input onclick="valida()" value="Enviar Petición" class="btn btn-primary"/>
                             </div>
                         </div>
                     </div>
@@ -159,35 +158,24 @@
         <ui:define name="scriptJS">
             <script src="#{resource['lookAndFeel/vendor/Polyfill/Promise/promisePolyfill.min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Polyfill/FindIndex/findIndexPolyfill.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/dataTables.buttons.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/buttons.bootstrap4.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/buttons.colVis.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/buttons.flash.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/buttons.html5.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/js/buttons.print.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/pdfmake-0.1.36/pdfmake.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Datatables/pdfmake-0.1.36/vfs_fonts.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
-
             <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
             <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
             <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
             <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/crearPedido.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
             <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
             <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/jquery/jquery.min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/PopperJs/popper.min.js']}"></script>
             <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
             <script src="#{resource['lookAndFeel/js/contactanos.js']}"></script>
         </ui:define>
 

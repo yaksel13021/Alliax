@@ -10,12 +10,21 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
 import java.util.List;
 
 @Service("pedidoPartidasService")
 @Repository
 @Transactional
 public class PedidoPartidasServiceImpl implements PedidoPartidasService {
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     private PedidoPartidasRepository pedidoPartidasRepository;
@@ -33,5 +42,13 @@ public class PedidoPartidasServiceImpl implements PedidoPartidasService {
     @Override
     public PedidoPartidas save(PedidoPartidas pedido) {
         return pedidoPartidasRepository.save(pedido);
+    }
+
+    @Override
+    public List<PedidoPartidas> findByidPedido(Long idPedido){
+        TypedQuery<PedidoPartidas> query = this.em.createNamedQuery("PedidoP.findByIdPedido",PedidoPartidas.class);
+        query.setParameter("idPedido" , idPedido);
+        return query.getResultList();
+
     }
 }

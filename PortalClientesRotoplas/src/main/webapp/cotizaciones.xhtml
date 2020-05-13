@@ -1,68 +1,143 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:c="http://java.sun.com/jsp/jstl/core"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-  xmlns:sec="http://www.springframework.org/security/tags">
-      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
 <h:body>
   <ui:composition template="templateBoot.xhtml">
     <ui:define name="metadata">
       <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
     </ui:define>
     <ui:define name="content">
-      <h:form id="login">
-      <!-- Main Content -->
+      <h:form id="form">
+        <!-- Main Content -->
         <div class="container containerFiltersOne">
           <div class="accordion" id="myAccordion">
             <div class="row">
               <div class="col-12">
                 <div class="card">
                   <div id="item1Header" class="card-header" type="button" data-toggle="collapse"
-                    data-target="#expandable1" aria-expanded="true" aria-controls="expandable1"
-                    style="background-color: #236192;color: white;">
+                       data-target="#expandable1" aria-expanded="true" aria-controls="expandable1"
+                       style="background-color: #236192;color: white;">
+                    <span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
                     <h5 class="mb-0">Filtros</h5>
                   </div>
                   <div id="expandable1" class="collapse show" aria-labelledby="item1Header" data-parent="#myAccordion">
-                    <div class="card-body">
-                 
-                      <div class="row">
-
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          <div class="form-group ">
-                            <label for="date_start" class=" ">Fecha de corte</label>
-                            <div class="input-group date date-start">
-                              <input id="date_start" name="date_start" type="text" class="form-control" />
-                              <div class="input-group-append">
+                    <h:panelGroup layout="block" styleClass="card-body">
+                      <h:panelGroup layout="block" styleClass="row">
+                        <h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <h:panelGroup layout="block" styleClass="form-group flex">
+                            <h:outputLabel class="labelLeftInput fillWidthAvaible">
+                              Fecha
+                            </h:outputLabel>
+                            <h:panelGroup layout="block" styleClass="input-group date date-start">
+                              <h:inputText id="frm_fechaCorte"
+                                           styleClass="form-control input-sm"
+                                           value="#{consultaCotizacion.fecha}"
+                                           style="margin-right: 0px; width: 90px;" autocomplete="off" />
+                              <h:panelGroup layout="block" styleClass="input-group-append">
                                 <span class="input-group-text far fa-calendar-alt"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          <div class="f">
-                            <label for="select_buscarPor" class="">No Cotización</label>
-                            <input type="text" class="form-control" id="input_nMatDesc" name="input_nMatDesc"
-                              placeholder="">
-                          </div>
-                        </div>
-                      </div>
-                      <br>
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <button id="buscar" class="btn btn-primary float-right" role="button"
-                            name="buscar">Buscar</button>
-                        </div>
-                      </div>
-                    </div>
+                              </h:panelGroup>
+                            </h:panelGroup>
+                          </h:panelGroup>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                          <h:panelGroup layout="block" styleClass="form-group flex">
+                            <h:outputLabel class="labelLeftInput fillWidthAvaible">
+                              No Cotización
+                            </h:outputLabel>
+                            <h:inputText type="text" class="form-control" id="input_nMatDesc" name="input_nMatDesc"
+                                         value="#{consultaCotizacion.noCotizacion}"
+                                         placeholder=""/>
+                          </h:panelGroup>
+                        </h:panelGroup>
+                      </h:panelGroup>
+                      <!--<br>-->
+                      <h:panelGroup layout="block" styleClass="row">
+                        <h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <h:commandButton action="#{consultaCotizacion.buscaCotizaciones(template.usuarioLogueado.noCliente)}"
+                                           styleClass="btn btn-primary float-right"
+                                           value="Buscar" id="setFilters" >
+                            <f:ajax execute=":validate @form" render="panelCotizaciones" />
+                          </h:commandButton>
+                        </h:panelGroup>
+                      </h:panelGroup>
+                    </h:panelGroup>
                   </div>
+                    <div id="dCotizaciones">
+                      <h:panelGroup  id="panelCotizaciones" layout="block" styleClass="card-body">
+                        <table id="tblCot" class="table table-striped  table-hover" width="100%">
+                        <thead>
+                        <tr>
+                            <th>No cotización</th>
+                            <th>Material</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Unidad de medida</th>
+                            <th>Total</th>
+                          <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <ui:repeat   var="cotizacion" value="#{consultaCotizacion.cotizaciones}">
+                          <tr styleClass="tr:hover{text-color: white}">
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.noCotizacion}" />
+                          </h:commandLink>
+                        </td>
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.material}" />
+                          </h:commandLink></td>
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.descripcion}">
+                            </h:outputLabel>
+                            <f:ajax execute="@this" render=":modal" immediate="true"/>
+                          </h:commandLink>
+                        </td>
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.cantidad}">
+                                <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+                            </h:outputLabel>
+                          </h:commandLink>
+                        </td>
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.uM}" />
+                          </h:commandLink>
+                        </td>
+                        <td>
+                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                            <h:outputLabel value="#{cotizacion.monto}" />
+                          </h:commandLink>
+                        </td>
+                            <td>
+                              <h:panelGroup>
+                                <h:commandButton type="submit" value="#{lblMain.btnVer}" action="#{consultaCotizacion.buscarDetalles(cotizacion.nroPedido)}" styleClass="btn btn-primary float-right">
+                                  <f:ajax execute="@form" onevent="showModal" render="form\:contentmodal"/>
+                                </h:commandButton>
+                              </h:panelGroup>
+                          </td>
+                      </tr>
+                    </ui:repeat>
+
+                    </tbody>
+                    </table>
+                    </h:panelGroup>
+                  </div>
+
                 </div>
               </div>
             </div>
-            <br>
+            <!--<br>-->
           </div>
 
           <div class="row hidden">
@@ -75,186 +150,170 @@
           </div>
 
 
-          
-        </div>
-      <!-- End of Main Content -->
 
+        </div>
+        <!-- End of Main Content -->
+
+
+      <f:view id="modal" >
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModal">
+          <h:panelGroup layout="block"
+                        styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
+                        role="document" id="contentmodal">
+            <h:panelGroup layout="block" styleClass="modal-content">
+
+              <!-- Modal Header -->
+              <h:panelGroup layout="block" styleClass="modal-header">
+                <h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
+                <h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
+               
+                  <f:ajax execute="@this"></f:ajax>
+                </h:commandButton>
+              </h:panelGroup>
+
+              <!-- Modal body -->
+              <h:panelGroup layout="block" styleClass="modal-body">
+                <h:panelGroup layout="block" styleClass="container-fluid">
+                  <h:panelGroup layout="block" styleClass="row">
+                    <h:panelGroup layout="block"
+                                  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+                      <h:panelGroup layput="block"
+                                    style="display: inline-block; width: 100%; overflow-y: auto;">
+                        <h:commandButton id="cotizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
+                        <f:ajax execute="@form" onevent="showModal" render="form\:contentmodal2"/>
+                        </h:commandButton>
+                      </h:panelGroup>
+                      </sec:authorize>
+                    </h:panelGroup>
+                  </h:panelGroup>
+                </h:panelGroup>
+                <br />
+                <h:panelGroup layout="block" styleClass="card text-center">
+                  <h:panelGroup layout="block" styleClass="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                      <li class="nav-item"><a class="nav-link active"
+                                              href="#menu1">#{lblMain.partidas}</a></li>
+                    </ul>
+                  </h:panelGroup>
+                  <h:panelGroup layout="block" styleClass="card-body">
+                    <h:panelGroup layout="block" id="nav-tabContent"
+                                  styleClass="tab-content">
+                      <div id="menu1"
+                           class="tab-pane active ">
+                        <br />
+                        <h:panelGroup layout="block" styleClass="row">
+                          <h:panelGroup layout="block" styleClass="col-12">
+                            <table id="example2" class="table table-striped  table-hover" width="100%">
+                              <thead>
+                              <tr>
+                                <th>#{lblMain.posicionSm}</th>
+                                <th>#{lblMain.noMaterialSm}</th>
+                                <th>#{lblMain.descripcion}</th>
+                                <th>#{lblMain.cantidadSm}</th>
+                                <th>#{lblMain.cantEntregadaSm}</th>
+                                <th>#{lblMain.unidadMedida}</th>
+                                <th>#{lblMain.monto}</th>
+                                <th>#{lblMain.precioNeto}</th>
+                                <th>#{lblMain.fechaEntregaSm}</th>
+                                <th>#{lblMain.estatus}</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <ui:repeat value="#{consultaCotizacion.partidas}" var="partida">
+                                <tr>
+                                  <td><h:outputLabel value="#{partida.posicion}" /></td>
+                                  <td><h:outputLabel value="#{partida.noMaterial}" /></td>
+                                  <td><h:outputLabel value="#{partida.descripcion}" /></td>
+                                  <td><h:outputLabel value="#{partida.cantidad}" /></td>
+                                  <td><h:outputLabel value="#{partida.cantEnt}" /></td>
+                                  <td><h:outputLabel value="#{partida.unidadMedida}" /></td>
+                                  <td><h:outputLabel value="#{partida.monto}">
+                                    <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+                                  </h:outputLabel> #{partida.moneda}</td>
+                                  <td><h:outputLabel value="#{partida.precioNeto}">
+                                    <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+                                  </h:outputLabel> #{partida.moneda}</td>
+                                  <td><h:outputLabel value="#{partida.fechaEnt}">
+                                    <f:convertDateTime dateStyle="default" />
+                                  </h:outputLabel></td>
+                                  <td><h:outputLabel value="#{partida.estatus}" /></td>
+                                </tr>
+                              </ui:repeat>
+                              </tbody>
+                            </table>
+                          </h:panelGroup>
+                        </h:panelGroup>
+                      </div>
+                    </h:panelGroup>
+                  </h:panelGroup>
+                </h:panelGroup>
+                <!-- Modal footer -->
+                <h:panelGroup layout="block" styleClass="modal-footer">
+                  <h:panelGroup id = "panelDate">
+                    <h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='0'}"/>
+                    <h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='1'}"/>
+                  </h:panelGroup>
+
+                  <h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
+                    <f:ajax execute="@this" render="form\:contentmodal" />
+                  </h:commandButton>
+                </h:panelGroup>
+              </h:panelGroup>
+            </h:panelGroup>
+          </h:panelGroup>
+
+        </div>
+      </f:view>
       </h:form>
     </ui:define>
 
-      <!-- Bootstrap core JavaScript-->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/PopperJs/popper.min.js"></script>
-      <script src="vendor/Bootstrap4/js/bootstrap.min.js"></script>
+    <ui:define name="scriptJS">
+      <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+      <script src="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.js']}"></script>
+      <script src="#{resource['lookAndFeel/vendor/ChartJs/Labels/chartjs-plugin-labels.js']}"></script>
+      <script src="#{resource['lookAndFeel/vendor/ChartJs/Plugins/Datalabels/chartjs-plugin-datalabels.min.js']}"></script>
+      <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+      <script src="#{resource['lookAndFeel/js/charts.js']}"></script>
+      <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
+      <script type="text/javascript">
 
-      <!-- Core plugin JavaScript-->
-      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+				var closeModal = function () {
+					$('#myModal').modal('hide');
+				}
 
-      <script src="vendor/Datatables/datatables.min.js"></script>
-      <script src="vendor/Datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
-      <script src="vendor/Datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
-      <script src="vendor/Datatables/Responsive-2.2.3/js/dataTables.responsive.min.js"></script>
-      <script src="vendor/Datatables/Responsive-2.2.3/js/responsive.bootstrap4.min.js"></script>
-      <script src="vendor/Moment/moment.min.js"></script>
-      <script src="vendor/Select2/select2.min.js"></script>
-      <script src="vendor/Datepicker/js/bootstrap-datepicker.min.js"></script>
-      <script src="vendor/Datepicker/locales/bootstrap-datepicker.es.min.js"></script>
-      <script src="vendor/Underscore/underscore.js"></script>
-      <script src="vendor/ChartJs/Chart.min.js"></script>
-      <script src="vendor/ChartJs/Labels/chartjs-plugin-labels.js"></script>
-      <script src="vendor/ChartJs/Plugins/Datalabels/chartjs-plugin-datalabels.min.js"></script>
-     
-     
-      <script src="vendor/Underscore/underscore.js"></script>
-    <script src="vendor/Toastr/toastr.min.js"></script>
-    <script src="vendor/Mustache/mustache.min.js"></script>
-      <script src="vendor/MatchHeight/jquery.matchHeight-min.js"></script>
-    
-      <script src="vendor/Moment/moment.min.js"></script>
-      <script src="js/tools-table-v2.js"></script>
-      <script src="js/sessionStorage.js"></script>
-      <script src="js/commonFunctions.js"></script>
-      <script src="js/cotizaciones.js"></script>
-      
-      <script id="select2_template" type="x-tmpl-mustache">
-        {{#.}}
-        <option value="{{value}}" data-identifier="{{identifier}}" {{{dataAtributos}}}>{{descripcion}}</option>
-        {{/.}}
-    </script>
+				var openModalCancelarPedido = function () {
+					$('#myModal1').modal('show');
+				}
+				var closeModalCancelarPedido = function () {
+					$('#myModal1').modal('hide');
+				}
 
-    <script id="button_template" type="x-tmpl-mustache">
-      <button id="{{id}}" class="btn btn-primary {{class}}" role="{{role}}" name="{{name}}">{{text}}</button>
-  </script>
+				$("#menu2").off().on('click', function () {
+					if ($dataT3) {
+						$dataT3.clear().destroy();
+					}
+					example3Func();
+				});
+			</script>
+      <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
+      <script>
+				function showModal(data) {
+					var modal = $("#myModal");
+					var status = data.status;
+					if(status == 'complete'){
+						$("#myModal").modal('show');
+					}
 
-    <script id="listaCotizacion_template" type="x-tmpl-mustache">
-      <div class="container">
-          <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                  <div id="dt_searchListaCotizacion_content" style="width: 100%">
-                      <table id="dt_searchListaCotizacion" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
-                          <thead>
-                              <tr>
-                                  <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
-                                  <th class="no-wrap" data-prority="1" data-dt-columnName="nCotizar" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>No cotización</th>
-                                  <th class="no-wrap" data-prority="2" data-dt-columnName="material" data-columnWidth="25%" data-dt-orderable>Material</th>
-                                  <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
-                                  <th class="no-wrap" data-prority="4" data-dt-columnName="cantidad" data-columnWidth="25%" data-dt-orderable>Cantidad</th>
-                                  <th class="no-wrap" data-prority="5" data-dt-columnName="UnidadMedida" data-columnWidth="25%" data-dt-orderable>Unidad de medida</th>
-                                  <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
-                                  <th class="no-wrap" data-prority="5" data-dt-render="free" data-columnWidth="25%" data-dt-orderable>Acción</th>
-                              </tr>
-                          </thead>
-                          <tbody></tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-          <br>
-      </div>
-  </script>
+				}
 
-  <script id="detallePedido_template" type="x-tmpl-mustache">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                <div id="detallePedido_content" style="width: 100%">
-                    <table id="detallePedido" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
-                        <thead>
-                            <tr>
-                                <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
-                                <th class="no-wrap" data-prority="1" data-dt-columnName="pos" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>Pos.</th>
-                                <th class="no-wrap" data-prority="2" data-dt-columnName="Nmaterial" data-columnWidth="25%" data-dt-orderable>No.Mat</th>
-                                <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
-                                <th class="no-wrap" data-prority="4" data-dt-columnName="cant" data-columnWidth="25%" data-dt-orderable>Cant.</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="cantEnt" data-columnWidth="25%" data-dt-orderable>Cant. ent</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable>UM</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="25%" data-dt-orderable>Monto</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="precNeto" data-columnWidth="25%" data-dt-orderable>Precio neto</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="fecEnt" data-columnWidth="25%" data-dt-orderable>Fec Ent</th>
-                                <th class="no-wrap" data-prority="5" data-dt-columnName="Estatus" data-columnWidth="25%" data-dt-orderable>Estatus</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <button id="cotizar" class="btn btn-primary float-right" role="button"
-              name="buscar">Cotizar flete</button>
-          </div>
-        </div>
-    </div>
-</script>
-
-<script id="cotizacionFlete_template" type="x-tmpl-mustache">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group text-left">
-          <label for="" class=""><strong>Cotización</strong></label>
-          <label for="" id="Labelcotizacion"class="">12133434</label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-          <div class="form-group text-left">
-            <label for="" class=" ">Fecha de expiración</label>
-            <div class="input-group date date-start1">
-              <input id="date_startExpiracion" name="date_startExpiracion" type="text" class="form-control" />
-              <div class="input-group-append">
-                <span class="input-group-text far fa-calendar-alt"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-          <div class="form-group text-left">
-            <label for="" class="">MXN</label>
-            <input type="text" class="form-control" id="input_nMatDesc" name="input_nMatDesc"
-              placeholder="">
-          </div>
-        </div>
-     
-    </div>
-      <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-              <div id="cotizacionFlete_content" style="width: 100%">
-                  <table id="cotizacionFlete" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn data-dt-excelBtn data-dt-pdfBtnColumns="1,2,3,4" data-dt-excelBtnColumns="1,2,3,4">
-                      <thead>
-                          <tr>
-                              <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
-                              <th class="no-wrap" data-prority="1" data-dt-columnName="pos" data-columnWidth="25%" data-dt-searcheable data-dt-orderable>Pos.</th>
-                              <th class="no-wrap" data-prority="2" data-dt-columnName="Nmaterial" data-columnWidth="25%" data-dt-orderable>No.Mat</th>
-                              <th class="no-wrap" data-prority="3" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-orderable>Descripción</th>
-                              <th class="no-wrap" data-prority="4" data-dt-columnName="cant" data-columnWidth="25%" data-dt-orderable>Cant.</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="cantEnt" data-columnWidth="25%" data-dt-orderable>Cant. ent</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="total" data-columnWidth="25%" data-dt-orderable>Total</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable>UM</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="25%" data-dt-orderable>Monto</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="precNeto" data-columnWidth="25%" data-dt-orderable>Precio neto</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="fecEnt" data-columnWidth="25%" data-dt-orderable>Fec Ent</th>
-                              <th class="no-wrap" data-prority="5" data-dt-columnName="Estatus" data-columnWidth="25%" data-dt-orderable>Estatus</th>
-                          </tr>
-                      </thead>
-                      <tbody></tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <button id="grabar" class="btn btn-primary float-right" role="button"
-            name="buscar">Grabar</button>
-        </div>
-      </div>
-  </div>
-</script>
+				$("#example tbody").off().on('click', 'tr', function (data) {
+					var pedido = data;
+				});
+			</script>
+    </ui:define>
   </ui:composition>
 </h:body>
 </html>
