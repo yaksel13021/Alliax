@@ -411,7 +411,7 @@ var buscarPor = null;
   };
 })();
 function reload(){
-        var select = document.getElementById("form:select_buscarPor"); //El <select>
+        var select = document.getElementById("form:select_buscarPor");
         var value = select.value;
         if (value == 1) {
             $('[id="form:select_localidad"]').select2({
@@ -484,7 +484,7 @@ function filtrar() {
     }else{
         var table = $('[id="form:productois"]').DataTable();
         table.destroy();
-        //$('.collapse').collapse('hide');
+        $('.collapse').collapse('hide');
         $('[id="form:productois"]').DataTable({
             paging: true,
             searching: true,
