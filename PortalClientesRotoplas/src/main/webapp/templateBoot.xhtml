@@ -185,9 +185,11 @@
 							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">
 											<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 										</sec:authorize>
-							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">							<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">
+							   				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 										</sec:authorize>
-							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">							<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">
+							   				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
 										</sec:authorize>
 									</div>
 			                	</li>
@@ -198,10 +200,27 @@
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 			                <h:panelGroup>
 			                	<li class="dropdown">
-			                		<a href="/PortalClientes/#" class="dropdown-toggle disabled nav-item nav-link textMenuStyle" data-toggle="dropdown">
+			                		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
 			                			#{lblMain.adminOps}
 			                		</a>
-			                	</li>            	
+			                		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
+				                			<h:link styleClass="dropdown-item" outcome="/admin/listadoClientes" value="#{lblMain.clientesRegistados}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/altaCliente" value="#{lblMain.altaCliente}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/altaMasiva" value="#{lblMain.altaClienteMasiva}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/listadoUsuarios" value="#{lblMain.altaUsuario}" />
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+				                		                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+				                			<h:link styleClass="dropdown-item" outcome="/ejecutivo/EnvioMasivoSociedadClienteCorreo" value="#{lblMain.ttlEnvioMasivoEstadoCuenta}" />
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
+					                		<h:link styleClass="dropdown-item" data-toggle="dropdown" value="#{lblMain.menuClienteVendedor}" />
+                                    		<h:link styleClass="dropdown-item" outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                 			
+                                    		<h:link styleClass="dropdown-item" outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
+		                       			</sec:authorize>
+			                		</div>
+			                	</li>	
 			                </h:panelGroup>
 		                </sec:authorize>
 		                <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
