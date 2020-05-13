@@ -129,13 +129,13 @@
 
                                                         <h:panelGroup layout="block" styleClass="form-group hidden" rendered="#{busqueda.tipoBusqueda != 0}">
                                                             <h:commandButton type="submit" id="butt" value="#{lblMain.btnBuscar}"  styleClass="btn btn-primary float-right" action="#{busqueda.busquedaExistencia}">
-                                                                <f:ajax execute="@form" render="products form:products @form @this but butt"/>
+                                                                <f:ajax execute="@form" render="products form:products @form"/>
                                                             </h:commandButton>
                                                         </h:panelGroup>
 
                                                         <h:panelGroup layout="block" styleClass="form-group" rendered="#{busqueda.tipoBusqueda != 0}">
                                                             <h:commandButton id="but" onclick="validaInput()" value="#{lblMain.btnBuscar}"  styleClass="btn btn-primary float-right">
-                                                                <f:ajax execute="@form"/>
+                                                                <f:ajax execute="butt" render="@this"/>
                                                             </h:commandButton>
                                                         </h:panelGroup>
 
@@ -150,90 +150,89 @@
                     </div>
 
                     <h:panelGroup id="products">
-                            <h:panelGroup styleClass="row" rendered="#{not empty busqueda.resultados}">
-                                <h:outputScript>filtrar()</h:outputScript>
-                                <div class="col-12">
-                                    <div class="card text-center">
-                                        <div id="cardDynamicBody" class="card-body">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                                                        <div id="dt_searchProducts_content"  style="width: 100%">
-                                                            <h:dataTable id ="productois" value="#{busqueda.resultados}" var="stock"
-                                                                         styleClass="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
-                                                                         style="margin-top: 10px;"
-                                                                         columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 "
-                                                                         width="100%"
-                                                                         data-dt-pdfBtn="true" data-dt-excelBtn="true">
-                                                                <h:column class="no-wrap" data-dt-searcheable="true" data-dt-orderable="true">
+                        <h:panelGroup styleClass="row" rendered="#{not empty busqueda.resultados}">
+                            <h:outputScript>filtrar()</h:outputScript>
+                            <div class="col-12">
+                                <div class="card text-center">
+                                    <div id="cardDynamicBody" class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+                                                    <div id="dt_searchProducts_content"  style="width: 100%">
+                                                        <h:dataTable id ="productois" value="#{busqueda.resultados}" var="stock"
+                                                                     styleClass="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
+                                                                     style="margin-top: 10px;"
+                                                                     columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 "
+                                                                     width="100%"
+                                                                     data-dt-pdfBtn="true" data-dt-excelBtn="true">
+                                                            <h:column class="no-wrap" data-dt-searcheable="true" data-dt-orderable="true">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.noMaterial}" />
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{stock.noMaterial}" />
+                                                            </h:column>
+
+                                                            <h:column class="no-wrap" data-dt-orderable="true">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.descripcion}" />
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{stock.descripcion}" />
+                                                            </h:column>
+
+                                                            <ui:remove>
+                                                                <h:column>
                                                                     <f:facet name="header">
-                                                                        <h:outputText value="#{lblMain.noMaterial}" />
+                                                                        <h:outputText value="#{lblMain.centro}" />
                                                                     </f:facet>
-                                                                    <h:outputLabel value="#{stock.noMaterial}" />
+                                                                    <h:outputLabel value="#{stock.noPlanta}" />
                                                                 </h:column>
+                                                            </ui:remove>
 
-                                                                <h:column class="no-wrap" data-dt-orderable="true">
+                                                            <h:column class="no-wrap" data-dt-orderable="true">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.planta}" />
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{stock.planta}" />
+                                                            </h:column>
+
+                                                            <ui:remove>
+                                                                <h:column>
                                                                     <f:facet name="header">
-                                                                        <h:outputText value="#{lblMain.descripcion}" />
+                                                                        <h:outputText value="#{lblMain.almacen}" />
                                                                     </f:facet>
-                                                                    <h:outputLabel value="#{stock.descripcion}" />
+                                                                    <h:outputLabel value="#{stock.almacen}" />
                                                                 </h:column>
+                                                            </ui:remove>
 
-                                                                <ui:remove>
-                                                                    <h:column>
-                                                                        <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.centro}" />
-                                                                        </f:facet>
-                                                                        <h:outputLabel value="#{stock.noPlanta}" />
-                                                                    </h:column>
-                                                                </ui:remove>
+                                                            <h:column class="no-wrap" data-dt-orderable="true">
+                                                                <f:facet name="header">
+                                                                    <h:panelGroup layout="block" style="text-align:center;">
+                                                                        <h:outputText value="#{lblMain.stockLibre}" />
+                                                                    </h:panelGroup>
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{stock.stockStr}" styleClass="align-right" />
+                                                            </h:column>
 
-                                                                <h:column class="no-wrap" data-dt-orderable="true">
-                                                                    <f:facet name="header">
-                                                                        <h:outputText value="#{lblMain.planta}" />
-                                                                    </f:facet>
-                                                                    <h:outputLabel value="#{stock.planta}" />
-                                                                </h:column>
-
-                                                                <ui:remove>
-                                                                    <h:column>
-                                                                        <f:facet name="header">
-                                                                            <h:outputText value="#{lblMain.almacen}" />
-                                                                        </f:facet>
-                                                                        <h:outputLabel value="#{stock.almacen}" />
-                                                                    </h:column>
-                                                                </ui:remove>
-
-                                                                <h:column class="no-wrap" data-dt-orderable="true">
-                                                                    <f:facet name="header">
-                                                                        <h:panelGroup layout="block" style="text-align:center;">
-                                                                            <h:outputText value="#{lblMain.stockLibre}" />
-                                                                        </h:panelGroup>
-                                                                    </f:facet>
-                                                                    <h:outputLabel value="#{stock.stockStr}" styleClass="align-right" />
-                                                                </h:column>
-
-                                                                <h:column class="no-wrap" data-dt-orderable="true">
-                                                                    <f:facet name="header">
-                                                                        <h:outputText value="#{lblMain.unidadMedida}" />
-                                                                    </f:facet>
-                                                                    <h:outputLabel value="#{stock.umb}" />
-                                                                </h:column>
-                                                            </h:dataTable>
-                                                        </div>
+                                                            <h:column class="no-wrap" data-dt-orderable="true">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.unidadMedida}" />
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{stock.umb}" />
+                                                            </h:column>
+                                                        </h:dataTable>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </h:panelGroup>
+                            </div>
+                        </h:panelGroup>
                         <h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
                             <h:outputText value="#{lblMain.sujetoDisponibilidad}" />
                         </h:panelGroup>
 
                         <h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
-                            <h:outputText value="#{lblMain.noHayResultados}" style="font-weight:bold;" />
                             <h:outputScript>tablaMessage()</h:outputScript>
                         </h:panelGroup>
                     </h:panelGroup>
