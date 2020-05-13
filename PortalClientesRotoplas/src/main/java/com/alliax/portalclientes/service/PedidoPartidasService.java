@@ -13,4 +13,6 @@ public interface PedidoPartidasService {
 	
 	public PedidoPartidas save(PedidoPartidas pedido);
 
+	public List<PedidoPartidas> findByidPedido(Long idPedido);
+
 }
