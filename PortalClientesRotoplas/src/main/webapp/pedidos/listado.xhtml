@@ -547,7 +547,7 @@
 							#{lblMain.cancelarPedidosConfirmacion}
 								<br />
 								<h:panelGroup layout="block" styleClass="modal-footer">
-									<h:commandButton action="#{detalle.cancelarPedido(detalle.pedido.pedidoCliente)}" 
+									<h:commandButton action="#{listaPedidos.cancelarPedido(listaPedidos.pedido)}"  
 									id="cancelarSi" styleClass="btn btn-primary" value="#{lblMain.btnAceptar}" onclick="closeModalCancelarPedido()">
 													<f:ajax execute="cancelarSi" render="panelDate" />
 									</h:commandButton>
