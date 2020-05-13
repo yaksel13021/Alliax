@@ -513,13 +513,13 @@
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
 											<h:panelGroup id = "panelDate">
-												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='0'}"/>
-												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='1'}"/>
+												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
+												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
 
 												<!--   -->
 
-												<h:commandButton rendered="#{listaPedidos.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
+																 disabled="#{listaPedidos.pedido.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
@@ -547,7 +547,7 @@
 							#{lblMain.cancelarPedidosConfirmacion}
 								<br />
 								<h:panelGroup layout="block" styleClass="modal-footer">
-									<h:commandButton action="#{listaPedidos.cancelarPedido(listaPedidos.pedido)}"  
+									<h:commandButton action="#{listaPedidos.pedido.cancelarPedido(listaPedidos.pedido)}"  
 									id="cancelarSi" styleClass="btn btn-primary" value="#{lblMain.btnAceptar}" onclick="closeModalCancelarPedido()">
 													<f:ajax execute="cancelarSi" render="panelDate" />
 									</h:commandButton>
