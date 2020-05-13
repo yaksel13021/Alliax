@@ -12,8 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import com.alliax.portalclientes.controller.DetallePedidoConfig;
 import org.apache.log4j.Logger;
 
+import com.alliax.portalclientes.controller.CancelaPedidoConfig;
+import com.alliax.portalclientes.controller.CancelaPedidoRFC;
 import com.alliax.portalclientes.controller.DetalleFacturaRFC;
 import com.alliax.portalclientes.controller.DetallePedidoRFC;
 import com.alliax.portalclientes.controller.FacturasPedidoRFC;
@@ -35,6 +38,8 @@ public class DetallePedido_backing extends AbstractBackingGen {
 	
 	private String classPartidas = "tab-pane active";
 	private String classFacturas = "tab-pane";
+	
+	private String pedidoCancelado;
 
 	public OrdenVenta getPedido() {
 		return pedido;
@@ -83,30 +88,46 @@ public class DetallePedido_backing extends AbstractBackingGen {
 	public void setClassFacturas(String classFacturas) {
 		this.classFacturas = classFacturas;
 	}
+	
+
+	public String getPedidoCancelado() {
+		return pedidoCancelado;
+	}
+
+	public void setPedidoCancelado(String pedidoCancelado) {
+		this.pedidoCancelado = pedidoCancelado;
+	}
 
 	/**
 	 * Action para cargar el detalle del pedido
 	 */
 	public String cargaDetallePartidas(){
 		try{
-			logger.info("cargaDetallePartidas");
+			OrdenVenta objModelo = this.getFacesContext().getApplication().evaluateExpressionGet(this.getFacesContext(),"#{pedido}",OrdenVenta.class);
+
+			logger.info("cargaDetallePartidas " + objModelo);
 			//if(this.getSessionMap().get("pedidoSel") != null) {
-				this.setPedido((OrdenVenta)this.getSessionMap().get("pedidoSel"));
+				this.setPedido(objModelo);
 				//this.setPedido((OrdenVenta)this.getFlash().get("pedidoSel"));
-				
-				DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido",DetallePedidoRFC.class);
-				this.setPartidas(
-						detalle.detallePedido(this.getPedido().getDocumentoComercial(),
-								this.getUsuarioLogueado().getLanguage()));
-				
-				this.setFacturas(detalle.getListaFacturas());
+				if(getPedido() != null) {
+					DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
+					this.setPartidas(
+							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
+									this.getUsuarioLogueado().getLanguage()));
+
+					this.setFacturas(detalle.getListaFacturas());
+				}
 			//}
 		} catch(Exception e){
+			logger.error("Error getPedido. " + getPedido());
 			logger.error("Error al desplegar detalle del pedido. " + e.getLocalizedMessage());
 			this.getFacesContext().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
 							(new MessageFormat(this.getLblMain().getString("errDetallePedido")).format(
-									new Object[] {this.getPedido().getDocumentoComercial()}))));			
+									new Object[] {this.getPedido().getDocumentoComercial()}))));
+
+			DetallePedidoConfig detalle = new DetallePedidoConfig();
+			setPartidas(detalle.partidas());
 		}
 		
 		return "";

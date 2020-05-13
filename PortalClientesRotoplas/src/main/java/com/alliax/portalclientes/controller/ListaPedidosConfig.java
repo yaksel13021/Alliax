@@ -18,7 +18,7 @@ public class ListaPedidosConfig {
 
 	@Bean
 	public List<OrdenVenta> pedidos() {
-		
+
 		List<OrdenVenta> lista = new ArrayList<OrdenVenta>();
 		
 		OrdenVenta ov = new OrdenVenta();
@@ -42,8 +42,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071872");
+		ov.setPedidoCliente("10023829");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -61,8 +61,8 @@ public class ListaPedidosConfig {
 
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071873");
+		ov.setPedidoCliente("10023830");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -80,8 +80,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071874");
+		ov.setPedidoCliente("10023831");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -100,8 +100,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071875");
+		ov.setPedidoCliente("10023832");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -120,8 +120,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071876");
+		ov.setPedidoCliente("10023833");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -140,8 +140,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071877");
+		ov.setPedidoCliente("10023834");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -160,8 +160,8 @@ public class ListaPedidosConfig {
 		
 		ov = new OrdenVenta();
 		
-		ov.setDocumentoComercial("90071871");
-		ov.setPedidoCliente("10023828");
+		ov.setDocumentoComercial("90071878");
+		ov.setPedidoCliente("10023835");
 		ov.setFechaCreacion(new Date());
 		ov.setHoraCreacion(new Date().getTime());
 		ov.setMonto(new BigDecimal("29691.00"));
@@ -188,8 +188,6 @@ public class ListaPedidosConfig {
 		Comp=Completo*/
 		
 
-		
-		
 		return lista;
 	}
 }

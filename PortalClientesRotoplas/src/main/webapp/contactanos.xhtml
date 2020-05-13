@@ -1,165 +1,186 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:sec="http://www.springframework.org/security/tags">
-		
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
 <h:body>
-	<ui:composition template="templateBoot.xhtml">
-		
-		<ui:define name="content">	
-					<script>
-						$(document).ready(function(){
-							$('#form').submit(function(event){							
-								//event.preventDefault();			                                
-							});	
-						});
-				
-					</script>
-								
-			<h:panelGroup rendered="#{param['sended'] == 'true'}">
-				<div id="chr-main-avisos" class="well well-sm">
-					<ul id="messages"><li class="text-success">Petición enviada satisfactoriamente</li></ul>
-				</div>
-			</h:panelGroup>
-			
-			<form id="form" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
-				<input type="hidden" name="orgid" value="00D550000006xEA"/>
-				<input type="hidden" name="retURL" value="http://portalsrmqas.rotoplas.com:50003/PortalClientes/contactanos.xhtml?sended=true"/>
-				<input type="hidden" id="00N55000003mwzK" maxlength="50" name="00N55000003mwzK" size="20" value="#{template.usuarioLogueado.noCliente}"/>
-				<input type="hidden" id="00N55000003mwzP" maxlength="50" name="00N55000003mwzP" size="20" />
-				<input type="hidden" id="external" name="external" value="1" />				
-				<input type="hidden" id="email" maxlength="80" name="email" size="20"  value="#{template.usuarioLogueado.email}"/>
-				<div class="container-fluid">
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Nombre del contacto</label>
-						</div>
-					    <div class="col-md-3">
-							<input id="name" maxlength="80" name="name" size="20" type="text" class="form-control input-sm" required="true"/>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Teléfono</label>
-						</div>
-					    <div class="col-md-3">
-							<input  id="phone" maxlength="14" name="phone" size="20" type="text" class="form-control input-sm" required="true"/>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Email</label>
-						</div>
-					    <div class="col-md-3">							
-							<input id="00N55000003mpKo" maxlength="80" name="00N55000003mpKo" size="20" type="email" class="form-control input-sm" required="true"/>							
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Motivo de la queja</label>
-						</div>
-					    <div class="col-md-3">
-							<select  id="00N55000003mwze" name="00N55000003mwze" title="Tipo de Incidencias" class="form-control" required="true">								
-								<option value="">--Ninguno--</option>
-								<option value="RT Captura de domicilio equivocado b">Captura domicilio equivocado</option>
-								<option value="RT Demora en recepcion b">Demora en recepción</option>
-								<option value="RT Entrega de producto erroneo b">Entrega de producto erróneo</option>
-								<option value="RT Error de captura de pedido b">Error en captura de pedido</option>
-								<option value="RT Faltante de entrega b">Faltante en entrega</option>
-								<option value="RT Inconformidad por dictamen">Inconformidad por dictamen en Servicio Técnico</option>
-								<option value="RT_Producto danado_mal estado">Producto dañado/mal estado</option>
-								<option value="RT_Producto mal terminado">Producto mal terminado</option>
-								<option value="RT_Producto no coincide con ficha tecnica">Producto no coincide con ficha técnica</option>
-								<option value="RT_Queja de servicio">Queja de servici recibido</option>
-							</select>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Planta</label>
-						</div>
-					    <div class="col-md-3">
-							<select id="00N55000003mpKy" name="00N55000003mpKy" title="Planta" class="form-control">
-								<option value="">--Ninguno--</option>
-								<option value="ANAHUAC">ANAHUAC</option>
-								<option value="GOLFO">GOLFO</option>
-								<option value="GUADALAJARA">GUADALAJARA</option>
-								<option value="LEON">LEON</option>
-								<option value="MONTERREY">MONTERREY</option>
-								<option value="PACIFICO">PACIFICO</option>
-								<option value="SUR">SUR</option>
-								<option value="TUX">TUX</option>
-								<option value="TUXTLA">TUXTLA</option>
-								<option value="COSTA RICA">COSTA RICA</option>
-								<option value="EL SALVADOR">EL SALVADOR</option>
-								<option value="GUATEMALA">GUATEMALA</option>
-								<option value="HONDURAS">HONDURAS</option>
-								<option value="NICARAGUA">NICARAGUA</option>
-							</select>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Tipo de Documento</label>
-						</div>
-					    <div class="col-md-3">
-							<select  id="00N55000003mq19" name="00N55000003mq19" title="Tipo de Documento" class="form-control">
-								<option value="">--Ninguno--</option>
-								<option value="Folio de Queja">Folio de Queja</option>
-								<option value="Folio de Servicio Tecnico">Folio de Servicio Técnico</option>
-								<option value="No De Devolucion">No. De Devolución</option>
-								<option value="No De Factura">No. De Factura</option>
-								<option value="No De Nota de Credito">No. De Nota de Crédito</option>
-								<option value="No De Pedido">No.De Pedido</option>
-								<option value="Orden Compra sin captura">Orden Compra sin captura</option>
-							</select>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">No. de documento</label>
-						</div>
-					    <div class="col-md-3">							
-							<input  id="00N55000003mpLD" name="00N55000003mpLD" size="20" type="text" class="form-control input-sm"/>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label">Comentarios</label>
-						</div>
-					    <div class="col-md-3">														
-							<textarea  id="00N55000003mpLI" name="00N55000003mpLI" rows="5" type="text" wrap="soft" class="form-control" required="true"></textarea>
-						</div>						
-					</div>
-					<div class="form-group row">
-						<div class="col-md-2">
-							<label class="control-label"> </label>
-						</div>
-						<div class="col-md-3">
-						    <select id="recordType" name="recordType" hidden="true">
-						       <option value="01255000000YHIC"></option> 
-						       <!--<option value="01255000000YHIC">RT Queja</option>-->
-						    </select> 
-						</div>
-					</div>																		
-					<div class="form-group row">
-						<div class="col-md-2">							
-						</div>
-					    <div class="col-md-3">														
-							<input type="submit" name="submit" value="Enviar Petición" class="btn btn-primary" />
-						</div>						
-					</div>				
-				</div>
-			</form>
-		</ui:define>
-	
-	</ui:composition>
-	
-</h:body>		
-		
+    <ui:composition template="templateBoot.xhtml">
+        <style>
+            select:invalid { color: gray; }
+        </style>
+        <ui:define name="metadata">
+            <link href="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
+        </ui:define>
+        <ui:define name="content">
+            <script>
+                $(document).ready(function () {
+                    $('#form').submit(function (event) {
+                        //event.preventDefault();
+                    });
+                });
+
+            </script>
+
+            <h:panelGroup rendered="#{param['sended'] == 'true'}">
+                <h:outputScript>succesReload()</h:outputScript>
+            </h:panelGroup>
+
+            <form id="form" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
+                <h:panelGroup layout="block" styleClass="container containerFiltersOne ">
+                    <input type="hidden" name="orgid" value="00D550000006xEA"/>
+                    <input type="hidden" name="retURL"
+                           value="http://portalsrmqas.rotoplas.com:50003/PortalClientes/contactanos.xhtml?sended=true"/>
+                    <input type="hidden" id="00N55000003mwzK" maxlength="50" name="00N55000003mwzK" size="20"
+                           value="#{template.usuarioLogueado.noCliente}"/>
+                    <input type="hidden" id="00N55000003mwzP" maxlength="50" name="00N55000003mwzP" size="20"/>
+                    <input type="hidden" id="external" name="external" value="1"/>
+                    <input type="hidden" id="email" maxlength="80" name="email" size="20"
+                           value="#{template.usuarioLogueado.email}"/>
+                    <div class="container-fluid">
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Nombre del contacto</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input id="name" maxlength="80" name="name" size="20" type="text" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Teléfono</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input id="phone" maxlength="14" name="phone" size="20" type="text" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Email</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input id="00N55000003mpKo" maxlength="80" name="00N55000003mpKo" size="20" type="email" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Motivo de la queja</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <select style="font-size: 11px !important;" id="00N55000003mwze" name="00N55000003mwze" title="Tipo de Incidencias" class="form-control dropdownActive" required="true">
+                                    <option style="font-size: 11px !important;" value="RT Captura de domicilio equivocado b">Captura domicilio equivocado</option>
+                                    <option style="font-size: 11px !important;" value="RT Demora en recepcion b">Demora en recepción</option>
+                                    <option style="font-size: 11px !important;" value="RT Entrega de producto erroneo b">Entrega de producto erróneo</option>
+                                    <option style="font-size: 11px !important;" value="RT Error de captura de pedido b">Error en captura de pedido</option>
+                                    <option style="font-size: 11px !important;" value="RT Faltante de entrega b">Faltante en entrega</option>
+                                    <option style="font-size: 11px !important;" value="RT Inconformidad por dictamen">Inconformidad por dictamen en Servicio Técnico</option>
+                                    <option style="font-size: 11px !important;" value="RT_Producto danado_mal estado">Producto dañado/mal estado</option>
+                                    <option style="font-size: 11px !important;" value="RT_Producto mal terminado">Producto mal terminado</option>
+                                    <option style="font-size: 11px !important;" value="RT_Producto no coincide con ficha tecnica">Producto no coincide con ficha técnica</option>
+                                    <option style="font-size: 11px !important;" value="RT_Queja de servicio">Queja de servici recibido</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Planta</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <select style="font-size: 11px !important;" id="00N55000003mpKy" name="00N55000003mpKy" title="Planta" class="form-control">
+                                    <option style="font-size: 11px !important;" value="ANAHUAC">ANAHUAC</option>
+                                    <option style="font-size: 11px !important;" value="GOLFO">GOLFO</option>
+                                    <option style="font-size: 11px !important;" value="GUADALAJARA">GUADALAJARA</option>
+                                    <option style="font-size: 11px !important;" value="LEON">LEON</option>
+                                    <option style="font-size: 11px !important;" value="MONTERREY">MONTERREY</option>
+                                    <option style="font-size: 11px !important;" value="PACIFICO">PACIFICO</option>
+                                    <option style="font-size: 11px !important;" value="SUR">SUR</option>
+                                    <option style="font-size: 11px !important;" value="TUX">TUX</option>
+                                    <option style="font-size: 11px !important;" value="TUXTLA">TUXTLA</option>
+                                    <option style="font-size: 11px !important;" value="COSTA RICA">COSTA RICA</option>
+                                    <option style="font-size: 11px !important;" value="EL SALVADOR">EL SALVADOR</option>
+                                    <option style="font-size: 11px !important;" value="GUATEMALA">GUATEMALA</option>
+                                    <option style="font-size: 11px !important;" value="HONDURAS">HONDURAS</option>
+                                    <option style="font-size: 11px !important;" value="NICARAGUA">NICARAGUA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Tipo de Documento</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <select style="font-size: 11px !important;" id="00N55000003mq19" name="00N55000003mq19" title="Tipo de Documento"
+                                        class="form-control dropdownActive">
+                                    <option style="font-size: 11px !important;" value="Folio de Queja">Folio de Queja</option>
+                                    <option style="font-size: 11px !important;" value="Folio de Servicio Tecnico">Folio de Servicio Técnico</option>
+                                    <option style="font-size: 11px !important;" value="No De Devolucion">No. De Devolución</option>
+                                    <option style="font-size: 11px !important;" value="No De Factura">No. De Factura</option>
+                                    <option style="font-size: 11px !important;" value="No De Nota de Credito">No. De Nota de Crédito</option>
+                                    <option style="font-size: 11px !important;" value="No De Pedido">No.De Pedido</option>
+                                    <option style="font-size: 11px !important;" value="Orden Compra sin captura">Orden Compra sin captura</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">No. de documento</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input id="00N55000003mpLD" name="00N55000003mpLD" size="20" type="text"
+                                       class="form-control input-sm"/>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="ol-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="control-label">Comentarios</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <textarea id="00N55000003mpLI" name="00N55000003mpLI" rows="5" type="text" wrap="soft"
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group flex row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <input onclick="valida()" value="Enviar Petición" class="btn btn-primary"/>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </form>
+        </ui:define>
+        <ui:define name="scriptJS">
+            <script src="#{resource['lookAndFeel/vendor/Polyfill/Promise/promisePolyfill.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Polyfill/FindIndex/findIndexPolyfill.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/jquery/jquery.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/PopperJs/popper.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/contactanos.js']}"></script>
+        </ui:define>
+
+    </ui:composition>
+
+</h:body>
+
 </html>

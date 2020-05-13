@@ -1,5 +1,6 @@
 package com.alliax.portalclientes.general.formato;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -324,4 +325,18 @@ public class Fecha {
 			e.printStackTrace();
 		}
 	}
+    
+    public static boolean validarFechayyyyMMdd(String fecha) {
+        boolean correcto = false;
+
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyyMMdd");
+            formatoFecha.parse(fecha);
+            correcto = true;
+        } catch (ParseException e) {
+            correcto = false;
+        }
+
+        return correcto;
+    }
 }
