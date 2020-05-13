@@ -89,7 +89,15 @@ public class EstadoCuentaPdf {
 			Font fuente13bold = pdf.creaFuente(13);
 			fuente13bold.setStyle(Font.BOLD);
 			
-			Font fuente24 = pdf.creaFuente(24);						
+			Font fuente24 = pdf.creaFuente(24);	
+			
+			Font fuente24White = pdf.creaFuente(24);						
+			fuente24White.setColor(255, 255, 255);
+			fuente24White.setStyle(Font.BOLD);
+			
+			Font fuente7White = pdf.creaFuente(7);
+			fuente7White.setColor(255, 255, 255);
+			fuente7White.setStyle(Font.BOLD);
 			
 							 							
 
@@ -105,36 +113,38 @@ public class EstadoCuentaPdf {
 		    	celda.addElement(logo_br);
 		    }else{
 		    	this.logoPath = formato.getProperty("logo");
-		    	Image logo = pdf.insertaImagen(this.logoPath, Element.ALIGN_MIDDLE);
+		    	Image logo = pdf.insertaImagen("/META-INF/emails/images/logotipo.jpg", Element.ALIGN_MIDDLE);
 		    	celda.addElement(logo);
 		    }
 		    celda.setBorder(Rectangle.NO_BORDER);
 		    celda.setVerticalAlignment(Element.ALIGN_TOP);
 		    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    celda.setBackgroundColor(new BaseColor(0, 37, 84));
 		    tblLogoYTitulo.addCell(celda);
 		    
 
 			//Titulo (Estado de cuenta)
-			 celda = pdf.creaCelda(pdf.creaFrase(lblMain.getString("estadoCuenta"), fuente24));
+			 celda = pdf.creaCelda(pdf.creaFrase(lblMain.getString("estadoCuenta"), fuente24White));
 			 celda.setBorder(Rectangle.NO_BORDER);
 			 celda.setPaddingRight(20);
-			 celda.setHorizontalAlignment(Element.ALIGN_RIGHT);		     
+			 celda.setHorizontalAlignment(Element.ALIGN_RIGHT);	
+			 celda.setBackgroundColor(new BaseColor(0, 37, 84));
 		    tblLogoYTitulo.addCell(celda);
 	    
 		    //Agrega de Header a documento
 		    pdf.getDocument().add(tblLogoYTitulo);
-		    
-		    //nombreCliente
-		   
+
+		    //nombreCliente		   
 		    PdfPTable tblNombreCliente = pdf.creaTabla(1,100,Element.ALIGN_LEFT);
 		   		celda = pdf.creaCelda(pdf.creaFrase(edoCta.getNombre() + " " +
 		   				                            edoCta.getNombre2() + " " +
 		   				                            edoCta.getNombre3() + " " +
 		   				                            edoCta.getNombre4() + " "
-		   				                            ,fuente7));
+		   				                            ,fuente7White));
 		   		celda.setBorder(Rectangle.NO_BORDER);
 		   		celda.setPaddingTop(10);
 		   		celda.setPaddingLeft(15);
+		   		celda.setBackgroundColor(new BaseColor(0, 37, 84));
 		   		tblNombreCliente.addCell(celda);
 		   	pdf.getDocument().add(tblNombreCliente);
 		   	
