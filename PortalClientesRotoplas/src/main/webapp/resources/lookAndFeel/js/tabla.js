@@ -1,553 +1,5 @@
-var data2 = [{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "2",
-  mat: "310091",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "2",
-  cantEnt: "600",
-  um: "Pza",
-  monto: "$13232,2323",
-  precioNeto: "23434",
-  fecEnt: "12-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "2",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "3",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "4",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "5",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "6",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "7",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "8",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "9",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "10",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "11",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "12",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "13",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "14",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "15",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "16",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "17",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "3100921",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310192",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "700",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "$3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-06-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-},
-{
-  pos: "1",
-  mat: "310092",
-  Descripcion: "MULTICONECTOR C/VALV-TUERCA UNION INTEG",
-  cant: "0",
-  cantEnt: "500",
-  um: "Pza",
-  monto: "$23232,2323",
-  precioNeto: "%3434",
-  fecEnt: "11-04-2020",
-  estatus: "activo",
-}
-];
 
-var data3 = [
-  {
-    docFactura: "2000107301",
-    fecha: "10-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107302",
-    fecha: "11-04-2020",
-    impNeto: "$826.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107303",
-    fecha: "12-05-2020",
-    impNeto: "$126.68 MXP",
-    Monto: "$226.68 MXP",
-  },
-  {
-    docFactura: "4000107304",
-    fecha: "12-04-2020",
-    impNeto: "$1626.68 MXP",
-    Monto: "$726.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$126.68 MXP",
-    Monto: "$126.68 MXP",
-  },
-  {
-    docFactura: "2010107301",
-    fecha: "12-08-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$226.68 MXP",
-  },
-  {
-    docFactura: "2000107321",
-    fecha: "11-05-2020",
-    impNeto: "$126.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-  {
-    docFactura: "2000107301",
-    fecha: "12-05-2020",
-    impNeto: "$626.68 MXP",
-    Monto: "$626.68 MXP",
-  },
-];
+
 
 var inpescIngreso = [{
   DocComercial: 9040471872,
@@ -682,12 +134,12 @@ var inpescIngreso = [{
   estatus: "A VENCER"
 }
 ]*/
-
+var $tablaEstCuentaDT = null;
 $(document).ready(function () {
   var $expampleDT = null;
   var $example2 = null;
   var $example3 = null;
-  var $tablaEstCuentaDT = null;
+  
   var Graf_Doughnut_demo = null;
 
   var isIE = window.ActiveXObject || "ActiveXObject" in window;
@@ -867,84 +319,6 @@ $(document).ready(function () {
     });
   }
 
-  var tablaEstCuenta = function () {
-    $tablaEstCuentaDT = $("#tablaEstCuenta").DataTable({
-      paging: true,
-      searching: true,
-      lengthChange: false,
-      data: dataEstCuenta,
-      scrollY: true,
-
-      "scrollX": true,
-      columns: [
-        { data: "tipoDocumento", class: "colorLetra1" },
-        { data: "Npedido", class: "colorLetra1" },
-        { data: "ordenDeCompra", class: "colorLetra1" },
-        { data: "factSap", class: "colorLetra1" },
-        { data: "factFiscal", class: "colorLetra1" },
-        { data: "xml" },
-        { data: "pdf" },
-        { data: "facturaRelac", class: "colorLetra1" },
-        { data: "UUid", class: "colorLetra1" },
-        { data: "fechaFact", class: "colorLetra1" },
-        { data: "vencimiento", class: "colorLetra1" },
-        { data: "diasMora", class: "colorLetra1" },
-        { data: "importe", class: "colorLetra1" },
-        { data: "estatus", class: "colorLetra1" },
-      ],
-      columnDefs: [{
-        targets: -1,
-        className: "dt-body-right",
-      },
-		{
-		  targets: 5,
-		  render: function (data, type, row, meta) {
-		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
-		  }
-		},
-		{
-		  targets: 6,
-		  render: function (data, type, row, meta) {
-		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
-		  }
-		}
-      ],
-      fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-        if (iDisplayIndex % 2 == 0) {
-          $("td", nRow).css("background-color", "rgb(0,144,208,.3)");
-        } else {
-          $("td", nRow).css("background-color", "#ffff");
-        }
-      },
-      initComplete: function (settings, json) {
-        setTimeout(function () {
-          $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-        }, 200);
-      }
-      ,
-      language: {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-          "first": "Primero",
-          "last": "Ultimo",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        }
-      },
-    });
-  };
-
   var events = function () {
     $(window).off().on("resize", function () {
       setTimeout(function () {
@@ -964,11 +338,15 @@ $(document).ready(function () {
     //   example3Func(data3);
     // });
 
-    $("#example tbody").off().on('click', 'tr', function () {
+   /* $("#example tbody").off().on('click', 'tr', function () {
       var data = $expampleDT.rows();
+      alert('here');
+      alert(data);
+      alert(data2);
+      alert(data3);
       if(data != "" && data != null ){
-          /*example2Func(data2);
-          example3Func(data3);*/
+          //example2Func(data2);
+          //example3Func(data3);
           $("#myModal").modal("toggle");
       }
       if ($example2) {
@@ -979,7 +357,7 @@ $(document).ready(function () {
       }
       example2Func(data2);
       example3Func(data3);
-    });
+    });*/
 
     // Select all tabs
     $(".nav-tabs a").off().on('click', function () {
@@ -996,7 +374,7 @@ $(document).ready(function () {
         fechaFin = $("[id='form:frm_fechaFin']").val(),
         por = $("[id='form:frm_tipoDocumento'] :selected").val();
 
-      var filter = inpescIngreso.filter(function (a, b) {
+        var filter = inpescIngreso.filter(function (a, b) {
         var convFecha = moment(a.creado, 'DD/MM/YYYY');
         return (!fechaInicio || convFecha >= moment(fechaInicio, 'DD/MM/YYYY')) &&
           (!fechaFin || convFecha <= moment(fechaFin, 'DD/MM/YYYY')) /*&&
@@ -1040,7 +418,7 @@ $(document).ready(function () {
       tablaEstCuenta();
       $('.collapse').collapse('hide');
       events();
-      $('.isResizable').matchHeight();
+      //$('.isResizable').matchHeight();
     });
   };
 
@@ -1263,3 +641,85 @@ function toggleComplete() {
   var lastComplete = completes[completes.length - 1];
   lastComplete.classList.toggle("complete");
 }
+
+var tablaEstCuenta = function () {
+	  debugger
+  if ($tablaEstCuentaDT) {
+        $tablaEstCuentaDT.clear().destroy();
+  }  
+  $tablaEstCuentaDT = $("#idtablaEstCuenta").DataTable({
+    paging: true,
+    searching: true,
+    lengthChange: false,
+    data: dataEstCuenta,
+    scrollY: true,
+
+    "scrollX": true,
+    columns: [
+      { data: "tipoDocumento", class: "colorLetra1" },
+      { data: "Npedido", class: "colorLetra1" },
+      { data: "ordenDeCompra", class: "colorLetra1" },
+      { data: "factSap", class: "colorLetra1" },
+      { data: "factFiscal", class: "colorLetra1" },
+      { data: "xml" },
+      { data: "pdf" },
+      { data: "facturaRelac", class: "colorLetra1" },
+      { data: "UUid", class: "colorLetra1" },
+      { data: "fechaFact", class: "colorLetra1" },
+      { data: "vencimiento", class: "colorLetra1" },
+      { data: "diasMora", class: "colorLetra1" },
+      { data: "importe", class: "colorLetra1" },
+      { data: "estatus", class: "colorLetra1" },
+    ],
+    columnDefs: [{
+      targets: -1,
+      className: "dt-body-right",
+    },
+		{
+		  targets: 5,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+		  }
+		},
+		{
+		  targets: 6,
+		  render: function (data, type, row, meta) {
+		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+		  }
+		}
+    ],
+    fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      if (iDisplayIndex % 2 == 0) {
+        $("td", nRow).css("background-color", "rgb(0,144,208,.3)");
+      } else {
+        $("td", nRow).css("background-color", "#ffff");
+      }
+    },
+    initComplete: function (settings, json) {
+      setTimeout(function () {
+        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+      }, 200);
+    }
+    ,
+    language: {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+      "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+      "paginate": {
+        "first": "Primero",
+        "last": "Ultimo",
+        "next": "Siguiente",
+        "previous": "Anterior"
+      }
+    },
+  });
+};

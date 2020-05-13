@@ -251,7 +251,7 @@ input {
 
 .chart-container {
   position: relative;
-  height: 100%;
+
   width: 100%;
 }
 
@@ -544,7 +544,7 @@ div.status h4 {
 
 .chart-container {
   position: relative;
-  height: 100%;
+
   width: 100%;
 }
 
@@ -819,4 +819,8 @@ transform: rotate(180deg);
   background-clip: border-box;
   border: 1px solid #e3e6f0;
   border-radius: .35rem;
+}
+
+.h-200 {
+  height: 200px;
 }
