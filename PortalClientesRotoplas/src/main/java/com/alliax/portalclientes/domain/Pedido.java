@@ -9,9 +9,9 @@ import javax.persistence.Table;
 
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import java.util.Date;
 
 @Entity
-@Table(name="Pedido")
 @Table(name="Pedido")
 @NamedQueries({
         @NamedQuery(name="Pedido.findFletes",

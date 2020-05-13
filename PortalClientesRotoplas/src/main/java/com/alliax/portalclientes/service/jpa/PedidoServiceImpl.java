@@ -31,6 +31,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     private final static Logger logger = Logger.getLogger(PedidoServiceImpl.class);
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private PedidoRepository pedidoRepository;
 

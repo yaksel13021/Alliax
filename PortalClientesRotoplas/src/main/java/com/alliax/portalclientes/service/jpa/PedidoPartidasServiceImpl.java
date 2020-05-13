@@ -23,6 +23,9 @@ import java.util.List;
 @Transactional
 public class PedidoPartidasServiceImpl implements PedidoPartidasService {
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private PedidoPartidasRepository pedidoPartidasRepository;
 
