@@ -7,8 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 @Entity
 @Table(name="Pedido")
+@Table(name="Pedido")
+@NamedQueries({
+        @NamedQuery(name="Pedido.findFletes",
+                query="select p from Pedido p where p.noCotizacion is not null " +
+                        " and (1 = :flagCot or p.noCotizacion = :noCotizacion )" +
+                        " and (1 = :flagCliente or p.nroCliente = :nroCliente )" +
+                        "order by  p.id asc")
+})
 public class Pedido {
     @Id
     @Column(name="idPedido")
@@ -69,6 +80,9 @@ public class Pedido {
     private String estatusCotizacion;
     @Column(name="correoElectronico")
     private String correoElectronico;
+    @Column(name="fechaCreacion")
+    private Date fechaCreacion;
+
 
     public long getIdPedido() {
         return idPedido;
@@ -292,5 +306,13 @@ public class Pedido {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }
