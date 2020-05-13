@@ -516,13 +516,17 @@
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
 											<h:panelGroup id = "panelDate">
-												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='0'}"/>
-												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedidoCancelado=='1'}"/>
+												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
+												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
 
-												<!--   -->
+         										<!--value="#{pedidoObj.estatusGeneralDes}" -->
+												<!-- disabled="#{listaPedidos.pedido.estatusGeneral eq 'RELE' ? 'true' : 'false'}"  -->
 
-												<h:commandButton rendered="#{listaPedidos.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+
+												
+												<h:commandButton styleClass="btn btn-primary"
+												disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
+
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
@@ -549,8 +553,8 @@
 							<h:panelGroup layout="block" styleClass="modal-body" style="font-size: 14px;">
 							#{lblMain.cancelarPedidosConfirmacion}
 								<br />
-								<h:panelGroup layout="block" styleClass="modal-footer">
-									<h:commandButton action="#{detalle.cancelarPedido(detalle.pedido.pedidoCliente)}" 
+								<h:panelGroup layout="block" styleClass="modal-footer">    
+									<h:commandButton action="#{listaPedidos.cancelarPedido(listaPedidos.pedido)}" 
 									id="cancelarSi" styleClass="btn btn-primary" value="#{lblMain.btnAceptar}" onclick="closeModalCancelarPedido()">
 													<f:ajax execute="cancelarSi" render="panelDate" />
 									</h:commandButton>
