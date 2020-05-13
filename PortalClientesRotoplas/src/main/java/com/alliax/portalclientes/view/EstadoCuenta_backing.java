@@ -144,7 +144,7 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 			}
 			this.setMensajeError("null");
 							
-			logger.info("::::::::FechaCortePortal:::::: " + this.getFechaCorte() );
+			logger.info("::::::::FechaCortePortal:::::: " + this.getFechaCorteStr() );
 			this.setEstadoCuenta(
 					this.edoCtaRFC.detalleEstadoCuenta(cliente, this.getEmpresa(), this.getFechaCorteStr(), "ES"));
 			this.setDetalle(this.getEstadoCuenta().getDetalle());
@@ -170,11 +170,11 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 
 			// Busqueda  de los complementos según los filtros selecionados
 			EstadoCuenta edoCta;
-			logger.info("::::::::FechaCorteXLS::::::::" + this.getFechaCorte());
+			logger.info("::::::::FechaCorteXLS::::::::" + this.getFechaCorteStr());
 			if(this.getNoCliente() == null || this.getNoCliente().isEmpty()){
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}else{
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}			
 
 			Workbook workbook = exportpedidos.estadoCuentaToXls(edoCta, this.getLblMain(), "es");
@@ -215,9 +215,9 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 			// Busqueda  de los complementos según los filtros selecionados
 			EstadoCuenta edoCta;
 			if(this.getNoCliente() == null || this.getNoCliente().trim().isEmpty()){
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}else{
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}
 			
 			pdf = comppdf.GenerarPdf(edoCta, this.getLblMain());
