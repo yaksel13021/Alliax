@@ -111,7 +111,7 @@ $(document).ready(function(e) {
         multiple: false,
         width: "100%",
     });
-
+    $('[id="form:select_buscarPor"]').show();
 });
 
 function firstFill(){
@@ -123,6 +123,7 @@ function firstFill(){
         multiple: false,
         width: "100%",
     });
+
 }
 
 
