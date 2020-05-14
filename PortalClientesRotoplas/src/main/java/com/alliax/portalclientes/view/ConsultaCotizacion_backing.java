@@ -1,5 +1,6 @@
 package com.alliax.portalclientes.view;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,26 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     private String noCotizacion;
     private String fecha;
     private String noCliente;
+    private String noCotizacionSel;
 
     private PedidoService service;
     private PedidoPartidasService partidaService;
     private MaterialService materialService;
     private List<CotizacionFlete> cotizaciones;
+    
+    private String total;
+    private String subtotal;
+    private String impuesto;
+    
+    private String moneda;
+    
+    private String finalizar;
 
     private List<DetallePedidoCotizacion> partidas;
     
     private DetallePedidoCotizacion cotizacion;
+    
+    private boolean mostrarCotizacion = false;
 
     public String getNoCotizacion() {
         return noCotizacion;
@@ -83,6 +95,31 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	this.cotizacion = cotizacion;
     	
     }
+    
+    public String getNoCotizacionSel() {
+    	return noCotizacionSel;
+    }
+    
+    public void setNoCotizacionSel(String noCotizacionSel) {
+    	this.noCotizacionSel = noCotizacionSel;
+    }
+    
+    public String getMoneda() {
+    	return moneda;
+    }
+    
+    public void setMoneda(String moneda) {
+    	this.moneda = moneda;
+    }
+    
+    public String getFinalizar() {
+    	return finalizar;
+    }
+    
+    public void setFinalizar(String finalizar) {
+    	this.finalizar = finalizar;
+    }
+    
     @PostConstruct
     public void init(){
 
@@ -94,6 +131,30 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         }catch(Exception e){
             logger.error("Error al iniciar");
         }
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(String subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public String getImpuesto() {
+        return impuesto;
+    }
+
+    public void setImpuesto(String impuesto) {
+        this.impuesto = impuesto;
     }
 
     public String buscaCotizaciones(String noCliente){
@@ -118,6 +179,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         	c.setPrecioNeto(pp.getPrecioNeto());
                         	c.setMonto(pp.getMonto());
                         	c.setuM("SVO");
+                        
                         }
                         Material mat = materialService.findById(CotizacionFlete.idMatFlete);
                         if(mat!= null){
@@ -141,9 +203,11 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             Long idPedido = Long.valueOf(noPedido);
             Pedido pedido=  service.findById(idPedido);
            List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(idPedido);
+           BigDecimal subtotal = BigDecimal.ZERO;
+           BigDecimal impuesto = BigDecimal.ZERO;
             for(PedidoPartidas pp : partidasPedidos){
             	
-                DetallePedidoCotizacion d = new DetallePedidoCotizacion();
+            	DetallePedidoCotizacion d = new DetallePedidoCotizacion();
                 d.setNoPedido(noPedido);
                 d.setPosicion(pp.getPosicion());
                 Material mat = materialService.findById(pp.getId().getSku());
@@ -158,14 +222,21 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 d.setFechaEnt(pp.getFechaEntrega());
                 d.setEstatus(pedido.getEstatusCotizacion());
                 d.setCantEnt(pp.getCantidadEntregada());
-                
-                if(pp.getId().getSku().equals(CotizacionFlete.idMatFlete)) {
-                	this.noCotizacion = pedido.getNoCotizacion();
+                d.setMoneda(pp.getMoneda());
+                this.moneda = pp.getMoneda();
+                subtotal = subtotal.add(pp.getMonto()!= null ? new BigDecimal(pp.getMonto()) : BigDecimal.ZERO);
+                impuesto = impuesto.add(pp.getIva()!= null ? new BigDecimal(pp.getIva()) : BigDecimal.ZERO); 
+                if(!mostrarCotizacion && pp.getId().getSku().equals(CotizacionFlete.idMatFlete)) {
+                	this.noCotizacionSel = pedido.getNoCotizacion();
                 	this.cotizacion = d;
                 }else {
                 	partidas.add(d);
                 }
-                
+                this.subtotal = subtotal.toString();
+                this.impuesto = impuesto.toString();
+                this.total= subtotal.add(impuesto).toString();
+               
+                          
             }
         } catch(Exception e){
             logger.error("Error al desplegar listado de fletes " + e.getLocalizedMessage());
@@ -174,6 +245,36 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         }
         return "";
     }
-
+    
+    public String grabar(DetallePedidoCotizacion cotizacion) {
+    	logger.info("grabar noCotizacion" +  noCotizacion);
+    		
+    		if(cotizacion!= null && cotizacion.getNoPedido()!= null) {
+    		logger.info("grabar noCotizacion" + cotizacion.getDescripcion() + " " + cotizacion.getNoPedido() + " " + cotizacion.getMonto());
+    		PedidoPartidasPK pk = new PedidoPartidasPK();
+    		Long idPedido = Long.valueOf(cotizacion.getNoPedido());
+    		pk.setIdPedido(idPedido);
+            pk.setSku(CotizacionFlete.idMatFlete);
+            com.alliax.portalclientes.domain.PedidoPartidas pp = partidaService.findById(pk);
+            if(pp!= null) {
+            	logger.info("Se guardaran los cambios al pedido " + idPedido);
+            	pp.setMonto(cotizacion.getMonto());
+            	pp.setPrecioNeto(cotizacion.getMonto());
+            	pp.setFechaEntrega(cotizacion.getFechaEnt());
+            	partidaService.save(pp);
+            	this.mostrarCotizacion = true;	
+            }
+    	}
+    	return "";
+    	
+    }
+    
+    public void enviarCorreo() {
+    	
+    }
+    
+    
+    
+    
 
 }
