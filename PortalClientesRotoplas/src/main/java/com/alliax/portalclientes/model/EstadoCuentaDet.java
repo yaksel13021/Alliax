@@ -126,6 +126,14 @@ public class EstadoCuentaDet implements java.io.Serializable{
 	public void setUUIDRelacionado(String UUIDRelacionado) {
 		this.UUIDRelacionado = UUIDRelacionado;
 	}
+	@Override
+	public String toString() {
+		return "EstadoCuentaDet [tipoDocumento=" + tipoDocumento + ", ordenCompra=" + ordenCompra + ", noPedido="
+				+ noPedido + ", notaEntrega=" + notaEntrega + ", noFactura=" + noFactura + ", noFactFiscal="
+				+ noFactFiscal + ", fechaFactura=" + fechaFactura + ", fechaFacturaSort=" + fechaFacturaSort
+				+ ", fechaVenc=" + fechaVenc + ", fechaVencSort=" + fechaVencSort + ", diasMora=" + diasMora
+				+ ", importe=" + importe + ", estatus=" + estatus + ", entrega=" + entrega + ", facturaRelacionada="
+				+ facturaRelacionada + ", UUIDRelacionado=" + UUIDRelacionado + "]";
+	}
 	
-
 }

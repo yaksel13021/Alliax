@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import com.alliax.portalclientes.controller.DetallePedidoConfig;
 import org.apache.log4j.Logger;
 
 import com.alliax.portalclientes.controller.CancelaPedidoConfig;
@@ -102,9 +103,11 @@ public class DetallePedido_backing extends AbstractBackingGen {
 	 */
 	public String cargaDetallePartidas(){
 		try{
-			logger.info("cargaDetallePartidas");
+			OrdenVenta objModelo = this.getFacesContext().getApplication().evaluateExpressionGet(this.getFacesContext(),"#{pedido}",OrdenVenta.class);
+
+			logger.info("cargaDetallePartidas " + objModelo);
 			//if(this.getSessionMap().get("pedidoSel") != null) {
-				this.setPedido((OrdenVenta)this.getSessionMap().get("pedidoSel"));
+				this.setPedido(objModelo);
 				//this.setPedido((OrdenVenta)this.getFlash().get("pedidoSel"));
 				if(getPedido() != null) {
 					DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
@@ -116,11 +119,15 @@ public class DetallePedido_backing extends AbstractBackingGen {
 				}
 			//}
 		} catch(Exception e){
+			logger.error("Error getPedido. " + getPedido());
 			logger.error("Error al desplegar detalle del pedido. " + e.getLocalizedMessage());
 			this.getFacesContext().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
 							(new MessageFormat(this.getLblMain().getString("errDetallePedido")).format(
-									new Object[] {this.getPedido().getDocumentoComercial()}))));			
+									new Object[] {this.getPedido().getDocumentoComercial()}))));
+
+			DetallePedidoConfig detalle = new DetallePedidoConfig();
+			setPartidas(detalle.partidas());
 		}
 		
 		return "";
@@ -260,46 +267,6 @@ public class DetallePedido_backing extends AbstractBackingGen {
 				return "stepLast stepText";
 		}
 		return "";
-	}
-	
-	/**
-	 * Metodo para Cancelar un pedido
-	 * @param nroPedido
-	 */
-	public void cancelarPedido(String nroPedido){
-		try {
-			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
-			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
-			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido);
-			logger.info("Cancelar pedido,  respuesta: " + cancelado);
-			this.setPedidoCancelado(cancelado);
-		} catch(Exception e){
-			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
-			//CancelaPedidoConfig cancelaPedidoConfig	= new CancelaPedidoConfig();
-			//String cancelado = cancelaPedidoConfig.cancelaPedido(nroPedido);
-			//this.setPedidoCancelado(cancelado);
-			this.getFacesContext().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
-							(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
-									new Object[] {this.getPedido().getPedidoCliente()}))));
-		}
-	}
-
-	/**
-	 * Metodo para Copiar un pedido
-	 * @param nroPedido
-	 */
-	public void copiarPedido(String nroPedido){
-		try {
-			logger.info("Copiar pedido,  nroPedido: " + nroPedido);
-			
-		} catch(Exception e){
-			logger.error("Error al cancelar Pedidoo " + e.getLocalizedMessage());
-			//this.getFacesContext().addMessage(null,
-					//new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
-							//(new MessageFormat(this.getLblMain().getString("errCancelaPedido")).format(
-									//new Object[] {this.getPedido().getPedidoCliente()}))));
-		}
 	}
 	
 }

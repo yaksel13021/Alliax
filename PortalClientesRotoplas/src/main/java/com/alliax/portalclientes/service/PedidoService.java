@@ -12,4 +12,6 @@ public interface PedidoService {
 	
 	public Pedido save(Pedido pedido);
 
+	public List<Pedido> findCotizacionesFlete(String fecha , String noCotizacion , String cliente);
+
 }

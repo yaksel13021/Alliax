@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -142,9 +144,9 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 			}
 			this.setMensajeError("null");
 							
-			logger.info("::::::::FechaCortePortal:::::: " + this.getFechaCorte() );
+			logger.info("::::::::FechaCortePortal:::::: " + this.getFechaCorteStr() );
 			this.setEstadoCuenta(
-					this.edoCtaRFC.detalleEstadoCuenta(cliente, this.getEmpresa(), this.getFechaCorte(), "ES"));
+					this.edoCtaRFC.detalleEstadoCuenta(cliente, this.getEmpresa(), this.getFechaCorteStr(), "ES"));
 			this.setDetalle(this.getEstadoCuenta().getDetalle());
 			
 			if(this.estadoCuenta == null || this.estadoCuenta.getDetalle() == null){
@@ -168,11 +170,11 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 
 			// Busqueda  de los complementos según los filtros selecionados
 			EstadoCuenta edoCta;
-			logger.info("::::::::FechaCorteXLS::::::::" + this.getFechaCorte());
+			logger.info("::::::::FechaCorteXLS::::::::" + this.getFechaCorteStr());
 			if(this.getNoCliente() == null || this.getNoCliente().isEmpty()){
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}else{
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}			
 
 			Workbook workbook = exportpedidos.estadoCuentaToXls(edoCta, this.getLblMain(), "es");
@@ -213,9 +215,9 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 			// Busqueda  de los complementos según los filtros selecionados
 			EstadoCuenta edoCta;
 			if(this.getNoCliente() == null || this.getNoCliente().trim().isEmpty()){
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getUsuarioLogueado().getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}else{
-				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorte(), "ES");
+				edoCta = this.edoCtaRFC.detalleEstadoCuenta(this.getNoCliente(), this.getEmpresa(), this.getFechaCorteStr(), "ES");
 			}
 			
 			pdf = comppdf.GenerarPdf(edoCta, this.getLblMain());
@@ -600,6 +602,20 @@ public class EstadoCuenta_backing extends AbstractBackingGen {
 		this.mensajeError = mensajeError;
 	}
 
-
+	public String getFechaCorteStr() {
+		String nuevaFechaCorte = fechaCorte;
+		if(!Fecha.validarFechayyyyMMdd(fechaCorte)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+		    try {
+		    	Date parseDate = sdf.parse(fechaCorte);
+				nuevaFechaCorte = sdf2.format(parseDate);
+			} catch (ParseException e) {
+				logger.error("::::::::FechaCorte:::::::: No se pudo convertir");
+			}
+			this.fechaCorte = nuevaFechaCorte;
+		}
+		return nuevaFechaCorte;
+	}
 	
 }

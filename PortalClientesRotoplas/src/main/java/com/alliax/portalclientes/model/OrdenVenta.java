@@ -30,7 +30,17 @@ public class OrdenVenta {
 	private String estatusGeneralDes; //GRL_STAT_H_D
 	private String razonBloqueo; //REASON_BLOCK
 	
+	private String pedidoCancelado;
 	
+	
+	
+	
+	public String getPedidoCancelado() {
+		return pedidoCancelado;
+	}
+	public void setPedidoCancelado(String pedidoCancelado) {
+		this.pedidoCancelado = pedidoCancelado;
+	}
 	public String getDocumentoComercial() {
 		return documentoComercial;
 	}
@@ -131,5 +141,28 @@ public class OrdenVenta {
 	}
 	public void setRazonBloqueo(String razonBloqueo) {
 		this.razonBloqueo = razonBloqueo;
+	}
+
+	@Override
+	public String toString() {
+		return "OrdenVenta{" +
+				"documentoComercial='" + documentoComercial + '\'' +
+				", pedidoCliente='" + pedidoCliente + '\'' +
+				", fechaCreacion=" + fechaCreacion +
+				", horaCreacion=" + horaCreacion +
+				", monto=" + monto +
+				", moneda='" + moneda + '\'' +
+				", destinatario='" + destinatario + '\'' +
+				", estatusGlobal='" + estatusGlobal + '\'' +
+				", estatusGlobalDes='" + estatusGlobalDes + '\'' +
+				", estatusCredito='" + estatusCredito + '\'' +
+				", estatusCreditoDes='" + estatusCreditoDes + '\'' +
+				", estatusEntrega='" + estatusEntrega + '\'' +
+				", estatusEntregaDes='" + estatusEntregaDes + '\'' +
+				", estatusGeneral='" + estatusGeneral + '\'' +
+				", estatusGeneralDes='" + estatusGeneralDes + '\'' +
+				", razonBloqueo='" + razonBloqueo + '\'' +
+				", pedidoCancelado='" + pedidoCancelado + '\'' +
+				'}';
 	}
 }

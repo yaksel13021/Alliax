@@ -5,8 +5,16 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 @Entity
 @Table(name="PedidoPartidas")
+@NamedQueries({
+        @NamedQuery(name="PedidoP.findByIdPedido",
+                query="select pp from PedidoPartidas pp where  pp.id.idPedido = :idPedido "+
+                        "order by  pp.posicion asc")
+})
 public class PedidoPartidas {
     @EmbeddedId
     private PedidoPartidasPK id;
@@ -31,6 +39,10 @@ public class PedidoPartidas {
     private String codigoError;
     @Column(name = "flete")
     private Boolean flete;
+    @Column(name = "posicion")
+    private String posicion;
+    @Column(name = "cantidadEntregada")
+    private String cantidadEntregada;
 
     public PedidoPartidasPK getId() {
         return id;
@@ -118,5 +130,21 @@ public class PedidoPartidas {
 
     public void setFlete(Boolean flete) {
         this.flete = flete;
+    }
+
+    public String getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(String posicion) {
+        this.posicion = posicion;
+    }
+
+    public String getCantidadEntregada() {
+        return cantidadEntregada;
+    }
+
+    public void setCantidadEntregada(String cantidadEntregada) {
+        this.cantidadEntregada = cantidadEntregada;
     }
 }
