@@ -53,7 +53,6 @@
 															#{lblMain.estatus}
 														</h:outputLabel>
 														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}"/>
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 															<f:ajax execute="@this" />
 														</h:selectOneMenu>
@@ -66,7 +65,6 @@
 															#{lblMain.fecha}
 														</h:outputLabel>
 														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}" onchange="fechaBox()" >
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
 															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
 															<f:ajax execute="@this"></f:ajax>
 														</h:selectOneMenu>
@@ -119,7 +117,6 @@
 														</h:outputLabel>
 														<h:selectOneMenu styleClass="form-control dropdownActive" value="#{listaPedidos.tipoDocumento}"
 																		 id="frm_tipoDocumento" binding="#{frm_tipoDocumento}">
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
 															<f:selectItem itemValue="#{lblMain.pedido}" itemLabel="#{lblMain.pedido}" />
 															<f:selectItem itemValue="#{lblMain.docComercial}" itemLabel="#{lblMain.docComercial}" />
 															<f:ajax execute="@this" />
@@ -151,7 +148,7 @@
 													<h:commandButton action="#{listaPedidos.buscaPedidos}" type="submit"
 																	 styleClass="btn btn-primary float-right"
 																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
-														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable"></f:ajax>
+														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
