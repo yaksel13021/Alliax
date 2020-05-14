@@ -521,7 +521,8 @@
 												<!--   -->
 
 												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+																 disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
+
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
