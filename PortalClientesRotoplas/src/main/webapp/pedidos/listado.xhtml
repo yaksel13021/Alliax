@@ -20,6 +20,7 @@
 										  styleClass="col-lg-10 col-md-4 col-sm-4 col-xs-4-">
 								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
 							</h:panelGroup>
+							<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 							<h:panelGroup layout="block"
 										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
 										  style="padding-top: 10px;">
@@ -30,6 +31,7 @@
 									</h:commandLink>
 								</h:panelGroup>
 							</h:panelGroup>
+							</sec:authorize>
 						</h:panelGroup>
 						<h:panelGroup layout="block" styleClass="row">
 							<h:panelGroup layout="block" styleClass="col-12">
@@ -53,7 +55,6 @@
 															#{lblMain.estatus}
 														</h:outputLabel>
 														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}"/>
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
 															<f:ajax execute="@this" />
 														</h:selectOneMenu>
@@ -66,7 +67,6 @@
 															#{lblMain.fecha}
 														</h:outputLabel>
 														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}" onchange="fechaBox()" >
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
 															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
 															<f:ajax execute="@this"></f:ajax>
 														</h:selectOneMenu>
@@ -119,7 +119,6 @@
 														</h:outputLabel>
 														<h:selectOneMenu styleClass="form-control dropdownActive" value="#{listaPedidos.tipoDocumento}"
 																		 id="frm_tipoDocumento" binding="#{frm_tipoDocumento}">
-															<f:selectItem itemValue="0" itemLabel="#{lblMain.seleccionaOp}" />
 															<f:selectItem itemValue="#{lblMain.pedido}" itemLabel="#{lblMain.pedido}" />
 															<f:selectItem itemValue="#{lblMain.docComercial}" itemLabel="#{lblMain.docComercial}" />
 															<f:ajax execute="@this" />
@@ -151,7 +150,7 @@
 													<h:commandButton action="#{listaPedidos.buscaPedidos}" type="submit"
 																	 styleClass="btn btn-primary float-right"
 																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
-														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable"></f:ajax>
+														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -377,9 +376,11 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
+													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
 															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
 														</h:commandButton>
+														</sec:authorize>
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -512,6 +513,7 @@
 										</h:panelGroup>
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
+										<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 											<h:panelGroup id = "panelDate">
 												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
 												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
@@ -524,7 +526,7 @@
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
 											</h:panelGroup>
-
+										</sec:authorize>
 											<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
 												<f:ajax execute="@this" render="form\:contentmodal" />
 											</h:commandButton>

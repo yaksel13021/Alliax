@@ -194,7 +194,7 @@ public class Usuario {
 	
 	@Column(name="parent")
 	public String getParent() {
-		return pais;
+		return parent;
 	}
 	public void setParent(String parent) {
 		this.parent = parent;
