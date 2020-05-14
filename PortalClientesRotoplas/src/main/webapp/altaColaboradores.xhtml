@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:body>
+    <ui:composition template="templateBoot.xhtml">
+        <ui:define name="metadata">
+            <link href="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
+            <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"/>
+        </ui:define>
+        <ui:define name="content">
+            <h:panelGroup layout="block" styleClass="container containerFiltersOne">
+                    <div class="container ">
+                        <div id="accordion" class="accordion">
+                            <div class="card no-border-radius">
+                                <div class="card-header" id="headingThree" type="button" data-toggle="collapse"
+                                     data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    <h5 id="cardDynamicHeaderTitle" class="mb-0">Creación Usuario</h5>
+                                </div>
+                                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                    <div id="cardDynamicBody" class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+                                                <div id="dt_AddUsers_content" style="width: 100%">
+                                                    <table id="dt_AddUsers" class="table table-hover table-striped table-bordered hidden"
+                                                           width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
+                                                            <th class="no-wrap" data-prority="1" data-dt-render="free" data-columnWidth="6%">Activar Colaboradores</th>
+                                                            <th class="no-wrap" data-prority="2" data-dt-columnName="actividad" data-columnWidth="43%" data-dt-searcheable="true" data-dt-orderable="true">Actividad</th>
+                                                            <th class="no-wrap" data-prority="4" data-dt-render="free" data-columnWidth="43%">Correo</th>
+                                                            <th class="no-wrap" data-prority="3" data-dt-render="actions" data-columnWidth="6%"></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <h:form id="form1">
+                                                                <td></td>
+                                                                <td>
+                                                                    <h:selectBooleanCheckbox  id="activo" name ="activo" styleClass="addUser_checkbox" type="checkbox" checked="checked" data-toggle="toggle" data-on="SI" data-off="NO" data-onstyle="success" data-offstyle="danger">
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <h:inputHidden id="activoHidden" value="#{colaboradores.activo}"></h:inputHidden>
+                                                                </td>
+                                                                <td>Creacion de pedidos</td>
+                                                                <h:inputHidden id="actividad1" value="#{colaboradores.actividad}"></h:inputHidden>
+                                                                <td>
+                                                                    <h:inputText id="emailCola" type="text" styleClass="form-control addusers_email" name="addusers_email" placeholder="Correo electrónicovalue=" value="#{colaboradores.email}"></h:inputText>
+                                                                </td>
+                                                                <td>
+                                                                    <h:commandButton id="butt" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary hidden" action="#{colaboradores.altaColaborador}">
+                                                                        <f:ajax execute="@form" render="@this message"></f:ajax>
+                                                                    </h:commandButton>
+
+                                                                    <h:commandButton onclick="validaCola1()" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary center-block btn-lg">
+                                                                        <f:ajax execute="butt" render="@this"></f:ajax>
+                                                                    </h:commandButton>
+                                                                </td>
+                                                            </h:form>
+                                                        </tr>
+                                                        <tr>
+                                                            <h:form id="form2">
+                                                                <td></td>
+                                                                <td>
+                                                                    <h:selectBooleanCheckbox id="activo2" name ="activo2" styleClass="addUser_checkbox" type="checkbox" checked="checked" data-toggle="toggle" data-on="SI" data-off="NO" data-onstyle="success" data-offstyle="danger">
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <h:inputHidden id="activoHidden2" value="#{colaboradores.activo}"></h:inputHidden>
+                                                                </td>
+                                                                <td>seguimiento</td>
+                                                                <h:inputHidden id="actividad2" value="#{colaboradores.actividad}"></h:inputHidden>
+                                                                <td>
+                                                                    <h:inputText id="emailCola2" type="text"  styleClass="form-control addusers_email" name="addusers_email" placeholder="Correo electrónicovalue=" value="#{colaboradores.email}"></h:inputText>
+                                                                </td>
+                                                                <td>
+                                                                    <h:commandButton id = "butt2"  value="#{lblMain.btnGrabar}" styleClass="btn btn-primary hidden" action="#{colaboradores.altaColaborador}">
+                                                                        <f:ajax execute="@form" render="@this message"></f:ajax>
+                                                                    </h:commandButton>
+
+                                                                    <h:commandButton onclick="validaCola2()" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary center-block btn-lg">
+                                                                        <f:ajax execute="butt2" render="@this"></f:ajax>
+                                                                    </h:commandButton>
+                                                                </td>
+                                                            </h:form>
+                                                        </tr>
+                                                        <tr>
+                                                            <h:form id="form3">
+                                                                <td></td>
+                                                                <td>
+                                                                    <h:selectBooleanCheckbox id="activo3" name ="activo3" styleClass="addUser_checkbox" type="checkbox" checked="checked" data-toggle="toggle" data-on="SI" data-off="NO" data-onstyle="success" data-offstyle="danger">
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <h:inputHidden id="activoHidden3" value="#{colaboradores.activo}"></h:inputHidden>
+                                                                </td>
+                                                                <td>Estado Cuenta</td>
+                                                                <h:inputHidden id="actividad3" value="#{colaboradores.actividad}"></h:inputHidden>
+                                                                <td>
+                                                                    <h:inputText id="emailCola3" type="text" styleClass="form-control addusers_email" name="addusers_email" placeholder="Correo electrónicovalue=" value="#{colaboradores.email}"></h:inputText>
+                                                                </td>
+                                                                <td>
+                                                                    <h:commandButton id = "butt3" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary hidden" action="#{colaboradores.altaColaborador}">
+                                                                        <f:ajax execute="@form" render="@this message"></f:ajax>
+                                                                    </h:commandButton>
+
+                                                                    <h:commandButton onclick="validaCola3()" value="#{lblMain.btnGrabar}" styleClass="btn btn-primary center-block btn-lg">
+                                                                        <f:ajax execute="butt3" render="@this"></f:ajax>
+                                                                    </h:commandButton>
+                                                                </td>
+                                                            </h:form>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h:panelGroup id = "message">
+                                        <h:inputHidden id ="msg" value="#{colaboradores.status}"></h:inputHidden>
+                                        <h:outputScript>verificar()</h:outputScript>
+                                    </h:panelGroup>
+                                    <div id="cardDynamicFooter" class="card-footer border-top-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </h:panelGroup>
+        </ui:define>
+
+
+        <ui:define name="scriptJS">
+            <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/altaColaboradores.js']}"></script>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
