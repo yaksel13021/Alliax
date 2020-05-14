@@ -84,7 +84,16 @@
 										#{lblMain.busqueda}
 			            		</h:link>
 			            	</li>
-		            	</sec:authorize>
+						</sec:authorize>
+
+						<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+							<li class="#{view.viewId == '/altaColaboradores.xhtml' ? 'active' : ''}">
+								<h:link outcome="/altaColaboradores" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+									<span style="padding-right: 9px;" />
+									#{lblMain.altaColaboradores}
+								</h:link>
+							</li>
+						</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
 		            								,ROLE_ADMIN_MEMBER">
