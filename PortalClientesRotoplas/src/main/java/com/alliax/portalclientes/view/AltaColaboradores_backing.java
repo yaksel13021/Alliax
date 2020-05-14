@@ -46,7 +46,7 @@ public class AltaColaboradores_backing extends AbstractBacking {
      * @throws Exception
      */
     public String altaColaborador() throws Exception{
-        //cargaInfoCliente();
+        cargaInfoCliente();
         Map<String, String> map = new HashMap<String, String>();
         map.put(RC, ROLE_PEDIDOS);
         map.put(RS, ROLE_SEGUIMIENTO_PEDIDOS);
@@ -86,8 +86,8 @@ public class AltaColaboradores_backing extends AbstractBacking {
             colaborador = usrServ.save(colaborador);
             logger.info("Mensaje save");
 
-            /*ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
-            mail.enviaCorreoAlta(usuario,this.getClienteInfo());*/
+            ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
+            mail.enviaCorreoAlta(usuario,this.getClienteInfo());
 
         } catch(Exception e){
             status = 0;
