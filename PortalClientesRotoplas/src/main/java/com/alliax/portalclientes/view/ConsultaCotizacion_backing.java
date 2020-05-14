@@ -8,8 +8,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
+import com.alliax.portalclientes.controller.ConstructEmail;
 import com.alliax.portalclientes.controller.PrecioMaterialRFC;
+
 import com.alliax.portalclientes.domain.*;
 import com.alliax.portalclientes.model.DetallePedidoCotizacion;
 import com.alliax.portalclientes.model.PrecioMaterial;
@@ -273,6 +274,24 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         }
         return "";
     }
+
+
+    public void enviarMailCotizacion(String nroPedido){
+        this.buscarDetalles(nroPedido);
+        BigDecimal total = BigDecimal.ZERO;
+        String fechaEntrega = this.cotizacion.getFechaEnt();
+        if(partidas!=null&&!partidas.isEmpty()) {
+            for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
+                total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
+            }
+            logger.info("Total para envio de email:" + total);
+            ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
+            mail.enviaCorreoCotizacion(null, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString() ,fechaEntrega);
+        }else{
+            logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);
+        }
+    }
+
     
     public String grabar(DetallePedidoCotizacion cotizacion) {
     	logger.info("grabar noCotizacion" +  noCotizacion);
@@ -299,6 +318,4 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
      
     
     
-    
-
 }
