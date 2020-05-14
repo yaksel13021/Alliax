@@ -63,6 +63,7 @@ public class Usuario {
 	//private String rol;
 	private String estatus; /* A:Activo, F:Bloqueado x Intentos Fallidos, N: Bloquedo x Inactivo, B:Bloqueado Administrador, I:Password Inicial, C:Password Caducado */
 	private String pais;
+	private String parent;
 		
 
 	private Set<RolUsuario> roles = new HashSet<RolUsuario>();
@@ -189,6 +190,14 @@ public class Usuario {
 	}
 	public void setPais(String pais) {
 		this.pais = pais;
+	}
+	
+	@Column(name="parent")
+	public String getParent() {
+		return pais;
+	}
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 		
 	//@OneToMany(fetch = FetchType.EAGER, mappedBy="usuario", cascade=CascadeType.ALL, orphanRemoval=true)
