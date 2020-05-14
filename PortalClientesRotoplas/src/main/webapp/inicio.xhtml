@@ -14,7 +14,7 @@
 			<h:form id="secciones">
 				<!-- Main Content -->
 				<h:panelGroup layout="block" styleClass="container cardContainer">
-					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">
 						<h:panelGroup layout="block" styleClass="row" rendered="#{template.usuarioLogueado.pais eq 'MX'}">
 							<h:link outcome="/pedidos/listado" styleClass="w-100-percent">
 								<h:panelGroup layout="block" styleClass="card mb-0 FondoAzulFuerte whiteColor">
@@ -39,7 +39,7 @@
 							</h:link>
 						</h:panelGroup>
 					</sec:authorize>
-					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">
 						<h:panelGroup layout="block" styleClass="row" rendered="#{template.usuarioLogueado.pais eq 'MX'}">
 							<h:link outcome="/consultaExistencia" styleClass="w-100-percent">
 								<h:panelGroup layout="block"
@@ -65,6 +65,7 @@
 							</h:link>
 						</h:panelGroup>
 					</sec:authorize>
+					<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_ESTADO_CUENTA">
 					<h:panelGroup layout="block" class="row">
 						<h:link outcome="estadoCuenta" class="w-100-percent">
 							<h:panelGroup layout="block"
@@ -89,6 +90,7 @@
 							</h:panelGroup>
 						</h:link>
 					</h:panelGroup>
+					</sec:authorize>
 				</h:panelGroup>
 				<!-- End of Main Content -->
 			</h:form>

@@ -20,6 +20,7 @@
 										  styleClass="col-lg-10 col-md-4 col-sm-4 col-xs-4-">
 								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
 							</h:panelGroup>
+							<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 							<h:panelGroup layout="block"
 										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
 										  style="padding-top: 10px;">
@@ -30,15 +31,8 @@
 									</h:commandLink>
 								</h:panelGroup>
 							</h:panelGroup>
+							</sec:authorize>
 						</h:panelGroup>
-						<h:inputHidden value="true">
-							<f:validator binding="#{listadoPedidosValidator}" />
-							<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
-							<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
-							<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
-							<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
-							<f:attribute name="frm_estatus" value="#{frm_estatus}" />
-						</h:inputHidden>
 						<h:panelGroup layout="block" styleClass="row">
 							<h:panelGroup layout="block" styleClass="col-12">
 								<h:panelGroup layout="block" styleClass="card">
@@ -62,6 +56,7 @@
 														</h:outputLabel>
 														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
 															<f:selectItems value="#{listaPedidos.catalogoEstatusSet}" var="estatus" itemValue="#{estatus.key}" itemLabel="#{estatus.value}" />
+															<f:ajax execute="@this" />
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
@@ -71,14 +66,14 @@
 																	   styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.fecha}
 														</h:outputLabel>
-														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}">
+														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}" onchange="fechaBox()" >
 															<f:selectItems value="#{listaPedidos.catalogoRangoFechasSet}" var="rango" itemValue="#{rango.key}" itemLabel="#{rango.value}" />
-															<f:ajax execute="@this" render=":boxFechaI :boxfechaF @all"/>
+															<f:ajax execute="@this"></f:ajax>
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
 
-												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'F' || listaPedidos.rangoDias eq 'P'}">
+												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden">
 													<h:panelGroup layout="block"  styleClass="form-group flex">
 														<h:outputLabel for="frm_fechaIni"
 																	   styleClass="labelLeftInput fillWidthAvaible">
@@ -87,7 +82,9 @@
 														<h:panelGroup layout="block"
 																	  styleClass="input-group date date-start">
 															<h:inputText id="frm_fechaIni"
-																		 styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}"/>
+																		 styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}">
+																<f:ajax execute="@this" />
+															</h:inputText>
 															<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
@@ -95,7 +92,7 @@
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
-												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" rendered="#{listaPedidos.rangoDias eq 'P'}" >
+												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden" >
 													<h:panelGroup layout="block" styleClass="form-group flex" >
 														<h:outputLabel for="frm_fechaFin"
 																	   styleClass="labelLeftInput fillWidthAvaible">
@@ -104,7 +101,9 @@
 														<h:panelGroup layout="block"
 																	  styleClass="input-group date date-end">
 															<h:inputText id="frm_fechaFin"
-																		 styleClass="form-control" required="true" />
+																		 styleClass="form-control" required="true">
+																<f:ajax execute="@this" />
+															</h:inputText>
 															<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
 																<span class="input-group-text far fa-calendar-alt"></span>
@@ -122,6 +121,7 @@
 																		 id="frm_tipoDocumento" binding="#{frm_tipoDocumento}">
 															<f:selectItem itemValue="#{lblMain.pedido}" itemLabel="#{lblMain.pedido}" />
 															<f:selectItem itemValue="#{lblMain.docComercial}" itemLabel="#{lblMain.docComercial}" />
+															<f:ajax execute="@this" />
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>
@@ -131,16 +131,26 @@
 																styleClass="labelLeftInput fillWidthAvaible">
 															#{lblMain.documento}
 														</h:outputLabel>
-														<h:inputText value="#{listaPedidos.documento}" styleClass="form-control" />
+														<h:inputText id="frm_documento" value="#{listaPedidos.documento}" styleClass="form-control">
+															<f:ajax execute="@this" />
+														</h:inputText>
 													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<h:commandButton action="#{listaPedidos.buscaPedidos}"
+													<h:inputHidden value="true" id="validate" immediate="true">
+														<f:validator binding="#{listadoPedidosValidator}" for="validate"/>
+														<f:attribute name="frm_estatus" value="#{frm_estatus}" />
+														<f:attribute name="frm_fechaIni" value="#{fechaInicial}" />
+														<f:attribute name="frm_fechaFin" value="#{fechaFinal}" />
+														<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
+														<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
+													</h:inputHidden>
+													<h:commandButton action="#{listaPedidos.buscaPedidos}" type="submit"
 																	 styleClass="btn btn-primary float-right"
-																	 value="#{lblMain.aplicarFiltro}" id="setFilters" >
-														<f:ajax execute=":validate @form" render="form\:contenttable" />
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
+														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -165,47 +175,35 @@
 											</tr>
 											</thead>
 											<tbody>
-											<ui:repeat var="pedidoObj" value="#{listaPedidos.listadoPedidos}">
-												<f:ajax event="click" execute="@form" onevent="showModal" listener="#{listaPedidos.cargaDetallePartidas}" render="form\:contentmodal">
-												<tr>
-
-													<td>
-
-															<h:outputLabel value="#{pedidoObj.documentoComercial}" />
-
-													</td>
-													<td>
-
+												<ui:repeat var="pedidoObj" value="#{listaPedidos.listadoPedidos}">
+													<tr onclick='setPedidoSel(this)'>
+														<td>
+															<h:outputLabel value="#{pedidoObj.documentoComercial}"/>
+															<h:commandLink style="display: none;" actionListener="#{listaPedidos.cargaDetallePartidas}">
+																<f:ajax execute="@this" render="form\:contentmodal" onevent="showModal"/>
+															</h:commandLink>
+														</td>
+														<td>
 															<h:outputLabel value="#{pedidoObj.pedidoCliente}" />
-
-													</td>
-													<td>
-
+														</td>
+														<td>
 															<h:outputLabel value="#{pedidoObj.monto}">
 																<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 															</h:outputLabel>
-
-													</td>
-													<td>
-
+														</td>
+														<td>
 															<h:outputLabel value="#{pedidoObj.fechaCreacion}">
 																<f:convertDateTime dateStyle="default" />
 															</h:outputLabel>
-
-													</td>
-													<td>
-
+														</td>
+														<td>
 															<h:outputLabel value="#{pedidoObj.estatusGeneralDes}" />
-
-													</td>
-													<td>
-
+														</td>
+														<td>
 															<h:outputLabel value="#{pedidoObj.destinatario}" />
-
-													</td>
-												</tr>
-												</f:ajax>
-											</ui:repeat>
+														</td>
+													</tr>
+												</ui:repeat>
 											</tbody>
 										</table>
 									</h:panelGroup>
@@ -217,17 +215,16 @@
 				<!-- End of Main Content -->
 				<f:view id="modal" >
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								  aria-labelledby="myModal">
+						aria-labelledby="myModal">
 							<h:panelGroup layout="block"
-										  styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
-										  role="document" id="contentmodal">
+								  styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
+								  role="document" id="contentmodal">
 								<h:panelGroup layout="block" styleClass="modal-content">
 
 									<!-- Modal Header -->
 									<h:panelGroup layout="block" styleClass="modal-header">
 										<h4 class="modal-title">#{lblMain.informacionGeneral}</h4>
 										<h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
-											<f:setPropertyActionListener value="#{null}" target="#{sessionScope.pedidoSel}"/>
 											<f:ajax execute="@this"></f:ajax>
 										</h:commandButton>
 									</h:panelGroup>
@@ -379,9 +376,11 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
+													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
 															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
 														</h:commandButton>
+														</sec:authorize>
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -413,14 +412,15 @@
 											</h:panelGroup>
 										</h:panelGroup>
 										<br />
-										<h:panelGroup layout="block" styleClass="card text-center">
+										<h:panelGroup layout="block" styleClass="card text-center" id="detalleFP">
 											<h:panelGroup layout="block" styleClass="card-header">
-												<ul class="nav nav-tabs card-header-tabs">
-													<li class="nav-item"><a class="nav-link active"
-																			href="#menu1">#{lblMain.partidas}</a></li>
+												<ul class="nav nav-tabs card-header-tabs" id="misPedidosTabs" role="tablist">
 													<li class="nav-item">
-														<a class="nav-link" href="#menu2">#{lblMain.facturas}
-															<f:ajax listener="#{listaPedidos.obtieneFacturas}" event="click" execute="@this"/>
+														<a class="nav-link active" href="#partidas" id="tabPartidas" data-toggle="tab" role="tab" aria-controls="partidas" aria-selected="true">#{lblMain.partidas}</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" href="#facturas" id="tabFacturas" data-toggle="tab" role="tab" aria-controls="facturas" aria-selected="false">#{lblMain.facturas}
+															<f:ajax listener="#{listaPedidos.obtieneFacturas}" event="click" execute="@this" />
 														</a>
 													</li>
 												</ul>
@@ -428,8 +428,7 @@
 											<h:panelGroup layout="block" styleClass="card-body">
 												<h:panelGroup layout="block" id="nav-tabContent"
 															  styleClass="tab-content">
-													<div id="menu1"
-														 class="tab-pane active ">
+													<div id="partidas" class="tab-pane active" role="tabpanel" aria-labelledby="partidas-tab">
 														<br />
 														<h:panelGroup layout="block" styleClass="row">
 															<h:panelGroup layout="block" styleClass="col-12">
@@ -459,10 +458,10 @@
 																			<td><h:outputLabel value="#{partida.unidadMedida}" /></td>
 																			<td><h:outputLabel value="#{partida.monto}">
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																			</h:outputLabel> #{partida.moneda}</td>
+																			</h:outputLabel></td>
 																			<td><h:outputLabel value="#{partida.precioNeto}">
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-																			</h:outputLabel> #{partida.moneda}</td>
+																			</h:outputLabel></td>
 																			<td><h:outputLabel value="#{partida.fechaEntrega}">
 																				<f:convertDateTime dateStyle="default" />
 																			</h:outputLabel></td>
@@ -474,8 +473,7 @@
 															</h:panelGroup>
 														</h:panelGroup>
 													</div>
-													<div id="menu2"
-														 class="container-fluid tab-pane fade pr-0 pl-0">
+													<div id="facturas" class="tab-pane fade pr-0 pl-0" role="tabpanel" aria-labelledby="facturas-tab">
 														<br />
 														<h:panelGroup layout="block" styleClass="row">
 															<h:panelGroup layout="block" styleClass="col-12">
@@ -515,23 +513,20 @@
 										</h:panelGroup>
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
+										<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 											<h:panelGroup id = "panelDate">
 												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
 												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
 
-         										<!--value="#{pedidoObj.estatusGeneralDes}" -->
-												<!-- disabled="#{listaPedidos.pedido.estatusGeneral eq 'RELE' ? 'true' : 'false'}"  -->
+												<!--   -->
 
-
-												
-												<h:commandButton styleClass="btn btn-primary"
-												disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
-
+												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
+																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
 											</h:panelGroup>
-
+										</sec:authorize>
 											<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
 												<f:ajax execute="@this" render="form\:contentmodal" />
 											</h:commandButton>
@@ -553,8 +548,8 @@
 							<h:panelGroup layout="block" styleClass="modal-body" style="font-size: 14px;">
 							#{lblMain.cancelarPedidosConfirmacion}
 								<br />
-								<h:panelGroup layout="block" styleClass="modal-footer">    
-									<h:commandButton action="#{listaPedidos.cancelarPedido(listaPedidos.pedido)}" 
+								<h:panelGroup layout="block" styleClass="modal-footer">
+									<h:commandButton action="#{listaPedidos.cancelarPedido(listaPedidos.pedido)}"  
 									id="cancelarSi" styleClass="btn btn-primary" value="#{lblMain.btnAceptar}" onclick="closeModalCancelarPedido()">
 													<f:ajax execute="cancelarSi" render="panelDate" />
 									</h:commandButton>
@@ -583,13 +578,7 @@
 				var closeModalCancelarPedido = function () {
 					$('#myModal1').modal('hide');
 				}
-
-				$("#menu2").off().on('click', function () {
-					if ($dataT3) {
-						$dataT3.clear().destroy();
-					}
-					example3Func();
-				});
+				
 			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 			<script>
@@ -599,12 +588,31 @@
 					if(status == 'complete'){
 						$("#myModal").modal('show');
 					}
-
+					
 				}
-
-				$("#example tbody").off().on('click', 'tr', function (data) {
-					var pedido = data;
-				});
+				
+				var val = null;
+				  
+				  var setPedidoSel = function(data){
+					  var a = $(data).find("a");
+					  a.triggerHandler("click");
+				  }
+				  
+				var fechaBox = function () {
+					val = $("select[name='form:frm_rangoDias'] option:selected").val();
+					
+					if(val == "F" || val == "P"){
+						$("[id='form:boxFechaI']").removeClass('hidden');
+					} else {
+						$("[id='form:boxFechaI']").addClass('hidden');
+					}
+					
+					if(val == "P"){
+						$("[id='form:boxFechaF']").removeClass('hidden');
+					} else {
+						$("[id='form:boxFechaF']").addClass('hidden');
+					}
+				}
 			</script>
 		</ui:define>
 	</ui:composition>

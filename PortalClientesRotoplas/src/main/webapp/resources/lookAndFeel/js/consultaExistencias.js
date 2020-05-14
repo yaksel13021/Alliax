@@ -111,7 +111,7 @@ $(document).ready(function(e) {
         multiple: false,
         width: "100%",
     });
-
+    $('[id="form:select_buscarPor"]').show();
 });
 
 function firstFill(){
@@ -123,6 +123,35 @@ function firstFill(){
         multiple: false,
         width: "100%",
     });
+
+}
+
+
+
+function showMessagePassWord() {
+    var mensaje = document.getElementById("mensaje");
+    var tipo = document.getElementById("tipo");
+
+    if (tipo == 0){
+        showToastr(mensaje, 'Aviso', {
+            type: typeNotification.success
+        });
+    }
+    if (tipo == 1){
+        showToastr(mensaje, 'Aviso', {
+            type: typeNotification.warning
+        });
+    }
+}
+
+function validaEnvio() {
+    if(document.getElementById("form:inputUser").value == "" && document.getElementById("form:inputUser").value.length == 0){
+        showToastr("completa el campo : usuario", 'Aviso', {
+            type: typeNotification.warning
+        });
+    }else{
+        document.getElementById('form:restear').click();
+    }
 }
 
 

@@ -326,6 +326,13 @@ $(document).ready(function () {
       }, 100);
     });
 
+    $('#misPedidosTabs  a[href="#facturas"]').off().on('click', function(){
+        $('#misPedidosTabs  a[href="#facturas"]').tab('show');
+      });
+      $('#misPedidosTabs  a[href="#partidas"]').off().on('click', function(){
+        $('#misPedidosTabs  a[href="#partidas"]').tab('show');
+      });
+    
     // $("tbody > tr .colorLetra").off().on("click", function () {
     //   $("#myModal").modal("toggle");
     //   if ($example2) {
@@ -643,7 +650,7 @@ function toggleComplete() {
 }
 
 var tablaEstCuenta = function () {
-	  debugger
+    debugger
   if ($tablaEstCuentaDT) {
         $tablaEstCuentaDT.clear().destroy();
   }  
@@ -675,18 +682,18 @@ var tablaEstCuenta = function () {
       targets: -1,
       className: "dt-body-right",
     },
-		{
-		  targets: 5,
-		  render: function (data, type, row, meta) {
-		    return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
-		  }
-		},
-		{
-		  targets: 6,
-		  render: function (data, type, row, meta) {
-		    return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
-		  }
-		}
+    {
+      targets: 5,
+      render: function (data, type, row, meta) {
+        return '<a type="button" target="_blank" class="btn btn-primary btn-xs btn_Action" href="' + row.xml + '">XML</a>';
+      }
+    },
+    {
+      targets: 6,
+      render: function (data, type, row, meta) {
+        return '<a type="button" target="_blank" class="btn btn-danger btn-xs btn_Action" href="' + row.pdf + '">PDF</a>';
+      }
+    }
     ],
     fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
       if (iDisplayIndex % 2 == 0) {
