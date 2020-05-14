@@ -9,13 +9,17 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-
+import com.alliax.portalclientes.controller.PrecioMaterialRFC;
 import com.alliax.portalclientes.domain.*;
 import com.alliax.portalclientes.model.DetallePedidoCotizacion;
+import com.alliax.portalclientes.model.PrecioMaterial;
 import com.alliax.portalclientes.service.MaterialService;
 import org.apache.log4j.Logger;
 
+
 import com.alliax.portalclientes.model.CotizacionFlete;
+
+
 import com.alliax.portalclientes.service.PedidoPartidasService;
 import com.alliax.portalclientes.service.PedidoService;
 
@@ -23,11 +27,18 @@ import com.alliax.portalclientes.service.PedidoService;
 @SessionScoped
 public class ConsultaCotizacion_backing extends AbstractBackingGen {
 
+
+
+
     private final static Logger logger = Logger.getLogger(ConsultaCotizacion_backing.class);
+
+
+   
     private String noCotizacion;
     private String fecha;
     private String noCliente;
     private String noCotizacionSel;
+
 
     private PedidoService service;
     private PedidoPartidasService partidaService;
@@ -42,12 +53,13 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     
     private String finalizar;
 
+
     private List<DetallePedidoCotizacion> partidas;
     
     private DetallePedidoCotizacion cotizacion;
     
     private boolean mostrarCotizacion = false;
-
+    
     public String getNoCotizacion() {
         return noCotizacion;
     }
@@ -200,13 +212,16 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     public String buscarDetalles(String noPedido){
         partidas = new ArrayList();
         try{
+
+            PrecioMaterialRFC precioRFC = this.getSpringContext().getBean("precioMaterialRFC",PrecioMaterialRFC.class);
             Long idPedido = Long.valueOf(noPedido);
             Pedido pedido=  service.findById(idPedido);
-           List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(idPedido);
-           BigDecimal subtotal = BigDecimal.ZERO;
-           BigDecimal impuesto = BigDecimal.ZERO;
+            List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(idPedido);
+            BigDecimal subtotal = BigDecimal.ZERO;
+            BigDecimal impuesto = BigDecimal.ZERO;
             for(PedidoPartidas pp : partidasPedidos){
-            	
+
+                
             	DetallePedidoCotizacion d = new DetallePedidoCotizacion();
                 d.setNoPedido(noPedido);
                 d.setPosicion(pp.getPosicion());
@@ -215,6 +230,21 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                     d.setNoMaterial(mat.getSku());
                     d.setDescripcion(mat.getDescripcion());
                     d.setUnidadMedida(mat.getUnidadMedida());
+             
+                    PrecioMaterial precio =  null;//precioRFC.obtienePrecioMaterial(pedido.getClasePedido(),pedido.getOrganizacionVenta(),"20","02",pedido.getTipoMaterial(),pp.getId().getSku(),pp.getCantidad(),mat.getUnidadMedida(),pedido.getNroCliente(),pedido.getDestinatarioMercancia());
+              
+                    if(precio!= null) {
+                    pp.setMonto(precio.getMonto()!= null? precio.getMonto().toString() : pp.getMonto());
+                    pp.setPrecioNeto(precio.getPrecioNeto()!= null ? precio.getPrecioNeto().toString() : pp.getPrecioNeto());
+                    pp.setIva(precio.getIva()!= null ?  precio.getIva() : pp.getIva());
+                    pp.setFechaEntrega(precio.getFechaEntrega()!= null ?precio.getFechaEntrega(): pp.getFechaEntrega());
+                    pp.setMensajeError(precio.getMensajeError()!= null ? precio.getMensajeError() : pp.getMensajeError());
+                    pp.setMoneda(precio.getMoneda()!= null ? precio.getMoneda() :pp.getMoneda());
+                    pp.setTotalPartida(precio.getTotalPartida()!= null ? precio.getTotalPartida().toString(): pp.getTotalPartida());
+                    partidaService.save(pp);
+                    }
+
+                    
                 }
                 d.setMonto(pp.getMonto());
                 d.setPrecioNeto(pp.getPrecioNeto());
@@ -235,8 +265,6 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 this.subtotal = subtotal.toString();
                 this.impuesto = impuesto.toString();
                 this.total= subtotal.add(impuesto).toString();
-               
-                          
             }
         } catch(Exception e){
             logger.error("Error al desplegar listado de fletes " + e.getLocalizedMessage());
@@ -248,7 +276,6 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     
     public String grabar(DetallePedidoCotizacion cotizacion) {
     	logger.info("grabar noCotizacion" +  noCotizacion);
-    		
     		if(cotizacion!= null && cotizacion.getNoPedido()!= null) {
     		logger.info("grabar noCotizacion" + cotizacion.getDescripcion() + " " + cotizacion.getNoPedido() + " " + cotizacion.getMonto());
     		PedidoPartidasPK pk = new PedidoPartidasPK();
@@ -269,10 +296,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-    public void enviarCorreo() {
-    	
-    }
-    
+     
     
     
     

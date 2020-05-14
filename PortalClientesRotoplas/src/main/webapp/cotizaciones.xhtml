@@ -394,7 +394,8 @@
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
                     <h:panelGroup layput="block"
                                   style="display: inline-block; width: 100%; overflow-y: auto;">
-                      <h:commandButton id="btnGrabar"  action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
+                      <h:commandButton id="btnGrabar"  onclick="closeModal2()" action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
+                      	<f:ajax execute="@form" onevent="showModal" render="form\:contentmodal"/>
                       </h:commandButton>
                     </h:panelGroup>
                   </sec:authorize>
@@ -443,13 +444,13 @@
 					example3Func();
 				});
 			</script>
-      <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
       <script>
 				function showModal(data) {
 					var modal = $("#myModal");
 					var status = data.status;
 					if(status == 'complete'){
 						$("#myModal").modal('show');
+						
 					}
 
 				}
@@ -478,7 +479,6 @@
 					example3Func();
 				});
 			</script>
-      <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
       <script>
 				function showModal2(data) {
 					var modal = $("#myModalCaptura");
