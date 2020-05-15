@@ -24,10 +24,10 @@
 										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
 										  style="padding-top: 10px;">
 								<h:panelGroup layout="block" style="text-align: right;">
-									<h:commandLink action="crearPedido">
+									<h:link outcome="/crearPedido">
 										<i class="fa fa-file fa-2x"></i>
 										#{lblMain.crearPedido}
-									</h:commandLink>
+									</h:link>
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
@@ -195,7 +195,7 @@
 															</h:outputLabel>
 														</td>
 														<td>
-															<h:outputLabel value="#{pedidoObj.estatusGeneral}" />
+															<h:outputLabel value="#{pedidoObj.estatusGeneralDes}" />
 														</td>
 														<td>
 															<h:outputLabel value="#{pedidoObj.destinatario}" />
@@ -336,7 +336,7 @@
 																	</h:panelGroup>
 																	<h:panelGroup layout="block"
 																				  styleClass="h6 mb-0 font-weight-bold text-gray-800">
-																		#{listaPedidos.pedido.estatusGeneral}
+																		#{listaPedidos.pedido.estatusGeneralDes}
 																	</h:panelGroup>
 																</h:panelGroup>
 																<h:panelGroup layout="block" styleClass="col-auto">
@@ -374,9 +374,7 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
-														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
-															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
-														</h:commandButton>
+														<h:button id="clonarPedido" styleClass="btn btn-primary float-left" outcome="/crearPedido" value ="#{lblMain.btnCopiarPedido}" />
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
