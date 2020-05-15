@@ -303,14 +303,14 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			logger.info("cargaDetallePartidas " + getPedido());
 			if(getPedido() != null) {
 				DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
-//					this.setPartidas(
-//							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
-//									this.getUsuarioLogueado().getLanguage()));
+					this.setPartidas(
+							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
+									this.getUsuarioLogueado().getLanguage()));
 
-				DetallePedidoConfig detalleConf = new DetallePedidoConfig();
-				setPartidas(detalleConf.partidas());
+//				DetallePedidoConfig detalleConf = new DetallePedidoConfig();
+//				setPartidas(detalleConf.partidas());
 
-				//this.setFacturas(detalle.getListaFacturas());
+				this.setFacturas(detalle.getListaFacturas());
 			}
 			//}
 		} catch(Exception e){

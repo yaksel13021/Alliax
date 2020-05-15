@@ -16,6 +16,7 @@ public class PedidoMaterial {
     private String leyendaError;
     private String descripcionError;
     private String urlFoto;
+    private String estatus;
 
     public String getSku() {
         return sku;
@@ -137,6 +138,14 @@ public class PedidoMaterial {
         this.urlFoto = urlFoto;
     }
 
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
+    }
+
     @Override
     public String toString() {
         return "PedidoMaterial[" +
@@ -155,6 +164,7 @@ public class PedidoMaterial {
                 ", leyendaError='" + leyendaError + '\'' +
                 ", descripcionError='" + descripcionError + '\'' +
                 ", urlFoto='" + urlFoto + '\'' +
+                ", estatus='" + estatus + '\'' +
                 ']';
     }
 }
