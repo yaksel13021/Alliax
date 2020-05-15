@@ -67,4 +67,14 @@ public class Material {
         this.urlFoto = urlFoto;
     }
 
+    @Override
+    public String toString() {
+        return "Material[" +
+                "sku='" + sku + '\'' +
+                ", tipoMaterial='" + tipoMaterial + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", unidadMedida='" + unidadMedida + '\'' +
+                ", urlFoto='" + urlFoto + '\'' +
+                ']';
+    }
 }
