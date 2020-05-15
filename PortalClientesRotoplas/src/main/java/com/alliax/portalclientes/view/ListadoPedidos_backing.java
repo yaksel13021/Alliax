@@ -276,6 +276,10 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			}
 			logger.info("Despues del set list");
 			
+			if(this.getListadoPedidos() != null) {
+				logger.info("Listado Pedidos: " + this.getListadoPedidos().toString());
+			}
+
 			//Graba listado en session
 			if(this.getSessionMap() == null)
 				logger.error("Session is null");
