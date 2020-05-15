@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:body>
+    <ui:composition template="templateBoot.xhtml">
+        <ui:define name="metadata">
+            <link href="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+            <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
+            <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"/>
+            
+            <f:metadata>
+				<f:viewAction action="#{infoCliente.cargaInfoCliente}" />																
+			</f:metadata>
+			
+        </ui:define>
+        <ui:define name="content">
+        
+        
+        <h:panelGroup layout="block" styleClass="container containerFiltersOne">
+                    <div class="container ">
+                        <div id="accordion" class="accordion">
+                            <div class="card no-border-radius">
+                                <div class="card-header" id="headingThree">
+                                    <h5 id="cardDynamicHeaderTitle" class="mb-0">Información de la cuenta</h5>
+                                </div>
+ 								<section style="margin-top: 10px"/>
+								
+                                <h:panelGroup layout="block" styleClass="container-fluid">
+									<h:panelGroup layout="block" styleClass="row">
+										<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">													
+											<h:outputLabel value="#{lblMain.usrLogin}" styleClass="lblheader" />
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+										<h:outputLabel value="#{infoCliente.usuarioLogueado.username}" />
+									</h:panelGroup>
+								</h:panelGroup>
+			
+								<h:panelGroup layout="block" styleClass="row">
+									<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{lblMain.numeroCliente}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{infoCliente.clienteInfo.noCliente}" />
+								</h:panelGroup>
+								</h:panelGroup>
+			
+								<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+									<h:outputLabel value="#{lblMain.nombre}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{infoCliente.clienteInfo.nombre}" />
+								</h:panelGroup>
+								</h:panelGroup>
+			
+								<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{lblMain.email}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{infoCliente.clienteInfo.email}" />
+								</h:panelGroup>
+								</h:panelGroup>
+			
+								<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+								<h:outputLabel value="#{lblMain.pais}" styleClass="lblheader" />
+										</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+									<h:outputLabel value="#{infoCliente.clienteInfo.pais}" />
+								</h:panelGroup>
+												</h:panelGroup>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+									<h:outputLabel value="#{lblMain.estado}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+									<h:outputLabel value="#{infoCliente.clienteInfo.region}" />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" styleClass="row">
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">
+									<h:outputLabel value="#{lblMain.localidad}" styleClass="lblheader" />
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-6 col-md-3">	
+													<h:outputLabel value="#{infoCliente.clienteInfo.ciudad}" />
+								</h:panelGroup>
+								</h:panelGroup>																				
+								</h:panelGroup>
+                                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                    <div id="cardDynamicFooter" class="card-footer border-top-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </h:panelGroup>
+        </ui:define>
+
+        <ui:define name="scriptJS">
+            <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/altaColaboradores.js']}"></script>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
