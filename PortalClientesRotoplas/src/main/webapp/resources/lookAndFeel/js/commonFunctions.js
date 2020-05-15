@@ -10,7 +10,7 @@ function loadMustacheTemplate(mustacheTemplateId, mustacheTemplateTargetId, data
     Mustache.parse(mustacheTemplate); // optional, speeds up future uses
 
     var rendered = Mustache.render(mustacheTemplate, data);
-    alert(rendered);
+
     if(mustacheTemplateTargetId != null){
         if(mustacheTemplateTargetId.indexOf(":") > -1){
             $("[id='" + mustacheTemplateTargetId + "']").html(rendered);

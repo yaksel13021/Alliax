@@ -27,7 +27,9 @@ import com.alliax.portalclientes.service.UsuarioService;
 public class RecuperaPwd_backing extends AbstractBackingGen {
 	
 	private final static Logger logger = Logger.getLogger(RecuperaPwd_backing.class);
-	
+
+	private String messgge;
+	private int tipo;
 	private String usuario;
 
 	public String getUsuario() {
@@ -102,18 +104,23 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 					//Envia correo 
 					ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
 					mail.enviaCorreoReseteo(usuario, clienteInfo);					
-						
+					messgge = this.getLblMain().getString("recuperaPwdOk");
+					tipo = 0;
 					this.getFacesContext().addMessage(null, 
 							new FacesMessage(FacesMessage.SEVERITY_INFO,"Info",
 									this.getLblMain().getString("recuperaPwdOk")));					
 				}
 				
 			} else {
+				messgge = this.getLblMain().getString("errUsuarioInvalido");
+				tipo = 1;
 				this.getFacesContext().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
 							this.getLblMain().getString("errUsuarioInvalido")));
 			}
 		} catch(Exception e){
+			messgge = this.getLblMain().getString("errRecuperaPwd");
+			tipo = 1;
 			logger.error("Error al recuperar password " + e.getLocalizedMessage(),e);
 			this.getFacesContext().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
@@ -121,5 +128,21 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 		}
 		
 		return "";
-	}	
+	}
+
+	public String getMessgge() {
+		return messgge;
+	}
+
+	public void setMessgge(String messgge) {
+		this.messgge = messgge;
+	}
+
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
 }

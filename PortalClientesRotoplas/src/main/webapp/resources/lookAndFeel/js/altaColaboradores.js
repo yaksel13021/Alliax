@@ -1,73 +1,33 @@
-var creacionUsuario = (function () {
-    var $dt = null;
-
-    var init = function () {
-        initEvents();
-        cargarDTAddUsaers.fill();
-    };
-
-    var initEvents = function () {
-    };
-
-    var cargarDTAddUsaers = {
-        fill: function (rs) {
-            if ($dt) {
-                $dt.clear().destroy();
-            }
-            debugger
-            $dt = document.querySelector('#dt_AddUsers').rssDataTable({
-                order: [0, 'asc'],
-                scrollX: true,
-                searching: true,
-                paging: false,
-                // data: rs,
-                responsive: true,
-                free: function (data, type, row, meta) {
-                    if (meta.col === 1) {
-                        return '<input class="addUser_checkbox" type="checkbox" checked data-toggle="toggle" data-on="SI" data-off="NO" data-onstyle="success" data-offstyle="danger">'
-                    }
-                    if (meta.col === 3) {
-                        return '<input type="text" class="form-control addusers_email" name="addusers_email" placeholder="Correo electrónico">'
-                    }
-                },
-                actions: function (data, type, row, meta) {
-                    return '<h:commandButton type="button" name="addusers_btn_grabar" class="btn btn-primary addusers_btn_grabar" role="button">Grabar</h:commandButton>'
-                },
-                rowCallback: function (row, data, api) {
-                    $(row).find('.addusers_btn_grabar').off().on('click', function (e) {
-                        var checkValue = $(row).find('.addUser_checkbox').prop('checked'),
-                            emailValue = $(row).find('.addusers_email').val();
-
-                        if(!emailValue){
-                            showToastr('Ingrese un correo', 'Aviso', {
-                                type: typeNotification.warning
-                            });
-                            return;
-                        }
-                        showToastr('Se registro correctamente', '', {
-                            type: typeNotification.success
-                        });
-                    });
-                },
-                initComplete: function (settings, json, api) {
-                    $('.addUser_checkbox').bootstrapToggle();
-                }
-            });
-            return true;
-        }
-    };
-
-    return {
-        init: init
-    };
-})();
 $(document).ready(function () {
+
+    var act = document.getElementById("form1:activoHidden").value;
+    var act2 = document.getElementById("form2:activoHidden2").value;
+    var act3 = document.getElementById("form3:activoHidden3").value;
+    if (act == "A"){
+        document.getElementById('form1:activo').checked =1;
+    }else {
+        document.getElementById('form1:activo').checked =0;
+    }
+    if (act2 == "A"){
+        document.getElementById('form2:activo2').checked =1;
+    }
+    else {
+        document.getElementById('form2:activo2').checked =0;
+    }
+    if (act3 == "A"){
+        document.getElementById('form3:activo3').checked =1;
+    }
+    else {
+        document.getElementById('form3:activo3').checked =0;
+    }
     $('.addUser_checkbox').bootstrapToggle({
     on: 'SI',
     off: 'NO',
     offstyle : 'danger',
     onstyle : 'success'
     });
+
+
 
     var actividad = "RC";
     document.getElementById("form1:actividad1").value = actividad;
@@ -115,7 +75,7 @@ function validaCola2() {
         onerror = true;
     }
     if (!onerror) {
-        var activo = document.getElementById('form1:activo').checked;
+        var activo = document.getElementById('form2:activo2').checked;
         document.getElementById("form2:activoHidden2").value = activo;
         document.getElementById('form2:butt2').click();
     }
