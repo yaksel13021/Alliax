@@ -766,7 +766,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         try {
             obtenerDestinatarioMercancia();
             buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
-            ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(this.getDestinatarioMercancia(), destinatarioMercanciaSel.getCodigoPostal());
+            ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(destinatarioMercanciaSel.getOrganizacionVentas(), destinatarioMercanciaSel.getCodigoPostal());
             logger.info("CLASE PEDIDO " + clasePedido);
             if(clasePedido.getResultCode().equals("0")) {
                 setClasePedido(clasePedido.getClasePedido());

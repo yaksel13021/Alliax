@@ -189,6 +189,18 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	public String buscaPedidos(){
 		try {
 			logger.info("Buscando pedidos");
+
+			if(this.getEstatus() == null) {
+				this.setEstatus("T");
+			}
+			
+			if(this.getRangoDias() == null) {
+				this.setRangoDias("H");
+			}
+			
+			if(this.getTipoDocumento() == null) {
+				this.setTipoDocumento("Orden de Compra");
+			}
 			
 			List<String> rangoFechas = null;
 			
