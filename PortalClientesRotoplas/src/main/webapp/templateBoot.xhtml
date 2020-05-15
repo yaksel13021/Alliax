@@ -136,14 +136,71 @@
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									    <!-- Manual de usuario -->
-									    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-									    		,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
-		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
-		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
-		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
-									    	<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank" >#{lblMain.manualUsuario}</a>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
+									    	<a class="dropdown-item" href="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
 									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
+									    	<a class="dropdown-item" href="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
+									    	<a class="dropdown-item" href="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+									    	<a class="dropdown-item" href="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    
+									    <!-- Manual de Envio Masivo -->
+				    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+			                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+									    	<a class="dropdown-item" href="#{resource['files/PC_Manual_Envio_Masivo.pdf']}" target="_blank">#{lblMain.manualEnvioMasivo}</a>
+									    </sec:authorize>							    
+									    							    								   
+									    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
+									  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>							
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
+												<a class="dropdown-item" href="#{resource['files/PC_Manual_de_Usuario_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>							
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>				
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
+												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
+												<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>				
+											</h:panelGroup>	
+									    </sec:authorize>
+
+										<!-- Manual de administrador -->
+										<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">
+											<a class="dropdown-item" href="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+						    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">
+						    				<a class="dropdown-item" href="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">
+											<a class="dropdown-item" href="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">
+							   				<a class="dropdown-item" href="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">
+							   				<a class="dropdown-item" href="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
 									</div>
 			                	</li>
 			                </sec:authorize>
