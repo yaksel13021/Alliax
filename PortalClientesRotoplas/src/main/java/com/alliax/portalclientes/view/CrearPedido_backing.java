@@ -437,6 +437,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
                                             "20", "02", getSegmento(), pedidoMaterial2.getSku(), pedidoMaterial2.getCantidad(),
                                             pedidoMaterial2.getUnidadMedida(), getUsuarioLogueado().getNoCliente(), getDestinatarioMercanciaSel().getNoDestinatario());
+                                    logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
                                     //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
@@ -766,6 +767,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             obtenerDestinatarioMercancia();
             buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
             ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(this.getDestinatarioMercancia(), destinatarioMercanciaSel.getCodigoPostal());
+            logger.info("CLASE PEDIDO " + clasePedido);
             if(clasePedido.getResultCode().equals("0")) {
                 setClasePedido(clasePedido.getClasePedido());
 
