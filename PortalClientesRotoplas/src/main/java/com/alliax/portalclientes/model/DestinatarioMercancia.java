@@ -10,7 +10,7 @@ public class DestinatarioMercancia {
 	private String poblacion;
 	private String sociedad;
 	private String organizacionVentas;
-	
+
 	public String getNoDestinatario() {
 		return noDestinatario;
 	}
