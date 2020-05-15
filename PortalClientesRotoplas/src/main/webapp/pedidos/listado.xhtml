@@ -47,7 +47,7 @@
 									<div id="expandable1"
 										 class="collapse show" aria-labelledby="item1Header"
 										 data-parent="#myAccordion">
-										<h:panelGroup layout="block" styleClass="card-body">
+										<h:panelGroup layout="block" styleClass="card-body" id="setForm">
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
@@ -149,10 +149,10 @@
 														<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 														<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
 													</h:inputHidden>
-													<h:commandButton action="#{listaPedidos.buscaPedidos}" type="submit"
+													<h:commandButton action="#{listaPedidos.buscaPedidos}" 
 																	 styleClass="btn btn-primary float-right"
 																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
-														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
+														<f:ajax execute="form:\setForm form\:validate @form" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
