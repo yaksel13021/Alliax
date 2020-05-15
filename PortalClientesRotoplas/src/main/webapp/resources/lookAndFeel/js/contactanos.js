@@ -1,9 +1,55 @@
+function Select2Languaje() {
+    return {
+        noResults: function () { return "No hay resultados" },
+        searching: function () { return "Buscando..." },
+        errorLoading: function () { return "No se pudieron cargar los resultados" },
+        inputTooShort: function (e) {
+            t = e.minimum - e.input.length, n = "Por favor, introduzca " + t + " car";
+            return t == 1 ? n += "ácter" : n += "acteres", n
+        }
+    };
+}
+var progressAnimationEnum = {
+    decreasing: 'decreasing',
+    increasing: 'increasing'
+};
+var typeNotification = {
+    error: 'error',
+    info: 'info',
+    success: 'success',
+    warning: 'warning'
+};
+
+function showToastr(message, title, override) {
+    var propertiesDefault = {
+        type: typeNotification.success,
+        html: false,
+        closeBtn: false,
+        timeOut: 5000,
+        progressBar: false,
+        progressAnimation: progressAnimationEnum.decreasing,
+        tapToDismiss: false,
+        disableTimeOut: false
+    };
+    _.defaults(override, propertiesDefault);
+
+    toastr[override.type](message, title, {
+        enableHtml: override.html,
+        closeButton: override.closeBtn,
+        timeOut: override.timeOut,
+        progressBar: override.progressBar,
+        progressAnimation: override.progressAnimation,
+        tapToDismiss: override.tapToDismiss,
+        disableTimeOut: override.disableTimeOut
+    });
+}
+
+
 
 function contactanos() {
     $('[id="00N55000003mwze"]').select2({
         theme: "bootstrap",
         allowClear: true,
-        placeholder: "Seleccione una opción",
         language: Select2Languaje(),
         multiple: false,
         width: "100%",
@@ -11,7 +57,6 @@ function contactanos() {
     $('[id="00N55000003mpKy"]').select2({
         theme: "bootstrap",
         allowClear: true,
-        placeholder: "Seleccione una opción",
         language: Select2Languaje(),
         multiple: false,
         width: "100%",
@@ -19,7 +64,6 @@ function contactanos() {
     $('[id="00N55000003mq19"]').select2({
         theme: "bootstrap",
         allowClear: true,
-        placeholder: "Seleccione una opción",
         language: Select2Languaje(),
         multiple: false,
         width: "100%",
