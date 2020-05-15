@@ -18,6 +18,7 @@ import com.alliax.portalclientes.model.MetodoPagoCFDI;
 import com.alliax.portalclientes.model.Pedido;
 import com.alliax.portalclientes.model.PedidoMaterial;
 import com.alliax.portalclientes.model.PedidoPartidas;
+import com.alliax.portalclientes.model.PedidoResultado;
 import com.alliax.portalclientes.model.PrecioMaterial;
 import com.alliax.portalclientes.model.UsoCFDI;
 import com.alliax.portalclientes.model.UsoCFDIDetalle;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.ArrayList;
@@ -93,6 +95,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
     private List<UsoCFDIDetalle> usoCFDIDetalles;
     private String usoCFDIDetallesJson;
 
+    private String descripcionDestinatario;
 
 
     public String getIdPedido() {
@@ -319,6 +322,18 @@ public class CrearPedido_backing extends AbstractBackingGen {
         this.correoElectronico = correoElectronico;
     }
 
+    public String getDescripcionDestinatario() {
+        descripcionDestinatario = "";
+        if(destinatarioMercanciaSel!=null){
+            descripcionDestinatario = destinatarioMercanciaSel.getNombreSucursal() + "/" + destinatarioMercanciaSel.getCalleNumero() + " " + destinatarioMercanciaSel.getColonia();
+        }
+        return descripcionDestinatario;
+    }
+
+    public void setDescripcionDestinatario(String descripcionDestinatario) {
+        this.descripcionDestinatario = descripcionDestinatario;
+    }
+
     public List<DestinatarioMercancia> getDestinatarioMercancias() {
         if (destinatarioMercancias == null){
             try {
@@ -328,7 +343,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-                setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+                //setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -422,9 +437,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
                                             "20", "02", getSegmento(), pedidoMaterial2.getSku(), pedidoMaterial2.getCantidad(),
                                             pedidoMaterial2.getUnidadMedida(), getUsuarioLogueado().getNoCliente(), getDestinatarioMercanciaSel().getNoDestinatario());
+                                    logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
-                                    precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
                                 pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
                                 pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
@@ -460,13 +476,13 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-                try {
+               /* try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
                     setUsoCFDIDetallesJson(objectMapper.writeValueAsString(usoCfdiConfig.usoCFDI().getDetalles()));
                 }catch (Exception e1){
                     logger.error(e1);
-                }
+                }*/
             }
 
             logger.info("METODO");
@@ -480,12 +496,12 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-                try{
+               /* try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
-                }
+                }*/
             }
 
         }catch(Exception e){
@@ -668,20 +684,29 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 '}';
     }
 
-    public void generaPedido(){
+    public String generaPedido(){
+        logger.info("Genera Pedido");
         try{
             Pedido pedido = new Pedido();
             CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC", CrearPedidoRFC.class);
             try {
                 fillPedido(pedido);
 
-                crearPedidoRFC.crearPedido(pedido);
+                PedidoResultado pedidoResultado =  crearPedidoRFC.crearPedido(pedido);
+
+                if(!pedidoResultado.getGeneroDocumentoVenta().equals("0")){
+                    getFacesContext().getMessageList().add(new FacesMessage("Error"));
+                    logger.info("Respuesta invalida de RFC");
+                }
             }catch(Exception e){
                 logger.error(e);
             }
         }catch (Exception e){
-
+            logger.error(e);
+            getFacesContext().getMessageList().add(new FacesMessage("Error"));
         }
+        logger.info("fin Genera Pedido");
+        return "/pedidos/listado";
     }
 
     public void fillPedido(Pedido pedido){
@@ -742,6 +767,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             obtenerDestinatarioMercancia();
             buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
             ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(this.getDestinatarioMercancia(), destinatarioMercanciaSel.getCodigoPostal());
+            logger.info("CLASE PEDIDO " + clasePedido);
             if(clasePedido.getResultCode().equals("0")) {
                 setClasePedido(clasePedido.getClasePedido());
 
@@ -752,7 +778,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             }
         }catch (Exception e){
             logger.error(e);
-            setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
+            //setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }

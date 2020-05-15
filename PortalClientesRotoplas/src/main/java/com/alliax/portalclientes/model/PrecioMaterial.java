@@ -75,4 +75,18 @@ public class PrecioMaterial {
     public void setCodigoError(String codigoError) {
         this.codigoError = codigoError;
     }
+
+    @Override
+    public String toString() {
+        return "PrecioMaterial{" +
+                "monto=" + monto +
+                ", precioNeto=" + precioNeto +
+                ", iva='" + iva + '\'' +
+                ", totalPartida=" + totalPartida +
+                ", moneda='" + moneda + '\'' +
+                ", fechaEntrega='" + fechaEntrega + '\'' +
+                ", mensajeError='" + mensajeError + '\'' +
+                ", codigoError='" + codigoError + '\'' +
+                '}';
+    }
 }
