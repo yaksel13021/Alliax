@@ -25,10 +25,10 @@
 										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
 										  style="padding-top: 10px;">
 								<h:panelGroup layout="block" style="text-align: right;">
-									<h:commandLink action="crearPedido">
+									<h:link outcome="/crearPedido">
 										<i class="fa fa-file fa-2x"></i>
 										#{lblMain.crearPedido}
-									</h:commandLink>
+									</h:link>
 								</h:panelGroup>
 							</h:panelGroup>
 							</sec:authorize>
@@ -377,9 +377,7 @@
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
 													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
-														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
-															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
-														</h:commandButton>
+														   <h:button id="clonarPedido" styleClass="btn btn-primary float-left" outcome="/crearPedido" value ="#{lblMain.btnCopiarPedido}" />
 														</sec:authorize>
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
