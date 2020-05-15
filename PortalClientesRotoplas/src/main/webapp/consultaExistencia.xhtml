@@ -12,6 +12,19 @@
             <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
             <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
         </ui:define>
+        <ui:define name="scriptJS">
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/consultaExistencias.js']}"></script>
+        </ui:define>
         <ui:define name="content">
             <h:panelGroup layout="block" styleClass="container containerFiltersOne">
                 <h:form id="form">
@@ -219,25 +232,17 @@
                         <h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
                             <h:outputText value="#{lblMain.sujetoDisponibilidad}" />
                         </h:panelGroup>
+                        <h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
+                            <h:outputScript>
+                                showToastr('No se encontraron resultados con los criterios de busqueda especificados.', 'Aviso', {
+                                    type: typeNotification.warning
+                                })
+                            </h:outputScript>
+                        </h:panelGroup>
                     </h:panelGroup>
 
                 </h:form>
             </h:panelGroup>
-        </ui:define>
-
-
-        <ui:define name="scriptJS">
-            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/consultaExistencias.js']}"></script>
         </ui:define>
     </ui:composition>
 </h:body>
