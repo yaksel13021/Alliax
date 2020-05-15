@@ -60,7 +60,7 @@
 				<div class="collapse navbar-collapse"
 					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
 					<ul class="navbar-nav">
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">
 							<li class="#{view.viewId == '/pedidos/listado.xhtml' or view.viewId == '/inicio.xhtml' ? 'active' : ''}">
 								<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
 								<span style="padding-right: 9px;" />
@@ -70,24 +70,33 @@
 		            	</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-		            								,ROLE_ADMIN_MEMBER">
+		            								,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 			            	<li class="#{view.viewId == '/cotizaciones.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/cotizaciones" styleClass="nav-item nav-link textMenuStyle ">
 						         #{lblMain.cotizaciones}</h:link>
 						    </li>
 					    </sec:authorize>
 		            	
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">          		
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">          		
 			            	<li class="#{view.viewId == '/consultaExistencia.xhtml' ? 'active' : ''}">		            		
 			            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
 			            			<span style="padding-right: 9px;" />
 										#{lblMain.busqueda}
 			            		</h:link>
 			            	</li>
-		            	</sec:authorize>
+						</sec:authorize>
+
+						<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+							<li class="#{view.viewId == '/altaColaboradores.xhtml' ? 'active' : ''}">
+								<h:link outcome="/altaColaboradores" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+									<span style="padding-right: 9px;" />
+									#{lblMain.altaColaboradores}
+								</h:link>
+							</li>
+						</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-		            								,ROLE_ADMIN_MEMBER">
+		            								,ROLE_ADMIN_MEMBER,ROLE_ESTADO_CUENTA">
 			            	<li class="#{view.viewId == '/estadoCuenta.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/estadoCuenta" styleClass="nav-item nav-link textMenuStyle">
 				            		<span style="padding-right: 9px;" />
@@ -96,7 +105,7 @@
 			            	</li>
 		            	</sec:authorize>
 
-		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
 		            		<h:panelGroup rendered="#{template.usuarioLogueado.pais == 'MX'}">
 				            	<li class="dropdown">		            	
 									<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -119,7 +128,8 @@
 		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
 		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
 		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
 			                	<li class="nav-item dropdown">
 									<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										#{lblMain.ayuda}
@@ -171,7 +181,8 @@
 		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
 		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
 		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">              
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">              
 			            	<li class="#{view.viewId == '/contactanos.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
 				            		#{lblMain.contactanos}
@@ -185,7 +196,8 @@
 		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
 		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
 		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
-		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
 			            	<li class="dropdown">
 			              		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
 			              			<strong>

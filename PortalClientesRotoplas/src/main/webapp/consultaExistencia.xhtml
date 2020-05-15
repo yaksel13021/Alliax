@@ -31,9 +31,9 @@
                                                     <h:panelGroup layout="block" styleClass="form-group flex">
                                                         <h:outputLabel value="#{lblMain.buscarPor}" styleClass="labelLeftInput fillWidthAvaible"/>
                                                         <h:outputScript>firstFill()</h:outputScript>
-                                                        <h:selectOneMenu  id="select_buscarPor" name="select_buscarPor" value="#{busqueda.tipoBusqueda}" styleClass="form-control"  >
-                                                            <f:selectItems  value="#{busqueda.catalogoBusquedaSet}" var="tipo" itemValue="#{tipo.key}" itemLabel="#{tipo.value}" />
+                                                        <h:selectOneMenu  id="select_buscarPor" name="select_buscarPor" value="#{busqueda.tipoBusqueda}" styleClass="form-control hidden"  >
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
+                                                            <f:selectItems  value="#{busqueda.catalogoBusquedaSet}" var="tipo" itemValue="#{tipo.key}" itemLabel="#{tipo.value}" />
                                                             <f:ajax execute="select_buscarPor" render="a d b c  boxMatBoton" listener="#{busqueda.onTipoBusquedaChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
@@ -43,8 +43,8 @@
                                                         <h:outputLabel value="#{lblMain.estado}" styleClass="labelLeftInput fillWidthAvaible" />
                                                         <h:outputScript>reload()</h:outputScript>
                                                         <h:selectOneMenu id="select_localidad" name="select_localidad" value="#{busqueda.idEstado}" required="true" styleClass="form-control"  >
-                                                            <f:selectItems   styleClass="form-control dropdownActive" value="#{busqueda.catalogoEstadoSet}" var="estado" itemValue="#{estado.key}" itemLabel="#{estado.value}" />
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
+                                                            <f:selectItems   styleClass="form-control dropdownActive" value="#{busqueda.catalogoEstadoSet}" var="estado" itemValue="#{estado.key}" itemLabel="#{estado.value}" />
                                                             <f:ajax execute="select_localidad" render="a" listener="#{busqueda.onEstadoChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
@@ -55,8 +55,8 @@
                                                             <h:outputLabel value="#{lblMain.localidad}" styleClass="labelLeftInput fillWidthAvaible" />
                                                             <h:outputScript>reload()</h:outputScript>
                                                             <h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" >
-                                                                <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
                                                                 <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
+                                                                <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
                                                                 <f:ajax execute="frm_localidad" render="c" listener="#{busqueda.onLocalidadChange}" />
                                                             </h:selectOneMenu>
                                                         </h:panelGroup>
