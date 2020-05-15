@@ -112,7 +112,7 @@
 										#{lblMain.ligasInteres}
 									</a>
 			              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			                			<h:outputLink styleClass="dropdown-item" value="http://www.rotoplas.com" target="_blank">#{lblMain.rotoLiga1}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="http://www.rotoplas.com.mx" target="_blank">#{lblMain.rotoLiga1}</h:outputLink>
 			                			<h:outputLink styleClass="dropdown-item" value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink>
 			                			<h:outputLink styleClass="dropdown-item" value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink>
 			                			<h:outputLink styleClass="dropdown-item" value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink>
@@ -136,71 +136,14 @@
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									    <!-- Manual de usuario -->
-									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
-									    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
+									    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+									    		,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
+		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
+		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
+		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+									    	<a class="dropdown-item" href="#{resource['files/Manual Portal de Clientes.pdf']}" target="_blank" >#{lblMain.manualUsuario}</a>
 									    </sec:authorize>
-									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
-									    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_pe.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
-									    </sec:authorize>
-									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
-									    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
-									    </sec:authorize>
-									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
-									    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ventas_br.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
-									    </sec:authorize>
-									    
-									    <!-- Manual de Envio Masivo -->
-				    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
-			                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
-									    	<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_Envio_Masivo.pdf']}" target="_blank">#{lblMain.manualEnvioMasivo}</h:outputLink>
-									    </sec:authorize>							    
-									    							    								   
-									    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
-									  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>							
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>							
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
-												<h:outputLink styleClass="dropdown-item" value="/PortalClientes/resources/files/PC_Manual_de_Usuario_pe.pdf" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>		
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>			
-											</h:panelGroup>
-											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
-												<h:outputLink styleClass="dropdown-item" value="#{resource['files/PC_Manual_de_Usuario_br.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>				
-											</h:panelGroup>	
-									    </sec:authorize>
-
-										<!-- Manual de administrador -->
-										<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">			
-											<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
-										</sec:authorize>
-						    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">
-						    				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
-										</sec:authorize>
-							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">
-											<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_pe.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
-										</sec:authorize>
-							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">
-							   				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_ca.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
-										</sec:authorize>
-							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">
-							   				<h:outputLink styleClass="dropdown-item" value="#{resource['filesAdm/PC_Manual_de_Usuario_Administrador_br.pdf']}" target="_blank">#{lblMain.manualAdmin}</h:outputLink>
-										</sec:authorize>
 									</div>
 			                	</li>
 			                </sec:authorize>
