@@ -20,20 +20,7 @@
             <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
         </ui:define>
         <ui:define name="content">
-            <script>
-                $(document).ready(function () {
-                    $('#form').submit(function (event) {
-                        //event.preventDefault();
-                    });
-                });
-
-            </script>
-
-            <h:panelGroup rendered="#{param['sended'] == 'true'}">
-                <h:outputScript>succesReload()</h:outputScript>
-            </h:panelGroup>
-
-            <form id="form" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
+            <h:form id="form">
                 <h:panelGroup layout="block" styleClass="container containerFiltersOne ">
                     <input type="hidden" name="orgid" value="00D550000006xEA"/>
                     <input type="hidden" name="retURL"
@@ -148,12 +135,27 @@
                         </div>
                         <div class="form-group flex row">
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <input onclick="valida()" value="Enviar Petición" class="btn btn-primary"/>
+                                <h:commandButton id="but" onclick="valida()" value="Enviar Petición"  styleClass="btn btn-primary">
+                                    <f:ajax execute="butt" render="@this"/>
+                                </h:commandButton>
+                            </div>
+                        </div>
+                        <div class="form-group flex row hidden">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <h:commandButton  id="butt" value="Enviar Petición" class="btn btn-primary" action="https://sytesa-crm--DevBebbia.cs41.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
+                                    <f:ajax onevent="function (data){
+                                        if (data.status =='success'){
+                                            succesReload()
+                                        }
+                                    }" render="io"></f:ajax>
+                                </h:commandButton>
                             </div>
                         </div>
                     </div>
                 </h:panelGroup>
-            </form>
+            </h:form>
+            <h:panelGroup id="io">
+            </h:panelGroup>
         </ui:define>
         <ui:define name="scriptJS">
             <script src="#{resource['lookAndFeel/vendor/Polyfill/Promise/promisePolyfill.min.js']}"></script>
@@ -178,9 +180,7 @@
             <script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
             <script src="#{resource['lookAndFeel/js/contactanos.js']}"></script>
         </ui:define>
-
     </ui:composition>
-
 </h:body>
 
 </html>

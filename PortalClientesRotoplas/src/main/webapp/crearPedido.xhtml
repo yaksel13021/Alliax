@@ -48,13 +48,16 @@
 															<h:panelGroup layout="block" class="form-group flex">
 																<select class="form-control dropdownActive"
 																	id="select_direccionEntrega"
-																	name="select_direccionEntrega"></select>
+																	name="select_direccionEntrega">
+																</select>
+																<h:inputHidden id="frm_destinatario" name="frm_destinatario" value="#{crearPedido.destinatarioMercancia}" />
 															</h:panelGroup>
 														</h:panelGroup>
 														<h:panelGroup layout="block" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 															<h:inputText class="form-control"
 																id="input_numeroPedido" name="input_numeroPedido"
 																a:placeholder="#{lblMain.numeroPedido}" />
+															<h:inputHidden id="frm_nroPedido" name="frm_nroPedido" value="#{crearPedido.nroPedidoCliente}" />
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
@@ -65,11 +68,110 @@
 														<h:panelGroup layout="block" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 															 <button id="btnContinuarColp1"
 																class="btn btn-primary float-right" role="button"
-																name="setFilters">#{lblMain.btnContinuar}</button>
+																name="setFilters">#{lblMain.btnContinuar}
+																 <f:ajax event="click" execute="@form" listener="#{crearPedido.setDestinatarioAndNroPedido}" />
+															 </button>
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
 											</h:panelGroup>
+											<h:inputHidden id="nombreContacto" value="#{crearPedido.nombreContacto}"></h:inputHidden>
+											<h:inputHidden id="apellidoContacto" value="#{crearPedido.apellidoContacto}"></h:inputHidden>
+											<h:inputHidden id="telefonoContacto" value="#{crearPedido.telefonoContacto}"></h:inputHidden>
+											<h:inputHidden id="horarioRecepcion" value="#{crearPedido.horarioRecepcion}"></h:inputHidden>
+											<h:inputHidden id="referenciaUbicacion" value="#{crearPedido.referenciaUbicacion}"></h:inputHidden>
+											<h:inputHidden id="productoAlmacenar" value="#{crearPedido.productoAlmacenar}"></h:inputHidden>
+											<h:inputHidden id="capacidadesTransporte" value="#{crearPedido.capacidadesTransporte}"></h:inputHidden>
+											<h:inputHidden id="equipoEspecial" value="#{crearPedido.equipoEspecial}"></h:inputHidden>
+
+
+											<h:inputHidden id="frm_segmento" value="#{crearPedido.segmento}"/>
+											<h:inputHidden id="frm_materialSeleccionado" value="#{crearPedido.materialSeleccionadoJson}"/>
+											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
+											<h:commandLink  id="asignaSegmento" action="#{crearPedido.asignaPedidoSegmento}">
+												<f:ajax  execute="@form"  render="mateiralScript" onevent="ajaxMaterialEnd" />
+											</h:commandLink>
+											<h:commandLink  id="asignaMaterial" action="#{crearPedido.asignaPedidoMaterial}">
+												<f:ajax  execute="@form" render="mateiralSelScript comboValues usoCFDIPanel" onevent="ajaxAsignaMaterial" />
+											</h:commandLink>
+											<h:commandLink  id="cotinuaCompra" action="#{crearPedido.continuaCompra}">
+												<f:ajax  execute="@form"  render="mateiralScript" onevent="ajaxContinuaCompra" />
+											</h:commandLink>
+											<h:commandLink  id="asignaFacturacion" action="#{crearPedido.asignaFacturacion}">
+												<f:ajax  execute="@form" />
+											</h:commandLink>
+											<h:commandLink  id="generaPedido" action="#{crearPedido.generaPedido}">
+												<f:ajax  execute="@form" />
+											</h:commandLink>
+											<h:commandLink  id="saveComentarios" action="#{crearPedido.saveComentarios}">
+												<f:ajax  execute="@form" onevent="ajaxSaveComent"/>
+											</h:commandLink>
+											<h:panelGroup id="mateiralScript">
+												<script>
+													function materialLoad() {
+														return #{crearPedido.materialesJson};
+													}
+												</script>
+											</h:panelGroup>
+											<h:panelGroup id="mateiralSelScript">
+												<script>
+													function materialSelLoad() {
+														return #{crearPedido.materialSeleccionadoJson};
+													}
+												</script>
+											</h:panelGroup>
+											<h:panelGroup id="comboValues">
+												<h:inputHidden id="frm_metodoPago" value="#{crearPedido.metodoPago}"/>
+											</h:panelGroup>
+											<h:panelGroup id="usoCFDIPanel">
+												<script>
+													function CDFILoad() {
+														return #{crearPedido.usoCFDIDetallesJson};
+													}
+												</script>
+											</h:panelGroup>
+
+											<script>
+												function ajaxMaterialEnd(data){
+													if(data.status == 'success'){
+														setMateriales(materialLoad());
+														if($("[id='crearPedido:filterStepOne:frm_segmento']").val() == "10"){
+															$('div.AMC_content_next').trigger('click');
+														}else{
+															$('DIV.usoMaterialSecond').trigger('click');
+														}
+
+														//crearPedido.initEvents();
+													}
+												}
+
+												function ajaxAsignaMaterial(data){
+													if(data.status == 'success'){
+														setMaterialesSel(materialSelLoad());
+														setCFDI(CDFILoad());
+														$('div.material_seleccionado').trigger('click');
+														//crearPedido.initEvents();
+													}
+												}
+
+												function ajaxContinuaCompra(data){
+													if(data.status == 'success'){
+														setMateriales(materialLoad());
+														$('div.showMaterial').trigger('click');
+														//crearPedido.initEvents();
+													}
+												}
+
+												function ajaxSaveComent(data){
+													if(data.status == 'success'){
+														//setMateriales(materialLoad());
+														$('div.saveCoentarioAfter').trigger('click');
+														//crearPedido.initEvents();
+													}
+												}
+
+
+											</script>
 										</h:form>
 									</h:panelGroup>
 								</div>
@@ -92,9 +194,22 @@
 						<div id="modalConfirm_target"></div>
 					</div>
 				</h:panelGroup>
+				<h:panelGroup id="links">
+
+					<h:commandLink action="#{crearPedido.getDestinatarioMercanciasJson}" update="afterLoad" oncomplete="afterLoad()" id="loadDestinatarios"/>
+
+					<h:panelGroup id="afterLoad">
+						<h:outputScript>
+							function loadDestinatarioMercancias() {
+								return #{crearPedido.destinatarioMercanciasJson};
+							}
+						</h:outputScript>
+					</h:panelGroup>
+				</h:panelGroup>
 				<!-- End of Main Content -->
 			</h:form>
 		</ui:define>
+
 		<ui:define name="scriptJS">
 			
 		    <script src="#{resource['lookAndFeel/vendor/Polyfill/Promise/promisePolyfill.min.js']}"></script>
@@ -132,6 +247,7 @@
 									<h5 class="text-bold">Almacenamiento Mejoramiento Conducción</h5>
 								</div>
 							</div>
+							<div class="AMC_content_next"></div>
 						</div>
 						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable cursor-pointer">
 							<div class="card h-100-percent I_content">
@@ -142,6 +258,7 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</script>
 			<script id="input_cantidad_template" type="x-tmpl-mustache">
@@ -153,6 +270,7 @@
 			<script id="searchProducts_template" type="x-tmpl-mustache">
 				<div class="container">
 					<div class="row">
+						<div class="listaProductosSeleccionadosNext"></div>
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div id="dt_searchProducts_content" style="width: 100%">
 								<table id="dt_searchProducts" class="table table-hover table-striped table-bordered" width="100%">
@@ -161,8 +279,8 @@
 											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 											<th class="no-wrap" data-prority="1" data-dt-render="free" data-columnWidth="25%">Cantidad</th>
 											<th class="no-wrap" data-prority="2" data-dt-columnName="descripcion" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">Descripcion</th>
-											<th class="no-wrap" data-prority="3" data-dt-columnName="um" data-columnWidth="25%" data-dt-orderable="true">UM</th>
-											<th class="no-wrap" data-prority="4" data-dt-columnName="noSku" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">No. sku</th>
+											<th class="no-wrap" data-prority="3" data-dt-columnName="unidadMedida" data-columnWidth="25%" data-dt-orderable="true">UM</th>
+											<th class="no-wrap" data-prority="4" data-dt-columnName="sku" data-columnWidth="25%" data-dt-searcheable="true" data-dt-orderable="true">No. sku</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -176,6 +294,7 @@
 			<script id="cardDynamicFooter_template" type="x-tmpl-mustache">
 				<div class="container">
 					<div class="row">
+						<div class="material_seleccionado"></div>
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							{{#isList}}
 								<div class="{{divClass}}">
@@ -225,21 +344,22 @@
 					{{#productSelected}}
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+							<div class="showMaterial"></div>
 							<div id="dt_ProductsSelected_content" style="width: 100%">
-								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%" data-dt-pdfBtn="true" data-dt-excelBtn="true" data-dt-pdfBtnColumns="0,1,2,2" data-dt-excelBtnColumns="0,1,2,3">
+								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%">
 									<thead>
 										<tr>
 											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 											<th class="no-wrap" data-prority="1" data-dt-render="actions" data-columnWidth="5%"></th>
-											<th class="no-wrap" data-prority="2" data-dt-columnName="pos" data-columnWidth="10%">Pos</th>
-											<th class="no-wrap" data-prority="3" data-dt-columnName="noMaterial" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Numero Material</th>
+											<th class="no-wrap" data-prority="2" data-dt-columnName="posicion" data-columnWidth="10%">Pos</th>
+											<th class="no-wrap" data-prority="3" data-dt-columnName="sku" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Numero Material</th>
 											<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable="true">Descripcion</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Cantidad</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="um" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">UM</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="unidadMedida" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">UM</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Monto</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Precio Neto</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="mon" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Moneda</th>
-											<th class="no-wrap" data-prority="5" data-dt-render="fecha" data-dt-columnName="fecha" data-columnWidth="15%" data-dt-searcheable="true" data-dt-orderable="true">Fecha</th>
+											<th class="no-wrap" data-prority="5" data-dt-columnName="moneda" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Moneda</th>
+											<th class="no-wrap" data-prority="5" data-dt-render="fecha" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable="true" data-dt-orderable="true">Fecha</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -285,15 +405,15 @@
 											<thead>
 												<tr>
 													<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
-													<th class="no-wrap" data-prority="2" data-dt-columnName="pos" data-columnWidth="10%">Pos</th>
-													<th class="no-wrap" data-prority="3" data-dt-columnName="noMaterial" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Numero Material</th>
+													<th class="no-wrap" data-prority="2" data-dt-columnName="posicion" data-columnWidth="10%">Pos</th>
+													<th class="no-wrap" data-prority="3" data-dt-columnName="sku" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Numero Material</th>
 													<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable ="true">Descripcion</th>
 													<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Cantidad</th>
-													<th class="no-wrap" data-prority="6" data-dt-columnName="cantidadEnt" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Cantidad Ent</th>
-													<th class="no-wrap" data-prority="7" data-dt-columnName="um" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">UM</th>
+													<th class="no-wrap" data-prority="6" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Cantidad Ent</th>
+													<th class="no-wrap" data-prority="7" data-dt-columnName="unidadMedida" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">UM</th>
 													<th class="no-wrap" data-prority="8" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Monto</th>
 													<th class="no-wrap" data-prority="9" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Precio Neto</th>
-													<th class="no-wrap" data-prority="10" data-dt-render="fechaEnt" data-dt-columnName="fechaEnt" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
+													<th class="no-wrap" data-prority="10" data-dt-render="fecha" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
 													<th class="no-wrap" data-prority="1" data-dt-columnName="estatus" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Estatus</th>
 												</tr>
 											</thead>
@@ -309,6 +429,7 @@
 													<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 													<th class="no-wrap" data-prority="2" data-dt-columnName="cfdi" data-columnWidth="10%">CFDI</th>
 													<th class="no-wrap" data-prority="3" data-dt-columnName="metodoPago" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Metodo de pago</th>
+
 												</tr>
 											</thead>
 											<tbody></tbody>
@@ -340,6 +461,7 @@
 					{{#usoMaterial}}
 					<form id="usoMaterialForm">
 					<div class="row">
+						<div class="usoMaterialSecond"></div>
 						<div class="col-sm-6 col-md-6 col-lg-6 mt-4">
 							<label><strong>¿ Los materiales seran para uso ?</strong></label>
 							<div class="form-group flex">
@@ -353,6 +475,7 @@
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div id="dt_comentarios_content" style="width: 100%">
+								<div class="saveCoentarioAfter"></div>
 								<table id="dt_comentarios" class="table table-hover table-striped table-bordered" width="100%" >
 									<thead>
 										<tr>

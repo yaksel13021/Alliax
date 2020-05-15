@@ -1,0 +1,72 @@
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+	<!--
+		BODY  {color:#000000; font-family:arial; font-size:12;}
+		.tabla        {width: 1024px;}
+		#mainNews     {width:1024px;}
+		.titulo       {color:#4D81C0; font-family:arial; font-size:13; font-weight: bold; padding:0px 15px 0px 15px; text-align:left}
+		.texto        {color:#000000; font-family:arial; font-size:12; padding:0px 15px 0px 15px; text-align:justify;}
+		.footnote     {color:#000000; font-family:arial; width: 1024px;}
+		.footlegend   {color:#e8e8e8; font-family:arial; font-size:10px; width: 1024px;}
+		.bold         {font-weight:bold;}
+		TD.header     {color:#0082C8; font-family:arial; font-size:12; text-align:right; font-weight:bold}
+		ul            {list-style:square}
+		A             {color:#0082C8;text-decoration=underline; font-weight:bold; font-family:arial; font-size:12; cursor:hand}
+		ul            {color:#000000; font-family:arial; font-size:12; line-height:1.8}
+	-->
+</style>
+
+	##################################	Template Genérico para todos los países ##################################
+	#if($pais != 'BR')
+
+		<table class="tabla" border="0">
+			<tr>
+				<td width="100%" valign="top">
+
+					<p>Por medio del presente le informamos que el material:</p>
+
+                    <table style="width:90%; border:0; font-family:'Calibri','sans-serif';">
+                            <tr style="background:gray;color:white;font-size:12.0pt" align="center">
+                                <th><b>No Material</b></th>
+                                <th><b>Descripción</b></th>
+                                <th><b>Cantidad</b></th>
+                                <th><b>Cantidad Ent</b></th>
+                                <th><b>Unidad de Medida</b></th>
+                                <th><b>Monto</b></th>
+                            </tr>
+                            #foreach( $partida in $partidas )
+                                <tr>
+                                    <td>$partida.noMaterial</td>
+                                    <td>$partida.descripcion</td>
+                                    <td>$partida.cantidad</td>
+                                    <td>$partida.cantEnt</td>
+                                    <td>$partida.unidadMedida</td>
+                                    <td>$ $partida.monto MXN</td>
+                                </tr>
+                            #end
+                        </table>
+					<p>Su cotización es de</p>
+
+					<p>$ $total MXN</p>
+
+					<p>La presente expira el </p>
+
+					<p>Favor de acceder a: <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font> para solicitar el material.</p>
+
+					<p>Saludos cordiales. </p>
+					<p>
+						<i>Nota: Solicitamos no responder a este  mensaje, ya que las respuestas a este correo electrónico no serán leídas. Para mayor información consultar a su ejecutivo de
+							#if($pais == 'MX')
+								SAC.
+							#else
+								Cobranzas.
+							#end
+						</i>
+					</p>
+
+				</td>
+			</tr>
+		</table>
+
+
+    #end

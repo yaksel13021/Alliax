@@ -11,11 +11,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.activation.DataSource;
 import javax.activation.URLDataSource;
@@ -24,6 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 
+import com.alliax.portalclientes.model.DetallePedidoCotizacion;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
@@ -51,7 +48,7 @@ import com.alliax.portalclientes.model.ClienteInfo;
 import com.alliax.portalclientes.model.CustomUserDetails;
 import com.alliax.portalclientes.model.SociedadClienteCorreoCargaMasiva;
 import com.alliax.portalclientes.util.Helper;
-import com.sun.istack.internal.ByteArrayDataSource;
+//import com.sun.istack.internal.ByteArrayDataSource;
 
 @Configuration
 @PropertySource({
@@ -324,7 +321,7 @@ public class ConstructEmail {
 				//InputStreamSource isc = new InputStreamResource(is);
 				//message.addAttachment(scc.getNoCliente()+"_"+fechaCorte+".pdf", isc, "application/pdf");
 				
-				DataSource pdfDS = new ByteArrayDataSource(pdfByteArray, "application/pdf");
+				DataSource pdfDS = null;//new ByteArrayDataSource(pdfByteArray, "application/pdf");
 				message.addAttachment(scc.getNoCliente()+"_"+fechaCorte+".pdf", pdfDS);
 				
 				
@@ -395,6 +392,65 @@ public class ConstructEmail {
 				FileUtils.writeByteArrayToFile(txtFile, logString.getBytes());
 				message.addAttachment("LogEnvioMasivo_"+fechaCorte+".txt", txtFile );
 				
+			}
+		};
+		mailSender.send(preparator);
+	}
+
+	public void enviaCorreoCotizacion(final Usuario usuario, final ClienteInfo clienteInfo, final String noCotizacion, final List<DetallePedidoCotizacion> partidas, final String total,final String fechaEntrega){
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+
+				if(Helper.isProductionServer){
+					urlPortal = formato.getProperty("portalPRD");
+				}else{
+					urlPortal = formato.getProperty("portalQAS");
+				}
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage,true);
+
+				message.setFrom(FROM);
+				message.setSubject("Cotización - "+noCotizacion);
+				message.setSentDate(new Date());
+
+				//Destinatario
+				message.addTo(usuario.getEmail());
+
+				String pais = Helper.getPaisFromRoles( usuario.getRoles() );  //Default México
+//				for(RolUsuario rol : usuario.getRoles() ){
+//					if(rol.getRol().contains("_AR")){ pais = "AR"; }
+//					if(rol.getRol().contains("_PE")){ pais = "PE"; }
+//					if(rol.getRol().contains("_CA")){ pais = "CA"; }
+//				}
+				if(pais.isEmpty()){ pais = clienteInfo.getPais(); }
+				if(pais.isEmpty()){ pais = "MX"; }
+
+
+				//Velodity Parameters
+				Map model = new HashMap();
+				model.put("usuario", usuario);
+				model.put("urlPortal", urlPortal);
+				model.put("pais", pais);
+				model.put("partidas",partidas);
+				model.put("total",total);
+				model.put("fechaEntrega",fechaEntrega);
+
+				String text = VelocityEngineUtils.mergeTemplateIntoString(
+						velocityEngine,
+						"com/alliax/portalclientes/velocity/templates/envioCotizacion.vm",
+						"UTF-8",
+						model);
+
+
+				message.setText(text,true);
+
+				//Logo
+				String pathLogo = formato.getProperty("logo");
+				if(pais.equals("BR")){  pathLogo = formato.getProperty("logo_br"); }
+				logger.debug("logo " + pathLogo);
+				URL urlLogo = ConstructEmail.class.getResource(pathLogo);
+				DataSource fdsLogo = new URLDataSource(urlLogo);
+				message.addInline("logo", fdsLogo);
 			}
 		};
 		mailSender.send(preparator);
