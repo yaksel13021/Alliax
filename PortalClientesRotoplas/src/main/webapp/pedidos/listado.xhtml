@@ -20,6 +20,7 @@
 										  styleClass="col-lg-10 col-md-4 col-sm-4 col-xs-4-">
 								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
 							</h:panelGroup>
+							<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 							<h:panelGroup layout="block"
 										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
 										  style="padding-top: 10px;">
@@ -30,6 +31,7 @@
 									</h:link>
 								</h:panelGroup>
 							</h:panelGroup>
+							</sec:authorize>
 						</h:panelGroup>
 						<h:panelGroup layout="block" styleClass="row">
 							<h:panelGroup layout="block" styleClass="col-12">
@@ -374,7 +376,13 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
-														<h:button id="clonarPedido" styleClass="btn btn-primary float-left" outcome="/crearPedido" value ="#{lblMain.btnCopiarPedido}" />
+
+													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
+														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
+															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
+														</h:commandButton>
+														</sec:authorize>
+
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -507,6 +515,7 @@
 										</h:panelGroup>
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
+										<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 											<h:panelGroup id = "panelDate">
 												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
 												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
@@ -514,12 +523,13 @@
 												<!--   -->
 
 												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+																 disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
+
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>
 											</h:panelGroup>
-
+										</sec:authorize>
 											<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
 												<f:ajax execute="@this" render="form\:contentmodal" />
 											</h:commandButton>

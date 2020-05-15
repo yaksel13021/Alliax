@@ -7,9 +7,12 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+IF OBJECT_ID ('dbo.Pedido', 'U') IS NOT NULL  
+   DROP TABLE [dbo].[Pedido];  
+GO  
 
 CREATE TABLE [dbo].[Pedido](
-	[idPedido] [int] NOT NULL,
+	[idPedido] [int] NOT NULL IDENTITY(1,1),
 	[destino] [varchar](20) NULL,
 	[nroCliente] [varchar](15) NULL,
 	[nroPedido] [varchar](15) NULL,

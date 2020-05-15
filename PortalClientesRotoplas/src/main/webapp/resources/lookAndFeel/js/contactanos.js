@@ -63,26 +63,41 @@ function valida() {
             type: typeNotification.warning
         });
         onerror = true;
-    }else if(!regex.test(input3)){
-        showToastr('incluye un signo "@" en dirección de correo. La dirección "'+input3+'" no incluye el signo "@"' , 'Aviso', {
+    } else if (!regex.test(input3)) {
+        showToastr('incluye un signo "@" en dirección de correo. La dirección "' + input3 + '" no incluye el signo "@"', 'Aviso', {
             type: typeNotification.warning
         });
         onerror = true;
     }
-    if (input4 == ""){
+    if (input4 == "") {
         showToastr('completa el campo : No. de documento', 'Aviso', {
             type: typeNotification.warning
         });
         onerror = true;
     }
-    if (input5 == ""){
+    if (input5 == "") {
         showToastr('completa el campo : Comentarios', 'Aviso', {
             type: typeNotification.warning
         });
         onerror = true;
     }
-    if (!onerror){
-        document.getElementById('form').submit();
+    if (!onerror) {
+        document.getElementById('form:butt').click();
     }
 }
+
+    function execCommandButtonAjax(data) {
+        var status = data.status;
+        switch (status) {
+            case 'begin': {
+                break;
+            }
+            case 'complete': {
+                break;
+            }
+            case 'success': {
+                succesReload();
+            }
+        }
+    }
 
