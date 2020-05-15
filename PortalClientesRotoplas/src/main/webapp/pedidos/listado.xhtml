@@ -376,9 +376,11 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
+
 													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 														   <h:button id="clonarPedido" styleClass="btn btn-primary float-left" outcome="/crearPedido" value ="#{lblMain.btnCopiarPedido}" />
 														</sec:authorize>
+
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -519,7 +521,8 @@
 												<!--   -->
 
 												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
+																 disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
+
 																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 													<f:ajax execute="@this" render=":modal1" />
 												</h:commandButton>

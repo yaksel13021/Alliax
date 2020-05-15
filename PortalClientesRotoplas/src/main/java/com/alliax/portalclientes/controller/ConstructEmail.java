@@ -176,7 +176,7 @@ public class ConstructEmail {
 				
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, 
-							"com/alliax/portalclientes/velocity/templates/altaUsuarioRoto.vm", 
+							"com/alliax/portalclientes/velocity/templates/altaUsuarioRoto.vm",
 								"UTF-8",
 									model);
 				
@@ -397,7 +397,7 @@ public class ConstructEmail {
 		mailSender.send(preparator);
 	}
 
-	public void enviaCorreoCotizacion(final Usuario usuario, final ClienteInfo clienteInfo, final String noCotizacion, final List<DetallePedidoCotizacion> partidas, final String total,final String fechaEntrega){
+	public void enviaCorreoCotizacion(final String  email, final ClienteInfo clienteInfo, final String noCotizacion, final List<DetallePedidoCotizacion> partidas, final String total,final String fechaEntrega){
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -414,9 +414,10 @@ public class ConstructEmail {
 				message.setSentDate(new Date());
 
 				//Destinatario
-				message.addTo(usuario.getEmail());
+				message.addTo(email);
 
-				String pais = Helper.getPaisFromRoles( usuario.getRoles() );  //Default México
+				String pais = "";
+				// Helper.getPaisFromRoles( usuario.getRoles() );  //Default México
 //				for(RolUsuario rol : usuario.getRoles() ){
 //					if(rol.getRol().contains("_AR")){ pais = "AR"; }
 //					if(rol.getRol().contains("_PE")){ pais = "PE"; }
@@ -428,7 +429,7 @@ public class ConstructEmail {
 
 				//Velodity Parameters
 				Map model = new HashMap();
-				model.put("usuario", usuario);
+				model.put("usuario", null);
 				model.put("urlPortal", urlPortal);
 				model.put("pais", pais);
 				model.put("partidas",partidas);
