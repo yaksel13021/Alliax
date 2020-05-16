@@ -437,7 +437,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                 try {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
                                             "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(),18,"0"), pedidoMaterial2.getCantidad(),
-                                            pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"), getDestinatarioMercanciaSel().getNoDestinatario());
+                                            pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"), Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(),10,"0"));
                                     logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
@@ -696,8 +696,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 PedidoResultado pedidoResultado =  crearPedidoRFC.crearPedido(pedido);
                 logger.info("Recibiendo Respuesta " + pedidoResultado);
                 if(!pedidoResultado.getGeneroDocumentoVenta().equals("0")){
-                    getFacesContext().getMessageList().add(new FacesMessage("Error"));
-                    logger.info("Respuesta invalida de RFC");
+                    /*getFacesContext().getMessageList().add(new FacesMessage("Error"));
+                    logger.info("Respuesta invalida de RFC");*/
                 }
             }catch(Exception e){
                 logger.error(e);
@@ -722,8 +722,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
         pedido.getPedidoEncabezado().setMetodoPago(getMetodoPago());
         pedido.getPedidoEncabezado().setMoneda("MXN");
         pedido.getPedidoEncabezado().setMotivoPedido("166");
-        pedido.getPedidoEncabezado().setNroCliente(getUsuarioLogueado().getNoCliente());
-        pedido.getPedidoEncabezado().setNroDestinatarioMercancias(destinatarioMercanciaSel.getNoDestinatario());
+        pedido.getPedidoEncabezado().setNroCliente(Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"));
+        pedido.getPedidoEncabezado().setNroDestinatarioMercancias(Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(),10,"0"));
         pedido.getPedidoEncabezado().setOrganizacionVenta(destinatarioMercanciaSel.getOrganizacionVentas());
         pedido.getPedidoEncabezado().setSector("02");
         pedido.getPedidoEncabezado().setSegmento(getSegmento());
@@ -739,9 +739,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 pedidoMaterial = materiales.get(i);
                 if(Integer.valueOf(pedidoMaterial.getCantidad()) > 0){
                     pedidoPartidas = new PedidoPartidas();
-                    pedidoPartidas.setCantidad(pedidoMaterial.getCantidad());
-                    pedidoPartidas.setNroMaterial(pedidoMaterial.getSku());
-                    pedidoPartidas.setPosicion(pedidoMaterial.getPosicion());
+                    pedidoPartidas.setCantidad(Helper.lpad(pedidoMaterial.getCantidad(),13,"0"));
+                    pedidoPartidas.setNroMaterial(Helper.lpad(pedidoMaterial.getSku(),18,"0"));
+                    pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
                     pedidoPartidas.setUnidadMedida(pedidoMaterial.getUnidadMedida());
                     pedido.getPedidoPartidas().add(pedidoPartidas);
                 }
