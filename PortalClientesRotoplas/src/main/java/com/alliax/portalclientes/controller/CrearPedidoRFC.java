@@ -183,12 +183,14 @@ public class CrearPedidoRFC {
 
             //Asignamos la estructura
             this.input.setValue(this.structure,"E_HEADER");
+            /*
             //Aignamos las tabla al objeto input
             this.input.setValue(this.tblItems, "T_ITEMS"); //Partidas
             this.input.setValue(this.tblRefUbic, "T_REFUBIC"); //Referencia de Ubicacion
             this.input.setValue(this.tblProdAlm, "T_PRODALM"); //Producto a Almacenar
             this.input.setValue(this.tblCapTran, "T_CAPTRAN"); //Capacidades de transporte especiales
             this.input.setValue(this.tblEqupProt, "T_EQUPROT"); //Equipo Especial de Proteccion Personal
+            */
             //Ejecuta la funcion
             this.sapCon.doCallFunction();
         } catch(Exception e){
