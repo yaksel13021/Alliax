@@ -24,6 +24,7 @@ import com.alliax.portalclientes.model.UsoCFDI;
 import com.alliax.portalclientes.model.UsoCFDIDetalle;
 import com.alliax.portalclientes.service.MaterialService;
 import com.alliax.portalclientes.service.PedidoService;
+import com.alliax.portalclientes.util.Helper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -434,9 +435,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                             if (pedidoMaterial.getSku().equals(pedidoMaterial2.getSku()) && (Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
                                 pedidoMaterial2.setCantidad(pedidoMaterial.getCantidad());
                                 try {
-                                    precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
-                                            "20", "02", getSegmento(), pedidoMaterial2.getSku(), pedidoMaterial2.getCantidad(),
-                                            pedidoMaterial2.getUnidadMedida(), getUsuarioLogueado().getNoCliente(), getDestinatarioMercanciaSel().getNoDestinatario());
+                                    precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), Helper.lpad(destinatarioMercanciaSel.getOrganizacionVentas(),10,"0"),
+                                            "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(),18,"0"), pedidoMaterial2.getCantidad(),
+                                            pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"), getDestinatarioMercanciaSel().getNoDestinatario());
                                     logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
