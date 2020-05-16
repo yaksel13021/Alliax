@@ -356,7 +356,7 @@ public class Helper {
 	}	
 
 	public static String lpad(String valor, int length, String caracter){
-		return String.format("%"+caracter+length+"d", Integer.parseInt(valor));
+		return String.format("%"+caracter+length+"d", valor);
 	}
 	
 	/*********************************************************************************************************************/
