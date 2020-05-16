@@ -16,7 +16,7 @@ public class Factura {
 	private String moneda; //CURRENCY
 	private String estatusContabilidad; //ACCTSTATUS
 	private String cancelado; //??
-	
+
 	
 	//Render del detalle
 	private boolean muestraDetalle;
@@ -95,4 +95,11 @@ public class Factura {
 	public void setDetalleFactura(List<ItemFactura> detalleFactura) {
 		this.detalleFactura = detalleFactura;
 	}
+
+	public boolean cambiaMuestraDetalle(){
+		this.muestraDetalle = !this.muestraDetalle;
+		return muestraDetalle;
+	}
+
+
 }
