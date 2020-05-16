@@ -263,11 +263,13 @@
 			              		</a>
 		              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		                			<!--<h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" />-->
+		                			<h:link styleClass="dropdown-item" outcome="/infoCuenta" value="Mi cuenta" />
 		                			<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
 		              			</div>
 			            	</li>
 			            </sec:authorize>
 		          	</ul>
+		          	<section style="margin-right: 30px"/>
 				</div>
 			</nav>
 		</h:form>

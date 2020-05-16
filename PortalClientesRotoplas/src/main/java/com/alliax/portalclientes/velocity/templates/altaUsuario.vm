@@ -1,77 +1,343 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style>
 	<!--
-		BODY  {color:#000000; font-family:arial; font-size:12;}
-		.tabla        {width: 1024px;}
-		#mainNews     {width:1024px;}
-		.titulo       {color:#4D81C0; font-family:arial; font-size:13; font-weight: bold; padding:0px 15px 0px 15px; text-align:left}
-		.texto        {color:#000000; font-family:arial; font-size:12; padding:0px 15px 0px 15px; text-align:justify;}
-		.footnote     {color:#000000; font-family:arial; width: 1024px;}
-		.footlegend   {color:#e8e8e8; font-family:arial; font-size:10px; width: 1024px;}
-		.bold         {font-weight:bold;}
-		TD.header     {color:#0082C8; font-family:arial; font-size:12; text-align:right; font-weight:bold}
-		ul            {list-style:square}
-		A             {color:#0082C8;text-decoration=underline; font-weight:bold; font-family:arial; font-size:12; cursor:hand}
-		ul            {color:#000000; font-family:arial; font-size:12; line-height:1.8}
+	BODY  {color:#000000; font-family:arial; font-size:12;}
+	.tabla        {width: 1024px;}
+	#mainNews     {width:1024px;}
+	.titulo       {color:#4D81C0; font-family:arial; font-size:13; font-weight: bold; padding:0px 15px 0px 15px; text-align:left}
+	.texto        {color:#000000; font-family:arial; font-size:12; padding:0px 15px 0px 15px; text-align:justify;}
+	.footnote     {color:#000000; font-family:arial; width: 1024px;}
+	.footlegend   {color:#e8e8e8; font-family:arial; font-size:10px; width: 1024px;}
+	.bold         {font-weight:bold;}
+	TD.header     {color:#0082C8; font-family:arial; font-size:12; text-align:right; font-weight:bold}
+	ul            {list-style:square}
+	A             {color:#0082C8;text-decoration=underline; font-weight:bold; font-family:arial; font-size:12; cursor:hand}
+	ul            {color:#000000; font-family:arial; font-size:12; line-height:1.8}
 	-->
-</style>
+	/* Basics */
+	body {
+		margin: 0 !important;
+		padding: 0;
+		background-color: #ffffff;
+	}
+	table {
+		border-spacing: 0;
+		font-family: sans-serif;
+		color: #333333;
+	}
+	td {
+		padding: 0;
+	}
+	img {
+		border: 0;
+	}
+	div[style*="margin: 16px 0"] {
+		margin:0 !important;
+	}
+	.wrapper {
+		width: 100%;
+		table-layout: fixed;
+		-webkit-text-size-adjust: 100%;
+		-ms-text-size-adjust: 100%;
+	}
+	.webkit {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+	.outer {
+		Margin: 0 auto;
+		width: 100%;
+		max-width: 600px;
+		text-align : justify;
+	}
+	.inner {
+		padding: 10px;
+	}
+	.contents {
+		width: 100%;
+	}
+	p {
+		Margin: 0;
+	}
+	a {
+		color: #0082C8;
+		text-decoration: underline;
+	}
+	.h1 {
+		font-size: 21px;
+		font-weight: bold;
+		Margin-bottom: 18px;
+	}
+	.h2 {
+		font-size: 18px;
+		font-weight: bold;
+		Margin-bottom: 12px;
+	}
+	.full-width-image img {
+		width: 100%;
+		max-width: 600px;
+		height: auto;
+	}
 
-	##################################	Template Genérico para todos los países ##################################
+	/* One column layout */
+	.one-column .contents {
+		text-align: left;
+	}
+	.one-column p {
+		font-size: 14px;
+		Margin-bottom: 10px;
+	}
+
+	/*Two column layout*/
+	.two-column {
+		text-align: center;
+		font-size: 0;
+	}
+	.two-column .column {
+		width: 100%;
+		max-width: 300px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.two-column .contents {
+		font-size: 14px;
+		text-align: left;
+	}
+	.two-column img {
+		width: 100%;
+		max-width: 280px;
+		height: auto;
+	}
+	.two-column .text {
+		padding-top: 10px;
+	}
+
+	/*Three column layout*/
+	.three-column {
+		text-align: center;
+		font-size: 0;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.three-column .column {
+		width: 100%;
+		max-width: 200px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.three-column img {
+		width: 100%;
+		max-width: 180px;
+		height: auto;
+	}
+	.three-column .contents {
+		font-size: 14px;
+		text-align: center;
+	}
+	.three-column .text {
+		padding-top: 10px;
+	}
+
+	/* Left sidebar layout */
+	.left-sidebar {
+		text-align: center;
+		font-size: 0;
+	}
+	.left-sidebar .column {
+		width: 100%;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.left-sidebar .left {
+		max-width: 100px;
+	}
+	.left-sidebar .right {
+		max-width: 500px;
+	}
+	.left-sidebar .img {
+		width: 100%;
+		max-width: 80px;
+		height: auto;
+	}
+	.left-sidebar .contents {
+		font-size: 14px;
+		text-align: center;
+	}
+	.left-sidebar a {
+		color: #85ab70;
+	}
+
+	/* Right sidebar layout */
+	.right-sidebar {
+		text-align: center;
+		font-size: 0;
+	}
+	.right-sidebar .column {
+		width: 100%;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.right-sidebar .left {
+		max-width: 100px;
+	}
+	.right-sidebar .right {
+		max-width: 500px;
+	}
+	.right-sidebar .img {
+		width: 100%;
+		max-width: 80px;
+		height: auto;
+	}
+	.right-sidebar .contents {
+		font-size: 14px;
+		text-align: center;
+	}
+	.right-sidebar a {
+		color: #70bbd9;
+	}
+
+	/*Media Queries*/
+	@media screen and (max-width: 400px) {
+		.two-column .column,
+		.three-column .column {
+			max-width: 100% !important;
+		}
+		.two-column img {
+			max-width: 100% !important;
+		}
+		.three-column img {
+			max-width: 50% !important;
+		}
+	}
+
+	@media screen and (min-width: 401px) and (max-width: 620px) {
+		.three-column .column {
+			max-width: 33% !important;
+		}
+		.two-column .column {
+			max-width: 50% !important;
+		}
+	}
+	/* Estilos para modificar los estilos principales */
+	.two-column img {
+		width: 122;
+
+	}
+	.FondoAzulOscuro {
+		background-color: #002554 !important;
+		color: #ffffff
+	}
+
+</style>
+<div class="webkit">
+	##################################	Template Gen�rico para todos los pa�ses ##################################
 	#if($pais != 'BR')
-	
-		<table class="tabla">
+
+
+		<table class="outer FondoAzulOscuro" align="center">
+			<tbody>
 			<tr>
-				<td rowspan="2" width="170">
-					<img src="cid:logo" width="122" height="50" align="left">
+				<td class="two-column">
+					<div class="column">
+						<table width="100%">
+							<tbody>
+							<tr>
+								<td class="inner">
+									<table class="contents">
+										<tbody>
+										<tr>
+											<td>
+												<img src="cdi:logo" width="122" height="50" align="left">
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="column">
+						<table width="100%">
+							<tbody>
+							<tr>
+								<td class="inner">
+									<table class="contents">
+										<tbody>
+										<tr>
+											<td style="color: #ffffff; text-align: right;">
+												<b> Portal de Clientes Rotoplas </b>
+											</td>
+										</tr>
+
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
 				</td>
-				<td>&nbsp;</td>
 			</tr>
+			</tbody>
+		</table>
+
+
+		<table class="outer" align="center">
+			<tbody>
 			<tr>
-				<td class="header" height="10">Portal de Clientes Rotoplas</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="2">
-					<hr width="100%" color="#4D81C0">
+				<td class="inner contents">
+					<p>Estimado: $cliente.nombre</p>
+					<p>Con el objetivo de fortalecer y facilitar la comunicac�n con Rotoplas, hemos desarrollado un portal comercial en donde podr�s consultar de forma r�pida y sencilla el estatus general de tus pedidos as� como las siguientes funcionalidades:</p>
+
 				</td>
 			</tr>
-		</table><br />
-		
-		<table class="tabla" border="0">
+			</tbody>
+		</table>
+
+		<table class="outer" align="center">
+			<tbody>
 			<tr>
-				<td width="100%" valign="top">	
-	
-					<p>Estimado: $cliente.nombre </p>
-					<p>Con el objetivo de fortalecer y facilitar la comunicacón con Rotoplas, hemos desarrollado un portal comercial en donde podrás consultar de forma rápida y sencilla el estatus general de tus pedidos así como las siguientes funcionalidades:</p>
-					
+				<td class="inner contents">
 					<ul>
 						<li>Consultar tu Estado de Cuenta</li>
-						#if($pais == 'MX')		
+						#if($pais == 'MX')
 							<li>Obtener el folio de captura de tus pedidos</li>
 							<li>Revisar la disponibilidad de productos</li>
-							<li>Revisar el status de entrega y facturación de tus pedidos</li>
+							<li>Revisar el status de entrega y facturaci�n de tus pedidos</li>
 							<li>Acceder a la lista de precios vigentes</li>
 						#end
-						
+
 					</ul>
-			
-					<p>La forma de acceder es <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, ingresando la siguiente información:</p>
-					
+
+				</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<table class="outer" align="center">
+			<tbody>
+			<tr>
+				<td class="inner contents">
+					<p>La forma de acceder es <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, ingresando la siguiente informaci�n:</p>
+					<br/>
 					<p>
-						<b>Identificación de usuario</b>: $usuario.usuario  <br />
-						<b>Clave de acceso</b>: $usuario.passwordStr 
-					   #if($pais == 'MX')
-	
-					   #else
-					   		&nbsp;&nbsp;&nbsp;&nbsp;
-					      	(Respetando mayúsculas y minúsculas, sin copiar y pegar)
-					   #end	
-						<br />
+						<b>Identificaci�n de usuario</b>: $usuario.usuario  <br />
+						<b>Clave de acceso</b>: $usuario.passwordStr
+						#if($pais == 'MX')
+						#else
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							(Respetando may�sculas y min�sculas, sin copiar y pegar)
+						#end
+
 					</p>
-					
-					<p>Una vez ingresados estos datos el sistema pedirá modificar la clave de acceso, debiendo ingresar la antes mencionada en el renglón clave de acceso anterior; posteriormente deberá ingresar una nueva, siendo como mínimo 8 caracteres y un máximo de 10, los caracteres deberán ser alfanuméricos, finalmente confirme.</p>
-				
-					<p>Si desea consultar el manual de operación puede hacerlo accediendo a <font size="2">
-					
+					<br/>
+					<p>Una vez ingresados estos datos el sistema pedir� modificar la clave de acceso, debiendo ingresar la antes mencionada en el rengl�n clave de acceso anterior; posteriormente deber� ingresar una nueva, siendo como m�nimo 8 caracteres y un m�ximo de 10, los caracteres deber�n ser alfanum�ricos, finalmente confirme.</p>
+					<br/>
+				<p>Si desea consultar el manual de operaci�n puede hacerlo accediendo a <font size="2">
+
 					#if($pais == 'AR')
 						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_ar.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_ar.pdf</span></b></a></font></p>
 					#elseif($pais == 'PE')
@@ -85,61 +351,59 @@
 					#elseif($pais == 'NI')
 						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_pe.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_ni.pdf</span></b></a></font></p>
 					#elseif($pais == 'CR')
-						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_pe.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_cr.pdf</span></b></a></font></p>																											
+						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_pe.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_cr.pdf</span></b></a></font></p>
 					#else
 						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario.pdf</span></b></a></font></p>
 					#end
-					
+					<br/>
 					#if($pais == 'AR')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>0800 122 2482 Opción. 1 - Opción 2 </b> </p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>0800 122 2482 Opci�n. 1 - Opci�n 2 </b> </p>
 					#elseif($pais == 'PE')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>614 2424</b> opción <b>6</b></p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>614 2424</b> opci�n <b>6</b></p>
 					#elseif($pais == 'GT')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>502 2278-6323</b> </p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>502 2278-6323</b> </p>
 					#elseif($pais == 'SV')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>503 2113-3430</b> </p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>503 2113-3430</b> </p>
 					#elseif($pais == 'HN')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>504 2217-0088</b> </p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>504 2217-0088</b> </p>
 					#elseif($pais == 'NI')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>505 7831-8888</b> </p>
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>505 7831-8888</b> </p>
 					#elseif($pais == 'CR')
-						<p>Cualquier duda favor de contactar a nuestro teléfono <b>506 4000-1963</b> </p>															
+						<p>Cualquier duda favor de contactar a nuestro tel�fono <b>506 4000-1963</b> </p>
 					#else
-						<p>Cualquier duda favor de contactar a nuestro departamento de Atención a clientes  01-800-506-3000</p>				
+						<p>Cualquier duda favor de contactar a nuestro departamento de Atenci�n a clientes  01-800-506-3000</p>
 					#end
-					
+					<br/>
 					<p>Saludos cordiales. </p>
+					<br/>
 					<p>
-						<i>Nota: Solicitamos no responder a este  mensaje, ya que las respuestas a este correo electrónico no serán leídas. Para mayor información consultar a su ejecutivo de
+						<i>Nota: Solicitamos no responder a este  mensaje, ya que las respuestas a este correo electr�nico no ser�n le�das. Para mayor informaci�n consultar a su ejecutivo de
 							#if($pais == 'MX')
-								SAC. 
+								SAC.
 							#else
 								Cobranzas.
-							#end 					
+							#end
 						</i>
 					</p>
-		
 				</td>
 			</tr>
+			</tbody>
 		</table>
-		
-		
-		<table class="tabla">
+
+
+		<table class="outer FondoAzulOscuro" align="center">
+			<tbody>
+
 			<tr>
-				<td height="0">
-					<hr width="100%" color="#4D81C0">
-				</td>
-			</tr>
-			<tr>
-				<td class="footnote" align="right"><br />			
+				<td class="inner contents" align="right" style="color: #ffffff ">
 					#if($pais == 'AR')
 						<i><b>Cuentas por Cobrar Rotoplas</b></i> <br />
-						<i><a href="mailto:cobranzas.ar@rotoplas.com">cobranzas.ar@rotoplas.com</a></i><br /> 
+						<i><a href="mailto:cobranzas.ar@rotoplas.com">cobranzas.ar@rotoplas.com</a></i><br />
 						<i>Tel. 0800 122 2482 Ocp. 1 - Opc. 2</i>
 					#elseif($pais == 'PE')
 						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
 						<i><a href="mailto:cobranzas.pe@rotoplas.com">cobranzas.pe@rotoplas.com</a></i><br />
-						<i>Tel. 614 2424 opción 6</i>
+						<i>Tel. 614 2424 opci�n 6</i>
 					#elseif($pais == 'GT')
 						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
 						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
@@ -159,19 +423,20 @@
 					#elseif($pais == 'CR')
 						<i><b>Cuentas por Cobrar Rotoplas</b></i><br />
 						<i><a href="mailto:cobranzas.ca@rotoplas.com">cobranzas.ca@rotoplas.com</a></i><br />
-						<i>Tel. 506 4000-1963 </i>																									
+						<i>Tel. 506 4000-1963 </i>
 					#else
-						<i><b>Servicio y Atención a Clientes Rotoplas</b></i><br />
+						<i><b>Servicio y Atenci�n a Clientes Rotoplas</b></i><br />
 						<i><a href="mailto:pedidos@rotoplas.com">pedidos@rotoplas.com</a></i><br />
 						<i>Tel. 800 506 3000</i>
 					#end
 				</td>
 			</tr>
+			<tbody>
 		</table>
-		
-		
-    #else		
-		##################################	Template BR  ##################################	
+
+
+	#else
+		##################################	Template BR  ##################################
 
 
 		<table class="tabla">
@@ -190,53 +455,53 @@
 				</td>
 			</tr>
 		</table><br />
-		
+
 		<table class="tabla" border="0">
 			<tr>
-				<td width="100%" valign="top">	
-	
-					<p>À: $cliente.nombre </p>
-					<p>Pensando na praticidade em disponibilizar de uma forma rápida e simples as informações sobre seus pedidos e faturas, desenvolvemos um portal exclusivo onde poderá contar com as seguintes funcionalidades: </p>
-					
+				<td width="100%" valign="top">
+
+					<p>�: $cliente.nombre </p>
+					<p>Pensando na praticidade em disponibilizar de uma forma r�pida e simples as informa��es sobre seus pedidos e faturas, desenvolvemos um portal exclusivo onde poder� contar com as seguintes funcionalidades: </p>
+
 					<ul>
 						<li>Status geral de todas as faturas vencidas e a vencer</li>
-						<li>Limite de Crédito disponível;</li>
-						<li>Emissão de 2º via de boletos;</li>					
+						<li>Limite de Cr�dito dispon�vel;</li>
+						<li>Emiss�o de 2� via de boletos;</li>
 					</ul>
-			
-					<p>Basta acessar o link <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, e digitar as seguintes informações:</p>
-					
+
+					<p>Basta acessar o link <font size="2"><b><span style="FONT-WEIGHT: bold"><a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal">$urlPortal</a></span></b></font>, e digitar as seguintes informa��es:</p>
+
 					<p>
-						<b>Código de cliente</b>: $usuario.usuario  <br />
-						<b>Senha</b>: $usuario.passwordStr 
-						
-					   		&nbsp;&nbsp;&nbsp;&nbsp;
-					      	(Respeitando maiúsculas e minúsculas, sem copiar e colar)
-					
+						<b>C�digo de cliente</b>: $usuario.usuario  <br />
+						<b>Senha</b>: $usuario.passwordStr
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						(Respeitando mai�sculas e min�sculas, sem copiar e colar)
+
 						<br />
 					</p>
-					
-					<p>No primeiro acesso será solicitado o cadastramento de uma nova senha alfanumérica, que deverá conter no mínimo 8 e no máximo 10 caracteres.</p>
-				
+
+					<p>No primeiro acesso ser� solicitado o cadastramento de uma nova senha alfanum�rica, que dever� conter no m�nimo 8 e no m�ximo 10 caracteres.</p>
+
 					<p>Consulte o nosso manual: <font size="2">
-								
-					<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf</span></b></a></font></p>
-													
-					<p>Em caso de dúvidas entre em contato conosco pelo telefone <b> 0800 940 2482 - Opção 2. </b>.</p>
-	
-					
+
+						<a style="font-weight: bold; cursor: hand; font-family: Arial; text-decoration: underline; font-size: 12" href="$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf"><b><span style="FONT-WEIGHT: bold">$urlPortal/resources/files/PC_Manual_de_Usuario_br.pdf</span></b></a></font></p>
+
+					<p>Em caso de d�vidas entre em contato conosco pelo telefone <b> 0800 940 2482 - Op��o 2. </b>.</p>
+
+
 					<p>Atenciosamente. <br/>
-					   Financeiro Acqualimp
-					 </p>
-					<p>
-						<i>Observação: E-mail enviado automaticamente, favor não responder. Para maiores informações entrar em contato pelo telefone informado acima.</i>
+						Financeiro Acqualimp
 					</p>
-		
+					<p>
+						<i>Observa��o: E-mail enviado automaticamente, favor n�o responder. Para maiores informa��es entrar em contato pelo telefone informado acima.</i>
+					</p>
+
 				</td>
 			</tr>
 		</table>
-		
-		
+
+
 		<table class="tabla">
 			<tr>
 				<td height="0">
@@ -244,15 +509,15 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="footnote" align="right"><br />			
-						<i><b>Financeiro Acqualimp</b></i> <br />
-						<i><a href="mailto:cobranca.br@rotoplas.com">cobranca.br@rotoplas.com</a></i><br /> 
-						<i>Tel. 0800 940 2482 - Opção 2</i>				
+				<td class="footnote" align="right"><br />
+					<i><b>Financeiro Acqualimp</b></i> <br />
+					<i><a href="mailto:cobranca.br@rotoplas.com">cobranca.br@rotoplas.com</a></i><br />
+					<i>Tel. 0800 940 2482 - Op��o 2</i>
 				</td>
 			</tr>
 		</table>
 
 
 
+		<div/>
 	#end
-		
