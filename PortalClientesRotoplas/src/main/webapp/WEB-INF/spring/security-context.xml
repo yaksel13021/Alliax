@@ -35,7 +35,7 @@
 		<intercept-url pattern="/resources/filesAdm/**" access="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR" />
 
 		<intercept-url pattern="/recuperaPassword.xhtml" access="ROLE_ANONYMOUS" />
-		<intercept-url pattern="/indexPwdChange.xhtml" access="ROLE_PWDCHANGE_MEMBER" />
+		<intercept-url pattern="/indexPwdChange.xhtml" access="ROLE_PWDCHANGE_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA,ROLE_CLIENT_MEMBER"/>
 				
 		<intercept-url pattern="/**" access="ROLE_CLIENT_MEMBER,
 		                                     ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
