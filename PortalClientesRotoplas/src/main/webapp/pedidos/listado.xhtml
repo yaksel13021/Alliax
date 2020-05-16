@@ -477,9 +477,10 @@
 														<br />
 														<h:panelGroup layout="block" styleClass="row">
 															<h:panelGroup layout="block" styleClass="col-12" id="contenttable2">
-																<table id="example3" class="table table-striped  table-hover" width="100%">
+																<table id="example3" class="table table-striped  table-hover" width="100%" style="border-collapse: collapse;" >
 																	<thead>
 																	<tr>
+																		<th></th>
 																		<th>#{lblMain.docFactura}</th>
 																		<th>#{lblMain.fecha}</th>
 																		<th>#{lblMain.impuestoNeto}</th>
@@ -487,9 +488,19 @@
 																	</tr>
 																	</thead>
 																	<tbody>
-
 																	<ui:repeat value="#{listaPedidos.facturas}" var="factura">
 																		<tr>
+																			<td>
+																			<h:form>
+																				<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																				<h:panelGroup>
+																					<ui:fragment >
+																					<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+																					</ui:fragment>
+																					</h:panelGroup>
+																				</f:ajax>
+																			</h:form>
+																			</td>
 																			<td><h:outputLabel value="#{factura.docFactura}" /></td>
 																			<td><h:outputLabel value="#{factura.fechaFactura}">
 																				<f:convertDateTime dateStyle="default" />
@@ -501,8 +512,71 @@
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 																			</h:outputLabel></td>
 																		</tr>
+																		<tr>
+																			<td colspan="5" >
+																				<h:panelGroup layout="block"  rendered="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
+																					<h:panelGroup layout="block" >
+																						<h:panelGroup layout="block" styleClass="row header">
+																							<h:panelGroup layout="block" styleClass="col-md-1">
+																							</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputText value="#{lblMain.posicion}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputText value="#{lblMain.noMaterial}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-3">
+																							<h:outputText value="#{lblMain.descripcion}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																							<h:outputText value="#{lblMain.cantidad}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																							<h:outputText value="#{lblMain.unidadMedida}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+																							<h:outputText value="#{lblMain.monto}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+																							<h:outputText value="#{lblMain.impuestoNeto}" />
+																						</h:panelGroup>
+																					</h:panelGroup>
+																					</h:panelGroup>
+																			<ui:repeat value="#{factura.detalleFactura}" var="detafac">
+																				<h:panelGroup layout="block" styleClass="row single">
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.posicion}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.material}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-3">
+																						<h:outputLabel value="#{detafac.descripcion}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1 alxright-align">
+																						<h:outputLabel value="#{detafac.cantidadStr}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.unidadMedida}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+																						<h:outputLabel value="#{detafac.montoNeto}" >
+																							<f:convertNumber type="currency" locale="es_MX" />
+																						</h:outputLabel> #{detafac.moneda}
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+																						<h:outputLabel value="#{detafac.impuesto}" >
+																							<f:convertNumber type="currency" locale="es_MX" />
+																						</h:outputLabel> #{detafac.moneda}
+																					</h:panelGroup>
+																				</h:panelGroup>
+																			</ui:repeat>
+																				</h:panelGroup>
+																			</td>
+																		</tr>
 																	</ui:repeat>
-
 																	</tbody>
 																</table>
 															</h:panelGroup>
@@ -521,7 +595,6 @@
 													<!--   -->
 	
 													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																	 disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and listaPedidos.pedido.estatusGeneral eq 'RELE' )  ? 'true' : 'false'}"
 																	 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 														<f:ajax execute="@this" render=":modal1" />
 													</h:commandButton>
@@ -562,7 +635,7 @@
 					</h:panelGroup>
 				</div>
 			</f:view>
-				
+				<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 			</h:form>
 		</ui:define>
 		<ui:define name="scriptJS">
