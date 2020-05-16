@@ -183,12 +183,14 @@ public class CrearPedidoRFC {
 
             //Asignamos la estructura
             this.input.setValue(this.structure,"E_HEADER");
+            /*
             //Aignamos las tabla al objeto input
             this.input.setValue(this.tblItems, "T_ITEMS"); //Partidas
             this.input.setValue(this.tblRefUbic, "T_REFUBIC"); //Referencia de Ubicacion
             this.input.setValue(this.tblProdAlm, "T_PRODALM"); //Producto a Almacenar
             this.input.setValue(this.tblCapTran, "T_CAPTRAN"); //Capacidades de transporte especiales
             this.input.setValue(this.tblEqupProt, "T_EQUPROT"); //Equipo Especial de Proteccion Personal
+            */
             //Ejecuta la funcion
             this.sapCon.doCallFunction();
         } catch(Exception e){
@@ -199,12 +201,14 @@ public class CrearPedidoRFC {
 
     public PedidoResultado getResultTables() throws ClassNotFoundException, Exception {
         try{
+            logger.info("getResultTables");
             PedidoResultado pedidoResultado = new PedidoResultado();
 
             pedidoResultado.setMensajeError(this.output.getString("P_MESSAGE"));
             pedidoResultado.setActualizoFacturacion(this.output.getString("C_RETURN"));
             pedidoResultado.setDocumentoVenta(this.output.getString("P_DOCUMENT"));
             pedidoResultado.setGeneroDocumentoVenta(this.output.getString("P_RETURN"));
+            logger.info(pedidoResultado);
 
            return pedidoResultado;
         } catch(Exception e){

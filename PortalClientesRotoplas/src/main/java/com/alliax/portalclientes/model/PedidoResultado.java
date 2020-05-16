@@ -37,4 +37,14 @@ public class PedidoResultado {
     public void setGeneroDocumentoVenta(String generoDocumentoVenta) {
         this.generoDocumentoVenta = generoDocumentoVenta;
     }
+
+    @Override
+    public String toString() {
+        return "PedidoResultado{" +
+                "documentoVenta='" + documentoVenta + '\'' +
+                ", mensajeError='" + mensajeError + '\'' +
+                ", actualizoFacturacion='" + actualizoFacturacion + '\'' +
+                ", generoDocumentoVenta='" + generoDocumentoVenta + '\'' +
+                '}';
+    }
 }
