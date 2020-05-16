@@ -153,6 +153,9 @@
 																	 styleClass="btn btn-primary float-right"
 																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
 														<f:ajax execute="form:\setForm form\:validate @form" render="form:\contenttable" immediate="true"></f:ajax>
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true"
+																	 onclick="fechaBox()">
+														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -379,8 +382,12 @@
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
 														<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
-															<h:button id="clonarPedido" styleClass="btn btn-primary float-left" outcome="/crearPedido" value ="#{lblMain.btnCopiarPedido}" />
+															<h:link outcome="/crearPedido.xhtml?faces-redirect=true&amp;update=true">
+															<i class="fa fa-file fa-2x"></i>
+															Copiar Pedido
+															</h:link>
 														</sec:authorize>
+														
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -488,18 +495,19 @@
 																	</tr>
 																	</thead>
 																	<tbody>
+
 																	<ui:repeat value="#{listaPedidos.facturas}" var="factura">
 																		<tr>
 																			<td>
-																			<h:form>
-																				<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
-																				<h:panelGroup>
-																					<ui:fragment >
-																					<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-																					</ui:fragment>
+																				<h:panelGroup layout="block" styleClass="col-12">
+																					<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																					<h:panelGroup>
+																						<ui:fragment >
+																							<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+																						</ui:fragment>
 																					</h:panelGroup>
-																				</f:ajax>
-																			</h:form>
+																					</f:ajax>
+																				</h:panelGroup>
 																			</td>
 																			<td><h:outputLabel value="#{factura.docFactura}" /></td>
 																			<td><h:outputLabel value="#{factura.fechaFactura}">
@@ -512,7 +520,9 @@
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 																			</h:outputLabel></td>
 																		</tr>
+																		<c:if test="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
 																		<tr>
+
 																			<td colspan="5" >
 																				<h:panelGroup layout="block"  rendered="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
 																					<h:panelGroup layout="block" >
@@ -576,6 +586,7 @@
 																				</h:panelGroup>
 																			</td>
 																		</tr>
+																	</c:if> 
 																	</ui:repeat>
 																	</tbody>
 																</table>
@@ -595,6 +606,7 @@
 													<!--   -->
 	
 													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
+													disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND') or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('CANC')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE') ) )  ? 'true' : 'false'}"
 																	 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 														<f:ajax execute="@this" render=":modal1" />
 													</h:commandButton>
@@ -672,6 +684,7 @@
 				  }
 				  
 				var fechaBox = function () {
+
 					val = $("select[name='form:frm_rangoDias'] option:selected").val();
 					
 					if(val == "F" || val == "P"){
