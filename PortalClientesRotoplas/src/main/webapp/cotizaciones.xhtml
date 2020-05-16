@@ -128,7 +128,7 @@
 		                        </td>
 		                            <td>
 		                              <h:panelGroup>
-		                              <c:if test="#{cotizacion.esado == 'En Captura'}">
+		                              <c:if test="#{cotizacion.estado == 'En Captura'}">
 		                                <h:commandButton type="submit" value="#{lblMain.btnVer}" action="#{consultaCotizacion.buscarDetalles(cotizacion.nroPedido)}" styleClass="btn btn-primary float-right">
 		                                  <f:ajax execute="@form" onevent="showModal" render="form\:contentmodal"/>
 		                                </h:commandButton>
@@ -186,7 +186,7 @@
                       <h:panelGroup layput="block"
                                     style="display: inline-block; width: 100%; overflow-y: auto;">
                         <c:if test="#{empty consultaCotizacion.finalizar}">
-                            <c:if test="#{cotizacion.esado == 'En Captura'}">
+                            <c:if test="#{cotizacion.estado == 'En Captura'}">
                             <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 
