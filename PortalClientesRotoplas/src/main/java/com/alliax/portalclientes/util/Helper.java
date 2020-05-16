@@ -354,9 +354,17 @@ public class Helper {
 		 map.put("ROLE_EJECUTIVO_MEMBER_BR", lblMain.getString("rolEjecutivoBR"));
 		return map;
 	}	
-	
-	
-	
+
+	public static String lpad(String valor, int length, String caracter){
+		String result = valor;
+		int start = valor.length();
+		int count = length - start;
+		for(int i = 0; i < count; i++){
+			result= caracter + result;
+		}
+
+		return result;
+	}
 	/*********************************************************************************************************************/
 	
 }
