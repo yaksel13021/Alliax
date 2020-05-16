@@ -12,6 +12,19 @@
             <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
             <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet" />
         </ui:define>
+        <ui:define name="scriptJS">
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/consultaExistencias.js']}"></script>
+        </ui:define>
         <ui:define name="content">
             <h:panelGroup layout="block" styleClass="container containerFiltersOne">
                 <h:form id="form">
@@ -34,7 +47,7 @@
                                                         <h:selectOneMenu  id="select_buscarPor" name="select_buscarPor" value="#{busqueda.tipoBusqueda}" styleClass="form-control hidden"  >
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
                                                             <f:selectItems  value="#{busqueda.catalogoBusquedaSet}" var="tipo" itemValue="#{tipo.key}" itemLabel="#{tipo.value}" />
-                                                            <f:ajax execute="select_buscarPor" render="a d b c  boxMatBoton" listener="#{busqueda.onTipoBusquedaChange}" />
+                                                            <f:ajax execute="select_buscarPor" render="b d boxMatBoton" listener="#{busqueda.onTipoBusquedaChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
                                                 </h:panelGroup>
@@ -45,7 +58,7 @@
                                                         <h:selectOneMenu id="select_localidad" name="select_localidad" value="#{busqueda.idEstado}" required="true" styleClass="form-control"  >
                                                             <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
                                                             <f:selectItems   styleClass="form-control dropdownActive" value="#{busqueda.catalogoEstadoSet}" var="estado" itemValue="#{estado.key}" itemLabel="#{estado.value}" />
-                                                            <f:ajax execute="select_localidad" render="a" listener="#{busqueda.onEstadoChange}" />
+                                                            <f:ajax execute="select_localidad" render="a e" listener="#{busqueda.onEstadoChange}" />
                                                         </h:selectOneMenu>
                                                     </h:panelGroup>
                                                 </h:panelGroup>
@@ -57,7 +70,7 @@
                                                             <h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" >
                                                                 <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
                                                                 <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
-                                                                <f:ajax execute="frm_localidad" render="c" listener="#{busqueda.onLocalidadChange}" />
+                                                                <f:ajax execute="frm_localidad" render="c f" listener="#{busqueda.onLocalidadChange}" />
                                                             </h:selectOneMenu>
                                                         </h:panelGroup>
                                                     </h:panelGroup>
@@ -119,7 +132,7 @@
                                                         </h:panelGroup>
                                                         <h:panelGroup layout="block" styleClass="form-group hidden" rendered="#{busqueda.tipoBusqueda != 0}">
                                                             <h:commandButton type="submit" id="butt" value="#{lblMain.btnBuscar}"  styleClass="btn btn-primary float-right" action="#{busqueda.busquedaExistencia}">
-                                                                <f:ajax execute="@form" render="products form:products @form"/>
+                                                                <f:ajax execute="@form" render="products mensajes form:products @form"/>
                                                             </h:commandButton>
                                                         </h:panelGroup>
                                                         <h:panelGroup layout="block" styleClass="form-group" rendered="#{busqueda.tipoBusqueda != 0}">
@@ -219,29 +232,17 @@
                         <h:panelGroup rendered="#{not empty busqueda.resultados and facesContext.postback}" layout="block" style="margin-top:20px;">
                             <h:outputText value="#{lblMain.sujetoDisponibilidad}" />
                         </h:panelGroup>
-
                         <h:panelGroup rendered="#{empty busqueda.resultados and empty busqueda.resultadosMatBusqueda and facesContext.postback}" layout="block" style="margin-top:20px;">
-                            <h:outputScript>tablaMessage()</h:outputScript>
+                            <h:outputScript>
+                                showToastr('No se encontraron resultados con los criterios de busqueda especificados.', 'Aviso', {
+                                    type: typeNotification.warning
+                                })
+                            </h:outputScript>
                         </h:panelGroup>
                     </h:panelGroup>
 
                 </h:form>
             </h:panelGroup>
-        </ui:define>
-
-
-        <ui:define name="scriptJS">
-            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
-            <script src="#{resource['lookAndFeel/js/consultaExistencias.js']}"></script>
         </ui:define>
     </ui:composition>
 </h:body>

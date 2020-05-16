@@ -59,7 +59,7 @@ public class UsoCfdiRFC {
         	logger.info("initParamVariables");
 
 
-        	this.table = this.sapCon.getFunction().getTableParameterList().getTable("DEST_MERC"); 
+        	this.table = this.sapCon.getFunction().getTableParameterList().getTable("T_USOCFDI");
             //this.input = this.sapCon.getFunction().getImportParameterList();           
             this.output = this.sapCon.getFunction().getExportParameterList();
         } catch(Exception e) {

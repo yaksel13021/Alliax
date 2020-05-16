@@ -10,7 +10,7 @@ public class DestinatarioMercancia {
 	private String poblacion;
 	private String sociedad;
 	private String organizacionVentas;
-	
+
 	public String getNoDestinatario() {
 		return noDestinatario;
 	}
@@ -59,5 +59,18 @@ public class DestinatarioMercancia {
 	public void setOrganizacionVentas(String organizacionVentas) {
 		this.organizacionVentas = organizacionVentas;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "DestinatarioMercancia[" +
+				"noDestinatario='" + noDestinatario +
+				", nombreSucursal='" + nombreSucursal +
+				", calleNumero='" + calleNumero +
+				", colonia='" + colonia +
+				", codigoPostal='" + codigoPostal +
+				", poblacion='" + poblacion +
+				", sociedad='" + sociedad +
+				", organizacionVentas='" + organizacionVentas +
+				']';
+	}
 }

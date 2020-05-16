@@ -21,16 +21,16 @@
 								<h2 class="colorTitulos">#{lblMain.pedidos}</h2>
 							</h:panelGroup>
 							<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
-							<h:panelGroup layout="block"
-										  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
-										  style="padding-top: 10px;">
-								<h:panelGroup layout="block" style="text-align: right;">
-									<h:commandLink action="crearPedido">
-										<i class="fa fa-file fa-2x"></i>
-										#{lblMain.crearPedido}
-									</h:commandLink>
+								<h:panelGroup layout="block"
+											  styleClass="col-lg-2 col-md-6 col-sm-6 col-xs-6"
+											  style="padding-top: 10px;">
+									<h:panelGroup layout="block" style="text-align: right;">
+										<h:link outcome="/crearPedido">
+											<i class="fa fa-file fa-2x"></i>
+											#{lblMain.crearPedido}
+										</h:link>
+									</h:panelGroup>
 								</h:panelGroup>
-							</h:panelGroup>
 							</sec:authorize>
 						</h:panelGroup>
 						<h:panelGroup layout="block" styleClass="row">
@@ -47,7 +47,7 @@
 									<div id="expandable1"
 										 class="collapse show" aria-labelledby="item1Header"
 										 data-parent="#myAccordion">
-										<h:panelGroup layout="block" styleClass="card-body">
+										<h:panelGroup layout="block" styleClass="card-body" id="setForm">
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
@@ -84,6 +84,7 @@
 															<h:inputText id="frm_fechaIni"
 																		 styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}">
 																<f:ajax execute="@this" />
+																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
@@ -103,6 +104,7 @@
 															<h:inputText id="frm_fechaFin"
 																		 styleClass="form-control" required="true">
 																<f:ajax execute="@this" />
+																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
@@ -147,8 +149,10 @@
 														<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 														<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
 													</h:inputHidden>
-													<h:commandButton action="#{listaPedidos.buscaPedidos}" type="submit"
+													<h:commandButton action="#{listaPedidos.buscaPedidos}" 
 																	 styleClass="btn btn-primary float-right"
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
+														<f:ajax execute="form:\setForm form\:validate @form" render="form:\contenttable" immediate="true"></f:ajax>
 																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true"
 																	 onclick="fechaBox()">
 														<f:ajax execute="form\:validate form:\setFilters" render="form:\contenttable" immediate="true"></f:ajax>
@@ -377,11 +381,13 @@
 															  styleClass="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 													<h:panelGroup layput="block"
 																  style="display: inline-block; width: 100%; overflow-y: auto;">
-													   <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
-														<h:commandButton id="clonarPedido" styleClass="btn btn-primary float-left" action="crearPedido.xhtml?faces-redirect=true" value ="#{lblMain.btnCopiarPedido}">
-															<f:setPropertyActionListener value="#{listaPedidos.pedido}" target="#{sessionScope.pedidoSel}" />
-														</h:commandButton>
+														<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
+															<h:link outcome="/crearPedido.xhtml?faces-redirect=true&amp;update=true">
+															<i class="fa fa-file fa-2x"></i>
+															Copiar Pedido
+															</h:link>
 														</sec:authorize>
+														
 														<ul class="timeline" id="timeline">
 															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
@@ -421,7 +427,7 @@
 													</li>
 													<li class="nav-item">
 														<a class="nav-link" href="#facturas" id="tabFacturas" data-toggle="tab" role="tab" aria-controls="facturas" aria-selected="false">#{lblMain.facturas}
-															<f:ajax listener="#{listaPedidos.obtieneFacturas}" event="click" execute="@this" />
+															<f:ajax listener="#{listaPedidos.obtieneFacturas}" event="click" execute="@this" render="form:\facturas form:\contenttable2" />
 														</a>
 													</li>
 												</ul>
@@ -477,10 +483,11 @@
 													<div id="facturas" class="tab-pane fade pr-0 pl-0" role="tabpanel" aria-labelledby="facturas-tab">
 														<br />
 														<h:panelGroup layout="block" styleClass="row">
-															<h:panelGroup layout="block" styleClass="col-12">
-																<table id="example3" class="table table-striped  table-hover" width="100%">
+															<h:panelGroup layout="block" styleClass="col-12" id="contenttable2">
+																<table id="example3" class="table table-striped  table-hover" width="100%" style="border-collapse: collapse;" >
 																	<thead>
 																	<tr>
+																		<th></th>
 																		<th>#{lblMain.docFactura}</th>
 																		<th>#{lblMain.fecha}</th>
 																		<th>#{lblMain.impuestoNeto}</th>
@@ -491,6 +498,17 @@
 
 																	<ui:repeat value="#{listaPedidos.facturas}" var="factura">
 																		<tr>
+																			<td>
+																				<h:panelGroup layout="block" styleClass="col-12">
+																					<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																					<h:panelGroup>
+																						<ui:fragment >
+																							<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+																						</ui:fragment>
+																					</h:panelGroup>
+																					</f:ajax>
+																				</h:panelGroup>
+																			</td>
 																			<td><h:outputLabel value="#{factura.docFactura}" /></td>
 																			<td><h:outputLabel value="#{factura.fechaFactura}">
 																				<f:convertDateTime dateStyle="default" />
@@ -502,8 +520,74 @@
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 																			</h:outputLabel></td>
 																		</tr>
-																	</ui:repeat>
+																		<c:if test="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
+																		<tr>
 
+																			<td colspan="5" >
+																				<h:panelGroup layout="block"  rendered="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
+																					<h:panelGroup layout="block" >
+																						<h:panelGroup layout="block" styleClass="row header">
+																							<h:panelGroup layout="block" styleClass="col-md-1">
+																							</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputText value="#{lblMain.posicion}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputText value="#{lblMain.noMaterial}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-3">
+																							<h:outputText value="#{lblMain.descripcion}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																							<h:outputText value="#{lblMain.cantidad}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-1">
+																							<h:outputText value="#{lblMain.unidadMedida}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+																							<h:outputText value="#{lblMain.monto}" />
+																						</h:panelGroup>
+																						<h:panelGroup layout="block" styleClass="col-md-2" style="text-align:center;">
+																							<h:outputText value="#{lblMain.impuestoNeto}" />
+																						</h:panelGroup>
+																					</h:panelGroup>
+																					</h:panelGroup>
+																			<ui:repeat value="#{factura.detalleFactura}" var="detafac">
+																				<h:panelGroup layout="block" styleClass="row single">
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.posicion}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.material}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-3">
+																						<h:outputLabel value="#{detafac.descripcion}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1 alxright-align">
+																						<h:outputLabel value="#{detafac.cantidadStr}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-1">
+																						<h:outputLabel value="#{detafac.unidadMedida}" />
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+																						<h:outputLabel value="#{detafac.montoNeto}" >
+																							<f:convertNumber type="currency" locale="es_MX" />
+																						</h:outputLabel> #{detafac.moneda}
+																					</h:panelGroup>
+																					<h:panelGroup layout="block" styleClass="col-md-2 alxright-align">
+																						<h:outputLabel value="#{detafac.impuesto}" >
+																							<f:convertNumber type="currency" locale="es_MX" />
+																						</h:outputLabel> #{detafac.moneda}
+																					</h:panelGroup>
+																				</h:panelGroup>
+																			</ui:repeat>
+																				</h:panelGroup>
+																			</td>
+																		</tr>
+																	</c:if> 
+																	</ui:repeat>
 																	</tbody>
 																</table>
 															</h:panelGroup>
@@ -514,20 +598,20 @@
 										</h:panelGroup>
 										<!-- Modal footer -->
 										<h:panelGroup layout="block" styleClass="modal-footer">
-										<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
-											<h:panelGroup id = "panelDate">
-												<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
-												<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
-
-												<!--   -->
-
-												<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-																 disabled="#{listaPedidos.pedido.estatusGeneral eq 'Vsac' or listaPedidos.pedido.estatusGeneral eq 'Rele' ? 'false' : 'true'}"
-																 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
-													<f:ajax execute="@this" render=":modal1" />
-												</h:commandButton>
-											</h:panelGroup>
-										</sec:authorize>
+											<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
+												<h:panelGroup id = "panelDate">
+													<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
+													<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
+	
+													<!--   -->
+	
+													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
+													disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND') or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('CANC')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE') ) )  ? 'true' : 'false'}"
+																	 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
+														<f:ajax execute="@this" render=":modal1" />
+													</h:commandButton>
+												</h:panelGroup>
+											</sec:authorize>
 											<h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
 												<f:ajax execute="@this" render="form\:contentmodal" />
 											</h:commandButton>
@@ -563,7 +647,7 @@
 					</h:panelGroup>
 				</div>
 			</f:view>
-				
+				<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 			</h:form>
 		</ui:define>
 		<ui:define name="scriptJS">

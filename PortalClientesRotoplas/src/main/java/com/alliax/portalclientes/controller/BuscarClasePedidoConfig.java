@@ -10,8 +10,7 @@ public class BuscarClasePedidoConfig {
 	
 	private final static Logger logger = Logger.getLogger(BuscarClasePedidoConfig.class);
 	
-	public ClasePedido buscarClasePedido(String organizacionVentas, String codigoPostal) {
-		logger.info("BuscarClasePedidoConfig - buscarClasePedido, organizacionVentas: " + organizacionVentas + ", codigoPostal" + codigoPostal);
+	public ClasePedido buscarClasePedido() {
 		ClasePedido result = new ClasePedido();
 		result.setClasePedido("Clase Pedido 1");
 		result.setResultCode("0");

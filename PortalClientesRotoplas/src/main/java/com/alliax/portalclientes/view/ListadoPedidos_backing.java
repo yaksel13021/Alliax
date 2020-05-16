@@ -189,6 +189,18 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	public String buscaPedidos(){
 		try {
 			logger.info("Buscando pedidos");
+
+			if(this.getEstatus() == null) {
+				this.setEstatus("T");
+			}
+			
+			if(this.getRangoDias() == null) {
+				this.setRangoDias("H");
+			}
+			
+			if(this.getTipoDocumento() == null) {
+				this.setTipoDocumento("Orden de Compra");
+			}
 			
 			List<String> rangoFechas = null;
 			
@@ -264,6 +276,10 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			}
 			logger.info("Despues del set list");
 			
+			if(this.getListadoPedidos() != null) {
+				logger.info("Listado Pedidos: " + this.getListadoPedidos().toString());
+			}
+
 			//Graba listado en session
 			if(this.getSessionMap() == null)
 				logger.error("Session is null");
@@ -303,14 +319,14 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			logger.info("cargaDetallePartidas " + getPedido());
 			if(getPedido() != null) {
 				DetallePedidoRFC detalle = this.getSpringContext().getBean("detallePedido", DetallePedidoRFC.class);
-//					this.setPartidas(
-//							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
-//									this.getUsuarioLogueado().getLanguage()));
+					this.setPartidas(
+							detalle.detallePedido(this.getPedido().getDocumentoComercial(),
+									this.getUsuarioLogueado().getLanguage()));
 
-				DetallePedidoConfig detalleConf = new DetallePedidoConfig();
-				setPartidas(detalleConf.partidas());
+//				DetallePedidoConfig detalleConf = new DetallePedidoConfig();
+//				setPartidas(detalleConf.partidas());
 
-				//this.setFacturas(detalle.getListaFacturas());
+				this.setFacturas(detalle.getListaFacturas());
 			}
 			//}
 		} catch(Exception e){
@@ -365,9 +381,9 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	 */
 	public void cancelarPedido(OrdenVenta nroPedido){
 		try {
-			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
+			logger.info("Cancelar pedido,  nroPedido: " + nroPedido.getDocumentoComercial());
 			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
-			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getPedidoCliente());
+			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getDocumentoComercial());
 			logger.info("Cancelar pedido,  respuesta: " + cancelado);
 			nroPedido.setPedidoCancelado(cancelado);
 		} catch(Exception e){

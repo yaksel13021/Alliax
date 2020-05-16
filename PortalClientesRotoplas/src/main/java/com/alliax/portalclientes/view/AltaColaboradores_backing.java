@@ -5,9 +5,12 @@ import com.alliax.portalclientes.controller.InfoClienteRFC;
 import com.alliax.portalclientes.domain.RolUsuario;
 import com.alliax.portalclientes.domain.Usuario;
 import com.alliax.portalclientes.general.formato.Fecha;
+import com.alliax.portalclientes.general.formato.Generales;
 import com.alliax.portalclientes.model.ClienteInfo;
 import com.alliax.portalclientes.service.UsuarioService;
 import org.apache.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -55,20 +58,21 @@ public class AltaColaboradores_backing extends AbstractBacking {
             Usuario colaborador = usrServ.findByUserName(this.getActividad()+usuario.getNoCliente());
 
             if(colaborador == null){
+                BCryptPasswordEncoder encoder = this.getSpringContext().getBean("encoder",BCryptPasswordEncoder.class);
                 colaborador = new Usuario();
                 colaborador.setUsuario(this.getActividad()+usuario.getNoCliente());
-                colaborador.setPasswordStr(usuario.getPasswordStr());
-                colaborador.setPassword(usuario.getPassword());
+                colaborador.setPasswordStr(Generales.generaPassword());
+                colaborador.setPassword(encoder.encode(colaborador.getPasswordStr()));
                 colaborador.setNoCliente(this.getActividad()+usuario.getNoCliente());
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
                 }
 
                 colaborador.setFechaEntrada(usuario.getFechaEntrada());
@@ -83,13 +87,13 @@ public class AltaColaboradores_backing extends AbstractBacking {
             } else{
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
                 }
                 status = 2;
             }
