@@ -66,13 +66,13 @@ public class AltaColaboradores_backing extends AbstractBacking {
                 colaborador.setNoCliente(this.getActividad()+usuario.getNoCliente());
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
                 }
 
                 colaborador.setFechaEntrada(usuario.getFechaEntrada());
@@ -87,13 +87,13 @@ public class AltaColaboradores_backing extends AbstractBacking {
             } else{
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "A" : "I");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
                 }
                 status = 2;
             }

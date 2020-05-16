@@ -860,12 +860,12 @@ var crearPedido = (function () {
         data: function () {
             return new Promise(function (resolve, reject) {
                 var model = [{
-                    id: "PD",
-                    descripcion: 'PPD Pago Parcialidades'
+                    id: "PPD",
+                    descripcion: 'Pago Parcialidades'
                 },
                 {
                     id: "PUE",
-                    descripcion: 'PUE Pago una sola exhibición'
+                    descripcion: 'Pago una sola exhibición'
                 }
                 ];
                 resolve(model);

@@ -381,9 +381,9 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	 */
 	public void cancelarPedido(OrdenVenta nroPedido){
 		try {
-			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
+			logger.info("Cancelar pedido,  nroPedido: " + nroPedido.getDocumentoComercial());
 			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
-			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getPedidoCliente());
+			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getDocumentoComercial());
 			logger.info("Cancelar pedido,  respuesta: " + cancelado);
 			nroPedido.setPedidoCancelado(cancelado);
 		} catch(Exception e){
