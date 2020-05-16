@@ -53,6 +53,9 @@ public class Pedido {
     }
 
     public PedidoEncabezado getPedidoEncabezado() {
+        if(pedidoEncabezado==null){
+            pedidoEncabezado = new PedidoEncabezado();
+        }
         return pedidoEncabezado;
     }
 

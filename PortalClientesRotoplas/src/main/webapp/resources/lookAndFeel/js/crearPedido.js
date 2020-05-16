@@ -1,3 +1,22 @@
+function isUndefined(x) {
+    return typeof x == "undefined";
+}
+
+var cfdiOptions = null
+var materiales = null;
+var materialesSel = null;
+
+function setMateriales(valores){
+    materiales = valores;
+}
+function setMaterialesSel(valores){
+    materialesSel = valores;
+}
+
+function setCFDI(values){
+    cfdiOptions = values;
+}
+
 var crearPedido = (function () {
     var $dt = null,
         $dtSeleccionados = null,
@@ -5,6 +24,9 @@ var crearPedido = (function () {
         $dtResumentCuentaFacturacion = null,
         $dtResumentCuentaComentarios = null,
         $dtComentarios = null;
+
+
+
 
     var init = function () {
         $('.isResizable').matchHeight();
@@ -20,6 +42,9 @@ var crearPedido = (function () {
             if (!validStepOne()) {
                 return;
             }
+            $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
+            $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
+
             $('#headingOne').prop('disabled', true);
             $('#headingThree').prop('disabled', false).click();
             $('#cardDynamicHeaderTitle').html('Selección de Materiales');
@@ -45,6 +70,8 @@ var crearPedido = (function () {
             var rowsCount = $dt.rows().count(),
                 tableResultArr = [],
                 count = 0;
+
+           // $("[id='crearPedido:asignaSegmento']").trigger("click");
 
             while (count < rowsCount) {
                 var rowCurrent = $dt.row(count),
@@ -80,10 +107,15 @@ var crearPedido = (function () {
 
             RESS.setProductosSeleccionados(filterResult);
 
-            //var valuesStepOne = $('#filterStepOne').serializeForm();
+            createMaterialJSON();
 
+            $("[id='crearPedido:filterStepOne:asignaMaterial']").trigger('click');
+
+        });
+
+        $('div.material_seleccionado').off().on('click', function (e) {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
-            var select_direccionEntrega = $("#select_direccionEntrega");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
@@ -94,11 +126,11 @@ var crearPedido = (function () {
                         btnName: 'btn_cancelAll',
                         btnText: 'Cancelar'
                     },
-                    {
-                        btnId: 'btn_ListaProductosSeleccionadosNext',
-                        btnName: 'btn_adbtn_listaProductosSeleccionadosNextdProducts',
-                        btnText: 'Continuar'
-                    }
+                        {
+                            btnId: 'btn_ListaProductosSeleccionadosNext',
+                            btnName: 'btn_adbtn_listaProductosSeleccionadosNextdProducts',
+                            btnText: 'Continuar'
+                        }
                     ]
                 }
             });
@@ -115,9 +147,13 @@ var crearPedido = (function () {
                 return;
             }
             //var valuesStepOne = $('#filterStepOne').serializeForm();
+           // $("[id='crearPedido:filterStepOne:preparaFacturacion']").trigger('click');
+/*
+        });
 
+        $('div.listaProductosSeleccionadosNext').off().on('click', function (e) {*/
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
-            var select_direccionEntrega = $("#select_direccionEntrega");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, facturacion: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
@@ -146,6 +182,8 @@ var crearPedido = (function () {
                         });
                 });
         });
+
+
         $('#btn_FacturacionNext').off().on('click', function (e) {
             e.preventDefault();
             if (!validFacturacion()) {
@@ -154,6 +192,13 @@ var crearPedido = (function () {
            // var values = $('#facturacionForm').serializeForm();
             var select_cfdi = $('#select_cfdi');
             var select_metodoPago = $('#select_metodoPago');
+
+            $("[id='crearPedido:filterStepOne:frm_cfdi']").val($('#select_cfdi').val());
+            $("[id='crearPedido:filterStepOne:frm_metodoPago']").val($('#select_metodoPago').val());
+            $("[id='crearPedido:filterStepOne:frm_cfdi_desc']").val($( "#select_cfdi option:selected" ).text());
+            $("[id='crearPedido:filterStepOne:frm_metodoPago_desc']").val($( "#select_metodoPago option:selected" ).text());
+
+            $("[id='crearPedido:filterStepOne:asignaFacturacion']").trigger('click');
 
             RESS.setCFDISeleccionado(select_cfdi.val());
             RESS.setMetodoPagoSeleccionado(select_metodoPago.val());
@@ -165,7 +210,7 @@ var crearPedido = (function () {
                 //var valuesStepOne = $('#filterStepOne').serializeForm();
 
                 var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
-                var select_direccionEntrega = $("#select_direccionEntrega");
+                var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
                 loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true });
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
@@ -194,7 +239,9 @@ var crearPedido = (function () {
                         initEvents();
                     });
             } else {
-                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true });
+                var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+                var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true , noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val()});
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
@@ -226,6 +273,14 @@ var crearPedido = (function () {
             }
             //var values = $('#usoMaterialForm').serializeForm();
             RESS.setUsoMaterialSeleccionado($('#select_usoMateriales').val());
+
+            $("[id='crearPedido:filterStepOne:frm_segmento']").val($('#select_usoMateriales').val());
+
+            // $("[id='crearPedido:asignaSegmento']").trigger('click');
+            $("[id='crearPedido:filterStepOne:asignaSegmento']").trigger('click');
+        });
+        $('DIV.usoMaterialSecond').off().on('click', function (e) {
+            e.preventDefault();
             loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
@@ -264,6 +319,33 @@ var crearPedido = (function () {
                     inputComentario = nodesCurrent.to$().find('input.input_comentario'),
                     data = rowCurrent.data();
 
+                switch(count){
+                    case 0:
+                        $("[id='crearPedido:filterStepOne:nombreContacto']").val(inputComentario.val());
+                        break;
+                    case 1:
+                        $("[id='crearPedido:filterStepOne:apellidoContacto']").val(inputComentario.val());
+                        break;
+                    case 2:
+                        $("[id='crearPedido:filterStepOne:telefonoCOntacto']").val(inputComentario.val());
+                        break;
+                    case 4:
+                        $("[id='crearPedido:filterStepOne:horarioRecepcion']").val(inputComentario.val());
+                        break;
+                    case 5:
+                        $("[id='crearPedido:filterStepOne:referenciaUbicacion']").val(inputComentario.val());
+                        break;
+                    case 6:
+                        $("[id='crearPedido:filterStepOne:productoAlmacenar']").val(inputComentario.val());
+                        break;
+                    case 7:
+                        $("[id='crearPedido:filterStepOne:capacidadesTransporte']").val(inputComentario.val());
+                        break;
+                    case 1:
+                        $("[id='crearPedido:filterStepOne:equipoEspecial']").val(inputComentario.val());
+                        break;
+                }
+
                 var model = {
                     comentario: inputComentario.val(),
                     data: data
@@ -289,10 +371,12 @@ var crearPedido = (function () {
             }
 
             RESS.setComentarios(tableResultArr);
+            $("[id='crearPedido:filterStepOne:saveComentarios']").trigger('click');
            //var valuesStepOne = $('#filterStepOne').serializeForm();
-
+        });
+        $('div.saveCoentarioAfter').off().on('click', function (e) {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
-            var select_direccionEntrega = $("#select_direccionEntrega");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
@@ -323,12 +407,24 @@ var crearPedido = (function () {
                 .then(function () {
                     initEvents();
                 });
+
+        });
+        $('#btn_ResumenCuentaPartidasOrdenar').off().on('click', function (e) {
+            $("[id='crearPedido:filterStepOne:generaPedido']").trigger('click');
         });
         //SELECCION DE MATERIALES
         $('div.AMC_content').off().on('click', function (e) {
             e.preventDefault();
             RESS.setSeleccionMateriales('AMC');
 
+
+            $("[id='crearPedido:filterStepOne:frm_segmento']").val('10');
+           // $("[id='crearPedido:asignaSegmento']").trigger('click');
+            $("[id='crearPedido:filterStepOne:asignaSegmento']").trigger('click');
+        });
+
+        $('div.AMC_content_next').off().on('click', function (e) {
+            e.preventDefault();
             $("[id='crearPedido:cardDynamicFooter']").show();
             loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
@@ -339,11 +435,11 @@ var crearPedido = (function () {
                         btnName: 'btn_cancelAll',
                         btnText: 'Cancelar'
                     },
-                    {
-                        btnId: 'btn_AgregarProductsNext',
-                        btnName: 'btn_AgregarProductsNext',
-                        btnText: 'Agregar'
-                    }
+                        {
+                            btnId: 'btn_AgregarProductsNext',
+                            btnName: 'btn_AgregarProductsNext',
+                            btnText: 'Agregar'
+                        }
                     ]
                 }
             });
@@ -356,13 +452,16 @@ var crearPedido = (function () {
                     }
                 });
         });
+
+
+
         $('div.I_content').off().on('click', function (e) {
             e.preventDefault();
             RESS.setSeleccionMateriales('IND');
             $("[id='crearPedido:cardDynamicFooter']").show();
 
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
-            var select_direccionEntrega = $("#select_direccionEntrega");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', {  noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(),usoMaterial: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
@@ -408,6 +507,9 @@ var crearPedido = (function () {
         // SEGUIR COMPRANDO EN LISTA DE PRODUCTOS SELECCIONADOS
         $('#btn_seguirComprando').off().on('click', function (e) {
             e.preventDefault();
+            $("[id='crearPedido:filterStepOne:cotinuaCompra']").trigger('click');
+        });
+        $('div.showMaterial').off().on('click', function (e) {
             $("[id='crearPedido:cardDynamicFooter']").show();
 
             loadMustacheTemplate('searchProducts_template', 'crearPedido:cardDynamicBody');
@@ -438,8 +540,11 @@ var crearPedido = (function () {
         })
     };
 
+
     var cargarDireccionEntrega = {
         fill: function () {
+
+
             return this.data()
                 .then(function (rs) {
                     if (!rs) {
@@ -458,9 +563,9 @@ var crearPedido = (function () {
                     var result = [];
                     for (var i = 0; i < rs.length; i++) {
                         result.push({
-                            value: rs[i].id,
-                            descripcion: rs[i].descripcion,
-                            dataAtributos: 'data-id="' + rs[i].id + '"'
+                            value: rs[i].noDestinatario,
+                            descripcion: rs[i].nombreSucursal + "/" + rs[i].calleNumero + " " + rs[i].colonia,
+                            dataAtributos: 'data-id="' + rs[i].noDestinatario + '"'
                         });
                     }
                     var selectTemplate = renderMustacheTemplate('select2_template', result);
@@ -485,23 +590,7 @@ var crearPedido = (function () {
         },
         data: function () {
             return new Promise(function (resolve, reject) {
-                var model = [{
-                    id: 1,
-                    descripcion: 'SUC. Tecnica Tectonica Aplicada/Av. Adolfo Lopez Mateos 18 Colel Toreo'
-                },
-                {
-                    id: 2,
-                    descripcion: 'Fis. Todo Gas Plomeria / Universidad 3214 Col Centro'
-                },
-                {
-                    id: 3,
-                    descripcion: 'Agr. Polimar Narvarte/ Carr. a San benito 902 Col El Barrial'
-                },
-                {
-                    id: 4,
-                    descripcion: 'Ind. Total Home/ Miguel de la Madrid 7643 Col Unidad Modelo'
-                }
-                ];
+                var model = loadDestinatarioMercancias();
                 resolve(model);
             });
         }
@@ -519,11 +608,9 @@ var crearPedido = (function () {
                         return false;
                     }
                     RESS.setProductos(rs);
-                    alert("RS Antes DT " + rs);
                     if ($dt) {
                         $dt.clear().destroy();
                     }
-                    alert("Query selector " + document.querySelector('#dt_searchProducts'));
                     $dt = document.querySelector('#dt_searchProducts').rssDataTable({
                         order: [0, 'asc'],
                         scrollX: true,
@@ -547,7 +634,6 @@ var crearPedido = (function () {
                             }
                         }
                     });
-                    alert("RS DESPUES DT " + rs);
                     return true;
                 })
                 .catch(function () {
@@ -559,49 +645,9 @@ var crearPedido = (function () {
         },
         data: function () {
             return new Promise(function (resolve, reject) {
-                var model = [{
-                    id: 1,
-                    descripcion: 'Valvula de esfera desmontable 63 x 63 mm',
-                    um: 'PZA',
-                    noSku: '12456748'
-                },
-                {
-                    id: 2,
-                    descripcion: 'Conector hembra 90 x 3',
-                    um: 'PZA',
-                    noSku: '487686'
-                },
-                {
-                    id: 3,
-                    descripcion: 'Conector macho 75 x 2 1/2',
-                    um: 'PZA',
-                    noSku: '3547687'
-                },
-                {
-                    id: 4,
-                    descripcion: 'Valvula de esfera desmontable  32 x 32 mm',
-                    um: 'PZA',
-                    noSku: '57468435'
-                },
-                {
-                    id: 5,
-                    descripcion: 'Codo 90º de 110 mm',
-                    um: 'PZA',
-                    noSku: '3545678'
-                },
-                {
-                    id: 6,
-                    descripcion: 'Tee de 110 mm',
-                    um: 'PZA',
-                    noSku: '214567687'
-                },
-                {
-                    id: 7,
-                    descripcion: 'Reduccion 110 x 90 mm',
-                    um: 'PZA',
-                    noSku: '74656894'
-                }
-                ];
+
+                var model= materiales;
+                     //   var model = materialLoad();
 
                 resolve(model);
             });
@@ -611,9 +657,7 @@ var crearPedido = (function () {
     var cargarDTListProductosSelected = {
         fill: function () {
             this.data()
-                .then(function () {
-                    var ressObj = RESS.getRESSObject(),
-                        rs = ressObj.productosSeleccionados;
+                .then(function (rs) {
 
                     if (!rs) {
                         showToastr('No existen productos seleccionados', 'Aviso', {
@@ -622,21 +666,6 @@ var crearPedido = (function () {
                         return false;
                     }
 
-                    var model = rs.map(function (a, e) {
-                        var obj = {
-                            id: a.data.id,
-                            pos: e + 1,
-                            noMaterial: a.data.noSku,
-                            descripcion: a.data.descripcion,
-                            cantidad: a.cantidad,
-                            um: a.data.um,
-                            monto: 356,
-                            precioNeto: a.cantidad * 3,
-                            mon: 'MXN',
-                            fecha: moment().utc().format('DD/MM/YYYY')
-                        };
-                        return obj;
-                    });
 
                     if ($dtSeleccionados) {
                         $dtSeleccionados.clear().destroy();
@@ -646,7 +675,7 @@ var crearPedido = (function () {
                         scrollX: true,
                         searching: true,
                         paging: true,
-                        data: model,
+                        data: rs,
                         responsive: true,
                         actions: function (data, type, row, meta) {
                             return renderMustacheTemplate('actions_template');
@@ -678,7 +707,8 @@ var crearPedido = (function () {
         },
         data: function () {
             return new Promise(function (resolve, reject) {
-                resolve();
+                model = materialesSel;
+                resolve(model);
             });
         }
     };
@@ -704,9 +734,9 @@ var crearPedido = (function () {
                     var result = [];
                     for (var i = 0; i < rs.length; i++) {
                         result.push({
-                            value: rs[i].id,
-                            descripcion: rs[i].descripcion,
-                            dataAtributos: 'data-id="' + rs[i].id + '"'
+                            value: rs[i].claveUsoCFDI,
+                            descripcion: rs[i].descripcionClaveUsoCFDI,
+                            dataAtributos: 'data-id="' + rs[i].claveUsoCFDI + '"'
                         });
                     }
                     var selectTemplate = renderMustacheTemplate('select2_template', result);
@@ -731,51 +761,51 @@ var crearPedido = (function () {
         },
         data: function () {
             return new Promise(function (resolve, reject) {
-                var model = [{
-                    id: 1,
+                var model =  cfdiOptions;/*[{
+                    id: "G01",
                     descripcion: 'G01 Adquisición de mercancias'
                 },
                 {
-                    id: 2,
+                    id: "G02",
                     descripcion: 'G02 Devoluciones, descuentes o bonificaciones'
                 },
                 {
-                    id: 3,
+                    id: "G03",
                     descripcion: 'G03 Gastos en general'
                 },
                 {
-                    id: 4,
+                    id: "001",
                     descripcion: '001 Construcciones'
                 },
                 {
-                    id: 5,
+                    id: "002",
                     descripcion: '002 Mobiliario y equipo de oficina para inversiones'
                 },
                 {
-                    id: 6,
+                    id: "003",
                     descripcion: '003 Equipos de transporte'
                 },
                 {
-                    id: 7,
+                    id: "004",
                     descripcion: '004 Equipo de computo y accesorios'
                 },
                 {
-                    id: 8,
+                    id: "005",
                     descripcion: '005 Codos, troqueles, moldes, matrices y herramental'
                 },
                 {
-                    id: 9,
+                    id: "006",
                     descripcion: '006 Comunicaciones Telefónicas'
                 },
                 {
-                    id: 10,
+                    id: "007",
                     descripcion: '007 Comunicaciones Satelitales'
                 },
                 {
-                    id: 11,
+                    id: "008",
                     descripcion: '008 Otra Maquinaria y Equipo'
                 }
-                ];
+                ];*/
                 resolve(model);
             });
         }
@@ -830,11 +860,11 @@ var crearPedido = (function () {
         data: function () {
             return new Promise(function (resolve, reject) {
                 var model = [{
-                    id: 1,
+                    id: "PD",
                     descripcion: 'PPD Pago Parcialidades'
                 },
                 {
-                    id: 2,
+                    id: "PUE",
                     descripcion: 'PUE Pago una sola exhibición'
                 }
                 ];
@@ -846,9 +876,7 @@ var crearPedido = (function () {
     var cargarDTResumenCuentaPartidas = {
         fill: function () {
             return this.data()
-                .then(function () {
-                    var ressObj = RESS.getRESSObject(),
-                        rs = ressObj.productosSeleccionados;
+                .then(function (rs) {
 
                     if (!rs) {
                         showToastr('No existen productos seleccionados', 'Aviso', {
@@ -856,23 +884,6 @@ var crearPedido = (function () {
                         });
                         return false;
                     }
-
-                    var model = rs.map(function (a, e) {
-                        var obj = {
-                            id: a.data.id,
-                            pos: e + 1,
-                            noMaterial: a.data.noSku,
-                            descripcion: a.data.descripcion,
-                            cantidad: a.cantidad,
-                            cantidadEnt: 000,
-                            um: a.data.um,
-                            monto: 356,
-                            precioNeto: a.cantidad * 3,
-                            fechaEnt: moment().utc().format('DD/MM/YYYY'),
-                            estatus: 'NO SE'
-                        };
-                        return obj;
-                    });
 
                     if ($dtResumenCuentaPartidas) {
                         $dtResumenCuentaPartidas.clear().destroy();
@@ -899,7 +910,8 @@ var crearPedido = (function () {
         },
         data: function () {
             return new Promise(function (resolve, reject) {
-                resolve();
+                var model = materialesSel;
+                resolve(model);
             });
         }
     };
@@ -951,11 +963,11 @@ var crearPedido = (function () {
         data: function () {
             return new Promise(function (resolve, reject) {
                 var model = [{
-                    id: 1,
+                    id: 14,
                     descripcion: 'Industrial'
                 },
                 {
-                    id: 2,
+                    id: 13,
                     descripcion: 'Agricola'
                 }
                 ];
@@ -1052,12 +1064,11 @@ var crearPedido = (function () {
             });
         }
     };
-
+//AKI
     var cargarDTResumenCuentaFacturacion = {
         fill: function () {
-            var ressObj = RESS.getRESSObject(),
-                CFDISeleccionado = ressObj.cargarCFDI.find(function (a, e) { return a.id == ressObj.CFDISeleccionado }),
-                metodoPagoSeleccionado = ressObj.cargarMetodosPago.find(function (a, e) { return a.id == ressObj.metodoPagoSeleccionado });
+            var CFDISeleccionado =  $("[id='crearPedido:filterStepOne:frm_cfdi']").val();
+            var metodoPagoSeleccionado = $("[id='crearPedido:filterStepOne:frm_metodoPago']").val();
 
             if (!CFDISeleccionado || !metodoPagoSeleccionado) {
                 showToastr('No selecionó un CFDI o un método de pago', 'Aviso', {
@@ -1067,8 +1078,8 @@ var crearPedido = (function () {
             }
 
             var model = [{
-                cfdi: CFDISeleccionado.descripcion,
-                metodoPago: metodoPagoSeleccionado.descripcion
+                cfdi: $("[id='crearPedido:filterStepOne:frm_cfdi_desc']").val(),
+                metodoPago: $("[id='crearPedido:filterStepOne:frm_metodoPago_desc']").val()
             }];
 
             if ($dtResumentCuentaFacturacion) {
@@ -1174,6 +1185,23 @@ var crearPedido = (function () {
         initEvents: initEvents
     };
 })();
+
 $(document).ready(function () {
     crearPedido.init();
+
 });
+
+
+function createMaterialJSON() {
+    jsonObj = [];
+    $("input[name=input_searchProductCantidad]").each(function() {
+        var sku =  $(this).closest('tr').find("td:last").text();
+        var val = $(this).val();
+        item = {}
+        item ["sku"] = sku;
+        item ["cantidad"] = val;
+
+        jsonObj.push(item);
+    });
+    $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(jsonObj));
+}

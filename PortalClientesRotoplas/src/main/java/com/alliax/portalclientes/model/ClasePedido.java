@@ -16,7 +16,13 @@ public class ClasePedido {
 	public void setResultCode(String resultCode) {
 		this.resultCode = resultCode;
 	}
-	
-	
-	
+
+
+	@Override
+	public String toString() {
+		return "ClasePedido{" +
+				"clasePedido='" + clasePedido + '\'' +
+				", resultCode='" + resultCode + '\'' +
+				'}';
+	}
 }

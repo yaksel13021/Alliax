@@ -77,11 +77,11 @@ public class CrearPedidoRFC {
             this.output = this.sapCon.getFunction().getExportParameterList();
 
             this.structure = this.sapCon.getFunction().getImportParameterList().getStructure("E_HEADER");
-            this.tblItems = this.sapCon.getFunction().getImportParameterList().getTable("T_ITEMS");
-            this.tblRefUbic = this.sapCon.getFunction().getImportParameterList().getTable("T_REFUBIC");
-            this.tblProdAlm = this.sapCon.getFunction().getImportParameterList().getTable("T_PRODALM");
-            this.tblCapTran = this.sapCon.getFunction().getImportParameterList().getTable("T_CAPTRAN");
-            this.tblEqupProt = this.sapCon.getFunction().getImportParameterList().getTable("T_EQUPROT");
+            this.tblItems = this.sapCon.getFunction().getTableParameterList().getTable("T_ITEMS");
+            this.tblRefUbic = this.sapCon.getFunction().getTableParameterList().getTable("T_REFUBIC");
+            this.tblProdAlm = this.sapCon.getFunction().getTableParameterList().getTable("T_PRODALM");
+            this.tblCapTran = this.sapCon.getFunction().getTableParameterList().getTable("T_CAPTRAN");
+            this.tblEqupProt = this.sapCon.getFunction().getTableParameterList().getTable("T_EQUPROT");
 
         } catch(Exception e) {
             logger.fatal("Error al inicializar tablas " + e.getLocalizedMessage(),e);
@@ -126,6 +126,7 @@ public class CrearPedidoRFC {
                 this.tblItems.setValue(pedidoPartidas.getNroMaterial(),"MATERIAL");
                 this.tblItems.setValue(pedidoPartidas.getCantidad(),"REQ_QTY");
                 this.tblItems.setValue(pedidoPartidas.getUnidadMedida(),"SALES_UNIT");
+                this.tblItems.nextRow();
             }
 
             //Llenar tabla Referencia de Ubicacion
