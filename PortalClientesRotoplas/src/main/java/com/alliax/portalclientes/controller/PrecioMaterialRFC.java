@@ -117,14 +117,14 @@ public class PrecioMaterialRFC {
 
             precioMaterial.setCodigoError(this.output.getString("P_RETURN"));
             precioMaterial.setMensajeError(this.output.getString("P_MESSAGE"));
-            if(precioMaterial.getCodigoError().equals("0")){
-                precioMaterial.setMonto(this.output.getBigDecimal("P_NETPR"));
-                precioMaterial.setPrecioNeto(this.output.getBigDecimal("P_NETWR"));
-                precioMaterial.setIva(this.output.getString("P_IMPIVA"));
-                precioMaterial.setTotalPartida(this.output.getBigDecimal("P_TNETWR"));
-                precioMaterial.setMoneda(this.output.getString("P_WAERS"));
-                precioMaterial.setFechaEntrega(this.output.getString("P_DELDAT"));
-            }
+
+            precioMaterial.setMonto(this.output.getBigDecimal("P_NETPR"));
+            precioMaterial.setPrecioNeto(this.output.getBigDecimal("P_NETWR"));
+            precioMaterial.setIva(this.output.getString("P_IMPIVA"));
+            precioMaterial.setTotalPartida(this.output.getBigDecimal("P_TNETWR"));
+            precioMaterial.setMoneda(this.output.getString("P_WAERS"));
+            precioMaterial.setFechaEntrega(this.output.getString("P_DELDAT"));
+
 
             return precioMaterial;
         } catch(Exception e){
