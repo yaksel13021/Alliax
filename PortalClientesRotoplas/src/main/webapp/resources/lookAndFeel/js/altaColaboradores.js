@@ -50,18 +50,18 @@ $(document).ready(function () {
     var act = document.getElementById("form1:activoHidden").value;
     var act2 = document.getElementById("form2:activoHidden2").value;
     var act3 = document.getElementById("form3:activoHidden3").value;
-    if (act == "A"){
+    if (act == "I"){
         document.getElementById('form1:activo').checked =1;
     }else {
         document.getElementById('form1:activo').checked =0;
     }
-    if (act2 == "A"){
+    if (act2 == "I"){
         document.getElementById('form2:activo2').checked =1;
     }
     else {
         document.getElementById('form2:activo2').checked =0;
     }
-    if (act3 == "A"){
+    if (act3 == "I"){
         document.getElementById('form3:activo3').checked =1;
     }
     else {
