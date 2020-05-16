@@ -694,7 +694,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 fillPedido(pedido);
 
                 PedidoResultado pedidoResultado =  crearPedidoRFC.crearPedido(pedido);
-
+                logger.info("Recibiendo Respuesta " + pedidoResultado);
                 if(!pedidoResultado.getGeneroDocumentoVenta().equals("0")){
                     getFacesContext().getMessageList().add(new FacesMessage("Error"));
                     logger.info("Respuesta invalida de RFC");

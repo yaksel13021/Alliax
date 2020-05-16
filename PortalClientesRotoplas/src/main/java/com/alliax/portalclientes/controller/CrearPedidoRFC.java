@@ -201,12 +201,14 @@ public class CrearPedidoRFC {
 
     public PedidoResultado getResultTables() throws ClassNotFoundException, Exception {
         try{
+            logger.info("getResultTables");
             PedidoResultado pedidoResultado = new PedidoResultado();
 
             pedidoResultado.setMensajeError(this.output.getString("P_MESSAGE"));
             pedidoResultado.setActualizoFacturacion(this.output.getString("C_RETURN"));
             pedidoResultado.setDocumentoVenta(this.output.getString("P_DOCUMENT"));
             pedidoResultado.setGeneroDocumentoVenta(this.output.getString("P_RETURN"));
+            logger.info(pedidoResultado);
 
            return pedidoResultado;
         } catch(Exception e){
