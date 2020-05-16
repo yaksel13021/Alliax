@@ -455,5 +455,39 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 		this.classFacturas = classFacturas;
 	}
 
-	
+	public String calcularEstado(String codigoEstado) {
+		String estado;
+		switch (codigoEstado) {
+		case "PEND":
+			estado = "Pendiente";
+			break;
+		case "VSAC":
+			estado = "Verificar SAC";
+			break;
+		case "HELD":
+			estado = "Retenido";
+			break;
+		case "CANC":
+			estado = "Cancelado";
+			break;
+		case "RELE":
+			estado = "Liberado";
+			break;
+		case "PROC":
+			estado = "En Proceso";
+			break;
+		case "PINV":
+			estado = "Facturado Parcial";
+			break;
+		case "CONC":
+			estado = "Concluido";
+			break;
+		case "COMP":
+			estado = "Completo";
+			break;
+		default:
+			estado = "";
+		}
+		return estado;
+	}
 }
