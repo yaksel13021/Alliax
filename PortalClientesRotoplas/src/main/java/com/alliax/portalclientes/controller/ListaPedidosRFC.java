@@ -182,7 +182,7 @@ public class ListaPedidosRFC {
     			orden.setEstatusGeneral(this.table.getString("GRL_STAT_H"));
     			orden.setEstatusGeneralDes(this.table.getString("GRL_STAT_H_D"));
     			
-    			logger.info(this.table.getString("GRL_STAT_H_D"));
+    			logger.info("Orden Venta SAP :: " + orden.toString());
     			
     			orden.setRazonBloqueo(this.table.getString("REASON_BLOCK"));
     			
