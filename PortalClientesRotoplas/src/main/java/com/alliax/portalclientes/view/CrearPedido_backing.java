@@ -435,7 +435,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                             if (pedidoMaterial.getSku().equals(pedidoMaterial2.getSku()) && (Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
                                 pedidoMaterial2.setCantidad(pedidoMaterial.getCantidad());
                                 try {
-                                    precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), Helper.lpad(destinatarioMercanciaSel.getOrganizacionVentas(),10,"0"),
+                                    precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
                                             "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(),18,"0"), pedidoMaterial2.getCantidad(),
                                             pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"), getDestinatarioMercanciaSel().getNoDestinatario());
                                     logger.info("Respuesta RFC " + precioMaterial);
