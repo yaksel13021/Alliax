@@ -356,9 +356,16 @@ public class Helper {
 	}	
 
 	public static String lpad(String valor, int length, String caracter){
-		return String.format("%"+caracter+length+"d", valor);
+		String result = valor;
+		int start = valor.length();
+		int count = length - start;
+		for(int i = 0; i < count; i++){
+			result= caracter + result;
+		}
+
+
+		return result;
 	}
-	
 	/*********************************************************************************************************************/
 	
 }
