@@ -87,7 +87,6 @@
 											<h:inputHidden id="correoElectronico" value="#{crearPedido.correoElectronico}"></h:inputHidden>
 											<h:inputHidden id="noCotizacion" value="#{crearPedido.noCotizacion}"></h:inputHidden>
 
-
 											<h:inputHidden id="frm_segmento" value="#{crearPedido.segmento}"/>
 											<h:inputHidden id="frm_materialSeleccionado" value="#{crearPedido.materialSeleccionadoJson}"/>
 											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
@@ -113,6 +112,9 @@
 											</h:commandLink>
 											<h:commandLink  id="cotizarFlete" action="#{crearPedido.cotizarFlete}">
 												<f:ajax  execute="@form" render="noCotizacion" onevent="ajaxCotizacion" />
+											</h:commandLink>
+											<h:commandLink  id="finalizar" action="#{crearPedido.finalizar}">
+												<f:ajax  execute="@form" />
 											</h:commandLink>
 											<h:panelGroup id="mateiralScript">
 												<script>
@@ -180,7 +182,6 @@
 
 												function ajaxCotizacion(data){
 													if(data.status == 'success'){
-														alert('here');
 														$('div.continuarCotizador').trigger('click');
 													}
 												}
