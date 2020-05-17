@@ -130,7 +130,7 @@
 		                              <h:panelGroup>
 		                              <!--   <c:if test="#{cotizacion.estado == 'En Captura'}">-->
 		                                <h:commandButton type="submit" value="#{lblMain.btnVer}" action="#{consultaCotizacion.buscarDetalles(cotizacion.nroPedido)}" styleClass="btn btn-primary float-right">
-		                                  <f:ajax execute="@form" onevent="showModal" render="contentmodal"/>
+		                                  <f:ajax execute="@form" onevent="showModal" render="form\:contentmodal"/>
 		                                </h:commandButton>
 		                               <!--    </c:if> -->
 		                              </h:panelGroup>
@@ -206,7 +206,7 @@
                         </c:if>
                         <c:if test="#{not empty consultaCotizacion.finalizar}">
                         <h:commandButton id="btnFinalizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
-                        <f:ajax execute="@this" render="contentmodal" />
+                        <f:ajax execute="@this" render="form\:contentmodal" />
                         </h:commandButton>
                         </c:if>
                       </h:panelGroup>
@@ -291,7 +291,7 @@
                 <!-- Modal footer -->
                 <h:panelGroup layout="block" styleClass="modal-footer">
                   <h:commandButton styleClass="btn btn-danger" value="#{lblMain.btnCerrar}" onclick="closeModal()">
-                    <f:ajax execute="@this" render="contentmodal" />
+                    <f:ajax execute="@this" render="form\:contentmodal" />
                   </h:commandButton>
                 </h:panelGroup>
               </h:panelGroup>
@@ -422,10 +422,10 @@
 				                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 		                    <h:panelGroup layput="block" style="display: inline-block; width: 100%; overflow-y: auto;">
 		                      <h:commandButton id="btnGrabar"  onclick="closeModal2()" action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
-		                      	<f:ajax execute="@form" onevent="showModal" render="contentmodal"/>
+		                      	<f:ajax execute="@form" onevent="showModal" render="form\:modal"/>
 		                      </h:commandButton>
 			                  <h:commandButton styleClass="btn btn-danger float-left" value="#{lblMain.btnCerrar}" onclick="closeModal2()">
-		                        <f:ajax execute="@this" render="contentmodal" />
+		                        <f:ajax execute="@this" render="form\:contentmodal" />
 		                      </h:commandButton>   
 		                    </h:panelGroup>
 		                  </sec:authorize>             
