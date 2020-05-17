@@ -604,14 +604,16 @@ public class CrearPedido_backing extends AbstractBackingGen {
         return "/pedidos/listado";
     }
 
+    public String finalizar(){
+        return "/pedidos/listado";
+    }
+
     public void cotizarFlete(){
         pedidoBd.setCorreoElectronico(getCorreoElectronico());
         pedidoBd.setNoCotizacion(String.valueOf(KeyGenerator.getKey()));
+        pedidoBd.setEstatusCotizacion("En Captura");
 
         setNoCotizacion(pedidoBd.getNoCotizacion());
-
-
-
         pedidoService.save(pedidoBd);
 
     }
@@ -684,23 +686,26 @@ public class CrearPedido_backing extends AbstractBackingGen {
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }
-        logger.info("getNroPedidoCliente:::"+getNroPedidoCliente());
-        if(pedidoBd == null) {
-            pedidoBd = new com.alliax.portalclientes.domain.Pedido();
-            pedidoBd.setClasePedido(getClasePedido());
-            pedidoBd.setNroPedido(getNroPedidoCliente());
-            pedidoBd.setDestinatarioMercancia(getDestinatarioMercancia());
-            pedidoBd.setCodigoPostal(destinatarioMercanciaSel.getCodigoPostal());
-            pedidoBd.setOrganizacionVenta(destinatarioMercanciaSel.getOrganizacionVentas());
-            pedidoBd.setSociedad(destinatarioMercanciaSel.getSociedad());
-            pedidoBd.setEstatus("PEN");
-            pedidoBd.setFechaCreacion(Calendar.getInstance().getTime());
-        }
-        logger.info(pedidoBd);
-        pedidoService = this.getSpringContext().getBean("pedidoService",PedidoService.class);
-        pedidoPartidasService = this.getSpringContext().getBean("pedidoPartidasService",PedidoPartidasService.class);
 
-        pedidoService.save(pedidoBd);
+        if(getClasePedido() != null & !getClasePedido().isEmpty()) {
+            logger.info("getNroPedidoCliente:::" + getNroPedidoCliente());
+            if (pedidoBd == null) {
+                pedidoBd = new com.alliax.portalclientes.domain.Pedido();
+                pedidoBd.setClasePedido(getClasePedido());
+                pedidoBd.setNroPedido(getNroPedidoCliente());
+                pedidoBd.setDestinatarioMercancia(getDestinatarioMercancia());
+                pedidoBd.setCodigoPostal(destinatarioMercanciaSel.getCodigoPostal());
+                pedidoBd.setOrganizacionVenta(destinatarioMercanciaSel.getOrganizacionVentas());
+                pedidoBd.setSociedad(destinatarioMercanciaSel.getSociedad());
+                pedidoBd.setEstatus("PEN");
+                pedidoBd.setFechaCreacion(Calendar.getInstance().getTime());
+            }
+            logger.info(pedidoBd);
+            pedidoService = this.getSpringContext().getBean("pedidoService", PedidoService.class);
+            pedidoPartidasService = this.getSpringContext().getBean("pedidoPartidasService", PedidoPartidasService.class);
+
+            pedidoService.save(pedidoBd);
+        }
         logger.info(this);
     }
 
@@ -839,6 +844,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
+
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -865,6 +871,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }catch(Exception e1){
 
                 }
+                logger.error(e);
             }
         }catch(Exception e){
             logger.error(e);

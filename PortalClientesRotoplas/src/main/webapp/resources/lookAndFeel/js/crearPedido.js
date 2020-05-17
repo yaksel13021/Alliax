@@ -25,9 +25,6 @@ var crearPedido = (function () {
         $dtResumentCuentaComentarios = null,
         $dtComentarios = null;
 
-
-
-
     var init = function () {
         $('.isResizable').matchHeight();
         $('#headingThree').prop('disabled', true);
@@ -420,7 +417,6 @@ var crearPedido = (function () {
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
             var noCotizacion=$("[id='crearPedido:filterStepOne:noCotizacion']");
 
-            alert('continuarCotizador');
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val(), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
@@ -444,6 +440,10 @@ var crearPedido = (function () {
                 .then(function () {
                     initEvents();
                 });
+        });
+
+        $('#btn_Finalizar').off().on('click', function (e) {
+            $("[id='crearPedido:filterStepOne:finalizar']").trigger('click');
         });
         $('#btn_ResumenCuentaPartidasOrdenar').off().on('click', function (e) {
             $("[id='crearPedido:filterStepOne:generaPedido']").trigger('click');
