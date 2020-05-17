@@ -1,8 +1,59 @@
+USE [PortalClientes]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550073,'TANQUE VERTICAL 2500 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550074,'TANQUE VERTICAL 2500 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550075,'TANQUE VERTICAL 2500 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550076,'TANQUE VERTICAL 2500 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550077,'TANQUE VERTICAL 2500 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550078,'TANQUE VERTICAL 2500 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550100,'TANQUE VERTICAL 5001 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550101,'TANQUE VERTICAL 5001 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550102,'TANQUE VERTICAL 5001 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550167,'TANQUE VERTICAL 5001 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550168,'TANQUE VERTICAL 5001 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550169,'TANQUE VERTICAL 5001 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550094,'TANQUE VERTICAL 5000 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550095,'TANQUE VERTICAL 5000 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550096,'TANQUE VERTICAL 5000 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550097,'TANQUE VERTICAL 5000 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550098,'TANQUE VERTICAL 5000 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550099,'TANQUE VERTICAL 5000 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550046,'TANQUE VERTICAL 10000 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550047,'TANQUE VERTICAL 10000 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550048,'TANQUE VERTICAL 10000 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550049,'TANQUE VERTICAL 10000 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550050,'TANQUE VERTICAL 10000 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550051,'TANQUE VERTICAL 10000 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550053,'TANQUE VERTICAL 15000 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550054,'TANQUE VERTICAL 15000 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550055,'TANQUE VERTICAL 15000 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550056,'TANQUE VERTICAL 15000 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550058,'TANQUE VERTICAL 15000 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550059,'TANQUE VERTICAL 15000 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550066,'TANQUE VERTICAL 22000 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550067,'TANQUE VERTICAL 22000 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550068,'TANQUE VERTICAL 22000 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550069,'TANQUE VERTICAL 22000 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550070,'TANQUE VERTICAL 22000 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550071,'TANQUE VERTICAL 22000 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550081,'TANQUE VERTICAL 25000 L STD NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550082,'TANQUE VERTICAL 25000 L STD NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550083,'TANQUE VERTICAL 25000 L REF 20% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550084,'TANQUE VERTICAL 25000 L REF 20% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550085,'TANQUE VERTICAL 25000 L REF 40% NEGRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550086,'TANQUE VERTICAL 25000 L REF 40% NEUTRO','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560036,'TOLVA 600 L ANGULO 45 STD NEGRA','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560037,'TOLVA 600 L ANGULO 45 STD NEUTRA','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560040,'TOLVA 600 L ANGULO 45 REF 40% NEGRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560041,'TOLVA 600 L ANGULO 45 REF 40% NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560006,'TOLVA 1300 L ANGULO 45 STD NEGRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560007,'TOLVA 1300 L ANGULO 45 STD NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560010,'TOLVA 1300 L ANGULO 45 REF 40% NEGRO','PZA','');
-INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,5600INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,'TOLVA 1300 L ANGULO 45 REF 40% NEUTRA','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560011,'TOLVA 1300 L ANGULO 45 REF 40% NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560026,'TOLVA 3000 L ANGULO 15 STD NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560030,'TOLVA 3500 L ANGULO 45 STD NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,560035,'TOLVA 3500 L ANGULO 45 REF 40% NEUTRA','PZA','');
@@ -29,7 +80,7 @@ INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unid
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550008,'TNE 2500 L STD NEGRO','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550009,'TNE 2500 L STD NEUTRO','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550010,'TNE 2500 L REF 20% NEGRO','PZA','');
-INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,5500INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,'TNE 2500 L REF 20% NEUTRA','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550011,'TNE 2500 L REF 20% NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550188,'TNE 2500 L REF 40% NEGRO','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550012,'TNE 2500 L REF 40% NEUTRA','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,550025,'TNH 2850 L STD NEGRO','PZA','');
@@ -85,7 +136,7 @@ INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unid
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210013,'ADAPTADOR P/PVC 50 MM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210014,'ADAPTADOR P/PVC 75 MM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210010,'ADAPTADOR P/PVC 110 MM','PZA','');
-INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,2100INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,'ADAPTADOR P/PVC 160 MM','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210011,'ADAPTADOR P/PVC 160 MM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210015,'ADAPTADOR P/PVC C/ESPIGA 110 MM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210016,'ADAPTADOR P/PVC C/ESPIGA 160 MM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210017,'ADAPTADOR P/PVC C/ESPIGA 40 MM','PZA','');
@@ -96,7 +147,7 @@ INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unid
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530008,'REG SANITARIO TAPA CIEGA 4 PLG X 45 CM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530009,'REG SANITARIO TAPA CIEGA 4 PLG X 70 CM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530010,'REG SANITARIO TAPA CIEGA 4 PLG X 100 CM','PZA','');
-INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,5300INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,'REG SANITARIO C/TAPA CIEGA 6 PLG X 45 CM','PZA','');
+INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530011,'REG SANITARIO C/TAPA CIEGA 6 PLG X 45 CM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530012,'REG SANITARIO TAPA CIEGA 6 PLG X 70 CM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530013,'REG SAN.ITARIO TAPA CIEGA 6 PLG X 100 CM','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,530014,'REG SANIT. TAPA C/COLADERA 4 PLG X 45 CM','PZA','');
@@ -109,3 +160,6 @@ INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unid
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,210074,'EMPAQUE MEMBRANA PARA TUBOS DE 40 A 110','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,111182,'ORING DE 110 MM PARA REGISTRO SANITARIO','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (11,111183,'ORING DE 160 MM PARA REGISTRO SANITARIO','PZA','');
+
+
+GO

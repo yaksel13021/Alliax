@@ -315,4 +315,39 @@ public class Pedido {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "idPedido=" + idPedido +
+                ", destino='" + destino + '\'' +
+                ", nroCliente='" + nroCliente + '\'' +
+                ", nroPedido='" + nroPedido + '\'' +
+                ", destinatario='" + destinatario + '\'' +
+                ", codigoPostal='" + codigoPostal + '\'' +
+                ", organizacionVenta='" + organizacionVenta + '\'' +
+                ", sociedad='" + sociedad + '\'' +
+                ", destinatarioMercancia='" + destinatarioMercancia + '\'' +
+                ", clasePedido='" + clasePedido + '\'' +
+                ", tipoMaterial='" + tipoMaterial + '\'' +
+                ", estatus='" + estatus + '\'' +
+                ", metodoPago='" + metodoPago + '\'' +
+                ", usoCFDI='" + usoCFDI + '\'' +
+                ", comprobanteBancario='" + comprobanteBancario + '\'' +
+                ", datosEntrega='" + datosEntrega + '\'' +
+                ", nombreContacto='" + nombreContacto + '\'' +
+                ", apellidoContacto='" + apellidoContacto + '\'' +
+                ", telefonoContacto='" + telefonoContacto + '\'' +
+                ", telefonoFijoContacto='" + telefonoFijoContacto + '\'' +
+                ", horarioRecepcion='" + horarioRecepcion + '\'' +
+                ", referenciaUbicacion='" + referenciaUbicacion + '\'' +
+                ", productoAlmacenar='" + productoAlmacenar + '\'' +
+                ", capacidadesTransporte='" + capacidadesTransporte + '\'' +
+                ", equipoEspecial='" + equipoEspecial + '\'' +
+                ", noCotizacion='" + noCotizacion + '\'' +
+                ", estatusCotizacion='" + estatusCotizacion + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                '}';
+    }
 }

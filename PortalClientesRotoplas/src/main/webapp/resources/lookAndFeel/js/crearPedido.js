@@ -25,9 +25,6 @@ var crearPedido = (function () {
         $dtResumentCuentaComentarios = null,
         $dtComentarios = null;
 
-
-
-
     var init = function () {
         $('.isResizable').matchHeight();
         $('#headingThree').prop('disabled', true);
@@ -42,8 +39,16 @@ var crearPedido = (function () {
             if (!validStepOne()) {
                 return;
             }
+
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
+
+            $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
+
+        });
+
+        $('DIV.continuarDestinatarioNroPedido').off().on("click", function (e) {
+
 
             $('#headingOne').prop('disabled', true);
             $('#headingThree').prop('disabled', false).click();
@@ -65,6 +70,7 @@ var crearPedido = (function () {
             }, 100)
             initEvents();
         });
+
         $('#btn_AgregarProductsNext').off().on('click', function (e) {
             e.preventDefault();
             var rowsCount = $dt.rows().count(),
@@ -341,7 +347,7 @@ var crearPedido = (function () {
                     case 7:
                         $("[id='crearPedido:filterStepOne:capacidadesTransporte']").val(inputComentario.val());
                         break;
-                    case 1:
+                    case 8:
                         $("[id='crearPedido:filterStepOne:equipoEspecial']").val(inputComentario.val());
                         break;
                 }
@@ -378,7 +384,7 @@ var crearPedido = (function () {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
-            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true });
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true, emailflete: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
@@ -389,9 +395,9 @@ var crearPedido = (function () {
                             btnText: 'Cancelar'
                         },
                         {
-                            btnId: 'btn_ResumenCuentaPartidasOrdenar',
-                            btnName: 'btn_ResumenCuentaPartidasOrdenar',
-                            btnText: 'Ordenar'
+                            btnId: 'btn_CotizarFlete',
+                            btnName: 'btn_CotizarFlete',
+                            btnText: 'Cotizar Flete'
                         }
                     ]
                 }
@@ -408,6 +414,45 @@ var crearPedido = (function () {
                     initEvents();
                 });
 
+        });
+
+        $('#btn_CotizarFlete').off().on('click', function (e) {
+            $("[id='crearPedido:filterStepOne:correoElectronico']").val($('#frm_emailFlete').val());
+            $("[id='crearPedido:filterStepOne:cotizarFlete']").trigger('click');
+        });
+
+        $('div.continuarCotizador').off().on('click', function (e) {
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+            var noCotizacion=$("[id='crearPedido:filterStepOne:noCotizacion']");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val(), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
+                isList: {
+                    divClass: 'footerButtonsRigth',
+                    btnList: [
+                        {
+                            btnId: 'btn_Finalizar',
+                            btnName: 'btn_Finalizar',
+                            btnText: 'Finalizar'
+                        }
+                    ]
+                }
+            });
+            return cargarDTResumenCuentaPartidas.fill()
+                .then(function () {
+                    return cargarDTResumenCuentaFacturacion.fill();
+                })
+                .then(function () {
+                    return cargarDTResumenCuentaComentarios.fill();
+                })
+                .then(function () {
+                    initEvents();
+                });
+        });
+
+        $('#btn_Finalizar').off().on('click', function (e) {
+            $("[id='crearPedido:filterStepOne:finalizar']").trigger('click');
         });
         $('#btn_ResumenCuentaPartidasOrdenar').off().on('click', function (e) {
             $("[id='crearPedido:filterStepOne:generaPedido']").trigger('click');
@@ -452,8 +497,6 @@ var crearPedido = (function () {
                     }
                 });
         });
-
-
 
         $('div.I_content').off().on('click', function (e) {
             e.preventDefault();
@@ -620,18 +663,19 @@ var crearPedido = (function () {
                         responsive: true,
                         free: function (data, type, row, meta) {
                             if (meta.col === 1) {
-                                return renderMustacheTemplate('input_template', { class: 'input_searchProductCantidad', name: 'input_searchProductCantidad', placeholder: 'Cantidad' });
+                                return renderMustacheTemplate('input_template', { class: 'input_searchProductCantidad', name: 'input_searchProductCantidad', placeholder: 'Cantidad', value: data.cantidad });
                             }
                         },
                         rowCallback: function (row, data, api) {
-                            if (loadPreviusValues) {
+                            /*if (loadPreviusValues) {
                                 var findData = RESS.getRESSObject().productosSeleccionados.find(function (a, e) {
                                     return a.data.id === data.id;
                                 });
                                 if (findData) {
                                     $(row).find('.input_searchProductCantidad').val(findData.cantidad);
                                 }
-                            }
+                            }*/
+                            $(row).find('.input_searchProductCantidad').val(data.cantidad);
                         }
                     });
                     return true;
@@ -1138,12 +1182,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }
+        }*/
         return true;
     };
 
@@ -1204,4 +1248,16 @@ function createMaterialJSON() {
         jsonObj.push(item);
     });
     $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(jsonObj));
+}
+
+function validateClasePedido(){
+    var clasePedido =  $("[id='crearPedido:filterStepOne:clasePedido']");
+
+    if(clasePedido.val() == '' || clasePedido.val().length == 0){
+        showToastr(mensajes().Generico01, 'Aviso', {
+            type: typeNotification.warning
+        });
+    }else{
+        $('div.continuarDestinatarioNroPedido').trigger('click');
+    }
 }
