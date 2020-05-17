@@ -51,4 +51,9 @@ public class PedidoPartidasServiceImpl implements PedidoPartidasService {
         return query.getResultList();
 
     }
+
+    @Override
+    public void save(List<PedidoPartidas> partidas) {
+        pedidoPartidasRepository.save(partidas);
+    }
 }
