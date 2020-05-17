@@ -4,6 +4,12 @@ package com.alliax.portalclientes.model;
 public class CotizacionFlete {
 
     public static final String idMatFlete = "400068";
+   
+    public static final String descFlete = "Flete";
+    public static final String unidadMed = "SVO";
+    public static final String estadoCaptura= "En Captura";
+    public static final String estadoFin = "Finalizado";
+    public static final String estadoOrdenado = "Ordenado";
 
     private String nroPedido;
     private String noCotizacion;

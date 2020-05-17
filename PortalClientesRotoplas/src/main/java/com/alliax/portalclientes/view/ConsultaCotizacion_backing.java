@@ -31,13 +31,14 @@ import com.alliax.portalclientes.model.CotizacionFlete;
 
 import com.alliax.portalclientes.service.PedidoPartidasService;
 import com.alliax.portalclientes.service.PedidoService;
+import com.alliax.portalclientes.service.UsuarioService;
 
 @ManagedBean(name="consultaCotizacion")
 @SessionScoped
 public class ConsultaCotizacion_backing extends AbstractBackingGen {
 
-    private final String estadoCaptura= "En Captura";
-    private final String estadoFin = "Finalizado";
+    
+    
 
 
 
@@ -185,7 +186,10 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         logger.info("consultaCotizacion " + fecha + noCliente + noCotizacion);
         cotizaciones = new ArrayList();
         try{
-
+        	if(this.isUsrVentas()) {
+        		noCliente = null;
+        	}
+        	
              List<com.alliax.portalclientes.domain.Pedido> pedidos = service.findCotizacionesFlete(fecha , noCotizacion ,noCliente);
              for(com.alliax.portalclientes.domain.Pedido p : pedidos){
                         CotizacionFlete c = new CotizacionFlete();
@@ -193,24 +197,30 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         c.setNoCotizacion(p.getNoCotizacion());
                         c.setEstado(p.getEstatusCotizacion());
                         PedidoPartidasPK pk = new PedidoPartidasPK();
+                        
                         pk.setIdPedido(p.getIdPedido());
                         pk.setSku(CotizacionFlete.idMatFlete);
-                        com.alliax.portalclientes.domain.PedidoPartidas pp = partidaService.findById(pk);
-                        if(pp!= null) {
-                        	c.setMaterial(CotizacionFlete.idMatFlete);
-                        	c.setCantidad(pp.getCantidad());
-                        	c.setDescripcion("Flete");
-                        	c.setPrecioNeto(pp.getPrecioNeto());
-                        	c.setMonto(pp.getMonto());
-                        	c.setuM("SVO");
                         
+                        com.alliax.portalclientes.domain.PedidoPartidas pp = partidaService.findById(pk);
+                        if(pp== null) {
+                        	 List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(p.getIdPedido());
+                        	 
+                        	pp = new PedidoPartidas();
+                        	pp.setPosicion((partidasPedidos.size() + 1) +"" );
+                        	pp.setId(pk);
+                        	pp.setCantidad("1");
+                        	pp.setPrecioNeto("0");
+                        	pp.setMonto("0");
+                        	partidaService.save(pp);
+                        	
                         }
-                        Material mat = materialService.findById(CotizacionFlete.idMatFlete);
-                        if(mat!= null){
-                            c.setMaterial(mat.getSku());
-                            c.setDescripcion(mat.getDescripcion());
-                            c.setuM(mat.getUnidadMedida());
-                        }
+                        c.setMaterial(CotizacionFlete.idMatFlete);
+                    	c.setCantidad("1");
+                    	c.setDescripcion(CotizacionFlete.descFlete);
+                    	c.setPrecioNeto("0");
+                    	c.setMonto("0");
+                    	c.setuM(CotizacionFlete.unidadMed);
+                    	
                         this.getCotizaciones().add(c);
                     }
         } catch(Exception e){
@@ -246,7 +256,11 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                     d.setDescripcion(mat.getDescripcion());
                     d.setUnidadMedida(mat.getUnidadMedida());
              
-                    PrecioMaterial precio =  precioRFC.obtienePrecioMaterial(pedido.getClasePedido(),
+                    PrecioMaterial precio = null;
+                    
+                  /*  try{ 
+                    	
+                    	precioRFC.obtienePrecioMaterial(pedido.getClasePedido(),
                     														pedido.getOrganizacionVenta()
                     														,"20","02",
                     														pedido.getTipoMaterial(),
@@ -255,7 +269,11 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                     														mat.getUnidadMedida(),
                     														pedido.getNroCliente(),
                     														pedido.getDestinatarioMercancia());
-              
+                    } catch(Exception e){
+            			logger.error("Error al obtener precio");
+            			throw new  Exception("Error al obtener lista de clientes");
+            		} 
+              */
                     if(precio!= null) {
                     pp.setMonto(precio.getMonto()!= null? precio.getMonto().toString() : pp.getMonto());
                     pp.setPrecioNeto(precio.getPrecioNeto()!= null ? precio.getPrecioNeto().toString() : pp.getPrecioNeto());
@@ -273,15 +291,23 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 d.setPrecioNeto(pp.getPrecioNeto());
                 d.setCantidad(pp.getCantidad());
                 d.setFechaEnt(pp.getFechaEntrega());
-                d.setEstatus(pedido.getEstatusCotizacion());
+                d.setEstatus(pedido.getEstatus());
                 d.setCantEnt(pp.getCantidadEntregada());
                 d.setMoneda(pp.getMoneda());
                 this.moneda = pp.getMoneda();
                 subtotal = subtotal.add(pp.getMonto()!= null ? new BigDecimal(pp.getMonto()) : BigDecimal.ZERO);
                 impuesto = impuesto.add(pp.getIva()!= null ? new BigDecimal(pp.getIva()) : BigDecimal.ZERO); 
-                if(!mostrarCotizacion && pp.getId().getSku().equals(CotizacionFlete.idMatFlete)) {
+                if(pp.getId().getSku().equals(CotizacionFlete.idMatFlete)) {
+                	d.setNoMaterial(CotizacionFlete.idMatFlete);
+                	d.setDescripcion(CotizacionFlete.descFlete);
+                	d.setUnidadMedida(CotizacionFlete.unidadMed);
+                	d.setEstatus(pedido.getEstatusCotizacion());
+                	if(!mostrarCotizacion && this.isUsrVentas()) {
                 	this.noCotizacionSel = pedido.getNoCotizacion();
                 	this.cotizacion = d;
+                	}else {
+                		partidas.add(d);
+                	}
                 }else {
                 	partidas.add(d);
                 }
@@ -333,7 +359,10 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             	    pp.setFechaEntrega(cotizacion.getFechaEnt());
 
                 	partidaService.save(pp);
-                    pedido.setEstatusCotizacion(this.estadoFin);
+                    pedido.setEstatusCotizacion(CotizacionFlete.estadoFin);
+                    service.save(pedido);
+                    cotizacion.setEstatus(pedido.getEstatusCotizacion());
+                    
             	this.mostrarCotizacion = true;	
             	enviarMailCotizacion(cotizacion.getNoPedido());
             }
@@ -350,7 +379,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             	 crearPedidoRFC.crearPedido(pedidoRFC);
              }
     	  }catch (Exception e){
-        	 logger.error("Error al desplegar listado de fletes " + e.getLocalizedMessage());
+        	 logger.error("Error al genear pedido en SAP" + e.getLocalizedMessage());
              this.getFacesContext().addMessage(null, new FacesMessage(
                      FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
          }
