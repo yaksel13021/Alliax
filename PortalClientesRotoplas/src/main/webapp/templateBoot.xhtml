@@ -228,6 +228,7 @@
 					                		<h:link styleClass="dropdown-item" data-toggle="dropdown" value="#{lblMain.menuClienteVendedor}" />
                                     		<h:link styleClass="dropdown-item" outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                 			
                                     		<h:link styleClass="dropdown-item" outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
+											<h:link styleClass="dropdown-item" outcome="/admin/altaMateriales" value="#{lblMain.altaMateriales}" />
 		                       			</sec:authorize>
 			                		</div>
 			                	</li>	
@@ -319,6 +320,7 @@
 	<script src="#{resource['lookAndFeel/vendor/Select2/select2.min.js']}"></script>
 	<script src="#{resource['lookAndFeel/vendor/Datepicker/js/bootstrap-datepicker.min.js']}"></script>
 	<script src="#{resource['lookAndFeel/vendor/Datepicker/locales/bootstrap-datepicker.es.min.js']}"></script>
+	<script src="#{resource['lookAndFeel/js/altaMateriales.js']}"></script>
 
 	<ui:insert name="scriptJS">
 
