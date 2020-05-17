@@ -40,6 +40,7 @@
 										 class="card-header" data-toggle="collapse"
 										 data-target="#expandable1" aria-expanded="true"
 										 aria-controls="expandable1" type="button"
+										 onclick= "fechaBox()"
 										 style="background-color: #236192;color: white;">
 										<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
 										<h5 class="mb-0">#{lblMain.filtros}</h5>
@@ -149,9 +150,9 @@
 														<f:attribute name="frm_rangoDias" value="#{frm_rangoDias}" />
 														<f:attribute name="frm_tipoDocumento" value="#{frm_tipoDocumento}" />
 													</h:inputHidden>
-													<h:commandButton action="#{listaPedidos.buscaPedidos}" 
+													<h:commandButton action="#{listaPedidos.buscaPedidos}"
 																	 styleClass="btn btn-primary float-right"
-																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true">
+																	 value="#{lblMain.aplicarFiltro}" id="setFilters" immediate="true" >
 														<f:ajax execute="form:\setForm form\:validate @form" render="form:\contenttable" immediate="true"></f:ajax>
 													</h:commandButton>
 												</h:panelGroup>
@@ -199,7 +200,7 @@
 															</h:outputLabel>
 														</td>
 														<td>
-															<h:outputLabel value="#{pedidoObj.estatusGeneralDes}" />
+															<h:outputLabel value="#{listaPedidos.calcularEstado(pedidoObj.estatusGeneral)}" />
 														</td>
 														<td>
 															<h:outputLabel value="#{pedidoObj.destinatario}" />
@@ -492,18 +493,19 @@
 																	</tr>
 																	</thead>
 																	<tbody>
+
 																	<ui:repeat value="#{listaPedidos.facturas}" var="factura">
 																		<tr>
 																			<td>
-																			<h:form>
-																				<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
-																				<h:panelGroup>
-																					<ui:fragment >
-																					<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-																					</ui:fragment>
+																				<h:panelGroup layout="block" styleClass="col-12">
+																					<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																					<h:panelGroup>
+																						<ui:fragment >
+																							<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+																						</ui:fragment>
 																					</h:panelGroup>
-																				</f:ajax>
-																			</h:form>
+																					</f:ajax>
+																				</h:panelGroup>
 																			</td>
 																			<td><h:outputLabel value="#{factura.docFactura}" /></td>
 																			<td><h:outputLabel value="#{factura.fechaFactura}">
@@ -516,7 +518,9 @@
 																				<f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
 																			</h:outputLabel></td>
 																		</tr>
+																		<c:if test="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
 																		<tr>
+
 																			<td colspan="5" >
 																				<h:panelGroup layout="block"  rendered="#{not empty factura.detalleFactura  and factura.muestraDetalle == true}">
 																					<h:panelGroup layout="block" >
@@ -580,6 +584,7 @@
 																				</h:panelGroup>
 																			</td>
 																		</tr>
+																	</c:if> 
 																	</ui:repeat>
 																	</tbody>
 																</table>
@@ -677,18 +682,20 @@
 				  }
 				  
 				var fechaBox = function () {
-					val = $("select[name='form:frm_rangoDias'] option:selected").val();
-					
+				val = $("select[name='form:frm_rangoDias'] option:selected").val();
+					$("[id='form:boxFechaI']").hide();
+					$("[id='form:boxFechaF']").hide();
+
 					if(val == "F" || val == "P"){
-						$("[id='form:boxFechaI']").removeClass('hidden');
+						$("[id='form:boxFechaI']").show();
 					} else {
-						$("[id='form:boxFechaI']").addClass('hidden');
+						$("[id='form:boxFechaI']").hide();
 					}
-					
+
 					if(val == "P"){
-						$("[id='form:boxFechaF']").removeClass('hidden');
+						$("[id='form:boxFechaF']").show();
 					} else {
-						$("[id='form:boxFechaF']").addClass('hidden');
+						$("[id='form:boxFechaF']").hide();
 					}
 				}
 			</script>

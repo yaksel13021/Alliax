@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:body>
+    <ui:composition template="../templateBoot.xhtml">
+        <ui:define name="metadata">
+            <link href="#{resource['lookAndFeel/vendor/ChartJs/Chart.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet"/>
+            <link href="#{resource['lookAndFeel/vendor/Bootstrap4/css/bootstrap-select.min.css']}" rel="stylesheet"/>
+        </ui:define>
+        <ui:define name="content">
+            <h:panelGroup layout="block" styleClass="container containerFiltersOne ">
+                <h:panelGroup layout="block" styleClass="container">
+                    <h:panelGroup layout="block" id="filtroBusqueda">
+                        <h:form id="form">
+                            <h:panelGroup layout="block" styleClass="row">
+                                <h:panelGroup layout="block" styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <h:panelGroup layout="block" styleClass="form-group">
+                                        <label>Numero de Material</label>
+                                        <h:inputText value="#{altaMat.noMaterial}" styleClass="form-control" id="input_descp" name="input_descp">
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="container">
+                                <h:panelGroup layout="block" styleClass="row">
+                                    <h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <h:panelGroup layout="block" styleClass="form-group flex">
+                                            <h:commandButton id="buscar" styleClass="btn btn-primary hidden" value="#{lblMain.buscar} " action="#{altaMat.busquedaMaterial}" style="margin: 10px">
+                                                <f:ajax execute="@form" render="pantallaBusq sal">
+                                                </f:ajax>
+                                            </h:commandButton>
+
+                                            <h:commandButton onclick="validaBusqueda()" styleClass="btn btn-primary" value="#{lblMain.buscar} " style="margin: 10px">
+                                                <f:ajax execute="buscar" render="@this">
+                                                </f:ajax>
+                                            </h:commandButton>
+
+                                            <h:commandButton id="agregar" onclick="agregar()" styleClass="btn btn-primary" value="#{lblMain.btnAgregar}" style="margin: 10px">
+                                                <f:ajax execute="agregar" render="@this">
+                                                </f:ajax>
+                                            </h:commandButton>
+
+                                            <h:commandButton id="masiva" onclick="agregarMasivo()" styleClass="btn btn-primary" value="#{lblMain.altaClienteMasiva}" style="margin: 10px">
+                                                <f:ajax execute="masiva" render="@this">
+                                                </f:ajax>
+                                            </h:commandButton>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </h:form>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" id="carga" styleClass="hidden">
+                            <h:panelGroup layout="block" styleClass="card" style="width: 33rem;text-align: left;">
+                                <h:panelGroup layout="block"  styleClass="card-header">
+                                    <label>Alta Masiva</label>
+                                </h:panelGroup>
+                                <h:form id="formMasivo" enctype="multipart/form-data">
+                                    <h:panelGroup layout="block" styleClass="container">
+                                        <h:panelGroup layout="block" styleClass="row">
+                                            <h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <br></br><br></br>
+                                                <h:panelGroup layout="block" styleClass="form-group">
+
+                                                        <h:inputFile styleClass="form-control-file" id="file" value="#{altaMat.file}"/>
+                                                        <h:commandButton  styleClass="btn btn-primary" value="cargar Archivo" action="#{altaMat.uploadExcel}">
+                                                        </h:commandButton>
+
+                                                </h:panelGroup>
+                                                <h:panelGroup layout="block" styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <h:selectOneRadio value="#{altaMat.tipoMAterial}">
+                                                        <f:selectItem styleClass="labelLeftInput fillWidthAvaible" itemValue="11" itemLabel="Almacenamiento mejoramiento Conducción" />
+                                                        <f:selectItem styleClass="labelLeftInput fillWidthAvaible" itemValue="10" itemLabel="Industria"/>
+                                                    </h:selectOneRadio>
+                                                </h:panelGroup>
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:form>
+                            </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="altaMasiva" rendered="#{altaMat.tipoMessage == 11}">
+                            <h:inputHidden  id="tipo" value="#{altaMat.tipoMessage}">
+                            </h:inputHidden>
+                            <h:outputScript>
+                                setTimeout(function(){
+                                    showToastr('Alta Masiva exitosa', 'Aviso', {
+                                        type: typeNotification.success
+                                    })
+                                }, 7000);
+                            </h:outputScript>
+                    </h:panelGroup>
+
+                    <h:panelGroup  rendered="#{altaMat.tipoMessage == 12}">
+                        <h:inputHidden value="#{altaMat.tipoMessage}">
+                        </h:inputHidden>
+                        <h:outputScript>
+                            setTimeout(function(){
+                                showToastr('Error en Alta Masiva', 'Aviso', {
+                                    type: typeNotification.success
+                                })
+                            }, 7000);
+                        </h:outputScript>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="sal" layout="block" style="margin-top:20px;">
+                        <c:if test = "#{altaMat.mat == null}">
+                            <h:outputScript>
+                                showToastr('No se encontraron resultados con los criterios de busqueda especificados.', 'Aviso', {
+                                    type: typeNotification.warning
+                                })
+                            </h:outputScript>
+                        </c:if>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="pantallaBusq">
+                        <c:if test = "#{altaMat.mat != null}">
+                            <h:outputScript>
+                                valorDatos();
+                            </h:outputScript>
+                            <h:form id="actualiza">
+                                <h:panelGroup id="pantallaBusqueda" styleClass="hidden">
+                                    <h:panelGroup styleClass="card" style="width: 33rem;text-align: left;">
+                                        <h:panelGroup styleClass="card-header">
+                                            <label>Resultado de Busqueda</label>
+                                        </h:panelGroup>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" >
+                                                <h:panelGroup styleClass=" row">
+                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                        <label>Tipo de material </label>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h:selectOneMenu value="#{altaMat.mat.tipoMaterial}" styleClass="form-control dropdownActive" id="select_tipoMaterialB" name="select_tipoMaterialB">
+                                                            <f:selectItem itemValue="10" itemLabel="#{lblMain.select12}"/>
+                                                            <f:selectItem itemValue="11" itemLabel="#{lblMain.select2}"/>
+                                                        </h:selectOneMenu>
+                                                    </h:panelGroup>
+                                                </h:panelGroup>
+                                            </li>
+                                            <li class="list-group-item " >
+                                                <h:panelGroup styleClass="row" >
+                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                        <label id="permisos">Descripción </label>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h:inputText value="#{altaMat.mat.descripcion}" styleClass="form-control" id="input_descpB">
+                                                        </h:inputText>
+                                                    </h:panelGroup>
+                                                </h:panelGroup>
+                                            </li>
+                                            <li class="list-group-item" >
+                                                <h:panelGroup styleClass="row">
+                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                        <label >UM </label>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h:inputText  value="#{altaMat.mat.unidadMedida}" styleClass="form-control" id="input_umB">
+                                                        </h:inputText>
+                                                    </h:panelGroup>
+                                                </h:panelGroup>
+                                            </li>
+                                            <li class="list-group-item" >
+                                                <h:panelGroup styleClass="row" >
+                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                        <label>No. Sku </label>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h:inputText value="#{altaMat.mat.sku}" styleClass="form-control" id="input_nsku">
+                                                        </h:inputText>
+                                                    </h:panelGroup>
+                                                </h:panelGroup>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <h:panelGroup styleClass="row">
+                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                        <label>Imagen</label>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h:inputText value="#{altaMat.mat.urlFoto}" styleClass="form-control" id="input_imagen" name="input_imagen" >
+                                                        </h:inputText>
+                                                    </h:panelGroup>
+                                                </h:panelGroup>
+                                            </li>
+                                        </ul>
+
+                                    </h:panelGroup>
+                                    <br></br>
+                                    <h:panelGroup styleClass="row">
+                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <h:panelGroup styleClass="form-group ">
+                                                <h:commandButton id="actualizar" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}" action="#{altaMat.actualizarMaterial}">
+                                                </h:commandButton>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup styleClass="form-group hidden">
+                                                <h:commandButton onclick="validaMat()" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}">
+                                                    <f:ajax execute="actualizar" render="@this" >
+                                                    </f:ajax>
+                                                </h:commandButton>
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:form>
+                        </c:if>
+
+                    </h:panelGroup>
+                    <h:panelGroup id="salida">
+                        <h:inputHidden id="tipoMenssage" value="#{altaMat.tipoMessage}">
+                        </h:inputHidden>
+                        <h:outputScript>
+                            mensajeActualizacion();
+                        </h:outputScript>
+                    </h:panelGroup>
+
+
+                    <h:panelGroup id="agregarPantallas">
+                        <h:panelGroup id="pantallaAgregarMateriales" styleClass="hidden">
+                            <h:form id="form2">
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>Tipo de material</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <h:inputText value="#{altaMat.altaMaterial.tipoMaterial}" styleClass="form-control" >
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>Descripción</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <h:inputText value="#{altaMat.altaMaterial.descripcion}" styleClass="form-control" id="input_descripcion" name="input_descripcion">
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>UM</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <h:inputText value="#{altaMat.altaMaterial.unidadMedida}" styleClass="form-control" id="input_um" name="input_um">
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>No. Sku</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <h:inputText value="#{altaMat.altaMaterial.sku}" styleClass="form-control" id="input_sku">
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>Imagen</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <h:inputText value="#{altaMat.altaMaterial.urlFoto}" styleClass="form-control" id="foto">
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="form-group flex row">
+                                    <h:panelGroup styleClass="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+
+                                        <h:commandButton id="guardar" styleClass="btn btn-primary float-right hidden" value="#{lblMain.btnGrabar}" action="#{altaMat.guardarMaterial}" style="margin-right: 10px;">
+                                            <f:ajax execute="form2" render="salidaSave">
+                                            </f:ajax>
+                                        </h:commandButton>
+
+                                        <h:commandButton onclick="ValidarGuarda()" styleClass="btn btn-primary float-right " value="#{lblMain.btnGrabar} " style="margin-right: 10px;">
+                                            <f:ajax execute="guardar" render="@this">
+                                            </f:ajax>
+                                        </h:commandButton>
+
+                                        <h:commandButton id="cancelar" onclick="cancelar()" styleClass="btn btn btn-danger float-right " value="#{lblMain.btnCancelar}" style="margin-right: 10px;">
+                                            <f:ajax execute="cancelar" render="@this">
+                                            </f:ajax>
+                                        </h:commandButton>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:form>
+
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="salidaSave">
+                        <h:inputHidden id="tipoSave" value="#{altaMat.tipoMessage}">
+                        </h:inputHidden>
+                        <h:outputScript>
+                            mensajeSave();
+                        </h:outputScript>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+        </ui:define>
+        <ui:define name="scriptJS">
+            <script src="#{resource['lookAndFeel/vendor/Underscore/underscore.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Mustache/mustache.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/fontawesome-free/js/all.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Moment/moment.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/vendor/Bootstrap4/js/bootstrap-select.min.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/tools-table-v2.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/sessionStorage.js']}"></script>
+            <script src="#{resource['lookAndFeel/js/commonFunctions.js']}"></script>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
