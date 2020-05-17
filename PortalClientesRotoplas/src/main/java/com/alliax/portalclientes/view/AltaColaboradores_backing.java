@@ -38,6 +38,8 @@ public class AltaColaboradores_backing extends AbstractBacking {
     private static String ROLE_SEGUIMIENTO_PEDIDOS ="ROLE_SEGUIMIENTO_PEDIDOS";
     private static String ROLE_ESTADO_CUENTA = "ROLE_ESTADO_CUENTA";
     private static String TRUE = "true";
+    private static String I = "I";
+    private static String B = "B";
     private ClienteInfo clienteInfo;
     private int status;
     Usuario usuario = usrServ.findByUserName(this.getUsuarioLogueado().getUsername());
@@ -66,13 +68,13 @@ public class AltaColaboradores_backing extends AbstractBacking {
                 colaborador.setNoCliente(usuario.getNoCliente());
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo.equals(TRUE) ? I : B);
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? I : B);
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? I : B);
                 }
 
                 colaborador.setFechaEntrada(usuario.getFechaEntrada());
@@ -87,21 +89,23 @@ public class AltaColaboradores_backing extends AbstractBacking {
             } else{
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
-                    colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo.equals(TRUE) ? I : B);
                 }else if (this.getActividad().equals(RS)){
                     colaborador.setEmail(this.email2);
-                    colaborador.setEstatus(activo2.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo2.equals(TRUE) ? I : B);
                 }else if (this.getActividad().equals(RE)){
                     colaborador.setEmail(this.email3);
-                    colaborador.setEstatus(activo3.equals(TRUE) ? "I" : "B");
+                    colaborador.setEstatus(activo3.equals(TRUE) ? I : B);
                 }
                 status = 2;
             }
+
+            if (colaborador.getEstatus().equals(I)){
+                ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
+                mail.enviaCorreoAlta(colaborador,this.getClienteInfo());
+            }
             usrServ.save(colaborador);
             logger.info("Mensaje save");
-
-            ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
-            mail.enviaCorreoAlta(colaborador,this.getClienteInfo());
 
         } catch(Exception e){
             status = 0;
