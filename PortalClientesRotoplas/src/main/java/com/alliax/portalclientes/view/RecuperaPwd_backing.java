@@ -32,6 +32,7 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 	private int tipo;
 	private String usuario;
 
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -55,8 +56,8 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 							this.getLblMain().getString("errUsuarioBloqueado")));
 				else{
 					//Extrae correo del cliente.
-					InfoClienteRFC infoClienteRfc = this.getSpringContext().getBean("infoClienteRfc",InfoClienteRFC.class);					
-					ClienteInfo clienteInfo = infoClienteRfc.obtieneInfoCliente(usuario.getNoCliente());					
+					InfoClienteRFC infoClienteRfc = this.getSpringContext().getBean("infoClienteRfc",InfoClienteRFC.class);
+					ClienteInfo clienteInfo = infoClienteRfc.obtieneInfoCliente(usuario.getNoCliente());
 										
 					//Valida correo
 					if(StringUtils.isEmpty(clienteInfo.getEmail())){
@@ -105,7 +106,7 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 					ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
 					mail.enviaCorreoReseteo(usuario, clienteInfo);					
 					messgge = this.getLblMain().getString("recuperaPwdOk");
-					tipo = 0;
+					tipo = 2;
 					this.getFacesContext().addMessage(null, 
 							new FacesMessage(FacesMessage.SEVERITY_INFO,"Info",
 									this.getLblMain().getString("recuperaPwdOk")));					
@@ -120,7 +121,7 @@ public class RecuperaPwd_backing extends AbstractBackingGen {
 			}
 		} catch(Exception e){
 			messgge = this.getLblMain().getString("errRecuperaPwd");
-			tipo = 1;
+			tipo = 0;
 			logger.error("Error al recuperar password " + e.getLocalizedMessage(),e);
 			this.getFacesContext().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",
