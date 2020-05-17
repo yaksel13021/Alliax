@@ -7,6 +7,9 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+IF OBJECT_ID ('dbo.PedidoPartidas', 'U') IS NOT NULL  
+   DROP TABLE [dbo].[PedidoPartidas];  
+G
 IF OBJECT_ID ('dbo.Pedido', 'U') IS NOT NULL  
    DROP TABLE [dbo].[Pedido];  
 GO  
