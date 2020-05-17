@@ -4,16 +4,14 @@ import com.alliax.portalclientes.domain.Material;
 import com.alliax.portalclientes.repository.MaterialRepository;
 import com.alliax.portalclientes.service.MaterialService;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,15 +64,12 @@ public class MaterialServiceImpl implements MaterialService {
 
         List<Material> records = new ArrayList<>();
 
-        //Estructura de linea
-        //SKU,DESCRIPCION, UNIDAD_MEDIDA, URL_FOTO
         try {
-
             br = new BufferedReader(new InputStreamReader(inputStream));
             while ((line = br.readLine()) != null) {
-                // use comma as separator
+            	material = new Material();
+              
                 materialData = line.split(cvsSplitBy);
-
                 material.setSku(materialData[0]);
 
                 if(materialData.length>1) {
@@ -94,8 +89,13 @@ public class MaterialServiceImpl implements MaterialService {
             }
 
             if(records.size() > 0) {
-                materialRepository.save(records);
+                records.remove(0);
+                for (Material mat :records) {
+                    materialRepository.save(mat);
+                }
             }
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

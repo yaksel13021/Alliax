@@ -1,3 +1,9 @@
+USE [PortalClientes]
+GO
+
+SET ANSI_NULLS ON
+GO
+
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200224	,'TUBO CLASE 16 DE 20 MM','M','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200225	,'TUBO CLASE 16 DE 25 MM','M','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200226	,'TUBO CLASE 16 DE 32 MM','M','');
@@ -323,3 +329,5 @@ INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unid
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200106	,'DADOS MONTURA DE DERIVACION 90 x 32','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200100	,'DADOS MONTURAS DE DERIVACION 110 x 20','PZA','');
 INSERT INTO [PortalClientes].[dbo].[Material] (tipoMaterial,sku,descripcion,unidadMedida,urlFoto) VALUES (	10	,	200101	,'DADOS MONTURA DE DERIVACION 110 x 32','PZA','');
+
+GO

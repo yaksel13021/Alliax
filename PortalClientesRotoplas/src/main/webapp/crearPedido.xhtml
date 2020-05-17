@@ -69,7 +69,6 @@
 															 <button id="btnContinuarColp1"
 																class="btn btn-primary float-right" role="button"
 																name="setFilters">#{lblMain.btnContinuar}
-																 <f:ajax event="click" execute="@form" listener="#{crearPedido.setDestinatarioAndNroPedido}" render="descripcionDestinatario"/>
 															 </button>
 														</h:panelGroup>
 													</h:panelGroup>
@@ -84,14 +83,19 @@
 											<h:inputHidden id="capacidadesTransporte" value="#{crearPedido.capacidadesTransporte}"></h:inputHidden>
 											<h:inputHidden id="equipoEspecial" value="#{crearPedido.equipoEspecial}"></h:inputHidden>
 											<h:inputHidden id="descripcionDestinatario" value="#{crearPedido.descripcionDestinatario}"></h:inputHidden>
-
-
-
+											<h:inputHidden id="correoElectronico" value="#{crearPedido.correoElectronico}"></h:inputHidden>
+											<h:inputHidden id="noCotizacion" value="#{crearPedido.noCotizacion}"></h:inputHidden>
+											<h:inputHidden id="clasePedido" value="#{crearPedido.clasePedido}"></h:inputHidden>
 											<h:inputHidden id="frm_segmento" value="#{crearPedido.segmento}"/>
 											<h:inputHidden id="frm_materialSeleccionado" value="#{crearPedido.materialSeleccionadoJson}"/>
 											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
 											<h:inputHidden id="frm_cfdi_desc" />
 											<h:inputHidden id="frm_metodoPago_desc" />
+
+											<div class="continuarDestinatarioNroPedido"></div>
+											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
+												<f:ajax execute="@form" render="descripcionDestinatario clasePedido" onevent="ajaxValidateClasePedido"/>
+											</h:commandLink>
 											<h:commandLink  id="asignaSegmento" action="#{crearPedido.asignaPedidoSegmento}">
 												<f:ajax  execute="@form"  render="mateiralScript" onevent="ajaxMaterialEnd" />
 											</h:commandLink>
@@ -109,6 +113,12 @@
 											</h:commandLink>
 											<h:commandLink  id="saveComentarios" action="#{crearPedido.saveComentarios}">
 												<f:ajax  execute="@form" onevent="ajaxSaveComent"/>
+											</h:commandLink>
+											<h:commandLink  id="cotizarFlete" action="#{crearPedido.cotizarFlete}">
+												<f:ajax  execute="@form" render="noCotizacion" onevent="ajaxCotizacion" />
+											</h:commandLink>
+											<h:commandLink  id="finalizar" action="#{crearPedido.finalizar}">
+												<f:ajax  execute="@form" />
 											</h:commandLink>
 											<h:panelGroup id="mateiralScript">
 												<script>
@@ -174,6 +184,18 @@
 													}
 												}
 
+												function ajaxCotizacion(data){
+													if(data.status == 'success'){
+														$('div.continuarCotizador').trigger('click');
+													}
+												}
+
+												function ajaxValidateClasePedido(data){
+													if(data.status == 'success'){
+														validateClasePedido();
+
+													}
+												}
 
 											</script>
 										</h:form>
@@ -269,7 +291,7 @@
 				<input type="text" class="form-control input_searchProductCantidad" name="input_searchProductCantidad" placeholder="Cantidad"></input>
 			</script>
 			<script id="input_template" type="x-tmpl-mustache">
-				<input type="text" class="form-control {{class}}" name="{{name}}" placeholder="{{placeholder}}"></input>
+				<input type="text" class="form-control {{class}}" name="{{name}}" placeholder="{{placeholder}}" value="{{value}}"></input>
 			</script>
 			<script id="searchProducts_template" type="x-tmpl-mustache">
 				<div class="container">
@@ -460,6 +482,7 @@
 								</div>
 							</div>
 							{{#emailflete}}
+									<div class="continuarCotizador"></div>
 									<h:panelGroup layout="block" class="card-body">
 										<h:panelGroup layout="block" class="container">
 											<h:panelGroup layout="block" class="row">
@@ -468,11 +491,31 @@
 														<td width="50%">Indique un correo a donde enviar su cotización</td>
 														<td width="50%"><input type="text" class="form-control" id="frm_emailFlete" name="frm_emailFlete"  /></td>
 													</tr>
+													<tr>
+														<td colspan="2" class="red"><strong>Los materiales de esta cotización requieren un flete</strong></td>
+													</tr>
 												</table>
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
 							{{/emailflete}}
+							{{#confirmaCotizacion}}
+								<h:panelGroup layout="block" class="card-body">
+									<h:panelGroup layout="block" class="container">
+										<h:panelGroup layout="block" class="row">
+											<table class="table table-hover table-striped table-bordered" width="100%">
+												<tr>
+													<td width="50%"><strong>Cotización</strong></td>
+													<td width="50%"><strong>{{noCotizacion}}</strong></td>
+												</tr>
+												<tr>
+													<td colspan="2"><strong>Vía correo electrónico  le estaremos informando la cotización del flete</strong></td>
+												</tr>
+											</table>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+							{{/confirmaCotizacion}}
 						</div>
 					</div>
 					{{/resumencuenta}}

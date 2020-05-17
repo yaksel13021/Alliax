@@ -63,7 +63,7 @@ public class AltaColaboradores_backing extends AbstractBacking {
                 colaborador.setUsuario(this.getActividad()+usuario.getNoCliente());
                 colaborador.setPasswordStr(Generales.generaPassword());
                 colaborador.setPassword(encoder.encode(colaborador.getPasswordStr()));
-                colaborador.setNoCliente(this.getActividad()+usuario.getNoCliente());
+                colaborador.setNoCliente(usuario.getNoCliente());
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
                     colaborador.setEstatus(activo.equals(TRUE) ? "I" : "B");
