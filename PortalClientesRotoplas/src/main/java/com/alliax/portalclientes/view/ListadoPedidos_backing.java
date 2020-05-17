@@ -271,8 +271,7 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 						estatus,
 						this.getUsuarioLogueado().getLanguage()));
 			}catch (Exception e){
-				ListaPedidosConfig listaPedidosConfig = new ListaPedidosConfig();
-				this.setListadoPedidos(listaPedidosConfig.pedidos());
+				logger.error(e.getLocalizedMessage());
 			}
 			logger.info("Despues del set list");
 			
@@ -381,9 +380,9 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 	 */
 	public void cancelarPedido(OrdenVenta nroPedido){
 		try {
-			logger.info("Cancelar pedido,  nroPedido: " + nroPedido);
+			logger.info("Cancelar pedido,  nroPedido: " + nroPedido.getDocumentoComercial());
 			CancelaPedidoRFC cancelaPedidoRFC = this.getSpringContext().getBean("cancelaPedidoRFC",CancelaPedidoRFC.class);
-			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getPedidoCliente());
+			String cancelado = cancelaPedidoRFC.cancelaPedido(nroPedido.getDocumentoComercial());
 			logger.info("Cancelar pedido,  respuesta: " + cancelado);
 			nroPedido.setPedidoCancelado(cancelado);
 		} catch(Exception e){
@@ -455,5 +454,39 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 		this.classFacturas = classFacturas;
 	}
 
-	
+	public String calcularEstado(String codigoEstado) {
+		String estado;
+		switch (codigoEstado) {
+		case "PEND":
+			estado = "Pendiente";
+			break;
+		case "VSAC":
+			estado = "Verificar SAC";
+			break;
+		case "HELD":
+			estado = "Retenido";
+			break;
+		case "CANC":
+			estado = "Cancelado";
+			break;
+		case "RELE":
+			estado = "Liberado";
+			break;
+		case "PROC":
+			estado = "En Proceso";
+			break;
+		case "PINV":
+			estado = "Facturado Parcial";
+			break;
+		case "CONC":
+			estado = "Concluido";
+			break;
+		case "COMP":
+			estado = "Completo";
+			break;
+		default:
+			estado = "";
+		}
+		return estado;
+	}
 }
