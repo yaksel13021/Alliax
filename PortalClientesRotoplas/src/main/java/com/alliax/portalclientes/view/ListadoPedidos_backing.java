@@ -271,8 +271,7 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 						estatus,
 						this.getUsuarioLogueado().getLanguage()));
 			}catch (Exception e){
-				ListaPedidosConfig listaPedidosConfig = new ListaPedidosConfig();
-				this.setListadoPedidos(listaPedidosConfig.pedidos());
+				logger.error(e.getLocalizedMessage());
 			}
 			logger.info("Despues del set list");
 			
