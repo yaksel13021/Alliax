@@ -184,6 +184,8 @@ public class DetallePedidoRFC {
     			item.setEstatusGeneral(this.table.getString("GRL_STAT_I"));
     			item.setEstatusGeneralDes(this.table.getString("GRL_STAT_I_D"));
     			
+    			logger.info("GRL_STAT_I_D SAP :: " + this.table.getString("GRL_STAT_I_D"));
+    			logger.info("Item SAP :: " + item.toString());
     			resultados.add(item);    			
     		}
     		

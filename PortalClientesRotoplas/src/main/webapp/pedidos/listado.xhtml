@@ -341,7 +341,7 @@
 																	</h:panelGroup>
 																	<h:panelGroup layout="block"
 																				  styleClass="h6 mb-0 font-weight-bold text-gray-800">
-																		#{listaPedidos.pedido.estatusGeneralDes}
+																		#{listaPedidos.calcularEstado(listaPedidos.pedido.estatusGeneral)}
 																	</h:panelGroup>
 																</h:panelGroup>
 																<h:panelGroup layout="block" styleClass="col-auto">
@@ -387,7 +387,7 @@
 														</sec:authorize>
 														
 														<ul class="timeline" id="timeline">
-															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' ? 'complete' : ''}"><h:panelGroup layout="block"
+															<li class="li #{listaPedidos.pedido.estatusGeneral eq 'VSAC' or listaPedidos.pedido.estatusGeneral eq 'PEND' or listaPedidos.pedido.estatusGeneral eq 'HELD'  or listaPedidos.pedido.estatusGeneral eq 'CANC' ? 'complete' : ''}"><h:panelGroup layout="block"
 																																					  class="status">
 																<h4>#{lblMain.Vsac}</h4>
 															</h:panelGroup></li>
