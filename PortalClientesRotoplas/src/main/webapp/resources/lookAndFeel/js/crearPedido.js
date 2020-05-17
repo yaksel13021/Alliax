@@ -378,7 +378,7 @@ var crearPedido = (function () {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
-            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true });
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true, emailflete: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
@@ -389,9 +389,9 @@ var crearPedido = (function () {
                             btnText: 'Cancelar'
                         },
                         {
-                            btnId: 'btn_ResumenCuentaPartidasOrdenar',
-                            btnName: 'btn_ResumenCuentaPartidasOrdenar',
-                            btnText: 'Ordenar'
+                            btnId: 'btn_CotizarFlete',
+                            btnName: 'btn_CotizarFlete',
+                            btnText: 'Cotizar Flete'
                         }
                     ]
                 }
