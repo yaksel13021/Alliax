@@ -258,7 +258,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
              
                     PrecioMaterial precio = null;
                     
-                  /*  try{ 
+                   try{ 
                     	
                     	precioRFC.obtienePrecioMaterial(pedido.getClasePedido(),
                     														pedido.getOrganizacionVenta()
@@ -273,7 +273,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             			logger.error("Error al obtener precio");
             			throw new  Exception("Error al obtener lista de clientes");
             		} 
-              */
+              
                     if(precio!= null) {
                     pp.setMonto(precio.getMonto()!= null? precio.getMonto().toString() : pp.getMonto());
                     pp.setPrecioNeto(precio.getPrecioNeto()!= null ? precio.getPrecioNeto().toString() : pp.getPrecioNeto());
