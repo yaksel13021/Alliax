@@ -352,7 +352,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-                setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+                //setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -682,7 +682,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             }
         }catch (Exception e){
             logger.error(e);
-            setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
+            //setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }
@@ -698,6 +698,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 pedidoBd.setOrganizacionVenta(destinatarioMercanciaSel.getOrganizacionVentas());
                 pedidoBd.setSociedad(destinatarioMercanciaSel.getSociedad());
                 pedidoBd.setEstatus("PEN");
+                pedidoBd.setNroCliente(getUsuarioLogueado().getNoCliente());
                 pedidoBd.setFechaCreacion(Calendar.getInstance().getTime());
             }
             logger.info(pedidoBd);
@@ -790,7 +791,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
-                                    precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
                                 pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
                                 pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
@@ -802,7 +803,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                 pedidoMaterial2.setMonto(String.valueOf(precioMaterial.getMonto()));
 
                                 //save to DB
-                                pedidoPartida.setPosicion(pedidoMaterial2.getCantidad());
+                                pedidoPartida.setPosicion(pedidoMaterial2.getPosicion());
                                 pedidoPartida.setCantidad(pedidoMaterial.getCantidad());
                                 pedidoPartida.setCodigoError(pedidoMaterial2.getCodigoError());
                                 pedidoPartida.setMensajeError(pedidoMaterial2.getMensajeError());
@@ -844,7 +845,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-
+/*
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -852,6 +853,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }catch (Exception e1){
                     logger.error(e1);
                 }
+                */
             }
 
             logger.info("METODO");
@@ -865,12 +867,12 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-                try{
+               /* try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
-                }
+                }*/
                 logger.error(e);
             }
         }catch(Exception e){

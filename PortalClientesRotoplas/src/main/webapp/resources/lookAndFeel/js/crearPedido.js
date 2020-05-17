@@ -39,8 +39,16 @@ var crearPedido = (function () {
             if (!validStepOne()) {
                 return;
             }
+
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
+
+            $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
+
+        });
+
+        $('DIV.continuarDestinatarioNroPedido').off().on("click", function (e) {
+
 
             $('#headingOne').prop('disabled', true);
             $('#headingThree').prop('disabled', false).click();
@@ -62,6 +70,7 @@ var crearPedido = (function () {
             }, 100)
             initEvents();
         });
+
         $('#btn_AgregarProductsNext').off().on('click', function (e) {
             e.preventDefault();
             var rowsCount = $dt.rows().count(),
@@ -489,8 +498,6 @@ var crearPedido = (function () {
                 });
         });
 
-
-
         $('div.I_content').off().on('click', function (e) {
             e.preventDefault();
             RESS.setSeleccionMateriales('IND');
@@ -656,18 +663,19 @@ var crearPedido = (function () {
                         responsive: true,
                         free: function (data, type, row, meta) {
                             if (meta.col === 1) {
-                                return renderMustacheTemplate('input_template', { class: 'input_searchProductCantidad', name: 'input_searchProductCantidad', placeholder: 'Cantidad' });
+                                return renderMustacheTemplate('input_template', { class: 'input_searchProductCantidad', name: 'input_searchProductCantidad', placeholder: 'Cantidad', value: data.cantidad });
                             }
                         },
                         rowCallback: function (row, data, api) {
-                            if (loadPreviusValues) {
+                            /*if (loadPreviusValues) {
                                 var findData = RESS.getRESSObject().productosSeleccionados.find(function (a, e) {
                                     return a.data.id === data.id;
                                 });
                                 if (findData) {
                                     $(row).find('.input_searchProductCantidad').val(findData.cantidad);
                                 }
-                            }
+                            }*/
+                            $(row).find('.input_searchProductCantidad').val(data.cantidad);
                         }
                     });
                     return true;
@@ -1174,12 +1182,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }
+        }*/
         return true;
     };
 
@@ -1240,4 +1248,16 @@ function createMaterialJSON() {
         jsonObj.push(item);
     });
     $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(jsonObj));
+}
+
+function validateClasePedido(){
+    var clasePedido =  $("[id='crearPedido:filterStepOne:clasePedido']");
+
+    if(clasePedido.val() == '' || clasePedido.val().length == 0){
+        showToastr(mensajes().Generico01, 'Aviso', {
+            type: typeNotification.warning
+        });
+    }else{
+        $('div.continuarDestinatarioNroPedido').trigger('click');
+    }
 }
