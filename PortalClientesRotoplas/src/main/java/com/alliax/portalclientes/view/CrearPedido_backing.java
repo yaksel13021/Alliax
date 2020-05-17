@@ -30,7 +30,6 @@ import com.alliax.portalclientes.util.Helper;
 import com.alliax.portalclientes.util.KeyGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -605,6 +604,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
     }
 
     public String finalizar(){
+        logger.info("Finalizar");
         return "/pedidos/listado";
     }
 
@@ -786,13 +786,23 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                                 try {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
-                                            "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(),18,"0"), pedidoMaterial2.getCantidad(),
-                                            pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(),10,"0"), Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(),10,"0"));
+                                            "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(), 18, "0"), pedidoMaterial2.getCantidad(),
+                                            pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(), 10, "0"), Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(), 10, "0"));
                                     logger.info("Respuesta RFC " + precioMaterial);
                                 } catch (Exception e) {
                                     logger.error(e);
                                     //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
+                                //no asignar el valor del error para los pedidos de industrial y
+                                //que sean error de fecha de entrega (codigo error 5)
+                                /*if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
+                                    pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
+                                    pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
+                                }
+
+                                pedidoMaterial2.setCodigoError("1");
+                                pedidoMaterial2.setMensajeError("Ejemplo error");*/
+
                                 pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
                                 pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
 
@@ -845,7 +855,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-/*
+                /*
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -867,12 +877,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-               /* try{
+               /*
+                try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
-                }*/
+                }
+                */
                 logger.error(e);
             }
         }catch(Exception e){
