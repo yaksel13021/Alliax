@@ -17,34 +17,34 @@ public class BuscarDestinatariosMercanciasConfig {
 		logger.info("BuscarDestinatariosMercanciasConfig - buscarDestinatarios, noCliente: " + noCliente);
 		List<DestinatarioMercancia> result = new ArrayList<DestinatarioMercancia>();
 		DestinatarioMercancia uno = new DestinatarioMercancia();
-		uno.setNoDestinatario("NoDestinatario1");
+		uno.setNoDestinatario("1234567890");
 		uno.setNombreSucursal("NombreSucursal1");
 		uno.setCalleNumero("CalleNumero1");
 		uno.setColonia("Colonia1");
-		uno.setCodigoPostal("CodigoPostal1");
+		uno.setCodigoPostal("64610");
 		uno.setPoblacion("Poblacion1");
 		uno.setSociedad("Socieda1");
-		uno.setOrganizacionVentas("OrganizacionVentas1");
+		uno.setOrganizacionVentas("9874563210");
 		
 		DestinatarioMercancia dos = new DestinatarioMercancia();
-		dos.setNoDestinatario("NoDestinatario2");
+		dos.setNoDestinatario("1234567891");
 		dos.setNombreSucursal("NombreSucursal2");
 		dos.setCalleNumero("CalleNumero2");
 		dos.setColonia("Colonia2");
 		dos.setCodigoPostal("CodigoPostal2");
 		dos.setPoblacion("Poblacion2");
 		dos.setSociedad("Socieda2");
-		dos.setOrganizacionVentas("OrganizacionVentas2");
+		dos.setOrganizacionVentas("9874563211");
 		
 		DestinatarioMercancia tres = new DestinatarioMercancia();
-		tres.setNoDestinatario("NoDestinatario3");
+		tres.setNoDestinatario("1234567892");
 		tres.setNombreSucursal("NombreSucursal3");
 		tres.setCalleNumero("CalleNumero3");
 		tres.setColonia("Colonia3");
 		tres.setCodigoPostal("CodigoPostal3");
 		tres.setPoblacion("Poblacion3");
 		tres.setSociedad("Socieda3");
-		tres.setOrganizacionVentas("OrganizacionVentas3");
+		tres.setOrganizacionVentas("9874563212");
 		
 		result.add(uno);
 		result.add(dos);

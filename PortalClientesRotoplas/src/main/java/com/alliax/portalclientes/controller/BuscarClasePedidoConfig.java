@@ -12,7 +12,7 @@ public class BuscarClasePedidoConfig {
 	
 	public ClasePedido buscarClasePedido() {
 		ClasePedido result = new ClasePedido();
-		result.setClasePedido("Clase Pedido 1");
+		result.setClasePedido("PANA");
 		result.setResultCode("0");
 		return result;
 	}

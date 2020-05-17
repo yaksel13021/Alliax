@@ -27,6 +27,7 @@ import com.alliax.portalclientes.service.MaterialService;
 import com.alliax.portalclientes.service.PedidoPartidasService;
 import com.alliax.portalclientes.service.PedidoService;
 import com.alliax.portalclientes.util.Helper;
+import com.alliax.portalclientes.util.KeyGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
     private String correoElectronico;
     private String segmento;
     private String mensajeError;
+
+    private String emailCotizarFlete;
+
 
     private String materialSeleccionadoJson;
 
@@ -509,6 +513,15 @@ public class CrearPedido_backing extends AbstractBackingGen {
         this.nroPedidoCliente = nroPedidoCliente;
     }
 
+    public String getEmailCotizarFlete() {
+        return emailCotizarFlete;
+    }
+
+    public void setEmailCotizarFlete(String emailCotizarFlete) {
+        this.emailCotizarFlete = emailCotizarFlete;
+    }
+
+
     @Override
     public String toString() {
         return "CrearPedido_backing{" +
@@ -518,8 +531,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 ", usoCfdiRFC=" + usoCfdiRFC +
                 ", buscarMetodoPagoCfdiRFC=" + buscarMetodoPagoCfdiRFC +
                 ", pedidoBd=" + pedidoBd +
+                ", pedidoPartidas=" + pedidoPartidas +
                 ", materialService=" + materialService +
                 ", pedidoService=" + pedidoService +
+                ", pedidoPartidasService=" + pedidoPartidasService +
                 ", idPedido='" + idPedido + '\'' +
                 ", nroPedidoCliente='" + nroPedidoCliente + '\'' +
                 ", destino='" + destino + '\'' +
@@ -551,6 +566,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 ", correoElectronico='" + correoElectronico + '\'' +
                 ", segmento='" + segmento + '\'' +
                 ", mensajeError='" + mensajeError + '\'' +
+                ", emailCotizarFlete='" + emailCotizarFlete + '\'' +
                 ", materialSeleccionadoJson='" + materialSeleccionadoJson + '\'' +
                 ", destinatarioMercancias=" + destinatarioMercancias +
                 ", destinatarioMercanciaSel=" + destinatarioMercanciaSel +
@@ -559,6 +575,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 ", materiales=" + materiales +
                 ", usoCFDIDetalles=" + usoCFDIDetalles +
                 ", usoCFDIDetallesJson='" + usoCFDIDetallesJson + '\'' +
+                ", descripcionDestinatario='" + descripcionDestinatario + '\'' +
                 '}';
     }
 
@@ -585,6 +602,18 @@ public class CrearPedido_backing extends AbstractBackingGen {
         }
         logger.info("fin Genera Pedido");
         return "/pedidos/listado";
+    }
+
+    public void cotizarFlete(){
+        pedidoBd.setCorreoElectronico(getCorreoElectronico());
+        pedidoBd.setNoCotizacion(String.valueOf(KeyGenerator.getKey()));
+
+        setNoCotizacion(pedidoBd.getNoCotizacion());
+
+
+
+        pedidoService.save(pedidoBd);
+
     }
 
     public void fillPedido(Pedido pedido){
