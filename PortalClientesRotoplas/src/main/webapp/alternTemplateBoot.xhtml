@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	
+<h:head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Portal Clientes</title>
+	
+	<!-- Custom styles for this template-->
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Bootstrap4/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Bootstrap4/css/bootstrap-grid.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Bootstrap4/css/bootstrap-reboot.min.css" rel="stylesheet" />
+	
+	<link href="/PortalClientes/resources/lookAndFeel/css/estilos.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/css/font.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Datatables/datatables.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Datatables/Responsive-2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Select2/select2.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Select2/select2-bootstrap.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+	<link href="/PortalClientes/resources/lookAndFeel/vendor/Datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+	<ui:insert name="metadata">
+		
+	</ui:insert>
+</h:head>
+
+<h:body id="page-top">
+	<!-- Main Content -->
+	<ui:insert name="top">
+		<h:form id="navegacion">
+			<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
+	          	<h:link outcome="/inicio" styleClass="navbar-brand">
+	          		<h:graphicImage value="/resources/lookAndFeel/img/logotipo.png" height="70" alt="Rotoplas" />
+				</h:link>
+
+				<div class="navbar-toggler" type="button"
+					data-toggle="collapse" data-target="#navbarCollapse">
+					<h:graphicImage value="/resources/lookAndFeel/img/fas fa bars.png" alt="Rotoplas" />
+				</div>
+
+				<div class="collapse navbar-collapse"
+					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
+					<ul class="navbar-nav">
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">
+							<li class="#{view.viewId == '/pedidos/listado.xhtml' or view.viewId == '/inicio.xhtml' ? 'active' : ''}">
+								<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
+								<span style="padding-right: 9px;" />
+										#{lblMain.pedidos}
+								</h:link>
+		            		</li>       		
+		            	</sec:authorize>
+
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+		            								,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
+			            	<li class="#{view.viewId == '/cotizaciones.xhtml' ? 'active' : ''}">
+			            		<h:link outcome="/cotizaciones" styleClass="nav-item nav-link textMenuStyle ">
+						         #{lblMain.cotizaciones}</h:link>
+						    </li>
+					    </sec:authorize>
+		            	
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">          		
+			            	<li class="#{view.viewId == '/consultaExistencia.xhtml' ? 'active' : ''}">		            		
+			            		<h:link outcome="/consultaExistencia" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+			            			<span style="padding-right: 9px;" />
+										#{lblMain.busqueda}
+			            		</h:link>
+			            	</li>
+						</sec:authorize>
+
+						<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER">
+							<li class="#{view.viewId == '/altaColaboradores.xhtml' ? 'active' : ''}">
+								<h:link outcome="/altaColaboradores" rendered="#{template.usuarioLogueado.pais eq 'MX'}" styleClass="nav-item nav-link textMenuStyle">
+									<span style="padding-right: 9px;" />
+									#{lblMain.altaColaboradores}
+								</h:link>
+							</li>
+						</sec:authorize>
+
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+		            								,ROLE_ADMIN_MEMBER,ROLE_ESTADO_CUENTA">
+			            	<li class="#{view.viewId == '/estadoCuenta.xhtml' ? 'active' : ''}">
+			            		<h:link outcome="/estadoCuenta" styleClass="nav-item nav-link textMenuStyle">
+				            		<span style="padding-right: 9px;" />
+				            		#{lblMain.estadoCuenta}
+			            		</h:link>
+			            	</li>
+		            	</sec:authorize>
+
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
+		            		<h:panelGroup rendered="#{template.usuarioLogueado.pais == 'MX'}">
+				            	<li class="dropdown">		            	
+									<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										#{lblMain.ligasInteres}
+									</a>
+			              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                			<h:outputLink styleClass="dropdown-item" value="http://www.rotoplas.com.mx" target="_blank">#{lblMain.rotoLiga1}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="http://200.53.162.63/rotopub/" target="_blank">#{lblMain.rotoLigaPFacturas}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="http://www.fandelagua.com/" target="_blank">#{lblMain.rotoLiga2}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="https://www.facebook.com/fandelagua" target="_blank">#{lblMain.rotoLigaFace}</h:outputLink>
+			                			<h:outputLink styleClass="dropdown-item" value="https://twitter.com/fandelagua" target="_blank">${lblMain.rotoLigaTwit}</h:outputLink>
+			                		</div>
+				                </li>
+		                	</h:panelGroup>
+				        </sec:authorize>	                
+		                
+		                <h:panelGroup>
+		                	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
+		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
+		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
+		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
+			                	<li class="nav-item dropdown">
+									<a class="nav-item nav-link textMenuStyle dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										#{lblMain.ayuda}
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									    <!-- Manual de usuario -->
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR">
+									    	<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE">
+									    	<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA">
+									    	<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    <sec:authorize ifAnyGranted="ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR">
+									    	<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_de_Usuario_ventas_ar.pdf']}" target="_blank">#{lblMain.manualUsuarioVentas}</a>
+									    </sec:authorize>
+									    
+									    <!-- Manual de Envio Masivo -->
+				    				    <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+			                                                         ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+									    	<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_Envio_Masivo.pdf']}" target="_blank">#{lblMain.manualEnvioMasivo}</a>
+									    </sec:authorize>							    
+									    							    								   
+									    <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
+									  		<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'MX'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>							
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'AR'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/PC_Manual_de_Usuario_ar.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>							
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'PE'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'GT'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'SV'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'HN'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>				
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'NI'}">
+												<h:outputLink styleClass="dropdown-item" value="/PortalClientes/resources/files/PC_Manual_de_Usuario_ca.pdf']}" target="_blank">#{lblMain.manualUsuario}</h:outputLink>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'CR'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{template.usuarioLogueado.pais eq 'BR'}">
+												<a class="dropdown-item" href="/PortalClientes/resources/files/Manual Portal de Clientes.pdf']}" target="_blank">#{lblMain.manualUsuario}</a>				
+											</h:panelGroup>	
+									    </sec:authorize>
+
+										<!-- Manual de administrador -->
+										<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER">
+											<a class="dropdown-item" href="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+						    			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_AR">
+						    				<a class="dropdown-item" href="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador_ar.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_PE">
+											<a class="dropdown-item" href="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_CA">
+							   				<a class="dropdown-item" href="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+							   			<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER_BR">
+							   				<a class="dropdown-item" href="/PortalClientes/resources/filesAdm/PC_Manual_de_Usuario_Administrador.pdf']}" target="_blank">#{lblMain.manualAdmin}</a>
+										</sec:authorize>
+									</div>
+			                	</li>
+			                </sec:authorize>
+		                </h:panelGroup>
+		                
+		                <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+			                <h:panelGroup>
+			                	<li class="dropdown">
+			                		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+			                			#{lblMain.adminOps}
+			                		</a>
+			                		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
+				                			<h:link styleClass="dropdown-item" outcome="/admin/listadoClientes" value="#{lblMain.clientesRegistados}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/altaCliente" value="#{lblMain.altaCliente}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/altaMasiva" value="#{lblMain.altaClienteMasiva}" />
+				                			<h:link styleClass="dropdown-item" outcome="/admin/listadoUsuarios" value="#{lblMain.altaUsuario}" />
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
+				                		                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+				                			<h:link styleClass="dropdown-item" outcome="/ejecutivo/EnvioMasivoSociedadClienteCorreo" value="#{lblMain.ttlEnvioMasivoEstadoCuenta}" />
+				                		</sec:authorize>
+				                		<sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR">
+					                		<h:link styleClass="dropdown-item" data-toggle="dropdown" value="#{lblMain.menuClienteVendedor}" />
+                                    		<h:link styleClass="dropdown-item" outcome="/admin/altaClienteVendedor" value="#{lblMain.menuIndividual}" />                 			
+                                    		<h:link styleClass="dropdown-item" outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
+		                       			</sec:authorize>
+			                		</div>
+			                	</li>	
+			                </h:panelGroup>
+		                </sec:authorize>
+		                <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
+		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
+		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
+		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">              
+			            	<li class="#{view.viewId == '/contactanos.xhtml' ? 'active' : ''}">
+			            		<h:link outcome="/contactanos" rendered="true" styleClass="nav-item nav-link textMenuStyle">
+				            		#{lblMain.contactanos}
+			            		</h:link>
+			            	</li>
+		            	</sec:authorize> 
+		          	</ul>
+		          	<ul class="navbar-nav ml-auto">
+		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
+		            								,ROLE_ADMIN_MEMBER,ROLE_VENTAS_MEMBER,ROLE_EJECUTIVO_MEMBER
+		            								,ROLE_ADMIN_MEMBER_AR,ROLE_VENTAS_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_AR
+		            								,ROLE_ADMIN_MEMBER_PE,ROLE_VENTAS_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_PE
+		            								,ROLE_ADMIN_MEMBER_CA,ROLE_VENTAS_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_CA
+		            								,ROLE_ADMIN_MEMBER_BR,ROLE_VENTAS_MEMBER_BR,ROLE_EJECUTIVO_MEMBER_BR,
+		            								ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS,ROLE_ESTADO_CUENTA">
+			            	<li class="dropdown">
+			              		<a href="/PortalClientes/#" class="dropdown-toggle nav-item nav-link textMenuStyle" data-toggle="dropdown">
+			              			<strong>
+				              		#{template.usuarioLogueado.noCliente}
+			              			</strong>
+			              		</a>
+		              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		                			<!--<h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" />-->
+		                			<h:link styleClass="dropdown-item" outcome="/infoCuenta" value="Mi cuenta" />
+		                			<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
+		              			</div>
+			            	</li>
+			            </sec:authorize>
+		          	</ul>
+		          	<section style="margin-right: 30px"/>
+				</div>
+			</nav>
+		</h:form>
+	</ui:insert>
+
+	<!-- cuerpo -->
+	<ui:insert name="content">
+		
+	</ui:insert>
+
+	<ui:insert name="modal">
+	</ui:insert>
+
+	<ui:insert name="footer">
+		<!-- Footer -->
+		<footer>
+			<h:panelGroup layout="block" styleClass="container">
+				<h:panelGroup layout="block" styleClass="row ">
+					<h:panelGroup layout="block"
+						styleClass="col clearfix copyright text-center my-auto">
+						<h:panelGroup layout="block" styleClass="float-left">
+							<span><strong>#{lblMain.avisoPrivacidad}</strong></span>
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="float-right ">
+							<span><strong>#{lblMain.grupoRotoplas}</strong></span>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</footer>
+		<!-- End of Footer -->
+	</ui:insert>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/jquery/jquery.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/PopperJs/popper.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Bootstrap4/js/bootstrap.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datatables/datatables.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/dataTables.responsive.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datatables/Responsive-2.2.3/js/responsive.bootstrap4.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Moment/moment.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Select2/select2.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="/PortalClientes/resources/lookAndFeel/vendor/Datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+
+	<ui:insert name="scriptJS">
+
+	</ui:insert>
+
+</h:body>
+</html>
