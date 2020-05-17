@@ -344,7 +344,7 @@ var crearPedido = (function () {
                         $("[id='crearPedido:filterStepOne:apellidoContacto']").val(inputComentario.val());
                         break;
                     case 2:
-                        $("[id='crearPedido:filterStepOne:telefonoCOntacto']").val(inputComentario.val());
+                        $("[id='crearPedido:filterStepOne:telefonoContacto']").val(inputComentario.val());
                         break;
                     case 3:
                         $("[id='crearPedido:filterStepOne:horarioRecepcion']").val(inputComentario.val());
