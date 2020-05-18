@@ -34,6 +34,14 @@ import org.apache.log4j.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.Part;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -107,6 +115,68 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     private String skuMaterialEliminado;
 
+	private Part imagenTicket;
+    private int tipoMessage;
+
+    public Part getImagenTicket() {
+		return imagenTicket;
+	}
+
+	public void setImagenTicket(Part imagenTicket) {
+		this.imagenTicket = imagenTicket;
+	}
+	
+    public int getTipoMessage() {
+        return tipoMessage;
+    }
+
+    public void setTipoMessage(int tipoMessage) {
+        this.tipoMessage = tipoMessage;
+    }
+	
+	public void handleFileUpload(AjaxBehaviorEvent event) {
+		String repositorio = System.getenv().get("ALLIAX_REPO_IMG");
+
+		String fileName = "";
+		for (String fileSplit : imagenTicket.getHeader("content-disposition").split(";")) {
+			if (fileSplit.trim().startsWith("filename")) {
+				fileName = fileSplit.substring(fileSplit.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+	    	    
+	    OutputStream out = null;
+	    InputStream filecontent = null;
+	    try {
+	        out = new FileOutputStream(new File(repositorio + File.separator + fileName));
+	        filecontent = imagenTicket.getInputStream();
+
+	        int read = 0;
+	        final byte[] bytes = new byte[1024];
+
+	        while ((read = filecontent.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+	        tipoMessage = 1;
+	    } catch (Exception e) {
+	    	logger.error("Error ticket Grl :::::::: " + e);
+
+	    } finally {
+	        if (out != null) {
+	            try {
+					out.close();
+				} catch (IOException e) {
+					logger.error("Error ticket Stream :::::::: " + e);
+				}
+	        }
+	        if (filecontent != null) {
+	            try {
+					filecontent.close();
+				} catch (IOException e) {
+					logger.error("Error ticket :::::::: " + e);
+				}
+	        }
+	    }
+	}
 
     public String getIdPedido() {
         return idPedido;
