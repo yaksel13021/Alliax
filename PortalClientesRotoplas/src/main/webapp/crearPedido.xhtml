@@ -91,6 +91,7 @@
 											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
 											<h:inputHidden id="frm_cfdi_desc" />
 											<h:inputHidden id="frm_metodoPago_desc" />
+											<h:inputHidden id="frm_skuMaterialEliminado" value="#{crearPedido.skuMaterialEliminado}"/>
 
 											<div class="continuarDestinatarioNroPedido"></div>
 											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
@@ -120,12 +121,11 @@
 											<h:commandLink  id="finalizar" action="#{crearPedido.finalizar}">
 												<f:ajax  execute="@form" />
 											</h:commandLink>
+											<h:commandLink  id="deletePartida" action="#{crearPedido.deletePartida}">
+												<f:ajax  execute="@form" render="mateiralSelScript mateiralScript" onevent="ajaxDeletePartida"/>
+											</h:commandLink>
 											<h:panelGroup id="mateiralScript">
-												<script>
-													function materialLoad() {
-														return #{crearPedido.materialesJson};
-													}
-												</script>
+												<h:inputHidden id="materialLoad"  value="#{crearPedido.materialesJson}"/>
 											</h:panelGroup>
 											<h:panelGroup id="mateiralSelScript">
 												<script>
@@ -147,13 +147,13 @@
 
 											<script>
 												function ajaxMaterialEnd(data){
-													if(data.status == 'success'){
-														setMateriales(materialLoad());
-														if($("[id='crearPedido:filterStepOne:frm_segmento']").val() == "10"){
-															$('div.AMC_content_next').trigger('click');
-														}else{
-															$('DIV.usoMaterialSecond').trigger('click');
-														}
+															if(data.status == 'success'){
+																setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
+																if($("[id='crearPedido:filterStepOne:frm_segmento']").val() == "10"){
+																	$('div.AMC_content_next').trigger('click');
+																}else{
+																	$('DIV.usoMaterialSecond').trigger('click');
+																}
 
 														//crearPedido.initEvents();
 													}
@@ -170,7 +170,7 @@
 
 												function ajaxContinuaCompra(data){
 													if(data.status == 'success'){
-														setMateriales(materialLoad());
+														setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
 														$('div.showMaterial').trigger('click');
 														//crearPedido.initEvents();
 													}
@@ -197,6 +197,12 @@
 													}
 												}
 
+												function ajaxDeletePartida(data){
+													if(data.estatus == 'success'){
+														setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
+														setMaterialesSel(materialSelLoad());
+													}
+												}
 											</script>
 										</h:form>
 									</h:panelGroup>
@@ -371,10 +377,11 @@
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div class="showMaterial"></div>
+							<div class="deletePartirda"></div>
 							<div id="dt_ProductsSelected_content" style="width: 100%">
 								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%">
 									<thead>
-										<tr>
+										<tr class="dataRow">
 											<th data-dt-columnName="control" data-dt-render="controlRender" data-columnWidth="2%"></th>
 											<th class="no-wrap" data-prority="1" data-dt-render="actions" data-columnWidth="5%"></th>
 											<th class="no-wrap" data-prority="2" data-dt-columnName="posicion" data-columnWidth="10%">Pos</th>
@@ -441,7 +448,7 @@
 													<th class="no-wrap" data-prority="7" data-dt-columnName="unidadMedida" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">UM</th>
 													<th class="no-wrap" data-prority="8" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Monto</th>
 													<th class="no-wrap" data-prority="9" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Precio Neto</th>
-													<th class="no-wrap" data-prority="10" data-dt-render="fecha" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
+													<th class="no-wrap" data-prority="10" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
 													<th class="no-wrap" data-prority="1" data-dt-columnName="estatus" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Estatus</th>
 												</tr>
 											</thead>
