@@ -642,6 +642,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         //ITEMS
         PedidoMaterial pedidoMaterial = null;
         PedidoPartidas pedidoPartidas = null;
+        int posicion = 1;
         for(int i = 0; i < materiales.size(); i++){
             try{
                 pedidoMaterial = materiales.get(i);
@@ -649,7 +650,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     pedidoPartidas = new PedidoPartidas();
                     pedidoPartidas.setCantidad(Helper.lpad(pedidoMaterial.getCantidad(),13,"0"));
                     pedidoPartidas.setNroMaterial(Helper.lpad(pedidoMaterial.getSku(),18,"0"));
-                    pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
+                    //pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
+                    pedidoPartidas.setPosicion(String.valueOf(posicion++));
                     pedidoPartidas.setUnidadMedida(pedidoMaterial.getUnidadMedida());
 
                     pedido.getPedidoPartidas().add(pedidoPartidas);
@@ -789,42 +791,38 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                             "20", "02", getSegmento(), Helper.lpad(pedidoMaterial2.getSku(), 18, "0"), pedidoMaterial2.getCantidad(),
                                             pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(), 10, "0"), Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(), 10, "0"));
                                     logger.info("Respuesta RFC " + precioMaterial);
+
+                                    //no asignar el valor del error para los pedidos de industrial y
+                                    //que sean error de fecha de entrega (codigo error 5)
+                                    if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
+                                        pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
+                                        pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
+                                    }
+
+                                    pedidoMaterial2.setFechaEntrega(precioMaterial.getFechaEntrega());
+                                    pedidoMaterial2.setIva(precioMaterial.getIva());
+                                    pedidoMaterial2.setMoneda(precioMaterial.getMoneda());
+                                    pedidoMaterial2.setPrecioNeto(String.valueOf(precioMaterial.getPrecioNeto()));
+                                    pedidoMaterial2.setMonto(String.valueOf(precioMaterial.getMonto()));
+
+                                    //save to DB
+                                    pedidoPartida.setPosicion(pedidoMaterial2.getPosicion());
+                                    pedidoPartida.setCantidad(pedidoMaterial.getCantidad());
+                                    pedidoPartida.setCodigoError(pedidoMaterial2.getCodigoError());
+                                    pedidoPartida.setMensajeError(pedidoMaterial2.getMensajeError());
+
+                                    pedidoPartida.setFechaEntrega(pedidoMaterial2.getFechaEntrega());
+                                    pedidoPartida.setIva(pedidoMaterial2.getIva());
+                                    pedidoPartida.setMoneda(pedidoMaterial2.getMoneda());
+                                    pedidoPartida.setPrecioNeto(String.valueOf(pedidoMaterial2.getPrecioNeto()));
+                                    pedidoPartida.setMonto(String.valueOf(pedidoMaterial2.getMonto()));
+
+                                    pedidoPartidas.add(pedidoPartida);
                                 } catch (Exception e) {
                                     logger.error(e);
                                     //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
-                                //no asignar el valor del error para los pedidos de industrial y
-                                //que sean error de fecha de entrega (codigo error 5)
-                                /*if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
-                                    pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
-                                    pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
-                                }
 
-                                pedidoMaterial2.setCodigoError("1");
-                                pedidoMaterial2.setMensajeError("Ejemplo error");*/
-
-                                pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
-                                pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
-
-                                pedidoMaterial2.setFechaEntrega(precioMaterial.getFechaEntrega());
-                                pedidoMaterial2.setIva(precioMaterial.getIva());
-                                pedidoMaterial2.setMoneda(precioMaterial.getMoneda());
-                                pedidoMaterial2.setPrecioNeto(String.valueOf(precioMaterial.getPrecioNeto()));
-                                pedidoMaterial2.setMonto(String.valueOf(precioMaterial.getMonto()));
-
-                                //save to DB
-                                pedidoPartida.setPosicion(pedidoMaterial2.getPosicion());
-                                pedidoPartida.setCantidad(pedidoMaterial.getCantidad());
-                                pedidoPartida.setCodigoError(pedidoMaterial2.getCodigoError());
-                                pedidoPartida.setMensajeError(pedidoMaterial2.getMensajeError());
-
-                                pedidoPartida.setFechaEntrega(pedidoMaterial2.getFechaEntrega());
-                                pedidoPartida.setIva(pedidoMaterial2.getIva());
-                                pedidoPartida.setMoneda(pedidoMaterial2.getMoneda());
-                                pedidoPartida.setPrecioNeto(String.valueOf(pedidoMaterial2.getPrecioNeto()));
-                                pedidoPartida.setMonto(String.valueOf(pedidoMaterial2.getMonto()));
-
-                                pedidoPartidas.add(pedidoPartida);
 
                                 break;
                             }
@@ -857,13 +855,13 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 logger.error(e);
                 /*
                 try {
-                    UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
+                    //UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
                     setUsoCFDIDetallesJson(objectMapper.writeValueAsString(usoCfdiConfig.usoCFDI().getDetalles()));
                 }catch (Exception e1){
                     logger.error(e1);
                 }
-                */
+*/
             }
 
             logger.info("METODO");
@@ -877,14 +875,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-               /*
+/*
                 try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
                 }
-                */
+*/
                 logger.error(e);
             }
         }catch(Exception e){
@@ -913,6 +911,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
         pedidoBd.setEquipoEspecial(getEquipoEspecial());
 
         pedidoService.save(pedidoBd);
+
+    }
+
+    public void deletePartida(){
 
     }
 }

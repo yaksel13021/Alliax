@@ -824,3 +824,7 @@ transform: rotate(180deg);
 .h-200 {
   height: 200px;
 }
+
+.filterCustom {
+    max-width: 7em;
+}
