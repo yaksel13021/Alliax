@@ -191,6 +191,8 @@ public class Fecha {
 			return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		else if(formato == 4)
 			return new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		else if(formato == 7)
+			return new SimpleDateFormat("dd/MM/yyyy");
 		else
 			return new SimpleDateFormat("yyyy-MM-dd"); 
     }
@@ -339,4 +341,17 @@ public class Fecha {
 
         return correcto;
     }
+
+	public static String getFechaFormateadaStringToString(String fecha,int formatoEntrada,int formatoSalida){
+    	String resultado=null;
+    	try {
+			if (fecha != null && fecha.length() > 0) {
+				Date date = Fecha.getDate(fecha, formatoEntrada);
+				return getFechaFormateada(date, formatoSalida);
+			}
+		}catch(Exception e){
+    		return null;
+		}
+    	return resultado;
+	}
 }
