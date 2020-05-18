@@ -642,6 +642,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         //ITEMS
         PedidoMaterial pedidoMaterial = null;
         PedidoPartidas pedidoPartidas = null;
+        int posicion = 1;
         for(int i = 0; i < materiales.size(); i++){
             try{
                 pedidoMaterial = materiales.get(i);
@@ -649,7 +650,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     pedidoPartidas = new PedidoPartidas();
                     pedidoPartidas.setCantidad(Helper.lpad(pedidoMaterial.getCantidad(),13,"0"));
                     pedidoPartidas.setNroMaterial(Helper.lpad(pedidoMaterial.getSku(),18,"0"));
-                    pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
+                    //pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
+                    pedidoPartidas.setPosicion(String.valueOf(posicion++));
                     pedidoPartidas.setUnidadMedida(pedidoMaterial.getUnidadMedida());
 
                     pedido.getPedidoPartidas().add(pedidoPartidas);
