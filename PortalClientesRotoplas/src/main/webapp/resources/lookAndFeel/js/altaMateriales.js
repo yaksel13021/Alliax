@@ -243,7 +243,6 @@ function cargarArchivo(){
 function subs(obj) {
     var file = obj.value;
     var fileName = file.split("\\");
-    alert(fileName)
     document.getElementById("formMasivo:labolFile").innerHTML = fileName[fileName.length - 1];
 }
 
