@@ -797,6 +797,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
                                         pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
                                         pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
+                                    }else{
+                                        pedidoMaterial2.setCodigoError("0");
+                                        pedidoMaterial2.setMensajeError("");
                                     }
 
                                     pedidoMaterial2.setFechaEntrega(precioMaterial.getFechaEntrega());
