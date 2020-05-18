@@ -759,15 +759,25 @@ var crearPedido = (function () {
                                     })
                                     return;
                                 }
-                            confirmModal('Eliminar elemento', '¿ Seguro que desea eliminar esta partida ?', 'Cancelar', 'Confirmar', true, function (rs) {
+                                confirmModal('Eliminar elemento',
+                                '¿ Seguro que desea eliminar esta partida ?',
+                                'Cancelar', 'Confirmar',
+                                true, function (rs) {
                                     if (rs) {
-                                        var dta = data,
-                                            findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.id === data.id; });
+                                        var dta = data;
+                                        //,findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.sku === data.sku; });
 
+                                        /*
+                                        var material = $.grep(materialesSel, function( n, i ) {
+                                                            return n.sku=== data.sku;
+                                                        });
 
-                                        productosSeleccionados.splice(findIndex, 1);
-                                        RESS.setProductosSeleccionados(productosSeleccionados);
-                                        cargarDTListProductosSelected.fill();
+                                        alert("material " + material[0].sku + " , "  + material[0].cantidad)
+                                        material[0].cantidad = 0;
+                                        
+                                        //aki
+                                        $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
+                                        */
                                     }
                                 });
                             });
@@ -782,7 +792,7 @@ var crearPedido = (function () {
                         }
                     });
 */
-                    // Add event listener for opening and closing details AKI
+                    // Add event listener for opening and closing details
                    /* $('#dt_ProductsSelected tbody').on('click', 'tr', function () {
                         var tr = $(this);
                         if (!tr.hasClass('formatRow')) {
@@ -1358,12 +1368,4 @@ function format ( d ) {
             '</table>';
 
     return row;
-}
-
-function limpiaCantidad(sku){
-
-    var obj = $.grep( [{"name":"Lenovo Thinkpad 41A4298","website":"google"},{"name":"Lenovo Thinkpad 41A2222","website":"google"}], function( n, i ) {
-        return n.website === sku;
-    });
-    alert(obj.cantidad);
 }

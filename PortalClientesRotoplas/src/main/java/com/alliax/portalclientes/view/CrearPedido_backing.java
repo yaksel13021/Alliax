@@ -351,7 +351,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-                //setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+                setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -442,11 +442,13 @@ public class CrearPedido_backing extends AbstractBackingGen {
     public String getMaterialSeleccionadoJson() {
         List<PedidoMaterial> seleccionados = new ArrayList<>();
         PedidoMaterial pedidoMaterial = null;
+        int posicion = 1;
         try{
             if(materiales != null && materiales.size() > 0) {
                 for (int i = 0; i < materiales.size(); i++) {
                     pedidoMaterial = materiales.get(i);
                     if ((pedidoMaterial.getCantidad() != null && Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
+                        pedidoMaterial.setPosicion(String.valueOf(posicion++));
                         seleccionados.add(pedidoMaterial);
                     }
                 }
@@ -642,7 +644,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
         //ITEMS
         PedidoMaterial pedidoMaterial = null;
         PedidoPartidas pedidoPartidas = null;
-        int posicion = 1;
         for(int i = 0; i < materiales.size(); i++){
             try{
                 pedidoMaterial = materiales.get(i);
@@ -650,8 +651,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     pedidoPartidas = new PedidoPartidas();
                     pedidoPartidas.setCantidad(Helper.lpad(pedidoMaterial.getCantidad(),13,"0"));
                     pedidoPartidas.setNroMaterial(Helper.lpad(pedidoMaterial.getSku(),18,"0"));
-                    //pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
-                    pedidoPartidas.setPosicion(String.valueOf(posicion++));
+                    pedidoPartidas.setPosicion(Helper.lpad(pedidoMaterial.getPosicion(),6,"0"));
                     pedidoPartidas.setUnidadMedida(pedidoMaterial.getUnidadMedida());
 
                     pedido.getPedidoPartidas().add(pedidoPartidas);
@@ -684,7 +684,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             }
         }catch (Exception e){
             logger.error(e);
-            //setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
+            setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }
@@ -792,6 +792,13 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                             pedidoMaterial2.getUnidadMedida(), Helper.lpad(getUsuarioLogueado().getNoCliente(), 10, "0"), Helper.lpad(getDestinatarioMercanciaSel().getNoDestinatario(), 10, "0"));
                                     logger.info("Respuesta RFC " + precioMaterial);
 
+
+                                } catch (Exception e) {
+                                    logger.error(e);
+                                    precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                }
+
+                                if(precioMaterial != null){
                                     //no asignar el valor del error para los pedidos de industrial y
                                     //que sean error de fecha de entrega (codigo error 5)
                                     if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
@@ -821,11 +828,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     pedidoPartida.setMonto(String.valueOf(pedidoMaterial2.getMonto()));
 
                                     pedidoPartidas.add(pedidoPartida);
-                                } catch (Exception e) {
-                                    logger.error(e);
-                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
-
 
                                 break;
                             }
@@ -856,15 +859,15 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-                /*
+
                 try {
-                    //UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
+                    UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
                     setUsoCFDIDetallesJson(objectMapper.writeValueAsString(usoCfdiConfig.usoCFDI().getDetalles()));
                 }catch (Exception e1){
                     logger.error(e1);
                 }
-*/
+
             }
 
             logger.info("METODO");
@@ -878,14 +881,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-/*
+
                 try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
                 }
-*/
+
                 logger.error(e);
             }
         }catch(Exception e){
