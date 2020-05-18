@@ -8,7 +8,7 @@ var materiales = null;
 var materialesSel = null;
 
 function setMateriales(valores){
-    materiales = valores;
+    materiales = JSON.parse(valores);
 }
 function setMaterialesSel(valores){
     materialesSel = valores;
@@ -163,6 +163,15 @@ var crearPedido = (function () {
                 })
                 return;
             }
+
+            if($('.partidaError')){
+                showToastr(mensajes().Generico01, 'Aviso', {
+                    type: typeNotification.warning
+                });
+                return false;
+            }
+
+
             //var valuesStepOne = $('#filterStepOne').serializeForm();
            // $("[id='crearPedido:filterStepOne:preparaFacturacion']").trigger('click');
 /*
@@ -725,7 +734,6 @@ var crearPedido = (function () {
                         })
                         return false;
                     }
-//aki
 
                     if ($dtSeleccionados) {
                         $dtSeleccionados.clear().destroy();
@@ -744,7 +752,7 @@ var crearPedido = (function () {
                         },
                         rowCallback: function (row, data, api) {
                             $(row).find('.eliminarProducto').off().on('click', function (e) {
-                                var productosSeleccionados = RESS.getRESSObject().productosSeleccionados;
+                                var productosSeleccionados =  $('#dt_ProductsSelected tbody tr');
                                 if (productosSeleccionados.length === 1) {
                                     showToastr('No se puede quedar sin partidas', 'Aviso', {
                                         type: typeNotification.warning
@@ -756,6 +764,7 @@ var crearPedido = (function () {
                                         var dta = data,
                                             findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.id === data.id; });
 
+
                                         productosSeleccionados.splice(findIndex, 1);
                                         RESS.setProductosSeleccionados(productosSeleccionados);
                                         cargarDTListProductosSelected.fill();
@@ -764,6 +773,58 @@ var crearPedido = (function () {
                             });
                         }
                     });
+/*
+                    $('#dt_ProductsSelected tr').each(function(index, tr) {
+                        var row = $dtSeleccionados.row( tr );
+                        var tr = $(tr);
+                        if(!(row.data().codigoError == '' || row.data().codigoError == '0')) {
+                            tr.removeClass('odd').addClass('partidaError');
+                        }
+                    });
+*/
+                    // Add event listener for opening and closing details AKI
+                   /* $('#dt_ProductsSelected tbody').on('click', 'tr', function () {
+                        var tr = $(this);
+                        if (!tr.hasClass('formatRow')) {
+                            var row = $dtSeleccionados.row(tr);
+                            if (!(row.data().codigoError == '' || row.data().codigoError == '0')) {
+                                if (row.child.isShown()) {
+                                    // This row is already open - close it
+                                    row.child.hide();
+                                    tr.removeClass('shown');
+                                } else {
+                                    // Open this row
+                                    row.child(format(row.data())).show();
+                                    tr.addClass('shown');
+                                }
+                            }
+                        }
+                    } );*/
+
+                    $('#dt_ProductsSelected tbody tr').each(function(index, tr) {
+                            var row = $dtSeleccionados.row( $(tr) );
+                            if(!(row.data().codigoError == '' || row.data().codigoError == '0')) {
+                                $(tr).addClass('partidaError');
+                            }
+                        }
+                    );
+
+
+                    $('#dt_ProductsSelected tr').click(function () {
+                        var tr = $(this);
+                        if($(this).attr("role")=="row"){
+                            var row = $dtSeleccionados.row(tr);
+                            if (!(row.data().codigoError == '' || row.data().codigoError == '0')) {
+                                if (row.child.isShown()) {
+                                    // This row is already open - close it
+                                    row.child.hide();
+                                } else {
+                                    // Open this row
+                                    row.child(format(row.data())).show();
+                                }
+                            }
+                        }
+                    } );
                     return true
                 });
         },
@@ -1126,7 +1187,7 @@ var crearPedido = (function () {
             });
         }
     };
-//AKI
+
     var cargarDTResumenCuentaFacturacion = {
         fill: function () {
             var CFDISeleccionado =  $("[id='crearPedido:filterStepOne:frm_cfdi']").val();
@@ -1278,4 +1339,31 @@ function validateClasePedido(){
     }else{
         $('div.continuarDestinatarioNroPedido').trigger('click');
     }
+}
+
+function format ( d ) {
+    var row = "";
+
+
+        // `d` is the original data object for the row
+        row ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr class="formatRow">' +
+            '<td>Codigo</td>' +
+            '<td>' + d.codigoError + '</td>' +
+            '</tr>' +
+            '<tr class="formatRow">' +
+            '<td>Mensaje:</td>' +
+            '<td>' + d.mensajeError + '</td>' +
+            '</tr>' +
+            '</table>';
+
+    return row;
+}
+
+function limpiaCantidad(sku){
+
+    var obj = $.grep( [{"name":"Lenovo Thinkpad 41A4298","website":"google"},{"name":"Lenovo Thinkpad 41A2222","website":"google"}], function( n, i ) {
+        return n.website === sku;
+    });
+    alert(obj.cantidad);
 }
