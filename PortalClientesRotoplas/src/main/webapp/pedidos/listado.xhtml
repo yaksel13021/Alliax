@@ -52,7 +52,7 @@
 											<h:panelGroup layout="block" styleClass="row">
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
-														<h:outputLabel for="frm_estatus" styleClass="labelLeftInput fillWidthAvaible">
+														<h:outputLabel for="frm_estatus" styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.estatus}
 														</h:outputLabel>
 														<h:selectOneMenu value="#{listaPedidos.estatus}" styleClass="form-control dropdownActive" required="true" id="frm_estatus" binding="#{frm_estatus}">
@@ -64,7 +64,7 @@
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
 													<h:panelGroup layout="block" styleClass="form-group flex">
 														<h:outputLabel for="frm_rangoDias"
-																	   styleClass="labelLeftInput fillWidthAvaible">
+																	   styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.fecha}
 														</h:outputLabel>
 														<h:selectOneMenu id="frm_rangoDias" value="#{listaPedidos.rangoDias}" required="true" styleClass="form-control dropdownActive" binding="#{frm_rangoDias}" onchange="fechaBox()" >
@@ -77,7 +77,7 @@
 												<h:panelGroup id="boxFechaI" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden">
 													<h:panelGroup layout="block"  styleClass="form-group flex">
 														<h:outputLabel for="frm_fechaIni"
-																	   styleClass="labelLeftInput fillWidthAvaible">
+																	   styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.fechaI}
 														</h:outputLabel>
 														<h:panelGroup layout="block"
@@ -97,7 +97,7 @@
 												<h:panelGroup id="boxFechaF" layout="block"  styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden" >
 													<h:panelGroup layout="block" styleClass="form-group flex" >
 														<h:outputLabel for="frm_fechaFin"
-																	   styleClass="labelLeftInput fillWidthAvaible">
+																	   styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.fechaF}
 														</h:outputLabel>
 														<h:panelGroup layout="block"
@@ -117,7 +117,7 @@
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
 														<h:outputLabel for="frm_tipoDocumento"
-																	   styleClass="labelLeftInput fillWidthAvaible">
+																	   styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.por}
 														</h:outputLabel>
 														<h:selectOneMenu styleClass="form-control dropdownActive" value="#{listaPedidos.tipoDocumento}"
@@ -131,7 +131,7 @@
 												<h:panelGroup layout="block" styleClass="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 													<h:panelGroup layout="block" styleClass="form-group flex">
 														<h:outputLabel
-																styleClass="labelLeftInput fillWidthAvaible">
+																styleClass="labelLeftInput fillWidthAvaible filterCustom">
 															#{lblMain.documento}
 														</h:outputLabel>
 														<h:inputText id="frm_documento" value="#{listaPedidos.documento}" styleClass="form-control">
@@ -599,12 +599,12 @@
 											<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS">
 												<h:panelGroup id = "panelDate">
 													<h:outputText id="result1" value="#{lblMain.pedidoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='0'}"/>
-													<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado=='1'}"/>
+													<h:outputText id="result2" value="#{lblMain.pedidoNoCancelado}" style="font-weight:bold;" rendered="#{listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado!='0'}"/>
 	
 													<!--   -->
 	
 													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-													disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND') or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('CANC')  or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE') ) )  ? 'true' : 'false'}"
+													disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND') or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')   or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE') ) )  ? 'true' : 'false'}"
 																	 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 														<f:ajax execute="@this" render=":modal1" />
 													</h:commandButton>

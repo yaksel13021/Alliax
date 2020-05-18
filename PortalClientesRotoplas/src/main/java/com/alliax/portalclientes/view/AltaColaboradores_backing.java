@@ -57,14 +57,15 @@ public class AltaColaboradores_backing extends AbstractBacking {
         map.put(RE, ROLE_ESTADO_CUENTA);
         try {
             logger.info("Usuario: " + this.getUsuarioLogueado().getUsername());
+            BCryptPasswordEncoder encoder = this.getSpringContext().getBean("encoder",BCryptPasswordEncoder.class);
             Usuario colaborador = usrServ.findByUserName(this.getActividad()+usuario.getNoCliente());
-
+            String pswStr;
             if(colaborador == null){
-                BCryptPasswordEncoder encoder = this.getSpringContext().getBean("encoder",BCryptPasswordEncoder.class);
+
                 colaborador = new Usuario();
                 colaborador.setUsuario(this.getActividad()+usuario.getNoCliente());
-                colaborador.setPasswordStr(Generales.generaPassword());
-                colaborador.setPassword(encoder.encode(colaborador.getPasswordStr()));
+
+
                 colaborador.setNoCliente(usuario.getNoCliente());
                 if(this.getActividad().equals(RC)){
                     colaborador.setEmail(this.email1);
@@ -101,6 +102,8 @@ public class AltaColaboradores_backing extends AbstractBacking {
             }
 
             if (colaborador.getEstatus().equals(I)){
+                colaborador.setPasswordStr(Generales.generaPassword());
+                colaborador.setPassword(encoder.encode(colaborador.getPasswordStr()));
                 ConstructEmail mail = this.getSpringContext().getBean("constructEmail",ConstructEmail.class);
                 mail.enviaCorreoAlta(colaborador,this.getClienteInfo());
             }

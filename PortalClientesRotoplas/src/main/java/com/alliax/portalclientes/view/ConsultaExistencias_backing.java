@@ -21,6 +21,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
 import javax.validation.ValidationException;
 
+import com.alliax.portalclientes.controller.BusquedaMaterialConfig;
+import com.alliax.portalclientes.controller.StockMaterialConfig;
 import org.apache.log4j.Logger;
 
 import com.alliax.portalclientes.controller.BusquedaMaterialRFC;
@@ -433,7 +435,7 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 			PlantaService plantaService = this.getSpringContext().getBean("plantaService",PlantaService.class);
 			if(this.getIdLocalidad() != 0){
 				logger.info("idLocalidad " + this.getIdLocalidad());
-				//this.setCatalogoPlanta(plantaService.findByLocalidad(this.getIdLocalidad()));
+				this.setCatalogoPlanta(plantaService.findByLocalidad(this.getIdLocalidad()));
 				Planta planta =  plantaService.findByIdLocalidad(this.getIdLocalidad());
 				this.setIdPlanta(planta.getIdPlanta());
 				this.setPlantaDescripcion(planta.getDescripcion());				
@@ -463,4 +465,7 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 			this.setCatalogoEstado(null);
 		}
 	}
+
+
+
 }
