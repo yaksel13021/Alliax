@@ -237,4 +237,14 @@ function  ValidarGuarda() {
     }
 }
 
+function cargarArchivo(){
+    document.getElementById('formMasivo:cargaFile').click();
+}
+function subs(obj) {
+    var file = obj.value;
+    var fileName = file.split("\\");
+    alert(fileName)
+    document.getElementById("formMasivo:labolFile").innerHTML = fileName[fileName.length - 1];
+}
+
 
