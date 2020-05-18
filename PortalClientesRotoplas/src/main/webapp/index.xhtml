@@ -11,10 +11,7 @@
 <h:body>
 	<ui:composition template="templateBoot.xhtml">
 		<ui:define name="metadata">
-			<f:metadata>
-				<f:viewParam name="error" value="#{login.returnCode}" required="false" />
-				<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
-			</f:metadata>
+			<link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
 		</ui:define>
 		<ui:define name="content">
 			<h:form id="login">
@@ -48,9 +45,13 @@
 															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
 															requiredMessage="#{lblMain.passwordReq}"/>
 													</h:panelGroup>
-	
-													<h:commandButton action="#{login.doLogin}" 
-														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
+													<h:inputText style="display: none;" id="valueCode" value="#{login.returnCode}" immediate="true">
+													</h:inputText>
+													<h:commandButton id="doLogin" type="button" action="#{login.validateLogin}"
+														styleClass="btn botonEstilo btn-user btn-block" value="#{lblMain.btnPortal}" immediate="true">
+														<f:ajax execute="@form" immediate="true" render="@this valueCode"></f:ajax>
+													</h:commandButton>
+													<h:commandButton style="display: none;" id="loginResponse" action="#{login.doLogin}"></h:commandButton>
 													<hr />
 													<h:panelGroup layout="block" styleClass="text-center pt-1">
 														<h:link outcome="recuperaPassword" styleClass="small LetraEstilo">
@@ -68,6 +69,100 @@
 				</h:panelGroup>
 				<!-- End of Main Content -->
 			</h:form>
+		</ui:define>
+		<ui:define name="scriptJS">
+			<script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
+			<script type="text/javascript">
+				var completeEvent = function (data) {
+					var status = data.status;
+					var usrStatus = document.getElementById("login:valueCode").value;
+					switch(status){
+						case 'complete':
+							if(usrStatus == "1" || usrStatus == ""){
+								showToastr('El usuario o la contraseña son incorrectos.', 'Aviso', {
+						            type: typeNotification.warning
+						        });
+							} else if(usrStatus == "2"){
+								showToastr('El contraseña de tu cuenta ha expirado, es necesario que lo cambies a través de la opción "Olvide mi contraseña".', 'Aviso', {
+						            type: typeNotification.warning
+						        });
+							} else if(usrStatus == "3"){
+								showToastr('Tu cuenta ha sido bloqueada, para mayor información comunicate a la mesa de ayuda.', 'Aviso', {
+						            type: typeNotification.warning
+						        });
+							} else if(usrStatus == "4"){
+								showToastr('Tu cuenta ha sido bloqueada por intentos fallidos, es neceario que generes una nueva clave a traves de la opción "Olvide mi contraseña".', 'Aviso', {
+						            type: typeNotification.warning
+						        });
+							}else if(usrStatus == "5"){
+								showToastr('Ocurrió un error al intentar validar tus datos.', 'Aviso', {
+						            type: typeNotification.warning
+						        });
+							} else if(usrStatus == "0"){
+								showToastr('El usuario se registró correctamente.', 'Aviso', {
+						            type: typeNotification.success
+						        });
+								document.getElementById('login:loginResponse').click();
+							}
+						break;
+					}
+				}
+				
+				var progressAnimationEnum = {
+				    decreasing: 'decreasing',
+				    increasing: 'increasing'
+				};
+				var typeNotification = {
+				    error: 'error',
+				    info: 'info',
+				    success: 'success',
+				    warning: 'warning'
+				};
+				
+				function showToastr(message, title, override) {
+				    var propertiesDefault = {
+				        type: typeNotification.success,
+				        html: false,
+				        closeBtn: false,
+				        timeOut: 5000,
+				        progressBar: false,
+				        progressAnimation: progressAnimationEnum.decreasing,
+				        tapToDismiss: false,
+				        disableTimeOut: false
+				    };
+		
+				    toastr[override.type](message, title, {
+				        enableHtml: override.html,
+				        closeButton: override.closeBtn,
+				        timeOut: override.timeOut,
+				        progressBar: override.progressBar,
+				        progressAnimation: override.progressAnimation,
+				        tapToDismiss: override.tapToDismiss,
+				        disableTimeOut: override.disableTimeOut
+				    });
+				}
+			
+				$("[id='login:doLogin']").off().on('click', function (e) {
+				    var input1 = document.getElementById("login:j_username").value;
+				    var input2 = document.getElementById("login:j_password").value;
+				    var onerror = false;
+				    if (input1 == "") {
+				        showToastr('Completa el campo : Usuaio', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+				        onerror = true;
+				    }
+				    if (input2 == "") {
+				        showToastr('Completa el campo : Contraseña', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+				        onerror = true;
+				    }
+				    if(!onerror){
+				    	document.getElementById('login:loginResponse').click();
+				    }
+				});
+			</script>
 		</ui:define>
 	</ui:composition>
 </h:body>
