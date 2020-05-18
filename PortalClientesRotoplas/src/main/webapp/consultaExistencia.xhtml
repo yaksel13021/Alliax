@@ -70,7 +70,7 @@
                                                             <h:selectOneMenu id="frm_localidad" value="#{busqueda.idLocalidad}" required="true" styleClass="form-control" >
                                                                 <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
                                                                 <f:selectItems value="#{busqueda.catalogoLocalidadSet}" var="localidad" itemValue="#{localidad.key}" itemLabel="#{localidad.value}" />
-                                                                <f:ajax execute="frm_localidad" render="c f" listener="#{busqueda.onLocalidadChange}" />
+                                                                <f:ajax execute="frm_localidad" render="c f d frm_PlantaPta" listener="#{busqueda.onLocalidadChange}" />
                                                             </h:selectOneMenu>
                                                         </h:panelGroup>
                                                     </h:panelGroup>
@@ -81,12 +81,6 @@
                                                             <h:outputLabel value="#{lblMain.planta}: " styleClass="labelLeftInput fillWidthAvaible" />
                                                             <h:outputLabel value="#{busqueda.plantaDescripcion}" />
                                                             <h:outputScript>reload()</h:outputScript>
-                                                            <ui:remove>
-                                                                <h:selectOneMenu value="#{busqueda.idPlanta}" required="true" styleClass="form-control" >
-                                                                    <f:selectItem itemValue="0" itemLabel="#{lblMain.select}" />
-                                                                    <f:selectItems value="#{busqueda.catalogoPlantaSet}" var="planta" itemValue="#{planta.key}" itemLabel="#{planta.value}"/>
-                                                                </h:selectOneMenu>
-                                                            </ui:remove>
                                                         </h:panelGroup>
                                                     </h:panelGroup>
                                                 </h:panelGroup>
