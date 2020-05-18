@@ -108,16 +108,23 @@ function validaBusqueda() {
 
 
 function valorDatos() {
-    $('[id="actualiza:pantallaBusqueda"]').show();
+    var tipoMat = document.getElementById("form:tipoMatBus").value;
+    if (tipoMat == 11){
+        document.getElementById("form:tipoMatBus").value = "Almacenamiento mejoramiento Conducción";
+    }else {
+        document.getElementById("form:tipoMatBus").value = "Indutria";
+    }
+
+    $('[id="form:pantallaBusqueda"]').show();
 }
 
 function mensajeActualizacion() {
-    var tipo = document.getElementById("tipoMenssage");
-    if (tipo == 1){
+    var tipo = document.getElementById("form:tipoMenssage").value;
+    if (tipo == 20){
         showToastr('El material se actualizo correctamente', 'Aviso', {
             type: typeNotification.success
         })
-    }else if (tipo == 2) {
+    }else if (tipo == 22) {
         showToastr('Ocurrio un error al actualizar los datos', 'Aviso', {
             type: typeNotification.warning
         })
@@ -125,31 +132,26 @@ function mensajeActualizacion() {
 }
 
 function  validaMat() {
-    var input1 = $('[id="actualiza:input_descpB"]').val();
-    var input2 = $('[id="actualiza:input_umB"]').val();
-    var input3 = $('[id="actualiza:input_nsku"]').val();
+    var input2 = $('[id="form:input_descpB"]').val();
+    var input3 = $('[id="form:input_umB"]').val();
+    var input4 = document.getElementById("form:input_imagen").value;
     var onerror = false;
 
-    if (input1 == "") {
-        showToastr('completa el campo : Descripcion', 'Aviso', {
-            type: typeNotification.warning
-        });
-        onerror = true;
-    }
     if (input2 == "") {
-        showToastr('completa el campo : UM', 'Aviso', {
+        showToastr('completa el campo : Descripción', 'Aviso', {
             type: typeNotification.warning
         });
         onerror = true;
     }
     if (input3 == "") {
-        showToastr('completa el campo : No. Sku', 'Aviso', {
+            showToastr('completa el campo : UM', 'Aviso', {
             type: typeNotification.warning
         });
         onerror = true;
     }
     if (!onerror) {
-        document.getElementById('actualiza:actualizar').click();
+        $('[id="form:actualizainput"]').val(input2 +","+input3+","+input4)
+        document.getElementById('form:actualizar').click();
     }
 }
 
@@ -172,26 +174,44 @@ function  validaMat() {
 
     function cancelar(){
         $( "#pantallaAgregarMateriales" ).hide();
-        $( "#pantallaBusqueda" ).hide();
+        $('[id="form:pantallaBusqueda"]').hide();
+        $('[id="form:pantallaBusq"]').hide();
         $( "#filtroBusqueda" ).show()
     }
 
     function agregar() {
-        $( '[id="actualiza:pantallaBusqueda"]').hide();
+        $('[id="form2:tipoMaterial"]').select2({
+            theme: "bootstrap",
+            allowClear: true,
+            placeholder: "Seleccione una opción",
+            language: Select2Languaje(),
+            multiple: false,
+            width: "100%",
+        });
+        $( '[id="form:pantallaBusqueda"]').hide();
         $( "#filtroBusqueda" ).hide();
         $( "#pantallaAgregarMateriales" ).show()
     }
 
 function agregarMasivo() {
+    $('[id="formMasivo:inputFileTip"]').select2({
+        theme: "bootstrap",
+        allowClear: true,
+        placeholder: "Seleccione una opción",
+        language: Select2Languaje(),
+        multiple: false,
+        width: "100%",
+    });
+
     $("#carga").show();
     $("#filtroBusqueda" ).hide();
+    $('[id="form:pantallaBusq"]').hide();
 }
 
 function  ValidarGuarda() {
     var input1 = $('[id="form2:input_descripcion"]').val();
     var input2 = $('[id="form2:input_um"]').val();
     var input3 = $('[id="form2:input_sku"]').val();
-    alert("Was")
     var onerror = false;
 
     if (input1 == "") {
@@ -215,16 +235,15 @@ function  ValidarGuarda() {
     if (!onerror) {
         document.getElementById('form2:guardar').click();
     }
+}
 
-    $(document).ready(function () {
-        alert("asdasdasd")
-        if (document.getElementById("tipo").value == 11) {
-            setTimeout(function(){
-                showToastr('Alta Masiva exitosa', 'Aviso', {
-                    type: typeNotification.success
-                }) }, 7000);
-        }
-    });
+function cargarArchivo(){
+    document.getElementById('formMasivo:cargaFile').click();
+}
+function subs(obj) {
+    var file = obj.value;
+    var fileName = file.split("\\");
+    document.getElementById("formMasivo:labolFile").innerHTML = fileName[fileName.length - 1];
 }
 
 
