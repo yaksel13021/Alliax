@@ -72,6 +72,10 @@ var crearPedido = (function () {
             initEvents();
         });
 
+        $('div.deletePartirda').off().on('click', function (e) {
+            cargarDTListProductosSelected.fill();
+        });
+
         $('#btn_AgregarProductsNext').off().on('click', function (e) {
             e.preventDefault();
             if ($dt) {
@@ -774,10 +778,16 @@ var crearPedido = (function () {
 
                                         alert("material " + material[0].sku + " , "  + material[0].cantidad)
                                         material[0].cantidad = 0;
-                                        
+
                                         //aki
                                         $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
                                         */
+
+                                        //aki
+
+                                       /* $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
+                                        $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');*/
+
                                     }
                                 });
                             });

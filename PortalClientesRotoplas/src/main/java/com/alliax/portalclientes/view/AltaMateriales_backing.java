@@ -25,6 +25,7 @@ public class AltaMateriales_backing extends AbstractBacking{
     private int tipoMessage;
     private Part file;
     private String tipoMAterial;
+    private String update;
 
 
     public String busquedaMaterial(){
@@ -46,21 +47,23 @@ public class AltaMateriales_backing extends AbstractBacking{
 
     public String actualizarMaterial(){
         try{
+            tipoMessage = 0;
+            String [] a = this.getUpdate().split(",");
             Material material = mtlServ.findById(noMaterial);
-            material.setSku(this.getMat().getSku());
-            material.setUnidadMedida(this.getMat().getUnidadMedida());
-            material.setTipoMaterial(this.getMat().getTipoMaterial());
-            material.setDescripcion(this.getMat().getDescripcion());
-            material.setUrlFoto(this.getMat().getUrlFoto());
-            tipoMessage = 1;
+            material.setDescripcion(a[0]);
+            material.setUnidadMedida(a[1]);
+            material.setUrlFoto(a[2]);
+            mtlServ.save(material);
+            tipoMessage = 20;
         }catch (Exception e ){
-            tipoMessage = 2;
+            tipoMessage = 22;
         }
         return "";
     }
 
     public String guardarMaterial(){
         try{
+            tipoMessage = 0;
             Material material = mtlServ.findById(this.getAltaMaterial().getSku());
             if (material != null){
                 tipoMessage = 5;
@@ -82,6 +85,7 @@ public class AltaMateriales_backing extends AbstractBacking{
 
     public String uploadExcel() throws IOException {
         try{
+            tipoMessage = 0;
             mtlServ.loadFromFile(file.getInputStream(),this.getTipoMAterial());
             tipoMessage = 11;
         }catch (Exception e){
@@ -137,5 +141,13 @@ public class AltaMateriales_backing extends AbstractBacking{
 
     public void setFile(Part file) {
         this.file = file;
+    }
+
+    public String getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(String update) {
+        this.update = update;
     }
 }

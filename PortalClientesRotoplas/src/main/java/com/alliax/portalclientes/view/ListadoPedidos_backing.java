@@ -19,6 +19,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import com.alliax.portalclientes.controller.CancelaPedidoConfig;
@@ -205,7 +207,9 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			List<String> rangoFechas = null;
 			
 			logger.info("Rango dias " + this.getRangoDias());
-			
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			fechaFinal = Fecha.getFechaFormateadaStringToString(ec.getRequestParameterMap().get("form:frm_fechaFinAlt"),7,6);
+			fechaInicial = Fecha.getFechaFormateadaStringToString(ec.getRequestParameterMap().get("form:frm_fechaIniAlt"),7,6);
 			if(this.getRangoDias().equals("H")){
 				rangoFechas = Fecha.getRangosFechas(0,6);
 				logger.info("FechaInicial " + rangoFechas.get(0));
