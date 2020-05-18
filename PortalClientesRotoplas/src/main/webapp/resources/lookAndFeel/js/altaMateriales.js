@@ -109,7 +109,7 @@ function validaBusqueda() {
 
 function valorDatos() {
     var tipoMat = document.getElementById("form:tipoMatBus").value;
-    if (tipoMat == 10){
+    if (tipoMat == 11){
         document.getElementById("form:tipoMatBus").value = "Almacenamiento mejoramiento Conducción";
     }else {
         document.getElementById("form:tipoMatBus").value = "Indutria";
@@ -194,6 +194,15 @@ function  validaMat() {
     }
 
 function agregarMasivo() {
+    $('[id="formMasivo:inputFileTip"]').select2({
+        theme: "bootstrap",
+        allowClear: true,
+        placeholder: "Seleccione una opción",
+        language: Select2Languaje(),
+        multiple: false,
+        width: "100%",
+    });
+
     $("#carga").show();
     $("#filtroBusqueda" ).hide();
     $('[id="form:pantallaBusq"]').hide();

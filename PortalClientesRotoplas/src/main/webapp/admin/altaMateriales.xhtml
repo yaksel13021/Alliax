@@ -168,18 +168,18 @@
                                             <h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <br></br><br></br>
                                                 <h:panelGroup layout="block" styleClass="form-group">
-                                                        <h:inputFile value="#{altaMat.file}"/>
-                                                        <br></br><br></br>
-                                                        <h:commandButton  styleClass="btn btn-secondary" value="cargar Archivo" action="#{altaMat.uploadExcel}">
-                                                        </h:commandButton>
-
+                                                    <h:inputFile value="#{altaMat.file}"/>
                                                 </h:panelGroup>
                                                 <h:panelGroup layout="block">
-                                                    <h:selectOneRadio styleClass="radio-inline" value="#{altaMat.tipoMAterial}">
-                                                        <f:selectItem styleClass="radio-inline labelLeftInput fillWidthAvaible" itemValue="11" itemLabel="Almacenamiento mejoramiento Conducción" />
-                                                        <f:selectItem styleClass="radio-inline labelLeftInput fillWidthAvaible" itemValue="10" itemLabel="Industria"/>
-                                                    </h:selectOneRadio>
+                                                    <h:selectOneMenu id="inputFileTip" styleClass="radio-inline" value="#{altaMat.tipoMAterial}">
+                                                        <f:selectItem itemValue="11" itemLabel="Almacenamiento mejoramiento Conducción" />
+                                                        <f:selectItem itemValue="10" itemLabel="Industria"/>
+                                                    </h:selectOneMenu>
                                                 </h:panelGroup>
+                                                <br></br>
+                                                <h:commandButton  styleClass="btn btn-secondary" value="cargar Archivo" action="#{altaMat.uploadExcel}">
+                                                </h:commandButton>
+                                                <br></br><br></br>
                                             </h:panelGroup>
                                         </h:panelGroup>
                                     </h:panelGroup>
