@@ -91,6 +91,7 @@
 											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
 											<h:inputHidden id="frm_cfdi_desc" />
 											<h:inputHidden id="frm_metodoPago_desc" />
+											<h:inputHidden id="frm_skuMaterialEliminado" value="#{crearPedido.skuMaterialEliminado}"/>
 
 											<div class="continuarDestinatarioNroPedido"></div>
 											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
@@ -119,6 +120,9 @@
 											</h:commandLink>
 											<h:commandLink  id="finalizar" action="#{crearPedido.finalizar}">
 												<f:ajax  execute="@form" />
+											</h:commandLink>
+											<h:commandLink  id="deletePartida" action="#{crearPedido.deletePartida}">
+												<f:ajax  execute="@form" render="mateiralSelScript mateiralScript" onevent="ajaxDeletePartida"/>
 											</h:commandLink>
 											<h:panelGroup id="mateiralScript">
 												<h:inputHidden id="materialLoad"  value="#{crearPedido.materialesJson}"/>
@@ -193,6 +197,12 @@
 													}
 												}
 
+												function ajaxDeletePartida(data){
+													if(data.estatus == 'success'){
+														setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
+														setMaterialesSel(materialSelLoad());
+													}
+												}
 											</script>
 										</h:form>
 									</h:panelGroup>
@@ -367,6 +377,7 @@
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 							<div class="showMaterial"></div>
+							<div class="deletePartirda"></div>
 							<div id="dt_ProductsSelected_content" style="width: 100%">
 								<table id="dt_ProductsSelected" class="table table-hover table-striped table-bordered" width="100%">
 									<thead>

@@ -105,6 +105,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     private String descripcionDestinatario;
 
+    private String skuMaterialEliminado;
+
 
     public String getIdPedido() {
         return idPedido;
@@ -351,7 +353,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-                setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+               // setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -522,6 +524,13 @@ public class CrearPedido_backing extends AbstractBackingGen {
         this.emailCotizarFlete = emailCotizarFlete;
     }
 
+    public String getSkuMaterialEliminado() {
+        return skuMaterialEliminado;
+    }
+
+    public void setSkuMaterialEliminado(String skuMaterialEliminado) {
+        this.skuMaterialEliminado = skuMaterialEliminado;
+    }
 
     @Override
     public String toString() {
@@ -580,7 +589,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 '}';
     }
 
-    public String generaPedido(){
+    public String generaPedido() throws  Exception{
         logger.info("Genera Pedido");
         try{
             Pedido pedido = new Pedido();
@@ -602,12 +611,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
             getFacesContext().getMessageList().add(new FacesMessage("Error"));
         }
         logger.info("fin Genera Pedido");
-        return "/pedidos/listado";
+        getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml");
+        return "";
     }
 
-    public String finalizar(){
+    public String finalizar() throws Exception{
         logger.info("Finalizar");
-        return "/pedidos/listado";
+        getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml");
+        return "";
     }
 
     public void cotizarFlete(){
@@ -684,7 +695,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             }
         }catch (Exception e){
             logger.error(e);
-            setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
+            //setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }
@@ -795,7 +806,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                                 } catch (Exception e) {
                                     logger.error(e);
-                                    precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                   // precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
 
                                 if(precioMaterial != null){
@@ -859,7 +870,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-
+                /*
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -867,7 +878,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }catch (Exception e1){
                     logger.error(e1);
                 }
-
+                */
             }
 
             logger.info("METODO");
@@ -881,14 +892,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-
+                /*
                 try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
                 }
-
+                */
                 logger.error(e);
             }
         }catch(Exception e){
@@ -921,6 +932,18 @@ public class CrearPedido_backing extends AbstractBackingGen {
     }
 
     public void deletePartida(){
+        logger.info("Eliminar Partida " + getSkuMaterialEliminado() );
 
+        PedidoMaterial pedidoMaterial;
+        for(int i = 0; i < materiales.size(); i++){
+            pedidoMaterial = materiales.get(i);
+
+            if(pedidoMaterial.getSku().equals(getSkuMaterialEliminado())){
+                pedidoMaterial.setCantidad("0");
+                pedidoMaterial.setPosicion("");
+                break;
+            }
+        }
+        setMaterialesJson(materiales);
     }
 }
