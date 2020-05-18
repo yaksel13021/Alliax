@@ -30,11 +30,16 @@ public class OrdenVenta {
 	private String estatusGeneralDes; //GRL_STAT_H_D
 	private String razonBloqueo; //REASON_BLOCK
 	
+	private String segmento; //KVGR4
+	
 	private String pedidoCancelado;
 	
-	
-	
-	
+	public String getSegmento() {
+		return segmento;
+	}
+	public void setSegmento(String segmento) {
+		this.segmento = segmento;
+	}
 	public String getPedidoCancelado() {
 		return pedidoCancelado;
 	}

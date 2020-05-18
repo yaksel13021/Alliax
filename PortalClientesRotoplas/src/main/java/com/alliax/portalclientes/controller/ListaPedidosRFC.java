@@ -181,7 +181,15 @@ public class ListaPedidosRFC {
     			orden.setEstatusEntregaDes(this.table.getString("DLV_STAT_H_D"));
     			orden.setEstatusGeneral(this.table.getString("GRL_STAT_H"));
     			orden.setEstatusGeneralDes(this.table.getString("GRL_STAT_H_D"));
-    			
+    			try {
+    				logger.info("Inicio buscar KVGR4");
+    				String seg = this.table.getString("KVGR4");
+    				orden.setSegmento(seg);
+    				logger.info("KVGR4 encontrado: " + seg);
+    			}catch (Exception e) {
+    				logger.info("KVGR4 no encontrado");
+    				logger.info(e.getMessage());
+				}
     			//logger.info("GRL_STAT_I_D SAP :: " + this.table.getString("GRL_STAT_I_D"));
     			logger.info("Orden Venta SAP :: " + orden.toString());
     			
