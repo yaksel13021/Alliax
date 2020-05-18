@@ -221,5 +221,19 @@ public class Item {
 	}
 	public void setEstatusGeneralDes(String estatusGeneralDes) {
 		this.estatusGeneralDes = estatusGeneralDes;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "Item [documentoComercial=" + documentoComercial + ", posicion=" + posicion + ", fecha=" + fecha
+				+ ", bloqueoEntrega=" + bloqueoEntrega + ", noMaterial=" + noMaterial + ", descripcion=" + descripcion
+				+ ", fechaReparto=" + fechaReparto + ", cantidad=" + cantidad + ", cantidadConfirmada="
+				+ cantidadConfirmada + ", unidadMedida=" + unidadMedida + ", monto=" + monto + ", moneda=" + moneda
+				+ ", precioNeto=" + precioNeto + ", cantidadBase=" + cantidadBase + ", unidadMedidaCondicion="
+				+ unidadMedidaCondicion + ", noEntrega=" + noEntrega + ", posicionEntrega=" + posicionEntrega
+				+ ", fechaEntrega=" + fechaEntrega + ", cantidadEntregada=" + cantidadEntregada + ", cantidadRefUmb="
+				+ cantidadRefUmb + ", unidadEntrega=" + unidadEntrega + ", unidadMedidaISO=" + unidadMedidaISO
+				+ ", motivoRechazo=" + motivoRechazo + ", pedidoCliente=" + pedidoCliente + ", estatus=" + estatus
+				+ ", estatusDes=" + estatusDes + ", estatusGeneral=" + estatusGeneral + ", estatusGeneralDes="
+				+ estatusGeneralDes + "]";
+	}
 }
