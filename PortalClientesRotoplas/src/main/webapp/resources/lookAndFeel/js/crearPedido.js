@@ -164,7 +164,7 @@ var crearPedido = (function () {
                 return;
             }
 
-            if($('.partidaError')){
+            if($('.partidaError #dt_ProductsSelected').length > 0){
                 showToastr(mensajes().Generico01, 'Aviso', {
                     type: typeNotification.warning
                 });
