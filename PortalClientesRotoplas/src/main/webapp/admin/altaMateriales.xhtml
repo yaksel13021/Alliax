@@ -53,13 +53,114 @@
                                 </h:panelGroup>
                             </h:panelGroup>
 
+                            <h:panelGroup id="pantallaBusq">
+                                <c:if test = "#{altaMat.mat != null}">
+                                    <h:outputScript>
+                                        valorDatos();
+                                    </h:outputScript>
+                                    <h:panelGroup id="pantallaBusqueda" styleClass="hidden">
+                                        <h:panelGroup styleClass="card" style="width: 33rem;text-align: left;">
+                                            <h:panelGroup styleClass="card-header">
+                                                <label>Resultado de Busqueda</label>
+                                            </h:panelGroup>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item" >
+                                                    <h:panelGroup styleClass=" row">
+                                                        <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                            <label>Tipo de material </label>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <h:inputText value="#{altaMat.mat.tipoMaterial}" disabled="true" id="tipoMatBus" styleClass="form-control">
+                                                            </h:inputText>
+                                                        </h:panelGroup>
+                                                    </h:panelGroup>
+                                                </li>
+                                                <li class="list-group-item " >
+                                                    <h:panelGroup styleClass="row" >
+                                                        <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                            <label id="permisos">Descripción </label>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <h:inputText value="#{altaMat.mat.descripcion}" styleClass="form-control" id="input_descpB">
+                                                            </h:inputText>
+                                                        </h:panelGroup>
+                                                    </h:panelGroup>
+                                                </li>
+                                                <li class="list-group-item" >
+                                                    <h:panelGroup styleClass="row">
+                                                        <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                            <label >UM </label>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <h:inputText  value="#{altaMat.mat.unidadMedida}" styleClass="form-control" id="input_umB">
+                                                            </h:inputText>
+                                                        </h:panelGroup>
+                                                    </h:panelGroup>
+                                                </li>
+                                                <li class="list-group-item" >
+                                                    <h:panelGroup styleClass="row" >
+                                                        <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                            <label>No. Sku </label>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <h:inputText disabled="true" value="#{altaMat.mat.sku}" styleClass="form-control" id="input_nsku">
+                                                            </h:inputText>
+                                                        </h:panelGroup>
+                                                    </h:panelGroup>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <h:panelGroup styleClass="row">
+                                                        <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
+                                                            <label>Imagen</label>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <h:inputText value="#{altaMat.mat.urlFoto}" styleClass="form-control" id="input_imagen" name="input_imagen" >
+                                                            </h:inputText>
+                                                        </h:panelGroup>
+                                                    </h:panelGroup>
+                                                </li>
+                                            </ul>
+
+                                        </h:panelGroup>
+                                        <br></br>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="row" id="buttonQwe">
+                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <h:panelGroup styleClass="form-group hidden">
+                                                <h:commandButton id="actualizar" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}" action="#{altaMat.actualizarMaterial}">
+                                                    <f:ajax execute="@form" render="salida">
+                                                    </f:ajax>
+                                                </h:commandButton>
+                                            </h:panelGroup>
+                                            <h:inputHidden id="actualizainput" value="#{altaMat.update}">
+                                            </h:inputHidden>
+                                            <h:panelGroup styleClass="form-group">
+                                                <h:commandButton onclick="validaMat()" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}">
+                                                    <f:ajax execute="actualizar" render="@this" >
+                                                    </f:ajax>
+                                                </h:commandButton>
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="salida">
+                                        <h:panelGroup rendered="#{altaMat.tipoMessage == 20 || altaMat.tipoMessage == 22}">
+                                            <h:inputHidden id="tipoMenssage" value="#{altaMat.tipoMessage}">
+                                            </h:inputHidden>
+                                            <h:outputScript>
+                                                mensajeActualizacion();
+                                            </h:outputScript>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </c:if>
+                            </h:panelGroup>
                         </h:form>
                     </h:panelGroup>
 
                     <h:panelGroup layout="block" id="carga" styleClass="hidden">
                             <h:panelGroup layout="block" styleClass="card" style="width: 33rem;text-align: left;">
                                 <h:panelGroup layout="block"  styleClass="card-header">
-                                    <label>Alta Masiva</label>
+                                    <h5 id="cardDynamicHeaderTitle" class="mb-0">Alta Masiva</h5>
                                 </h:panelGroup>
                                 <h:form id="formMasivo" enctype="multipart/form-data">
                                     <h:panelGroup layout="block" styleClass="container">
@@ -67,16 +168,16 @@
                                             <h:panelGroup layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <br></br><br></br>
                                                 <h:panelGroup layout="block" styleClass="form-group">
-
-                                                        <h:inputFile styleClass="form-control-file" id="file" value="#{altaMat.file}"/>
-                                                        <h:commandButton  styleClass="btn btn-primary" value="cargar Archivo" action="#{altaMat.uploadExcel}">
+                                                        <h:inputFile value="#{altaMat.file}"/>
+                                                        <br></br><br></br>
+                                                        <h:commandButton  styleClass="btn btn-secondary" value="cargar Archivo" action="#{altaMat.uploadExcel}">
                                                         </h:commandButton>
 
                                                 </h:panelGroup>
-                                                <h:panelGroup layout="block" styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <h:selectOneRadio value="#{altaMat.tipoMAterial}">
-                                                        <f:selectItem styleClass="labelLeftInput fillWidthAvaible" itemValue="11" itemLabel="Almacenamiento mejoramiento Conducción" />
-                                                        <f:selectItem styleClass="labelLeftInput fillWidthAvaible" itemValue="10" itemLabel="Industria"/>
+                                                <h:panelGroup layout="block">
+                                                    <h:selectOneRadio styleClass="radio-inline" value="#{altaMat.tipoMAterial}">
+                                                        <f:selectItem styleClass="radio-inline labelLeftInput fillWidthAvaible" itemValue="11" itemLabel="Almacenamiento mejoramiento Conducción" />
+                                                        <f:selectItem styleClass="radio-inline labelLeftInput fillWidthAvaible" itemValue="10" itemLabel="Industria"/>
                                                     </h:selectOneRadio>
                                                 </h:panelGroup>
                                             </h:panelGroup>
@@ -103,8 +204,8 @@
                         </h:inputHidden>
                         <h:outputScript>
                             setTimeout(function(){
-                                showToastr('Error en Alta Masiva', 'Aviso', {
-                                    type: typeNotification.success
+                                showToastr('Error en la Alta Masiva', 'Aviso', {
+                                    type: typeNotification.error
                                 })
                             }, 7000);
                         </h:outputScript>
@@ -120,109 +221,6 @@
                         </c:if>
                     </h:panelGroup>
 
-                    <h:panelGroup id="pantallaBusq">
-                        <c:if test = "#{altaMat.mat != null}">
-                            <h:outputScript>
-                                valorDatos();
-                            </h:outputScript>
-                            <h:form id="actualiza">
-                                <h:panelGroup id="pantallaBusqueda" styleClass="hidden">
-                                    <h:panelGroup styleClass="card" style="width: 33rem;text-align: left;">
-                                        <h:panelGroup styleClass="card-header">
-                                            <label>Resultado de Busqueda</label>
-                                        </h:panelGroup>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item" >
-                                                <h:panelGroup styleClass=" row">
-                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
-                                                        <label>Tipo de material </label>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <h:selectOneMenu value="#{altaMat.mat.tipoMaterial}" styleClass="form-control dropdownActive" id="select_tipoMaterialB" name="select_tipoMaterialB">
-                                                            <f:selectItem itemValue="10" itemLabel="#{lblMain.select12}"/>
-                                                            <f:selectItem itemValue="11" itemLabel="#{lblMain.select2}"/>
-                                                        </h:selectOneMenu>
-                                                    </h:panelGroup>
-                                                </h:panelGroup>
-                                            </li>
-                                            <li class="list-group-item " >
-                                                <h:panelGroup styleClass="row" >
-                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
-                                                        <label id="permisos">Descripción </label>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <h:inputText value="#{altaMat.mat.descripcion}" styleClass="form-control" id="input_descpB">
-                                                        </h:inputText>
-                                                    </h:panelGroup>
-                                                </h:panelGroup>
-                                            </li>
-                                            <li class="list-group-item" >
-                                                <h:panelGroup styleClass="row">
-                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
-                                                        <label >UM </label>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <h:inputText  value="#{altaMat.mat.unidadMedida}" styleClass="form-control" id="input_umB">
-                                                        </h:inputText>
-                                                    </h:panelGroup>
-                                                </h:panelGroup>
-                                            </li>
-                                            <li class="list-group-item" >
-                                                <h:panelGroup styleClass="row" >
-                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
-                                                        <label>No. Sku </label>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <h:inputText value="#{altaMat.mat.sku}" styleClass="form-control" id="input_nsku">
-                                                        </h:inputText>
-                                                    </h:panelGroup>
-                                                </h:panelGroup>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <h:panelGroup styleClass="row">
-                                                    <h:panelGroup styleClass="col-lg-3 col-md-3 col-sm-3 col-xs-3" style=" padding-top: 10px;">
-                                                        <label>Imagen</label>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <h:inputText value="#{altaMat.mat.urlFoto}" styleClass="form-control" id="input_imagen" name="input_imagen" >
-                                                        </h:inputText>
-                                                    </h:panelGroup>
-                                                </h:panelGroup>
-                                            </li>
-                                        </ul>
-
-                                    </h:panelGroup>
-                                    <br></br>
-                                    <h:panelGroup styleClass="row">
-                                        <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <h:panelGroup styleClass="form-group ">
-                                                <h:commandButton id="actualizar" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}" action="#{altaMat.actualizarMaterial}">
-                                                </h:commandButton>
-                                            </h:panelGroup>
-
-                                            <h:panelGroup styleClass="form-group hidden">
-                                                <h:commandButton onclick="validaMat()" styleClass="btn btn-primary" value="#{lblMain.btnGrabar}">
-                                                    <f:ajax execute="actualizar" render="@this" >
-                                                    </f:ajax>
-                                                </h:commandButton>
-                                            </h:panelGroup>
-                                        </h:panelGroup>
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </h:form>
-                        </c:if>
-
-                    </h:panelGroup>
-                    <h:panelGroup id="salida">
-                        <h:inputHidden id="tipoMenssage" value="#{altaMat.tipoMessage}">
-                        </h:inputHidden>
-                        <h:outputScript>
-                            mensajeActualizacion();
-                        </h:outputScript>
-                    </h:panelGroup>
-
-
                     <h:panelGroup id="agregarPantallas">
                         <h:panelGroup id="pantallaAgregarMateriales" styleClass="hidden">
                             <h:form id="form2">
@@ -231,8 +229,10 @@
                                         <label>Tipo de material</label>
                                     </h:panelGroup>
                                     <h:panelGroup styleClass="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <h:inputText value="#{altaMat.altaMaterial.tipoMaterial}" styleClass="form-control" >
-                                        </h:inputText>
+                                        <h:selectOneMenu id="tipoMaterial" value="#{altaMat.altaMaterial.tipoMaterial}" styleClass="form-control dropdownActive"  name="select_tipoMaterialB">
+                                            <f:selectItem itemValue="10" itemLabel="#{lblMain.select12}"/>
+                                            <f:selectItem itemValue="11" itemLabel="#{lblMain.select2}"/>
+                                        </h:selectOneMenu>
                                     </h:panelGroup>
                                 </h:panelGroup>
 
