@@ -824,6 +824,23 @@ public class CrearPedido_backing extends AbstractBackingGen {
         return "";
     }
 
+    private int obtinePosicion(){
+        int posicion = 1;
+        PedidoMaterial pedidoMaterial = null;
+        if(materiales != null){
+            for(int i = 0; i < materiales.size(); i++){
+                pedidoMaterial = materiales.get(i);
+                try {
+                    if (Integer.valueOf(pedidoMaterial.getCantidad()) > 0) {
+                        posicion++;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }
+        return posicion;
+    }
     public void asignaPedidoMaterial(){
         logger.info("asignaPedidoMaterial::::::" +materialSeleccionadoJson);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -835,7 +852,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida = null;
         PedidoPartidasPK pedidoPartidasPK = null;
 
-        int count =1;
+        int count =obtinePosicion();
         try {
             if(materialSeleccionadoJson != null) {
                 String json = materialSeleccionadoJson;
@@ -877,7 +894,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                                 } catch (Exception e) {
                                     logger.error(e);
-                                   // precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
 
                                 if(precioMaterial != null){
