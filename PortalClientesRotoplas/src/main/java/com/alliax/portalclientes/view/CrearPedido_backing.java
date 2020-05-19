@@ -424,7 +424,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-                //setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+                setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -705,8 +705,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
     public void fillPedido(Pedido pedido){
         pedido.setNombreCliente(getNombreContacto() + " " + getApellidoContacto());
         pedido.setNroTelefonoFijo(getTelefonoFijoContacto());
+        pedido.setNroTeleofno(getTelefonoContacto());
         pedido.setHorarioRecepcion(getHorarioRecepcion());
-        //pedido.setNroTeleofno();
 
         //HEADER
         pedido.getPedidoEncabezado().setCanalDistribucion("20");
@@ -747,6 +747,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         pedido.setPedidoCapacidadesTransporteEspecial(getCapacidadesTransporte());
         pedido.setPedidoEquipoEspecialProteccionPersonal(getEquipoEspecial());
 
+
     }
 
     public void setDestinatarioAndNroPedido(){
@@ -766,7 +767,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             }
         }catch (Exception e){
             logger.error(e);
-            //setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
+            setClasePedido(new BuscarClasePedidoConfig().buscarClasePedido().getClasePedido());
             //setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
 
         }
@@ -894,7 +895,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                                 } catch (Exception e) {
                                     logger.error(e);
-                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
 
                                 if(precioMaterial != null){
@@ -958,7 +959,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-/*
+
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -966,7 +967,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }catch (Exception e1){
                     logger.error(e1);
                 }
-*/
+
             }
 
             logger.info("METODO");
@@ -980,14 +981,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-/*
+
                 try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
                 }
-*/
+
                 logger.error(e);
             }
         }catch(Exception e){
@@ -1009,6 +1010,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         pedidoBd.setNombreContacto(getNombreContacto());
         pedidoBd.setApellidoContacto(getApellidoContacto());
         pedidoBd.setTelefonoContacto(getTelefonoContacto());
+        pedidoBd.setTelefonoFijoContacto(getTelefonoFijoContacto());
         pedidoBd.setHorarioRecepcion(getHorarioRecepcion());
         pedidoBd.setReferenciaUbicacion(getReferenciaUbicacion());
         pedidoBd.setProductoAlmacenar(getProductoAlmacenar());
