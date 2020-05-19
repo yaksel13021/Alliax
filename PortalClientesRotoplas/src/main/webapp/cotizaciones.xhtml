@@ -95,6 +95,7 @@
 		                            <th>Cantidad</th>
 		                            <th>Unidad de medida</th>
 		                            <th>Total</th>
+                                    <th>Estatus</th>
 		                            <th></th>
 		                        </tr>
 	                        </thead>
@@ -134,10 +135,15 @@
 		                            <h:outputLabel value="#{cotizacion.monto}" />
 		                          </h:commandLink>
 		                        </td>
+                                      <td>
+                                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
+                                              <h:outputLabel value="#{cotizacion.estado}" />
+                                          </h:commandLink>
+                                      </td>
 		                            <td>
 		                              <h:panelGroup>
 		                              <!--   <c:if test="#{cotizacion.estado == 'En Captura'}">-->
-		                                <h:commandButton type="submit" value="#{lblMain.btnVer}" action="#{consultaCotizacion.buscarDetalles(cotizacion.nroPedido)}" styleClass="btn btn-primary float-right">
+		                                <h:commandButton id="btnVer" onclick="generaId(this)" type="submit" value="#{lblMain.btnVer}" action="#{consultaCotizacion.buscarDetalles(cotizacion.nroPedido)}" styleClass="btn btn-primary float-right">
 		                                  <f:ajax execute="@form" onevent="showModal" render="form:contentmodal"/>
 		                                </h:commandButton>
 		                               <!--    </c:if> -->
@@ -191,28 +197,37 @@
 
                       <h:panelGroup layput="block"
                                     style="display: inline-block; width: 100%; overflow-y: auto;">
-                          
+                        <!--  <h:outputLabel value="#{consultaCotizacion.cotizacion.estatus}" /> -->
 
-                            <c:if test="#{consultaCotizacion.cotizacion.estatus == 'En Captura'}">
+
                             <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
+                                <c:if test="#{consultaCotizacion.cotizacion.estatus == 'En Captura'}">
+                                    <h:commandButton id="btnCotizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
+                                        <f:ajax execute="@form" onevent="showModal2" render="form:contentmodalCaptura"/>
+                                    </h:commandButton>
+                                </c:if>
+                                <c:if test="#{consultaCotizacion.cotizacion.estatus == 'Finalizado'}">
+                                    <h:commandButton id="btnFinalizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnFinalizar}" onclick="closeModal()">
+                                        <f:ajax execute="@this" render="form:contentmodal" />
+                                    </h:commandButton>
+                                </c:if>
+                            </sec:authorize>
 
-                            <h:commandButton id="btnCotizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
-                            <f:ajax execute="@form" onevent="showModal2" render="form:contentmodalCaptura"/>
-                            </h:commandButton>
-                            </sec:authorize>
-                        </c:if>
-                          <c:if test="#{consultaCotizacioncotizacion.estatus == 'Finalizado'}">
+
                             <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
-                                <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenarPedido(cotizacion.nroPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
-                                </h:commandButton>
+                                <c:if test="#{consultaCotizacion.cotizacion.estatus == 'Finalizado'}">
+                                    <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenarPedido(cotizacion.nroPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
+                                        <f:ajax execute="@this" render="form:contentmodal" />
+                                    </h:commandButton>
+                                </c:if>
+                                <c:if test="#{consultaCotizacion.cotizacion.estatus == 'Ordenado'}">
+                                    <h:commandButton id="btnFinalizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnFinalizar}" onclick="closeModal()">>
+                                        <f:ajax execute="@this" render="form:contentmodal" />
+                                    </h:commandButton>
+                                </c:if>
                             </sec:authorize>
-                          </c:if>
-                        <c:if test="#{not empty consultaCotizacion.finalizar}">
-                        <h:commandButton id="btnFinalizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
-                        <f:ajax execute="@this" render="form:contentmodal" />
-                        </h:commandButton>
-                        </c:if>
+
                       </h:panelGroup>
 
                     </h:panelGroup>
@@ -426,7 +441,7 @@
 				                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 		                    <h:panelGroup layput="block" style="display: inline-block; width: 100%; overflow-y: auto;">
 		                      <h:commandButton id="btnGrabar" href="#myModal" action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
-		                     	<f:ajax onevent="function(data){ if(data.status=='success'){ closeModal2()}}" render="form\:myModal" execute="@this"/>
+		                     	<f:ajax onevent="function(data){ if(data.status=='success'){ closeModal2()}}" render="form:contentmodal" execute="@form"/>
                               </h:commandButton>
 			                  <h:commandButton styleClass="btn btn-danger float-left" value="#{lblMain.btnCerrar}" onclick="closeModal2()">
 		                        <f:ajax execute="@this" render="form:\contentmodal" />
@@ -478,10 +493,16 @@
 				});
 			</script>
         <script type="text/javascript">
+                var idBtn;
+                generaId = function(data){
 
+                    idBtn = data.id;
+
+                }
 				var closeModal2 = function () {
 					$('#myModalCaptura').modal('hide');
-					$('#myModal').modal('show');
+
+					document.getElementById(idBtn).click();
 				}
 
 				$("#menu2").off().on('click', function () {
@@ -524,6 +545,7 @@
 						  if ($tablaModal2) {
 							  $tablaModal2.clear().destroy();
 						  }
+						  $("#tableModal2").DataTable().destroy();
 						  $tablaModal2 = $("#tableModal2").DataTable({
 					        paging: true,
 					        searching: true,
@@ -560,6 +582,7 @@
 						  if ($tablaModal1) {
 							  $tablaModal1.clear().destroy();
 						  }
+						  $("#tableModal1").DataTable().destroy();
 						  $tablaModal1 = $("#tableModal1").DataTable({
 					        paging: true,
 					        searching: true,
