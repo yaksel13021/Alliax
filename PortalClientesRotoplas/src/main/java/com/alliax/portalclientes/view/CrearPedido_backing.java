@@ -653,7 +653,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public String generaPedido() throws  Exception{
         logger.info("Genera Pedido");
-        String documento="";
+        String documento="E";
         try{
             Pedido pedido = new Pedido();
             CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC", CrearPedidoRFC.class);
