@@ -34,8 +34,17 @@ import org.apache.log4j.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.Part;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 @ManagedBean(name="crearPedido")
@@ -107,6 +116,68 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     private String skuMaterialEliminado;
 
+	private Part imagenTicket;
+    private int tipoMessage;
+
+    public Part getImagenTicket() {
+		return imagenTicket;
+	}
+
+	public void setImagenTicket(Part imagenTicket) {
+		this.imagenTicket = imagenTicket;
+	}
+	
+    public int getTipoMessage() {
+        return tipoMessage;
+    }
+
+    public void setTipoMessage(int tipoMessage) {
+        this.tipoMessage = tipoMessage;
+    }
+	
+	public void handleFileUpload(AjaxBehaviorEvent event) {
+		String repositorio = System.getenv().get("ALLIAX_REPO_IMG");
+
+		String fileName = "";
+		for (String fileSplit : imagenTicket.getHeader("content-disposition").split(";")) {
+			if (fileSplit.trim().startsWith("filename")) {
+				fileName = fileSplit.substring(fileSplit.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+	    	    
+	    OutputStream out = null;
+	    InputStream filecontent = null;
+	    try {
+	        out = new FileOutputStream(new File(repositorio + File.separator + fileName));
+	        filecontent = imagenTicket.getInputStream();
+
+	        int read = 0;
+	        final byte[] bytes = new byte[1024];
+
+	        while ((read = filecontent.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+	        tipoMessage = 1;
+	    } catch (Exception e) {
+	    	logger.error("Error ticket Grl :::::::: " + e);
+
+	    } finally {
+	        if (out != null) {
+	            try {
+					out.close();
+				} catch (IOException e) {
+					logger.error("Error ticket Stream :::::::: " + e);
+				}
+	        }
+	        if (filecontent != null) {
+	            try {
+					filecontent.close();
+				} catch (IOException e) {
+					logger.error("Error ticket :::::::: " + e);
+				}
+	        }
+	    }
+	}
 
     public String getIdPedido() {
         return idPedido;
@@ -353,7 +424,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
                 logger.error(e);
-               // setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
+                //setDestinatarioMercancias(new BuscarDestinatariosMercanciasConfig().buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             }
         }
         return destinatarioMercancias;
@@ -444,13 +515,12 @@ public class CrearPedido_backing extends AbstractBackingGen {
     public String getMaterialSeleccionadoJson() {
         List<PedidoMaterial> seleccionados = new ArrayList<>();
         PedidoMaterial pedidoMaterial = null;
-        int posicion = 1;
         try{
             if(materiales != null && materiales.size() > 0) {
                 for (int i = 0; i < materiales.size(); i++) {
                     pedidoMaterial = materiales.get(i);
+                    logger.info("MATERIAL " + pedidoMaterial.getSku() + " CANTIDAD " + pedidoMaterial.getCantidad());
                     if ((pedidoMaterial.getCantidad() != null && Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
-                        pedidoMaterial.setPosicion(String.valueOf(posicion++));
                         seleccionados.add(pedidoMaterial);
                     }
                 }
@@ -602,6 +672,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 if(!pedidoResultado.getGeneroDocumentoVenta().equals("0")){
                     /*getFacesContext().getMessageList().add(new FacesMessage("Error"));
                     logger.info("Respuesta invalida de RFC");*/
+
                 }
             }catch(Exception e){
                 logger.error(e);
@@ -753,6 +824,23 @@ public class CrearPedido_backing extends AbstractBackingGen {
         return "";
     }
 
+    private int obtinePosicion(){
+        int posicion = 1;
+        PedidoMaterial pedidoMaterial = null;
+        if(materiales != null){
+            for(int i = 0; i < materiales.size(); i++){
+                pedidoMaterial = materiales.get(i);
+                try {
+                    if (Integer.valueOf(pedidoMaterial.getCantidad()) > 0) {
+                        posicion++;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }
+        return posicion;
+    }
     public void asignaPedidoMaterial(){
         logger.info("asignaPedidoMaterial::::::" +materialSeleccionadoJson);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -764,7 +852,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida = null;
         PedidoPartidasPK pedidoPartidasPK = null;
 
-        int count =1;
+        int count =obtinePosicion();
         try {
             if(materialSeleccionadoJson != null) {
                 String json = materialSeleccionadoJson;
@@ -806,7 +894,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                                 } catch (Exception e) {
                                     logger.error(e);
-                                   // precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
                                 }
 
                                 if(precioMaterial != null){
@@ -870,7 +958,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }catch (Exception e){
                 logger.error(e);
-                /*
+/*
                 try {
                     UsoCfdiConfig usoCfdiConfig = new UsoCfdiConfig();
                     objectMapper = new ObjectMapper();
@@ -878,7 +966,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }catch (Exception e1){
                     logger.error(e1);
                 }
-                */
+*/
             }
 
             logger.info("METODO");
@@ -892,14 +980,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     setMetodoPago(metodoPagoCFDI.getClaveMetodoPago());
                 }
             }catch (Exception e){
-                /*
+/*
                 try{
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
 
                 }
-                */
+*/
                 logger.error(e);
             }
         }catch(Exception e){
@@ -933,17 +1021,49 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public void deletePartida(){
         logger.info("Eliminar Partida " + getSkuMaterialEliminado() );
+        int posicion = 1;
 
         PedidoMaterial pedidoMaterial;
-        for(int i = 0; i < materiales.size(); i++){
-            pedidoMaterial = materiales.get(i);
+        com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida;
+        com.alliax.portalclientes.domain.PedidoPartidas removeObject = null;
 
-            if(pedidoMaterial.getSku().equals(getSkuMaterialEliminado())){
-                pedidoMaterial.setCantidad("0");
-                pedidoMaterial.setPosicion("");
-                break;
+        Iterator<com.alliax.portalclientes.domain.PedidoPartidas> itPartidas = pedidoPartidas.iterator();
+
+        boolean isDelete;
+
+        while(itPartidas.hasNext()){
+            pedidoPartida = itPartidas.next();
+
+            if(pedidoPartida.getId().getSku().equals(getSkuMaterialEliminado())) {
+                pedidoPartidasService.delete(pedidoPartida);
+                //pedidoPartidas.remove(pedidoPartida);
+                removeObject = pedidoPartida;
+                isDelete = true;
+            }else{
+                pedidoPartida.setPosicion(String.valueOf(posicion++));
+                pedidoPartidasService.save(pedidoPartida);
+                isDelete = false;
+            }
+
+            for(int i = 0; i < materiales.size(); i++){
+                pedidoMaterial = materiales.get(i);
+                if(pedidoMaterial.getSku().equals(pedidoPartida.getId().getSku())){
+                    if(isDelete){
+                        pedidoMaterial.setCantidad(null);
+                        pedidoMaterial.setPosicion(null);
+                    }else{
+                        pedidoMaterial.setPosicion(pedidoPartida.getPosicion());
+                    }
+                    break;
+                }
             }
         }
+
+        if(removeObject != null){
+            pedidoPartidas.remove(removeObject);
+        }
+        logger.info(pedidoPartidas.size());
+        logger.info("materiales size "  +materiales);
         setMaterialesJson(materiales);
     }
 }

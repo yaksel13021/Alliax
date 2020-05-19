@@ -85,7 +85,6 @@
 															<h:inputText id="frm_fechaIni"
 																		 styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}">
 																<f:ajax execute="@this" />
-																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
@@ -105,7 +104,6 @@
 															<h:inputText id="frm_fechaFin"
 																		 styleClass="form-control" required="true">
 																<f:ajax execute="@this" />
-																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">

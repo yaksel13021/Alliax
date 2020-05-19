@@ -56,4 +56,9 @@ public class PedidoPartidasServiceImpl implements PedidoPartidasService {
     public void save(List<PedidoPartidas> partidas) {
         pedidoPartidasRepository.save(partidas);
     }
+
+    @Override
+    public void delete(PedidoPartidas pedidoPartidas) {
+        pedidoPartidasRepository.delete(pedidoPartidas);
+    }
 }
