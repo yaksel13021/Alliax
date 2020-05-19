@@ -302,7 +302,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 	d.setDescripcion(CotizacionFlete.descFlete);
                 	d.setUnidadMedida(CotizacionFlete.unidadMed);
                 	d.setEstatus(pedido.getEstatusCotizacion());
-                	if(!mostrarCotizacion && this.isUsrVentas()) {
+                	if(d.getEstatus().equals(CotizacionFlete.estadoCaptura) && this.isUsrVentas()) {
                 	this.noCotizacionSel = pedido.getNoCotizacion();
                 	this.cotizacion = d;
                 	}else {
@@ -373,7 +373,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     
     public String ordenarPedido(String noPedido) {
     	  try{
-        	 CrearPedidoRFC crearPedidoRFC = crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
+        	 CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
              com.alliax.portalclientes.model.Pedido pedidoRFC = crearPedidoRFC(noPedido);
              if(pedidoRFC!= null) {
             	 crearPedidoRFC.crearPedido(pedidoRFC);
