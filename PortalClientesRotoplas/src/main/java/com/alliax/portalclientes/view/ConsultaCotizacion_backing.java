@@ -393,7 +393,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
              this.getFacesContext().addMessage(null, new FacesMessage(
                      FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
          }
-        logger.info("fin ordenarPedido pedidoRFC: " noPedido);
+        logger.info("fin ordenarPedido pedidoRFC: "+  noPedido);
     	return "";
     }
 
@@ -441,6 +441,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     				if(mat!= null){
     					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
     				}
+                    partidas.add(partidaRFC);
     			}
         
         PedidoReferenciaUbicacion ref = new PedidoReferenciaUbicacion();
