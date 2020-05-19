@@ -659,7 +659,16 @@
 				var closeModalCancelarPedido = function () {
 					$('#myModal1').modal('hide');
 				}
-				
+				var buscarPorDocumento = function(){
+					var url_string = window.location.href
+					var url = new URL(url_string);
+					var documento = url.searchParams.get("documento");
+					if(documento){
+					$("[id='form:frm_documento']").val(documento);
+					}
+				}
+
+				window.onload=buscarPorDocumento;
 			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 			<script>
@@ -697,16 +706,7 @@
 					}
 
 
-				var buscarPorDocumento = function(){
-					var url_string = window.location.href
-					var url = new URL(url_string);
-					var documento = url.searchParams.get("documento");
-					if(documento){
-					$("[id='form:frm_documento']").val(documento);
-					}
-				}
 
-				window.onload=buscarPorDocumento;
 				}
 			</script>
 		</ui:define>
