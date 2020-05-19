@@ -13,20 +13,16 @@ import com.alliax.portalclientes.controller.CrearPedidoRFC;
 import com.alliax.portalclientes.controller.PrecioMaterialRFC;
 
 import com.alliax.portalclientes.domain.*;
-import com.alliax.portalclientes.model.DetallePedidoCotizacion;
-import com.alliax.portalclientes.model.PedidoCapacidadesTransporteEspecial;
-import com.alliax.portalclientes.model.PedidoEncabezado;
-import com.alliax.portalclientes.model.PedidoEquipoEspecialProteccionPersonal;
-import com.alliax.portalclientes.model.PedidoProductoAlmacenar;
-import com.alliax.portalclientes.model.PedidoReferenciaUbicacion;
-import com.alliax.portalclientes.model.PrecioMaterial;
+import com.alliax.portalclientes.domain.Material;
+import com.alliax.portalclientes.domain.Pedido;
+import com.alliax.portalclientes.domain.PedidoPartidas;
+import com.alliax.portalclientes.model.*;
 import com.alliax.portalclientes.service.MaterialService;
 import org.apache.log4j.Logger;
 import com.alliax.portalclientes.controller.ConstructEmail;
 import com.alliax.portalclientes.controller.InfoClienteRFC;
 import com.alliax.portalclientes.domain.RolUsuario;
 import com.alliax.portalclientes.domain.Usuario;
-import com.alliax.portalclientes.model.CotizacionFlete;
 
 
 import com.alliax.portalclientes.service.PedidoPartidasService;
@@ -371,18 +367,23 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-    public String ordenarPedido(String noPedido) {
+    public String ordenarPedido(String noPedido) throws  Exception {
+        String documento="E";
     	  try{
         	 CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
              com.alliax.portalclientes.model.Pedido pedidoRFC = crearPedidoRFC(noPedido);
              if(pedidoRFC!= null) {
-            	 crearPedidoRFC.crearPedido(pedidoRFC);
+                 PedidoResultado pedidoResultado = crearPedidoRFC.crearPedido(pedidoRFC);
+                 if(pedidoResultado!=null&&pedidoResultado.getGeneroDocumentoVenta().equals("0")){
+                     documento = pedidoResultado.getDocumentoVenta();
+                 }
              }
     	  }catch (Exception e){
         	 logger.error("Error al genear pedido en SAP" + e.getLocalizedMessage());
              this.getFacesContext().addMessage(null, new FacesMessage(
                      FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
          }
+        getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml?documento="+documento);
     	return "";
     }
 
