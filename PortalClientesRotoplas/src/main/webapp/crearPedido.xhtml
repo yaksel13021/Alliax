@@ -15,7 +15,7 @@
 			<link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
 		</ui:define>
 		<ui:define name="content">
-			<h:form id="crearPedido">
+			<h:form id="crearPedido" enctype="multipart/form-data">
 				<h:panelGroup layout="block" class="container ">
 					<div id="accordion" class="accordion">
 						<h:panelGroup layout="block" >
@@ -420,6 +420,22 @@
 								<div class="form-group flex">
 									<select class="form-control dropdownActive" id="select_metodoPago" name="select_metodoPago"></select>
 								</div>
+							</div>
+						</div>
+						<div id = "containerTicket" class="container" style="display: none">
+						  	<div class="form-group col-xs-12 col-sm-6 col-md-4">
+								<label><strong>Ticket:</strong></label>
+									<div class="input-group">
+										<label class="input-group-btn">
+											<span class="btn btn-primary btn-file">
+												Upload 
+    											<h:inputFile id="asignarTicketInput" value="#{crearPedido.imagenTicket}" class="hidden" required="true">
+        											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" />
+    											</h:inputFile>
+											</span>
+										</label>
+										<input class="form-control" id="ticket_captura" readonly="readonly" name="ticket_captura" type="text" value=""/>
+									</div>
 							</div>
 						</div>
 					{{/facturacion}}
