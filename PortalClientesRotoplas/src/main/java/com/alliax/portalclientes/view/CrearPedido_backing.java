@@ -683,6 +683,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             getFacesContext().getMessageList().add(new FacesMessage("Error"));
         }
         logger.info("fin Genera Pedido");
+
         getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml?documento="+documento);
         return "";
     }
