@@ -661,6 +661,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public String generaPedido() throws  Exception{
         logger.info("Genera Pedido");
+        String documento="";
         try{
             Pedido pedido = new Pedido();
             CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC", CrearPedidoRFC.class);
@@ -669,10 +670,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
                 PedidoResultado pedidoResultado =  crearPedidoRFC.crearPedido(pedido);
                 logger.info("Recibiendo Respuesta " + pedidoResultado);
-                if(!pedidoResultado.getGeneroDocumentoVenta().equals("0")){
+                if(pedidoResultado.getGeneroDocumentoVenta().equals("0")){
                     /*getFacesContext().getMessageList().add(new FacesMessage("Error"));
                     logger.info("Respuesta invalida de RFC");*/
-
+                    documento = pedidoResultado.getDocumentoVenta();
                 }
             }catch(Exception e){
                 logger.error(e);
@@ -682,7 +683,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
             getFacesContext().getMessageList().add(new FacesMessage("Error"));
         }
         logger.info("fin Genera Pedido");
-        getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml");
+        getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml?documento="+documento);
         return "";
     }
 
