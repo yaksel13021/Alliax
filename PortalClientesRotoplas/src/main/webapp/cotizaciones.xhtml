@@ -26,7 +26,6 @@
 		</h:panelGroup>
         <!-- Main Content -->
         <div class="container containerFiltersOne">
-          <div class="accordion" id="myAccordion">
             <div class="row">
               <div class="col-12">
                 <div class="card">
@@ -44,7 +43,7 @@
                             <h:outputLabel class="labelLeftInput fillWidthAvaible">
                               Fecha
                             </h:outputLabel>
-                            <h:panelGroup layout="block" styleClass="input-group date date-start">
+                            <h:panelGroup layout="block" styleClass="input-group date date-end">
                               <h:inputText id="frm_fechaCorte"
                                            styleClass="form-control input-sm"
                                            value="#{consultaCotizacion.fecha}"
@@ -163,9 +162,6 @@
             </div>
           </div>
 		</div>
-
-
-        </div>
         </h:panelGroup>
         <!-- End of Main Content -->
 
@@ -195,8 +191,9 @@
 
                       <h:panelGroup layput="block"
                                     style="display: inline-block; width: 100%; overflow-y: auto;">
-                        <c:if test="#{empty consultaCotizacion.finalizar}">
-                            <c:if test="#{cotizacion.estado == 'En Captura'}">
+                          
+
+                            <c:if test="#{consultaCotizacion.cotizacion.estatus == 'En Captura'}">
                             <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 		                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 
@@ -205,15 +202,12 @@
                             </h:commandButton>
                             </sec:authorize>
                         </c:if>
-                          <c:if test="#{cotizacion.estado == 'Finalizado'}">
+                          <c:if test="#{consultaCotizacioncotizacion.estatus == 'Finalizado'}">
                             <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
-                                <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenar(cotizacion.nroPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
+                                <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenarPedido(cotizacion.nroPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
                                 </h:commandButton>
                             </sec:authorize>
                           </c:if>
-
-
-                        </c:if>
                         <c:if test="#{not empty consultaCotizacion.finalizar}">
                         <h:commandButton id="btnFinalizar" styleClass="btn btn-primary float-left" value ="#{lblMain.btnCotizarFlete}">
                         <f:ajax execute="@this" render="form:contentmodal" />
@@ -336,7 +330,7 @@
                             <h:outputLabel class="labelLeftInput fillWidthAvaible">
                               Fecha
                             </h:outputLabel>
-                            <h:panelGroup layout="block" styleClass="input-group date date-start">
+                            <h:panelGroup layout="block" styleClass="input-group date date-end">
                               <h:inputText id="frm_fechaCorteV2"
                                            styleClass="form-control input-sm"
                                            value="#{consultaCotizacion.cotizacion.fechaEnt}"
@@ -431,9 +425,9 @@
 		                  <sec:authorize ifAnyGranted="ROLE_ADMIN_MEMBER,ROLE_ADMIN_MEMBER_AR,ROLE_ADMIN_MEMBER_PE,ROLE_ADMIN_MEMBER_CA,ROLE_ADMIN_MEMBER_BR,
 				                                             ROLE_EJECUTIVO_MEMBER,ROLE_EJECUTIVO_MEMBER_AR,ROLE_EJECUTIVO_MEMBER_PE,ROLE_EJECUTIVO_MEMBER_CA,ROLE_EJECUTIVO_MEMBER_BR">
 		                    <h:panelGroup layput="block" style="display: inline-block; width: 100%; overflow-y: auto;">
-		                      <h:commandButton id="btnGrabar"  onclick="closeModal2()" action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
-		                      	<f:ajax execute="@form" onevent="showModal" render="form:\contentmodal"/>
-		                      </h:commandButton>
+		                      <h:commandButton id="btnGrabar" href="#myModal" action="#{consultaCotizacion.grabar(consultaCotizacion.cotizacion)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnGrabar}">
+		                     	<f:ajax onevent="function(data){ if(data.status=='success'){ closeModal2()}}" render="form\:myModal" execute="@this"/>
+                              </h:commandButton>
 			                  <h:commandButton styleClass="btn btn-danger float-left" value="#{lblMain.btnCerrar}" onclick="closeModal2()">
 		                        <f:ajax execute="@this" render="form:\contentmodal" />
 		                      </h:commandButton>   
@@ -459,52 +453,35 @@
       <script src="#{resource['lookAndFeel/vendor/MatchHeight/jquery.matchHeight-min.js']}"></script>
       <script src="#{resource['lookAndFeel/js/charts.js']}"></script>
       <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
-      <script type="text/javascript">
-
-				var closeModal = function () {
-					$('#myModal').modal('hide');
-				}
-
-				var openModalCancelarPedido = function () {
-					$('#myModal1').modal('show');
-				}
-				var closeModalCancelarPedido = function () {
-					$('#myModal1').modal('hide');
-				}
-
-				$("#menu2").off().on('click', function () {
-					if ($dataT3) {
-						$dataT3.clear().destroy();
-					}
-					example3Func();
-				});
-			</script>
-      		<script>
+        <script type="text/javascript">
 				function showModal(data) {
 					var modal = $("#myModal");
 					var status = data.status;
 					if(status == 'complete'){
 						$("#myModal").modal('show');
-						
+
 					}
 
 				}
+				var closeModal = function () {
+					$('#myModal').modal('hide');
+				}
+				$("#menu2").off().on('click', function () {
+					if ($dataT3) {
+						$dataT3.clear().destroy();
+					}
+					example3Func();
+				});
 
 				$("#example tbody").off().on('click', 'tr', function (data) {
 					var pedido = data;
 				});
 			</script>
-			<script type="text/javascript">
+        <script type="text/javascript">
 
 				var closeModal2 = function () {
 					$('#myModalCaptura').modal('hide');
-				}
-
-				var openModalCancelarPedido = function () {
-					$('#myModalCaptura').modal('show');
-				}
-				var closeModalCancelarPedido = function () {
-					$('#myModalCaptura').modal('hide');
+					$('#myModal').modal('show');
 				}
 
 				$("#menu2").off().on('click', function () {
@@ -514,14 +491,14 @@
 					example3Func();
 				});
 			</script>
-       		<script>
+        <script>
 				function showModal2(data) {
+				$('#myModal').modal('hide');
 					var modal = $("#myModalCaptura");
 					var status = data.status;
 					if(status == 'complete'){
 						$("#myModalCaptura").modal('show');
 					}
-
 				}
 
 				$("#example tbody").off().on('click', 'tr', function (data) {
@@ -529,30 +506,24 @@
 				});
 				$('#myModalCaptura').on('shown.bs.modal', function() {
 					  var $tablaModal2 = null;
-					  $("div.date.date-start")
-					    .datepicker({
-					      format: "dd/mm/yyyy",
-					      weekStart: 0,
-					      maxViewMode: 2,
-					      todayBtn: "linked",
-					      language: "es",
-					      orientation: "bottom auto",
-					      daysOfWeekHighlighted: "0,6",
-					      autoclose: true,
-					      todayHighlight: true,
-					      startDate: moment("01/01/1900", "DD/MM/YYYY").format("DD/MM/YYYY"),
-					      endDate: moment(new Date(), "DD/MM/YYYY").format("DD/MM/YYYY"),
-					    }).off().on("changeDate", function (e) {
-					      var selectDate = moment(e.date).format("DD/MM/YYYY");
-					      $("div.date.date-end").datepicker("setStartDate", selectDate);
-					      $("div.date.date-end").datepicker("setDate", selectDate);
-					    });
-					  
-					  
+					  $("div.date.date-end").datepicker({
+                            format: "dd/mm/yyyy",
+                            weekStart: 0,
+                            maxViewMode: 2,
+                            todayBtn: "linked",
+                            language: "es",
+                            orientation: "bottom auto",
+                            daysOfWeekHighlighted: "0,6",
+                            autoclose: true,
+                            todayHighlight: true,
+                            startDate: "01/01/1900",
+                           });
+
+
 						  $(document).ready(function () {
 						  if ($tablaModal2) {
 							  $tablaModal2.clear().destroy();
-						  }  
+						  }
 						  $tablaModal2 = $("#tableModal2").DataTable({
 					        paging: true,
 					        searching: true,
@@ -581,14 +552,14 @@
 					        },})
 						  })
 				});
-						  
-				
+
+
 				$('#myModal').on('shown.bs.modal', function() {
 					  var $tablaModal1 = null;
 					  $(document).ready(function () {
 						  if ($tablaModal1) {
 							  $tablaModal1.clear().destroy();
-						  }  
+						  }
 						  $tablaModal1 = $("#tableModal1").DataTable({
 					        paging: true,
 					        searching: true,

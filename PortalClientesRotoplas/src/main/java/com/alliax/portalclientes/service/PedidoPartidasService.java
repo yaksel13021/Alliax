@@ -17,4 +17,6 @@ public interface PedidoPartidasService {
 
 	public List<PedidoPartidas> findByidPedido(Long idPedido);
 
+	public void delete(PedidoPartidas pedidoPartidas);
+
 }
