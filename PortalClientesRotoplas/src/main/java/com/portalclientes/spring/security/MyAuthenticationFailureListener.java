@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 import com.alliax.portalclientes.domain.Usuario;
 import com.alliax.portalclientes.service.UsuarioService;
+import com.alliax.portalclientes.util.Helper;
 import com.alliax.portalclientes.view.AbstractBacking;
 
 public class MyAuthenticationFailureListener implements AuthenticationFailureHandler  {
@@ -85,18 +86,23 @@ public class MyAuthenticationFailureListener implements AuthenticationFailureHan
 		if (ex instanceof CredentialsExpiredException) {
 			logger.error("Err cred" + CREDENTIALS_EXPIRED_MESSAGE);
 			response.sendRedirect("./indexPwdChange.xhtml?error=" + CREDENTIALS_EXPIRED_MESSAGE);
+			Helper.setLoginError(new Integer(CREDENTIALS_EXPIRED_MESSAGE));
 		} else if (ex.getCause() instanceof DisabledException) {
 			logger.error("Err dis 2 " + DISABLED_MESSAGE);
 			response.sendRedirect("./index.xhtml?error=" + DISABLED_MESSAGE);
+			Helper.setLoginError(new Integer(DISABLED_MESSAGE));
 		} else if (ex instanceof BadCredentialsException) {
 			logger.error("Errr bad " + BAD_CREDENTIALS_MESSAGE);
 			response.sendRedirect("./index.xhtml?error=" + BAD_CREDENTIALS_MESSAGE);
+			Helper.setLoginError(new Integer(BAD_CREDENTIALS_MESSAGE));
 		} else if (ex.getCause() instanceof LockedException) {
 			logger.error("Err Lock 2" + LOCKED_MESSAGE);
-			response.sendRedirect("./index.xhtml?error=" + LOCKED_MESSAGE);			
+			response.sendRedirect("./index.xhtml?error=" + LOCKED_MESSAGE);
+			Helper.setLoginError(new Integer(LOCKED_MESSAGE));
 		} else {
 			logger.error("Error Desconocido " + ex.getLocalizedMessage());
 			response.sendRedirect("./index.xhtml?error=5");
+			Helper.setLoginError(5);
 		}
 	}
 }
