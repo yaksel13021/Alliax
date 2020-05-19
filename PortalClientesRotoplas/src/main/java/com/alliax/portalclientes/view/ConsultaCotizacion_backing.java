@@ -302,11 +302,17 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 	d.setDescripcion(CotizacionFlete.descFlete);
                 	d.setUnidadMedida(CotizacionFlete.unidadMed);
                 	d.setEstatus(pedido.getEstatusCotizacion());
-                	if(d.getEstatus().equals(CotizacionFlete.estadoCaptura) && this.isUsrVentas()) {
+                	if(this.isUsrVentas()) {
+                	if(d.getEstatus().equals(CotizacionFlete.estadoCaptura)) {
                 	this.noCotizacionSel = pedido.getNoCotizacion();
                 	this.cotizacion = d;
                 	}else {
                 		partidas.add(d);
+                	}
+                	}else {
+                		this.noCotizacionSel = pedido.getNoCotizacion();
+                    	this.cotizacion = d;
+                    	partidas.add(d);
                 	}
                 }else {
                 	partidas.add(d);
