@@ -46,7 +46,7 @@
 <h:body id="page-top">
 	<!-- Main Content -->
 	<ui:insert name="top">
-		<h:form id="navegacion">
+		<h:form id="navegacion" enctype="multipart/form-data">
 			<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-custom">
 	          	<h:link outcome="/inicio" styleClass="navbar-brand">
 	          		<h:graphicImage value="#{resource['lookAndFeel/img/logotipo.png']}" height="70" alt="Rotoplas" />
@@ -61,7 +61,7 @@
 					id="navbarCollapse" rendered="#{sec:isAllowed('/inicio.xhtml','POST')}">
 					<ul class="navbar-nav">
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER,ROLE_ADMIN_MEMBER,ROLE_PEDIDOS,ROLE_SEGUIMIENTO_PEDIDOS">
-							<li class="#{view.viewId == '/pedidos/listado.xhtml' or view.viewId == '/inicio.xhtml' ? 'active' : ''}">
+							<li class="#{view.viewId == '/pedidos/listado.xhtml' or view.viewId == '/inicio.xhtml' or view.viewId == '/crearPedido.xhtml' ? 'active' : ''}">
 								<h:link outcome="/pedidos/listado" styleClass="nav-item nav-link active textMenuStyle ">
 								<span style="padding-right: 9px;" />
 										#{lblMain.pedidos}
@@ -265,7 +265,9 @@
 		              			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		                			<!--<h:link styleClass="dropdown-item" outcome="/cuenta/index" value="#{lblMain.miCuenta}" />-->
 		                			<h:link styleClass="dropdown-item" outcome="/infoCuenta" value="Mi cuenta" />
-		                			<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}" action="#{template.salir}"/>
+		                			<h:commandLink styleClass="dropdown-item" value="#{lblMain.salir}"  action="#{template.salir}"/>
+
+									<h:link styleClass="dropdown-item" outcome="/admin/altaMasivaClienteVendedor" value="#{lblMain.menuMasiva}" />
 		              			</div>
 			            	</li>
 			            </sec:authorize>

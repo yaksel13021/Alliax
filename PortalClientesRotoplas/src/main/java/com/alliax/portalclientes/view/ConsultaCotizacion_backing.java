@@ -215,10 +215,10 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         	
                         }
                         c.setMaterial(CotizacionFlete.idMatFlete);
-                    	c.setCantidad("1");
+                    	c.setCantidad(pp.getCantidad());
                     	c.setDescripcion(CotizacionFlete.descFlete);
-                    	c.setPrecioNeto("0");
-                    	c.setMonto("0");
+                    	c.setPrecioNeto(pp.getPrecioNeto());
+                    	c.setMonto(pp.getMonto());
                     	c.setuM(CotizacionFlete.unidadMed);
                     	
                         this.getCotizaciones().add(c);
@@ -302,11 +302,17 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 	d.setDescripcion(CotizacionFlete.descFlete);
                 	d.setUnidadMedida(CotizacionFlete.unidadMed);
                 	d.setEstatus(pedido.getEstatusCotizacion());
-                	if(!mostrarCotizacion && this.isUsrVentas()) {
+                	if(this.isUsrVentas()) {
+                	if(d.getEstatus().equals(CotizacionFlete.estadoCaptura)) {
                 	this.noCotizacionSel = pedido.getNoCotizacion();
                 	this.cotizacion = d;
                 	}else {
                 		partidas.add(d);
+                	}
+                	}else {
+                		this.noCotizacionSel = pedido.getNoCotizacion();
+                    	this.cotizacion = d;
+                    	partidas.add(d);
                 	}
                 }else {
                 	partidas.add(d);
@@ -372,17 +378,22 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     }
     
     public String ordenarPedido(String noPedido) {
+        logger.info("inicio ordenar pedido :" + noPedido);
     	  try{
-        	 CrearPedidoRFC crearPedidoRFC = crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
+        	 CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
              com.alliax.portalclientes.model.Pedido pedidoRFC = crearPedidoRFC(noPedido);
+             logger.info("ordenarPedido pedidoRFC: " + pedidoRFC);
              if(pedidoRFC!= null) {
+
             	 crearPedidoRFC.crearPedido(pedidoRFC);
              }
+
     	  }catch (Exception e){
         	 logger.error("Error al genear pedido en SAP" + e.getLocalizedMessage());
              this.getFacesContext().addMessage(null, new FacesMessage(
                      FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
          }
+        logger.info("fin ordenarPedido pedidoRFC: "+  noPedido);
     	return "";
     }
 
@@ -403,8 +414,8 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			pedidoRFC.setNroTeleofno(pedido.getTelefonoContacto());
     			pedidoRFC.setNroTelefonoFijo(pedido.getTelefonoFijoContacto());
     			pedidoRFC.setHorarioRecepcion(pedido.getHorarioRecepcion());
-        
-        
+
+
     			encabezado.setNroCliente(pedido.getNroCliente());
     			encabezado.setNroDestinatarioMercancias(pedido.getDestinatarioMercancia());
     			encabezado.setClasePedido(pedido.getClasePedido());
@@ -430,6 +441,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     				if(mat!= null){
     					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
     				}
+                    partidas.add(partidaRFC);
     			}
         
         PedidoReferenciaUbicacion ref = new PedidoReferenciaUbicacion();
@@ -452,6 +464,13 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
        equipo.setLineaTexto(pedido.getEquipoEspecial());
        
        ProteccionPersonal.add(equipo);
+
+         pedidoRFC.setPedidoEncabezado(encabezado);
+         pedidoRFC.setPedidoPartidas(partidas);
+         pedidoRFC.setPedidoReferenciaUbicacion(referencias);
+         pedidoRFC.setPedidoProductoAlmacenar(prodAlmacenar);
+         pedidoRFC.setPedidoEquipoEspecialProteccionPersonal(ProteccionPersonal);
+         pedidoRFC.setPedidoCapacidadesTransporteEspecial(transporteEspecial);
         }
     	}
     	

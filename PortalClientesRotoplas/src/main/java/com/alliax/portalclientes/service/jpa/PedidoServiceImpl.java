@@ -59,7 +59,7 @@ public class PedidoServiceImpl implements PedidoService {
         logger.info("findCotizacionesFlete fecha " + fecha );
         try {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             boolean flagFecha = (fecha!= null && fecha.length() >0) ;
 
             TypedQuery<Pedido> query = this.em.createNamedQuery("Pedido.findFletes",Pedido.class);
@@ -67,27 +67,24 @@ public class PedidoServiceImpl implements PedidoService {
             query.setParameter("noCotizacion", noCotizacion);
             query.setParameter("flagCliente" , (noCliente!= null && noCliente.length() >0)  ? 0 : 1);
             query.setParameter("nroCliente", noCliente);
-            logger.debug("Despues de setear parametos");
-
-            List<Pedido> pedidos =  query.getResultList();
-
-            if(flagFecha){
-                List<Pedido> pedidosR =  new ArrayList();
-                for(Pedido p : pedidos){
-                    logger.info("Fecha Creacion" + p.getFechaCreacion());
-
-                    String  fechaP = p.getFechaCreacion()!= null ? sdf.format(p.getFechaCreacion()) : null ;
-
-                    if(fechaP!= null  && fechaP.equals(fecha)){
-                        pedidosR.add(p);
-                    }
-                }
-                return pedidosR;
+            if(fecha!= null && fecha.length()>0) {
+                Date fechaP = sdf.parse(fecha);
+                query.setParameter("flagFecha", (fechaP != null) ? 0 : 1);
+                query.setParameter("fecha", fechaP);
+                logger.debug("Despues de setear parametos");
+            }else{
+                query.setParameter("flagFecha",  1);
+                query.setParameter("fecha", new Date());
             }
+            List<Pedido> pedidos =  query.getResultList();
             return pedidos;
         } catch(NoResultException nre){
             logger.error("No existen Fletes " + nre.getLocalizedMessage());
             return null;
-        }
+        } catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
     }
 }

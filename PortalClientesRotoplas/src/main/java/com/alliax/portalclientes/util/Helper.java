@@ -38,7 +38,8 @@ public class Helper {
 	
 	private static final Logger logger = Logger.getLogger(Helper.class);
 	private static String pathJSON = "";
-	public static boolean isProductionServer;	
+	public static boolean isProductionServer;
+	public static Integer loginError;
 	
 	static{
 		try { isProductionServer = InetAddress.getLocalHost().getHostName().equalsIgnoreCase("sap45") ? true : false;  } catch (UnknownHostException e) { }		
@@ -366,5 +367,14 @@ public class Helper {
 		return result;
 	}
 	/*********************************************************************************************************************/
+
+	public static Integer getLoginError() {
+		return loginError;
+	}
+
+	public static void setLoginError(Integer loginError) {
+		Helper.loginError = loginError;
+	}
+	
 	
 }

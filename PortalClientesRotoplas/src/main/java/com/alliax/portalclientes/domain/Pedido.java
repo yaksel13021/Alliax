@@ -18,6 +18,7 @@ import java.util.Date;
                 query="select p from Pedido p where p.noCotizacion is not null " +
                         " and (1 = :flagCot or p.noCotizacion = :noCotizacion )" +
                         " and (1 = :flagCliente or p.nroCliente = :nroCliente )" +
+                        " and (1 = :flagFecha or day(p.fechaCreacion) = day(:fecha) )" +
                         "order by  p.id asc")
 })
 public class Pedido {

@@ -85,7 +85,6 @@
 															<h:inputText id="frm_fechaIni"
 																		 styleClass="form-control" required="true" requiredMessage="#{lblMain.fechaRequerido}">
 																<f:ajax execute="@this" />
-																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaIniAlt" name="frm_fechaIniAlt" value="#{listaPedidos.fechaInicial}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaInicial}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
@@ -105,7 +104,6 @@
 															<h:inputText id="frm_fechaFin"
 																		 styleClass="form-control" required="true">
 																<f:ajax execute="@this" />
-																<f:convertDateTime pattern="yymmdd"></f:convertDateTime>
 															</h:inputText>
 															<h:inputHidden id="frm_fechaFinAlt" value="#{listaPedidos.fechaFinal}" requiredMessage="#{lblMain.fechaRequerido}" binding="#{fechaFinal}" />
 															<h:panelGroup layout="block" styleClass="input-group-append">
@@ -661,7 +659,16 @@
 				var closeModalCancelarPedido = function () {
 					$('#myModal1').modal('hide');
 				}
-				
+				var buscarPorDocumento = function(){
+					var url_string = window.location.href
+					var url = new URL(url_string);
+					var documento = url.searchParams.get("documento");
+					if(documento){
+					$("[id='form:frm_documento']").val(documento);
+					}
+				}
+
+				window.onload=buscarPorDocumento;
 			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 			<script>
@@ -697,6 +704,9 @@
 					} else {
 						$("[id='form:boxFechaF']").hide();
 					}
+
+
+
 				}
 			</script>
 		</ui:define>

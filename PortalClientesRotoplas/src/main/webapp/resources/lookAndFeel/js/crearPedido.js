@@ -72,7 +72,7 @@ var crearPedido = (function () {
             initEvents();
         });
 
-        $('div.deletePartirda').off().on('click', function (e) {
+        $('div.deletePartida').off().on('click', function (e) {
             cargarDTListProductosSelected.fill();
         });
 
@@ -360,18 +360,21 @@ var crearPedido = (function () {
                         $("[id='crearPedido:filterStepOne:telefonoContacto']").val(inputComentario.val());
                         break;
                     case 3:
-                        $("[id='crearPedido:filterStepOne:horarioRecepcion']").val(inputComentario.val());
+                        $("[id='crearPedido:filterStepOne:telefonoFijoContacto']").val(inputComentario.val());
                         break;
                     case 4:
-                        $("[id='crearPedido:filterStepOne:referenciaUbicacion']").val(inputComentario.val());
+                        $("[id='crearPedido:filterStepOne:horarioRecepcion']").val(inputComentario.val());
                         break;
                     case 5:
-                        $("[id='crearPedido:filterStepOne:productoAlmacenar']").val(inputComentario.val());
+                        $("[id='crearPedido:filterStepOne:referenciaUbicacion']").val(inputComentario.val());
                         break;
                     case 6:
-                        $("[id='crearPedido:filterStepOne:capacidadesTransporte']").val(inputComentario.val());
+                        $("[id='crearPedido:filterStepOne:productoAlmacenar']").val(inputComentario.val());
                         break;
                     case 7:
+                        $("[id='crearPedido:filterStepOne:capacidadesTransporte']").val(inputComentario.val());
+                        break;
+                    case 8:
                         $("[id='crearPedido:filterStepOne:equipoEspecial']").val(inputComentario.val());
                         break;
                 }
@@ -610,6 +613,26 @@ var crearPedido = (function () {
         $('a[data-toggle="tab"]').on('hidden.bs.tab', function (e) {
             ddt.util.columns_adjust_recalc();
         })
+		$('#select_metodoPago').off().on('change', function (e) {
+        	var select_metodoPago = $('#select_metodoPago');
+        	var ticket = $('#ticket');
+        	if('PUE' == select_metodoPago.val()) {
+        		$('#containerTicket').show();
+        	} else {
+        		$('#containerTicket').hide();
+        	}
+        });
+        $(document).on('change','.btn-file :file',function() {
+        	  var input = $(this);
+        	  var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+        	  var label = input.val().replace(/\\/g,'/').replace(/.*\//,'');
+        	  input.trigger('fileselect',[numFiles,label]);        	  
+        	});
+        $('.btn-file :file').on('fileselect',function(event,numFiles,label) {
+            var input = $(this).parents('.input-group').find(':text');
+            var log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if(input.length){ input.val(log); }else{ }
+        });
     };
 
 
@@ -778,15 +801,14 @@ var crearPedido = (function () {
 
                                         alert("material " + material[0].sku + " , "  + material[0].cantidad)
                                         material[0].cantidad = 0;
-
-                                        //aki
-                                        $("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
                                         */
+                                        //aki
+                                        ///$("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
+
 
                                         //aki
-
-                                       /* $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
-                                        $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');*/
+                                        $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
+                                        $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');
 
                                     }
                                 });
@@ -1136,8 +1158,8 @@ var crearPedido = (function () {
                     $dtComentarios = document.querySelector('#dt_comentarios').rssDataTable({
                         order: [0, 'asc'],
                         scrollX: true,
-                        searching: true,
-                        paging: true,
+                        searching: false,
+                        paging: false,
                         data: rs,
                         responsive: true,
                         free: function (data, type, row, meta) {
@@ -1164,41 +1186,46 @@ var crearPedido = (function () {
             return new Promise(function (resolve, reject) {
                 var model = [{
                     id: 1,
-                    datosEntrega: 'Nombre del contrato',
+                    datosEntrega: 'Nombre del contacto',
                     obligatorio: true
                 },
                 {
                     id: 2,
-                    datosEntrega: 'Apellido del contrato',
+                    datosEntrega: 'Apellido del contacto',
                     obligatorio: true
                 },
                 {
                     id: 3,
-                    datosEntrega: 'Teléfono del contrato',
+                    datosEntrega: 'Teléfono de contacto',
                     obligatorio: true
                 },
                 {
                     id: 4,
-                    datosEntrega: 'Horario de recepción',
+                    datosEntrega: 'Teléfono fijo de contacto',
                     obligatorio: false
                 },
                 {
                     id: 5,
+                    datosEntrega: 'Horario de recepción',
+                    obligatorio: false
+                },
+                {
+                    id: 6,
                     datosEntrega: 'Referencia fisica de ubicación',
                     obligatorio: true
                 },
                 {
-                    id: 6,
+                    id: 7,
                     datosEntrega: 'Producto a almacenar. Espacio por contenido del producto concentración en %',
                     obligatorio: true
                 },
                 {
-                    id: 7,
+                    id: 8,
                     datosEntrega: 'Capacidades de transporte especiales',
                     obligatorio: false
                 },
                 {
-                    id: 8,
+                    id: 9,
                     datosEntrega: 'Equipo especial de protección personal (EPP)',
                     obligatorio: false
                 }
