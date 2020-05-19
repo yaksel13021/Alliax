@@ -10,6 +10,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alliax.portalclientes.util.Helper;
+
 import org.apache.log4j.Logger;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,10 +56,13 @@ public class ChangePasswordFilter extends OncePerRequestFilter  {
 	 */
 	private boolean isPwdChange() {
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        		
+				logger.info("USER: "+SecurityContextHolder.getContext().toString() );
+        		logger.info("Roles: "+ roles.toString());
 		if (roles.contains("ROLE_PWDCHANGE_MEMBER")){
+			logger.info("Rol ROLE_PWDCHANGE_MEMBER: TRUE");
 			return true;
         } else {
+        	logger.info("Rol ROLE_PWDCHANGE_MEMBER: FALSE");
         	return false;
         }
 	}

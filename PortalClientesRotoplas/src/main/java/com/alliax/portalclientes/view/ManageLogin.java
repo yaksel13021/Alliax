@@ -22,6 +22,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.alliax.portalclientes.util.Helper;
+
 import org.apache.log4j.Logger;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
@@ -38,7 +40,7 @@ public class ManageLogin extends AbstractBackingGen {
 	private String confirmaPwd;
 	private boolean cambiaPassword;
 	
-	private int returnCode;
+	private Integer returnCode;
 	
 	//Instancias
 	private Logger logger = Logger.getLogger(ManageLogin.class);
@@ -93,11 +95,14 @@ public class ManageLogin extends AbstractBackingGen {
 		this.confirmaPwd = confirmaPwd;
 	}
 
-	public int getReturnCode() {
+	public Integer getReturnCode() {
+		/*if(this.returnCode != Helper.loginError) {
+			this.setReturnCode(Helper.loginError);
+		}*/
 		return returnCode;
 	}
 
-	public void setReturnCode(int returnCode) {
+	public void setReturnCode(Integer returnCode) {
 		this.returnCode = returnCode;
 	}
 
@@ -110,12 +115,13 @@ public class ManageLogin extends AbstractBackingGen {
 
 	}
 	
-	
+ 
 	/**
 	 * Accion para ingresar a portal
 	 * @return
 	 */
 	public String doLogin() throws ServletException, IOException{
+		logger.info("start login");
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
@@ -125,9 +131,13 @@ public class ManageLogin extends AbstractBackingGen {
 		
 		FacesContext.getCurrentInstance().responseComplete();
 		
+		this.setReturnCode(Helper.loginError);
+		
+		logger.info("Helper login error: " + Helper.loginError + "return Code: " + this.getReturnCode());
+
+		logger.info("end login");
 		return null;
 	}
-	
 	
 	/**
 	 * Evento para redireccionar a usuario que no se han logueado y quieren acceder a paginas restringidas.
@@ -136,6 +146,7 @@ public class ManageLogin extends AbstractBackingGen {
 	 * @throws ServletException 
 	 */
     public String logOff() throws ServletException, IOException {
+    	
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
@@ -145,6 +156,8 @@ public class ManageLogin extends AbstractBackingGen {
 		
 		FacesContext.getCurrentInstance().responseComplete();
 		
+		Helper.setLoginError(null);
+		
 		return null;
     }		
 	
@@ -153,6 +166,9 @@ public class ManageLogin extends AbstractBackingGen {
      */
     public void validaMensajesError(){
     	try {    		
+    		this.setReturnCode(Helper.loginError);
+    		
+    		logger.info("Helper login error: " + Helper.loginError + "return Code: " + this.getReturnCode());
 	    	if(this.getReturnCode() == 1){
 	    		FacesContext.getCurrentInstance().addMessage("", 
 	    			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", this.getLblMain().getString("errorLoginCredentials")));
@@ -169,13 +185,14 @@ public class ManageLogin extends AbstractBackingGen {
 	    		FacesContext.getCurrentInstance().addMessage("", 
 		    			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", this.getLblMain().getString("errorLogin")));
 	    	}
+	    	
+	    	FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("login:valueCode");
+	    	logger.info("error: "+this.getReturnCode());
     	} catch(Exception e){
     		
     	}
     }
-    
-    
-	
+ 
 	/**
 	 * Do something before rendering phase.
 	 */
@@ -196,10 +213,7 @@ public class ManageLogin extends AbstractBackingGen {
 	public PhaseId getPhaseId(){
 		return PhaseId.RENDER_RESPONSE;
 	}
-	
-	
-	
-	
+
 	/**
 	 * Metodo de Login con cambio de password
 	 * @return
@@ -216,5 +230,6 @@ public class ManageLogin extends AbstractBackingGen {
 	 */
 	public String recuperaPassword(){
 		return "index";
-	}	
+	}
+	
 }

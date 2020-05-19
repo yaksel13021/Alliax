@@ -12,6 +12,11 @@
 	<ui:composition template="templateBoot.xhtml">
 		<ui:define name="metadata">
 			<link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+			<f:metadata>
+				<f:viewParam name="error" value="#{login.returnCode}">
+					<f:event type="preRenderView" listener="#{login.validaMensajesError}" />
+				</f:viewParam>
+			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<h:form id="login">
@@ -31,7 +36,7 @@
 													alt="#{lblMain.portalCD}" />
 											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-												<h:panelGroup layout="block" styleClass="pb-5 pr-5 pl-5 pt-5">
+												<h:panelGroup layout="block" styleClass="pb-5 pr-5 pl-5 pt-5" id="boxValue">
 													<h1 class="h4  mb-4 LetraEstilo">#{lblMain.registro}</h1>
 													<h:panelGroup layout="block" styleClass="form-group">
 														<h:inputText styleClass="form-control form-control-user"
@@ -45,13 +50,10 @@
 															a:placeholder="#{lblMain.usrPassword}" required="true" value="#{login.password}"
 															requiredMessage="#{lblMain.passwordReq}"/>
 													</h:panelGroup>
-													<h:inputText style="display: none;" id="valueCode" value="#{login.returnCode}" immediate="true">
-													</h:inputText>
-													<h:commandButton id="doLogin" type="button" action="#{login.validateLogin}"
-														styleClass="btn botonEstilo btn-user btn-block" value="#{lblMain.btnPortal}" immediate="true">
-														<f:ajax execute="@form" immediate="true" render="@this valueCode"></f:ajax>
-													</h:commandButton>
-													<h:commandButton style="display: none;" id="loginResponse" action="#{login.doLogin}"></h:commandButton>
+													<h:commandButton id="doLogin" type="button"
+														styleClass="btn botonEstilo btn-user btn-block"  value="#{lblMain.btnPortal}" />
+													<h:commandButton id="loginResponse" action="#{login.doLogin}"
+														styleClass="hidden" type="submit" />
 													<hr />
 													<h:panelGroup layout="block" styleClass="text-center pt-1">
 														<h:link outcome="recuperaPassword" styleClass="small LetraEstilo">
@@ -74,37 +76,31 @@
 			<script src="#{resource['lookAndFeel/vendor/Toastr/toastr.min.js']}"></script>
 			<script type="text/javascript">
 				var completeEvent = function (data) {
-					var status = data.status;
-					var usrStatus = document.getElementById("login:valueCode").value;
-					switch(status){
-						case 'complete':
-							if(usrStatus == "1" || usrStatus == ""){
-								showToastr('El usuario o la contraseña son incorrectos.', 'Aviso', {
-						            type: typeNotification.warning
-						        });
-							} else if(usrStatus == "2"){
-								showToastr('El contraseña de tu cuenta ha expirado, es necesario que lo cambies a través de la opción "Olvide mi contraseña".', 'Aviso', {
-						            type: typeNotification.warning
-						        });
-							} else if(usrStatus == "3"){
-								showToastr('Tu cuenta ha sido bloqueada, para mayor información comunicate a la mesa de ayuda.', 'Aviso', {
-						            type: typeNotification.warning
-						        });
-							} else if(usrStatus == "4"){
-								showToastr('Tu cuenta ha sido bloqueada por intentos fallidos, es neceario que generes una nueva clave a traves de la opción "Olvide mi contraseña".', 'Aviso', {
-						            type: typeNotification.warning
-						        });
-							}else if(usrStatus == "5"){
-								showToastr('Ocurrió un error al intentar validar tus datos.', 'Aviso', {
-						            type: typeNotification.warning
-						        });
-							} else if(usrStatus == "0"){
-								showToastr('El usuario se registró correctamente.', 'Aviso', {
-						            type: typeNotification.success
-						        });
-								document.getElementById('login:loginResponse').click();
-							}
-						break;
+					var usrStatus = data;
+					if(usrStatus == "1"){
+						showToastr('El usuario o la contraseña son incorrectos.', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+					} else if(usrStatus == "2"){
+						showToastr('El contraseña de tu cuenta ha expirado, es necesario que lo cambies a través de la opción "Olvide mi contraseña".', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+					} else if(usrStatus == "3"){
+						showToastr('Tu cuenta ha sido bloqueada, para mayor información comunicate a la mesa de ayuda.', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+					} else if(usrStatus == "4"){
+						showToastr('Tu cuenta ha sido bloqueada por intentos fallidos, es neceario que generes una nueva clave a traves de la opción "Olvide mi contraseña".', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+					}else if(usrStatus == "5"){
+						showToastr('Ocurrió un error al intentar validar tus datos.', 'Aviso', {
+				            type: typeNotification.warning
+				        });
+					} else if(usrStatus == "0"){
+						showToastr('El usuario se registró correctamente.', 'Aviso', {
+				            type: typeNotification.success
+				        });
 					}
 				}
 				
@@ -161,6 +157,11 @@
 				    if(!onerror){
 				    	document.getElementById('login:loginResponse').click();
 				    }
+				});
+			</script>
+			<script type="text/javascript">
+				window.addEventListener("load", function () {
+					completeEvent(#{login.returnCode});
 				});
 			</script>
 		</ui:define>
