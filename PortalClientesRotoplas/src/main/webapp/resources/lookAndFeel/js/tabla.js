@@ -142,6 +142,13 @@ $(document).ready(function () {
   var $example3 = null;
   
   var Graf_Doughnut_demo = null;
+  
+  var isRoleExterno = $("[id='form:isRoleExterno']").val();
+  if(!isRoleExterno) {	
+	  $("[id='form:panelEmpresa']").show();
+	  $("[id='form:panelFechaCorte']").show();
+	  $("[id='form:panelBotonGenerar']").show();
+   }
 
   var isIE = window.ActiveXObject || "ActiveXObject" in window;
   if (isIE) {
@@ -763,4 +770,28 @@ function filtrarCotizaciones() {
             }
         },})
         $tablaCotizaciones;
+}
+
+function validarPanelesFilters() {
+	var selectClienteCompany = $("[id='form:selectClienteCompany']").val();
+	if(selectClienteCompany != null) {
+	  	$("[id='form:panelEmpresa']").show();
+	  	$("[id='form:panelFechaCorte']").show();
+	  	$("[id='form:panelBotonGenerar']").show();
+	}
+}
+
+function agregarEstiloSelectEmpresa() {
+	$('[id="form:panelSelectEmpresa"]').select2({
+        theme: "bootstrap",
+        allowClear: true,
+        placeholder: "Seleccione una opción",
+        language: Select2Languaje(),
+        multiple: false,
+        width: "100%",
+    });
+	
+  	$("[id='form:panelEmpresa']").show();
+  	$("[id='form:panelFechaCorte']").show();
+  	$("[id='form:panelBotonGenerar']").show();
 }
