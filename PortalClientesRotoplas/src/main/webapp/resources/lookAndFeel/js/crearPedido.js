@@ -45,6 +45,11 @@ var crearPedido = (function () {
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
 
             $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
+            
+            var flagUpdate = $("[id='crearPedido:filterStepOne:flagUpdate']").val();
+            if(flagUpdate=='true'){
+                $("[id='crearPedido:filterStepOne:clonarPedidoId']").trigger('click');
+            }
 
         });
 
