@@ -560,6 +560,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
         }catch(Exception e){
             materialSeleccionadoJson = "";
         }
+        logger.info("getMaterialSeleccionadoJson response ::::::" + materialSeleccionadoJson ); //quitar luego
         return materialSeleccionadoJson;
     }
 
@@ -1098,11 +1099,21 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public void loadDataClonarPedido(){   //llenar objetos de la clonacion
     	this.setSegmento(pedidoAClonar.getSegmento());
+    	logger.info("loadDataClonarPedido setSegmento ::::::" );   //quitar luego
     	setMateriales(loadMaterialesClonarPedido());
+    	logger.info("loadDataClonarPedido setMateriales ::::::" );   //quitar luego
     	asignaPedidoSegmentoClonar();
+    	logger.info("loadDataClonarPedido asignaPedidoSegmentoClonar ::::::" );   //quitar luego
     	setMaterialesJson(getMateriales());
+    	logger.info("loadDataClonarPedido setMaterialesJson ::::::" );   //quitar luego
     	getMaterialSeleccionadoJson();
-    	asignaPedidoMaterial();
+    	logger.info("loadDataClonarPedido getMaterialSeleccionadoJson ::::::" );   //quitar luego
+    	try {
+    	 asignaPedidoMaterial();
+    	}catch (Exception e) {
+    		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getMessage());   //quitar luego
+    		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getLocalizedMessage());
+		}
 }
 
 public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la lista materiales las partidas del detelle a clonar
@@ -1126,6 +1137,7 @@ public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la list
 		material.setIva("5");
 		out.add(material);
 	}
+	logger.info("loadMaterialesClonarPedido::::::" +out);
 	return out;
 }
 
@@ -1186,6 +1198,7 @@ public void asignaPedidoSegmentoClonar(){   //Materiales del pedido original + p
             pedidoMaterial.setUrlFoto(material.getUrlFoto()==null?"":material.getUrlFoto().trim());
             materiales.add(pedidoMaterial);
     }
+    logger.info("asignaPedidoSegmentoClonar::::::" + materiales );  //quitar luego
 }
 
 }
