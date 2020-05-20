@@ -423,7 +423,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			encabezado.setOrganizacionVenta(pedido.getOrganizacionVenta());
     			encabezado.setCanalDistribucion("20");
     			encabezado.setSector("02");
-    			encabezado.setMotivoPedido("");
+    			encabezado.setMotivoPedido("166");
     			encabezado.setSegmento(pedido.getTipoMaterial());
     			encabezado.setNroPedidoCliente(pedido.getNroPedido());
     			encabezado.setSociedad(pedido.getSociedad());
@@ -440,7 +440,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     				partidaRFC.setCantidad(pp.getCantidad());
     				Material mat = materialService.findById(pp.getId().getSku());
     				if(mat!= null){
-    					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
+    					partidaRFC.setUnidadMedida(mat.getUnidadMedida()!= null ? mat.getUnidadMedida().trim() : "");
     				}
                     partidas.add(partidaRFC);
     			}
