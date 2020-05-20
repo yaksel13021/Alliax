@@ -118,6 +118,7 @@ public class CrearPedidoRFC {
             PedidoPartidas pedidoPartidas = null;
             for(int i = 0; i < pedido.getPedidoPartidas().size(); i++){
                 pedidoPartidas = pedido.getPedidoPartidas().get(i);
+                logger.info("partida : " + i + " : " + pedidoPartidas);
 
                 this.tblItems.appendRow();
                 this.tblItems.setRow(i);
