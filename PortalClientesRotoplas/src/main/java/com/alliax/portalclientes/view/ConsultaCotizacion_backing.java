@@ -335,9 +335,12 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
                 total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
             }
+
+            logger.info("email pedido :" + this.email);
             logger.info("Total para envio de email:" + total);
             ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
             mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString() ,fechaEntrega);
+            logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
         }else{
             logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);
         }
@@ -373,7 +376,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-   public String ordenarPedido(String noPedido) {
+   public String ordenarPedido(String noPedido) throws Exception{
         logger.info("inicio ordenar pedido :" + noPedido);
 		String documento="E";
     	  try{
@@ -423,24 +426,28 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			encabezado.setOrganizacionVenta(pedido.getOrganizacionVenta());
     			encabezado.setCanalDistribucion("20");
     			encabezado.setSector("02");
-    			encabezado.setMotivoPedido("");
+    			encabezado.setMotivoPedido("166");
     			encabezado.setSegmento(pedido.getTipoMaterial());
     			encabezado.setNroPedidoCliente(pedido.getNroPedido());
     			encabezado.setSociedad(pedido.getSociedad());
     			encabezado.setMetodoPago(pedido.getMetodoPago());
     			encabezado.setUsoCFDI(pedido.getUsoCFDI());
+                encabezado.setMoneda("MXN");
+
         
        
     			List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(pedido.getIdPedido());
         
     			for(PedidoPartidas pp : partidasPedidos){
     				com.alliax.portalclientes.model.PedidoPartidas partidaRFC = new com.alliax.portalclientes.model.PedidoPartidas();
+
     				partidaRFC.setPosicion(pp.getPosicion());
     				partidaRFC.setNroMaterial(pp.getId().getSku());
     				partidaRFC.setCantidad(pp.getCantidad());
     				Material mat = materialService.findById(pp.getId().getSku());
     				if(mat!= null){
-    					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
+    					partidaRFC.setUnidadMedida(mat.getUnidadMedida()!= null ? mat.getUnidadMedida().trim() : "");
+
     				}
                     partidas.add(partidaRFC);
     			}
