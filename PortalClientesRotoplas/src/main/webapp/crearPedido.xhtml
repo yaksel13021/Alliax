@@ -102,7 +102,7 @@
 											<div class="continuarDestinatarioNroPedido"></div>
 											<div class="material_seleccionado_clonar"></div>
 											<h:commandLink  id="clonarPedidoId" action="#{crearPedido.loadDataClonarPedido}">
-												<f:ajax execute="@form" render="mateiralScript mateiralSelScript descripcionDestinatario comboValues usoCFDIPanel" onevent="ajaxClonar"/>
+												<f:ajax execute="@form" render="mateiralScript mateiralSelScript descripcionDestinatario comboValues usoCFDIPanel clasePedido" onevent="ajaxClonar"/>
 											</h:commandLink>
 											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
 												<f:ajax execute="@form" render="descripcionDestinatario clasePedido" onevent="ajaxValidateClasePedido"/>
