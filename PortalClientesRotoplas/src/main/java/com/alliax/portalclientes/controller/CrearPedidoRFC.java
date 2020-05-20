@@ -126,6 +126,7 @@ public class CrearPedidoRFC {
                 this.tblItems.setValue(pedidoPartidas.getNroMaterial(),"MATERIAL");
                 this.tblItems.setValue(pedidoPartidas.getCantidad(),"REQ_QTY");
                 this.tblItems.setValue(pedidoPartidas.getUnidadMedida(),"SALES_UNIT");
+                this.tblItems.setValue(pedidoPartidas.getMonto(),"SERV_PRICE");
                 this.tblItems.nextRow();
             }
 

@@ -454,6 +454,10 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     					partidaRFC.setUnidadMedida(mat.getUnidadMedida()!= null ? mat.getUnidadMedida().trim() : "");
 
     				}
+    				if(pp.getId().getSku().equals(CotizacionFlete.idMatFlete)){
+    				    partidaRFC.setUnidadMedida(CotizacionFlete.unidadMed);
+    				    partidaRFC.setMonto(pp.getMonto());
+                    }
                     partidas.add(partidaRFC);
     			}
         
