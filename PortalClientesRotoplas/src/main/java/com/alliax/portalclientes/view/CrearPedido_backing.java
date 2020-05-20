@@ -1122,19 +1122,21 @@ public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la list
 	for(int i = 0;i < partidas.size(); i++ ){
 		Item fac = partidas.get(i);
 		PedidoMaterial material = new PedidoMaterial();
-		material.setCantidad(fac.getCantidad()!=null?fac.getCantidad().toString():null);
+		logger.info("loadMaterialesClonarPedido:::::: fac.getCantidad() " +fac.getCantidad());
+		logger.info("loadMaterialesClonarPedido:::::: fac.getCantidad() corregida " +(fac.getCantidad()!=null?Integer.valueOf(fac.getCantidad().intValue()).toString():null));
+		material.setCantidad(fac.getCantidad()!=null?Integer.valueOf(fac.getCantidad().intValue()).toString():null);
 		material.setDescripcion(fac.getDescripcion());
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
 		material.setFechaEntrega(fac.getFechaEntrega()!=null?formatter.format(fac.getFechaEntrega()):null);
 		material.setMoneda(fac.getMoneda());
 		material.setPrecioNeto(fac.getPrecioNeto()!=null?fac.getPrecioNeto().toString():null);
-		material.setSku(fac.getNoMaterial());
+		material.setSku(fac.getNoMaterial());/////////////
 		material.setUnidadMedida(fac.getUnidadMedida());
 		material.setCodigoError("0");
 		material.setMensajeError("");
 		material.setMonto(fac.getMonto()!=null?fac.getMonto().toString():null);
-		material.setUrlFoto("");
-		material.setIva("5");
+		//material.setUrlFoto("");
+		//material.setIva(fac.get);
 		out.add(material);
 	}
 	logger.info("loadMaterialesClonarPedido::::::" +out);

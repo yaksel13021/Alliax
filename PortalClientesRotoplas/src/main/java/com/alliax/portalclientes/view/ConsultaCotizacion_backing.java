@@ -339,8 +339,12 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
 
             logger.info("email pedido :" + this.email);
             logger.info("Total para envio de email:" + total);
-            ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
-            mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString() ,fechaEntrega);
+            try {
+                ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
+                mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString(), fechaEntrega);
+            }catch(Exception e){
+                logger.info("ErrorEnviaCorreoCotizacion",e);
+            }
             logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
         }else{
             logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);

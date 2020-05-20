@@ -248,7 +248,7 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 			} else if(this.getEstatus().equals("C")) {
 				estatus.add("C");
 			}
-			
+			this.documento = ec.getRequestParameterMap().get("form:frm_documento");
 			//Setea documento a buscar
 			logger.info("Tipo Doc " + this.getTipoDocumento());
 			if(this.getTipoDocumento().equalsIgnoreCase("Pedido")){
