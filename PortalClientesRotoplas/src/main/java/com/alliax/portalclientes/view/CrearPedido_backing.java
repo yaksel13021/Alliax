@@ -496,10 +496,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
         }
     }
 
-
-
-
-
     public void continuaCompra(){
         setMaterialesJson(materiales);
     }
@@ -561,7 +557,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
         }catch(Exception e){
             materialSeleccionadoJson = "";
         }
-        logger.info("getMaterialSeleccionadoJson response ::::::" + materialSeleccionadoJson ); //quitar luego
         return materialSeleccionadoJson;
     }
 
@@ -1100,69 +1095,37 @@ public class CrearPedido_backing extends AbstractBackingGen {
         setMaterialesJson(materiales);
     }
 
-    //AKILOAD
-    public void loadDataClonarPedido(){   //llenar objetos de la clonacion
+    //Clonar Pedido
+    public void loadDataClonarPedido(){   
         List<PedidoMaterial> lstPedidoMaterial = null;
         ObjectMapper objectMapper = new ObjectMapper();
     	try {
             setDestinatarioAndNroPedido();
             this.setSegmento(pedidoAClonar.getSegmento());
             asignaPedidoSegmento();
-
             lstPedidoMaterial = loadMaterialesClonarPedido();
-
             setMaterialSeleccionadoJson(objectMapper.writeValueAsString(lstPedidoMaterial));
             asignaPedidoMaterial();
             setMaterialesJson(materiales);
-
-
-         /*   buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
-            ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(destinatarioMercanciaSel.getOrganizacionVentas(), destinatarioMercanciaSel.getCodigoPostal());
-            logger.info("CLASE PEDIDO en CLONAR" + clasePedido);
-            if(clasePedido.getResultCode().equals("0")) {
-                setClasePedido(clasePedido.getClasePedido());
-            }else{
-                setClasePedido("");
-                setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
-            }*/
         }catch (Exception e){
             logger.error(e);
         }
-
-        logger.info("loadDataClonarPedido END ::::::" );   //quitar luego
-    	/*this.setSegmento(pedidoAClonar.getSegmento());
-    	logger.info("loadDataClonarPedido setSegmento ::::::" );   //quitar luego
-    	setMateriales(loadMaterialesClonarPedido());
-    	logger.info("loadDataClonarPedido setMateriales ::::::" );   //quitar luego
-    	asignaPedidoSegmentoClonar();
-    	logger.info("loadDataClonarPedido asignaPedidoSegmentoClonar ::::::" );   //quitar luego
-    	setMaterialesJson(getMateriales());
-    	logger.info("loadDataClonarPedido setMaterialesJson ::::::" );   //quitar luego
-    	getMaterialSeleccionadoJson();
-    	logger.info("loadDataClonarPedido getMaterialSeleccionadoJson ::::::" );   //quitar luego
-    	try {
-    	 asignaPedidoMaterial();
-    	}catch (Exception e) {
-    		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getMessage());   //quitar luego
-    		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getLocalizedMessage());
-		}*/
+        logger.info("loadDataClonarPedido END ::::::" );
 }
 
-public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la lista materiales las partidas del detelle a clonar
+public List<PedidoMaterial> loadMaterialesClonarPedido() {
 	List<PedidoMaterial> out = new ArrayList<PedidoMaterial>();
 	List<Item> partidas = getListadoPedidos_backing().getPartidas();
 	for(int i = 0;i < partidas.size(); i++ ){
 		Item fac = partidas.get(i);
 		PedidoMaterial material = new PedidoMaterial();
-		logger.info("loadMaterialesClonarPedido:::::: fac.getCantidad() " +fac.getCantidad());
-		logger.info("loadMaterialesClonarPedido:::::: fac.getCantidad() corregida " +(fac.getCantidad()!=null?Integer.valueOf(fac.getCantidad().intValue()).toString():null));
 		material.setCantidad(fac.getCantidad()!=null?Integer.valueOf(fac.getCantidad().intValue()).toString():null);
 		material.setDescripcion(fac.getDescripcion());
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
 		material.setFechaEntrega(fac.getFechaEntrega()!=null?formatter.format(fac.getFechaEntrega()):null);
 		material.setMoneda(fac.getMoneda());
 		material.setPrecioNeto(fac.getPrecioNeto()!=null?fac.getPrecioNeto().toString():null);
-		material.setSku(fac.getNoMaterial());/////////////
+		material.setSku(fac.getNoMaterial());
 		material.setUnidadMedida(fac.getUnidadMedida());
 		material.setCodigoError("0");
 		material.setMensajeError("");
@@ -1171,76 +1134,35 @@ public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la list
 		//material.setIva(fac.get);
 		out.add(material);
 	}
-	logger.info("loadMaterialesClonarPedido::::::" +out);
 	return out;
 }
 
-public void loadDestinatariosAll() {   // se ejecuta al inicio de la peticion de clonar para q antes de renderrizar ya tenga la lista de detinatarios cargada
-	if(update && destinatarioMercancias == null) {
-		
-	logger.info("clonar loadDestinatariosAll::::::");
-	pedidoAClonar = getListadoPedidos_backing().getPedido();
-
-
-	this.setSegmento(pedidoAClonar.getSegmento());
-	List<DestinatarioMercancia> auxDestinatariosMecancias = new ArrayList<DestinatarioMercancia>();
-	BuscarDestinatarioMercanciaPorPedidoRFC buscarDestinatarioMercanciaPorPedidoRFC;
-	  try {
-		  buscarDestinatarioMercanciaPorPedidoRFC = this.getSpringContext().getBean("buscarDestinatarioMercanciaPorPedidoRFC", BuscarDestinatarioMercanciaPorPedidoRFC.class);
-          logger.info("RFC " + buscarDestinatarioMercanciaPorPedidoRFC);
-          DestinatarioMercancia destinatarioMaterial = buscarDestinatarioMercanciaPorPedidoRFC.buscarDestinatarioMercanciaPorPedido(pedidoAClonar.getDocumentoComercial());
-          setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
-          //setDestinatarioMercanciaSel(destinatarioMaterial);
-          auxDestinatariosMecancias.add(destinatarioMaterial);
-      } catch (Exception e) {
-          logger.error("Error al buscar buscarDestinatarioMercanciaPorPedidoRFC,  doc comercial: " +pedidoAClonar.getDocumentoComercial() + " - " + e.getLocalizedMessage());
-          logger.error(e);
-          /*
-          DestinatarioMercancia destinatarioMaterial = new BuscarDestinatarioMercanciaPorPedidoConfig().buscarDestinatarioMercanciaPorPedido("kjdfjgdshf");
-          setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
-          auxDestinatariosMecancias.add(destinatarioMaterial);
-          */
-      }
-	  
-	  List<DestinatarioMercancia> temp = getDestinatarioMercancias();
-	  for(int i = 0; i < temp.size() ; i++){
-		  DestinatarioMercancia tempDest = temp.get(i);
-		  if(!getDestinatarioMercancia().equals(tempDest.getNoDestinatario())) {
-			  auxDestinatariosMecancias.add(tempDest);
+	public void loadDestinatariosAll() {
+		if(update && destinatarioMercancias == null) {
+		logger.info("clonar loadDestinatariosAll::::::");
+		pedidoAClonar = getListadoPedidos_backing().getPedido();
+		this.setSegmento(pedidoAClonar.getSegmento());
+		List<DestinatarioMercancia> auxDestinatariosMecancias = new ArrayList<DestinatarioMercancia>();
+		BuscarDestinatarioMercanciaPorPedidoRFC buscarDestinatarioMercanciaPorPedidoRFC;
+		  try {
+			  buscarDestinatarioMercanciaPorPedidoRFC = this.getSpringContext().getBean("buscarDestinatarioMercanciaPorPedidoRFC", BuscarDestinatarioMercanciaPorPedidoRFC.class);
+	          logger.info("RFC " + buscarDestinatarioMercanciaPorPedidoRFC);
+	          DestinatarioMercancia destinatarioMaterial = buscarDestinatarioMercanciaPorPedidoRFC.buscarDestinatarioMercanciaPorPedido(pedidoAClonar.getDocumentoComercial());
+	          setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
+	          auxDestinatariosMecancias.add(destinatarioMaterial);
+	      } catch (Exception e) {
+	          logger.error("Error al buscar buscarDestinatarioMercanciaPorPedidoRFC,  doc comercial: " +pedidoAClonar.getDocumentoComercial() + " - " + e.getLocalizedMessage());
+	          logger.error(e);
+	      }
+		  List<DestinatarioMercancia> temp = getDestinatarioMercancias();
+		  for(int i = 0; i < temp.size() ; i++){
+			  DestinatarioMercancia tempDest = temp.get(i);
+			  if(!getDestinatarioMercancia().equals(tempDest.getNoDestinatario())) {
+				  auxDestinatariosMecancias.add(tempDest);
+			  }
 		  }
-	  }
-	  setDestinatarioMercancias(auxDestinatariosMecancias);
+		  setDestinatarioMercancias(auxDestinatariosMecancias);
+		}
 	}
-	logger.info(":::::::::::END loadDestinatariosAll");
-}
-
-
-public void asignaPedidoSegmentoClonar(){   //Materiales del pedido original + posibles materiales en dependencia del segmento
-    logger.info("asignaPedidoSegmentoClonar::::::" + getSegmento() );
-    pedidoService = this.getSpringContext().getBean("pedidoService",PedidoService.class);
-    if(getSegmento() != null){
-    	if(pedidoBd==null) {
-    		pedidoBd = new com.alliax.portalclientes.domain.Pedido();
-    	}
-        pedidoBd.setTipoMaterial(getSegmento());
-        pedidoService.save(pedidoBd);
-    }
-
-    materialService = this.getSpringContext().getBean("materialService",MaterialService.class);
-    List<Material> materialesDb = materialService.findByTipoMaterial((getSegmento().equals("10")?getSegmento():"11"));
-    Material material = null;
-    PedidoMaterial pedidoMaterial = null;
-
-    for(int i = 0; i < materialesDb.size() ; i++){
-        material = materialesDb.get(i);
-        	pedidoMaterial = new PedidoMaterial();
-            pedidoMaterial.setDescripcion(material.getDescripcion()==null?"":material.getDescripcion().trim());
-            pedidoMaterial.setSku(material.getSku()==null?"":material.getSku().trim());
-            pedidoMaterial.setUnidadMedida(material.getUnidadMedida()==null?"":material.getUnidadMedida().trim());
-            pedidoMaterial.setUrlFoto(material.getUrlFoto()==null?"":material.getUrlFoto().trim());
-            materiales.add(pedidoMaterial);
-    }
-    logger.info("asignaPedidoSegmentoClonar::::::" + materiales );  //quitar luego
-}
 
 }

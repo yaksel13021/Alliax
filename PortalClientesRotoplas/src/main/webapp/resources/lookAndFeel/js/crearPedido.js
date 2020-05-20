@@ -44,8 +44,6 @@ var crearPedido = (function () {
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
 
-
-            
             var flagUpdate = $("[id='crearPedido:filterStepOne:flagUpdate']").val();
             if(flagUpdate=='true'){
                 $("[id='crearPedido:filterStepOne:clonarPedidoId']").trigger('click');
