@@ -13,20 +13,16 @@ import com.alliax.portalclientes.controller.CrearPedidoRFC;
 import com.alliax.portalclientes.controller.PrecioMaterialRFC;
 
 import com.alliax.portalclientes.domain.*;
-import com.alliax.portalclientes.model.DetallePedidoCotizacion;
-import com.alliax.portalclientes.model.PedidoCapacidadesTransporteEspecial;
-import com.alliax.portalclientes.model.PedidoEncabezado;
-import com.alliax.portalclientes.model.PedidoEquipoEspecialProteccionPersonal;
-import com.alliax.portalclientes.model.PedidoProductoAlmacenar;
-import com.alliax.portalclientes.model.PedidoReferenciaUbicacion;
-import com.alliax.portalclientes.model.PrecioMaterial;
+import com.alliax.portalclientes.domain.Material;
+import com.alliax.portalclientes.domain.Pedido;
+import com.alliax.portalclientes.domain.PedidoPartidas;
+import com.alliax.portalclientes.model.*;
 import com.alliax.portalclientes.service.MaterialService;
 import org.apache.log4j.Logger;
 import com.alliax.portalclientes.controller.ConstructEmail;
 import com.alliax.portalclientes.controller.InfoClienteRFC;
 import com.alliax.portalclientes.domain.RolUsuario;
 import com.alliax.portalclientes.domain.Usuario;
-import com.alliax.portalclientes.model.CotizacionFlete;
 
 
 import com.alliax.portalclientes.service.PedidoPartidasService;
@@ -339,9 +335,12 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
                 total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
             }
+
+            logger.info("email pedido :" + this.email);
             logger.info("Total para envio de email:" + total);
             ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
             mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString() ,fechaEntrega);
+            logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
         }else{
             logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);
         }
@@ -377,15 +376,19 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-    public String ordenarPedido(String noPedido) {
+   public String ordenarPedido(String noPedido) throws Exception{
         logger.info("inicio ordenar pedido :" + noPedido);
+		String documento="E";
     	  try{
         	 CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC",CrearPedidoRFC.class);
              com.alliax.portalclientes.model.Pedido pedidoRFC = crearPedidoRFC(noPedido);
              logger.info("ordenarPedido pedidoRFC: " + pedidoRFC);
              if(pedidoRFC!= null) {
 
-            	 crearPedidoRFC.crearPedido(pedidoRFC);
+            	 PedidoResultado pedidoResultado = crearPedidoRFC.crearPedido(pedidoRFC);
+                 if(pedidoResultado!=null&&pedidoResultado.getGeneroDocumentoVenta().equals("0")){
+                     documento = pedidoResultado.getDocumentoVenta();
+                 }
              }
 
     	  }catch (Exception e){
@@ -394,6 +397,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                      FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
          }
         logger.info("fin ordenarPedido pedidoRFC: "+  noPedido);
+		getFacesContext().getExternalContext().redirect("pedidos/listado.xhtml?documento="+documento);
     	return "";
     }
 
@@ -422,24 +426,28 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			encabezado.setOrganizacionVenta(pedido.getOrganizacionVenta());
     			encabezado.setCanalDistribucion("20");
     			encabezado.setSector("02");
-    			encabezado.setMotivoPedido("");
+    			encabezado.setMotivoPedido("166");
     			encabezado.setSegmento(pedido.getTipoMaterial());
     			encabezado.setNroPedidoCliente(pedido.getNroPedido());
     			encabezado.setSociedad(pedido.getSociedad());
     			encabezado.setMetodoPago(pedido.getMetodoPago());
     			encabezado.setUsoCFDI(pedido.getUsoCFDI());
+                encabezado.setMoneda("MXN");
+
         
        
     			List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(pedido.getIdPedido());
         
     			for(PedidoPartidas pp : partidasPedidos){
     				com.alliax.portalclientes.model.PedidoPartidas partidaRFC = new com.alliax.portalclientes.model.PedidoPartidas();
+
     				partidaRFC.setPosicion(pp.getPosicion());
     				partidaRFC.setNroMaterial(pp.getId().getSku());
     				partidaRFC.setCantidad(pp.getCantidad());
     				Material mat = materialService.findById(pp.getId().getSku());
     				if(mat!= null){
-    					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
+    					partidaRFC.setUnidadMedida(mat.getUnidadMedida()!= null ? mat.getUnidadMedida().trim() : "");
+
     				}
                     partidas.add(partidaRFC);
     			}
