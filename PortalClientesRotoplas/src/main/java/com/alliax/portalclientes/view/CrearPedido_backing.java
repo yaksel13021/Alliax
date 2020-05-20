@@ -1098,6 +1098,20 @@ public class CrearPedido_backing extends AbstractBackingGen {
     }
 
     public void loadDataClonarPedido(){   //llenar objetos de la clonacion
+    	try {
+            buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
+            ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(destinatarioMercanciaSel.getOrganizacionVentas(), destinatarioMercanciaSel.getCodigoPostal());
+            logger.info("CLASE PEDIDO en CLONAR" + clasePedido);
+            if(clasePedido.getResultCode().equals("0")) {
+                setClasePedido(clasePedido.getClasePedido());
+            }else{
+                setClasePedido("");
+                setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
+            }
+        }catch (Exception e){
+            logger.error(e);
+        }
+    	
     	this.setSegmento(pedidoAClonar.getSegmento());
     	logger.info("loadDataClonarPedido setSegmento ::::::" );   //quitar luego
     	setMateriales(loadMaterialesClonarPedido());
