@@ -373,7 +373,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-   public String ordenarPedido(String noPedido) {
+   public String ordenarPedido(String noPedido) throws Exception{
         logger.info("inicio ordenar pedido :" + noPedido);
 		String documento="E";
     	  try{
