@@ -181,6 +181,7 @@ public class ListaPedidosRFC {
     			orden.setEstatusEntregaDes(this.table.getString("DLV_STAT_H_D"));
     			orden.setEstatusGeneral(this.table.getString("GRL_STAT_H"));
     			orden.setEstatusGeneralDes(this.table.getString("GRL_STAT_H_D"));
+    			orden.setSegmento(this.table.getString("KVGR4"));
     			
     			//logger.info("GRL_STAT_I_D SAP :: " + this.table.getString("GRL_STAT_I_D"));
     			logger.info("Orden Venta SAP :: " + orden.toString());
