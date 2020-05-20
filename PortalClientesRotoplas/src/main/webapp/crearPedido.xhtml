@@ -13,6 +13,10 @@
 		<ui:define name="metadata">
 		    <link href="#{resource['lookAndFeel/vendor/Datatables/Buttons-1.6.1/css/buttons.bootstrap4.min.css']}" rel="stylesheet" />
 			<link href="#{resource['lookAndFeel/vendor/Toastr/toastr.min.css']}" rel="stylesheet" />
+			<f:metadata>
+    			<f:viewParam name="update" value="#{crearPedido.update}"/>
+    			<f:event type="preRenderView" listener="#{crearPedido.loadDestinatariosAll}"/>	
+			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<h:form id="crearPedido" enctype="multipart/form-data">
@@ -88,6 +92,7 @@
 											<h:inputHidden id="noCotizacion" value="#{crearPedido.noCotizacion}"></h:inputHidden>
 											<h:inputHidden id="clasePedido" value="#{crearPedido.clasePedido}"></h:inputHidden>
 											<h:inputHidden id="frm_segmento" value="#{crearPedido.segmento}"/>
+											<h:inputHidden id="flagUpdate" value="#{crearPedido.update}"/>
 											<h:inputHidden id="frm_materialSeleccionado" value="#{crearPedido.materialSeleccionadoJson}"/>
 											<h:inputHidden id="frm_cfdi" value="#{crearPedido.usoCFDI}"/>
 											<h:inputHidden id="frm_cfdi_desc" />
@@ -95,6 +100,10 @@
 											<h:inputHidden id="frm_skuMaterialEliminado" value="#{crearPedido.skuMaterialEliminado}"/>
 
 											<div class="continuarDestinatarioNroPedido"></div>
+											<div class="material_seleccionado_clonar"></div>
+											<h:commandLink  id="clonarPedidoId" action="#{crearPedido.loadDataClonarPedido}">
+												<f:ajax execute="@form" render="mateiralScript mateiralSelScript descripcionDestinatario comboValues usoCFDIPanel clasePedido" onevent="ajaxClonar"/>
+											</h:commandLink>
 											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
 												<f:ajax execute="@form" render="descripcionDestinatario clasePedido" onevent="ajaxValidateClasePedido"/>
 											</h:commandLink>
@@ -205,6 +214,22 @@
 														$('div.deletePartida').trigger('click');
 													}
 												}
+												function ajaxClonar(data){
+													if(data.status == 'success'){
+														setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
+														setMaterialesSel(materialSelLoad());
+														setCFDI(CDFILoad());
+
+														if($("[id='crearPedido:filterStepOne:frm_segmento']").val() == "10"){
+															RESS.setSeleccionMateriales('AMC');
+														}else{
+															RESS.setSeleccionMateriales('IND');
+														}
+
+														$('div.material_seleccionado_clonar').trigger('click');
+														//crearPedido.initEvents();
+													}
+												}
 											</script>
 										</h:form>
 									</h:panelGroup>
@@ -274,7 +299,7 @@
 			<script id="seleccionMateriales_template" type="x-tmpl-mustache">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable">
+						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable AMC_DIV">
 							<div class="card h-100-percent AMC_content cursor-pointer">
 								<img class="card-img-top" src="#{resource['lookAndFeel/img/almaCliente.png']}"></img>
 								<div class="card-block" style=" padding: 1em;">
@@ -283,7 +308,7 @@
 							</div>
 							<div class="AMC_content_next"></div>
 						</div>
-						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable cursor-pointer">
+						<div class="col-sm-6 col-md-4 col-lg-3 mt-4 isResizable cursor-pointer ahora I_DIV">
 							<div class="card h-100-percent I_content">
 								<img class="card-img-top" src="#{resource['lookAndFeel/img/industriaCliente.png']}"></img>
 								<div class="card-block" style=" padding: 1em;">
@@ -391,8 +416,8 @@
 											<th class="no-wrap" data-prority="4" data-dt-columnName="descripcion" data-columnWidth="15%" data-dt-orderable="true">Descripcion</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="cantidad" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Cantidad</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="unidadMedida" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">UM</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Monto</th>
-											<th class="no-wrap" data-prority="5" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Precio Neto</th>
+											<th class="no-wrap" data-prority="5" data-dt-render="currency" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Monto</th>
+											<th class="no-wrap" data-prority="5" data-dt-render="moneda" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Precio Neto</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="moneda" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Moneda</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable="true" data-dt-orderable="true">Fecha</th>
 

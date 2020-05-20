@@ -118,6 +118,7 @@ public class CrearPedidoRFC {
             PedidoPartidas pedidoPartidas = null;
             for(int i = 0; i < pedido.getPedidoPartidas().size(); i++){
                 pedidoPartidas = pedido.getPedidoPartidas().get(i);
+                logger.info("partida : " + i + " : " + pedidoPartidas);
 
                 this.tblItems.appendRow();
                 this.tblItems.setRow(i);
@@ -126,6 +127,9 @@ public class CrearPedidoRFC {
                 this.tblItems.setValue(pedidoPartidas.getNroMaterial(),"MATERIAL");
                 this.tblItems.setValue(pedidoPartidas.getCantidad(),"REQ_QTY");
                 this.tblItems.setValue(pedidoPartidas.getUnidadMedida(),"SALES_UNIT");
+                if(pedidoPartidas.getMonto()!= null){
+                    this.tblItems.setValue(pedidoPartidas.getMonto(), "SERV_PRICE");
+                }
                 this.tblItems.nextRow();
             }
 

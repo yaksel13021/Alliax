@@ -2,6 +2,8 @@ package com.alliax.portalclientes.view;
 
 import com.alliax.portalclientes.controller.BuscarClasePedidoConfig;
 import com.alliax.portalclientes.controller.BuscarClasePedidoRFC;
+import com.alliax.portalclientes.controller.BuscarDestinatarioMercanciaPorPedidoConfig;
+import com.alliax.portalclientes.controller.BuscarDestinatarioMercanciaPorPedidoRFC;
 import com.alliax.portalclientes.controller.BuscarDestinatariosMercanciasConfig;
 import com.alliax.portalclientes.controller.BuscarDestinatariosMercanciasRFC;
 import com.alliax.portalclientes.controller.BuscarMetodoPagoCfdiConfig;
@@ -15,7 +17,9 @@ import com.alliax.portalclientes.domain.Material;
 import com.alliax.portalclientes.domain.PedidoPartidasPK;
 import com.alliax.portalclientes.model.ClasePedido;
 import com.alliax.portalclientes.model.DestinatarioMercancia;
+import com.alliax.portalclientes.model.Item;
 import com.alliax.portalclientes.model.MetodoPagoCFDI;
+import com.alliax.portalclientes.model.OrdenVenta;
 import com.alliax.portalclientes.model.Pedido;
 import com.alliax.portalclientes.model.PedidoMaterial;
 import com.alliax.portalclientes.model.PedidoPartidas;
@@ -33,6 +37,7 @@ import org.apache.log4j.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
@@ -42,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -52,6 +58,9 @@ import java.util.List;
 public class CrearPedido_backing extends AbstractBackingGen {
 
     private final static Logger logger = Logger.getLogger(CrearPedido_backing.class);
+    
+    @ManagedProperty("#{listaPedidos}")
+	private ListadoPedidos_backing listadoPedidos_backing;
 
     BuscarDestinatariosMercanciasRFC buscarDestinatariosMercanciasRFC;
     BuscarClasePedidoRFC buscarClasePedidoRFC;
@@ -118,8 +127,35 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
 	private Part imagenTicket;
     private int tipoMessage;
+    
+    private boolean update = false;
+    private OrdenVenta pedidoAClonar;
 
-    public Part getImagenTicket() {
+    public ListadoPedidos_backing getListadoPedidos_backing() {
+		return listadoPedidos_backing;
+	}
+
+	public void setListadoPedidos_backing(ListadoPedidos_backing listadoPedidos_backing) {
+		this.listadoPedidos_backing = listadoPedidos_backing;
+	}
+
+	public boolean isUpdate() {
+		return update;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
+	}
+
+	public OrdenVenta getPedidoAClonar() {
+		return pedidoAClonar;
+	}
+
+	public void setPedidoAClonar(OrdenVenta pedidoAClonar) {
+		this.pedidoAClonar = pedidoAClonar;
+	}
+
+	public Part getImagenTicket() {
 		return imagenTicket;
 	}
 
@@ -460,10 +496,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
         }
     }
 
-
-
-
-
     public void continuaCompra(){
         setMaterialesJson(materiales);
     }
@@ -653,7 +685,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public String generaPedido() throws  Exception{
         logger.info("Genera Pedido");
-        String documento="";
+        String documento="E";
         try{
             Pedido pedido = new Pedido();
             CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC", CrearPedidoRFC.class);
@@ -806,8 +838,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         for(int i = 0; i < materialesDb.size() ; i++){
             material = materialesDb.get(i);
+            if(material.getSku()!=null && material.getSku().trim().equals("4068")) {
+            	continue;
+            }
             pedidoMaterial = new PedidoMaterial();
-
             pedidoMaterial.setDescripcion(material.getDescripcion()==null?"":material.getDescripcion().trim());
             pedidoMaterial.setSku(material.getSku()==null?"":material.getSku().trim());
             pedidoMaterial.setUnidadMedida(material.getUnidadMedida()==null?"":material.getUnidadMedida().trim());
@@ -878,7 +912,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                         try {
                             if (pedidoMaterial.getSku().equals(pedidoMaterial2.getSku()) && (Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
                                 pedidoMaterial2.setCantidad(pedidoMaterial.getCantidad());
-                                pedidoMaterial2.setPosicion(String.valueOf(count++));
+                                if(pedidoMaterial2.getPosicion()==null) {
+                                    pedidoMaterial2.setPosicion(String.valueOf(count++));
+                                }
 
                                 try {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
@@ -1061,5 +1097,74 @@ public class CrearPedido_backing extends AbstractBackingGen {
         setMaterialesJson(materiales);
     }
 
+    //Clonar Pedido
+    public void loadDataClonarPedido(){   
+        List<PedidoMaterial> lstPedidoMaterial = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+    	try {
+            setDestinatarioAndNroPedido();
+            this.setSegmento(pedidoAClonar.getSegmento());
+            asignaPedidoSegmento();
+            lstPedidoMaterial = loadMaterialesClonarPedido();
+            setMaterialSeleccionadoJson(objectMapper.writeValueAsString(lstPedidoMaterial));
+            asignaPedidoMaterial();
+            setMaterialesJson(materiales);
+        }catch (Exception e){
+            logger.error(e);
+        }
+        logger.info("loadDataClonarPedido END ::::::" );
+}
+
+public List<PedidoMaterial> loadMaterialesClonarPedido() {
+	List<PedidoMaterial> out = new ArrayList<PedidoMaterial>();
+	List<Item> partidas = getListadoPedidos_backing().getPartidas();
+	for(int i = 0;i < partidas.size(); i++ ){
+		Item fac = partidas.get(i);
+		PedidoMaterial material = new PedidoMaterial();
+		material.setCantidad(fac.getCantidad()!=null?Integer.valueOf(fac.getCantidad().intValue()).toString():null);
+		material.setDescripcion(fac.getDescripcion());
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+		material.setFechaEntrega(fac.getFechaEntrega()!=null?formatter.format(fac.getFechaEntrega()):null);
+		material.setMoneda(fac.getMoneda());
+		material.setPrecioNeto(fac.getPrecioNeto()!=null?fac.getPrecioNeto().toString():null);
+		material.setSku(fac.getNoMaterial());
+		material.setUnidadMedida(fac.getUnidadMedida());
+		material.setCodigoError("0");
+		material.setMensajeError("");
+		material.setMonto(fac.getMonto()!=null?fac.getMonto().toString():null);
+		//material.setUrlFoto("");
+		//material.setIva(fac.get);
+		out.add(material);
+	}
+	return out;
+}
+
+	public void loadDestinatariosAll() {
+		if(update && destinatarioMercancias == null) {
+		logger.info("clonar loadDestinatariosAll::::::");
+		pedidoAClonar = getListadoPedidos_backing().getPedido();
+		this.setSegmento(pedidoAClonar.getSegmento());
+		List<DestinatarioMercancia> auxDestinatariosMecancias = new ArrayList<DestinatarioMercancia>();
+		BuscarDestinatarioMercanciaPorPedidoRFC buscarDestinatarioMercanciaPorPedidoRFC;
+		  try {
+			  buscarDestinatarioMercanciaPorPedidoRFC = this.getSpringContext().getBean("buscarDestinatarioMercanciaPorPedidoRFC", BuscarDestinatarioMercanciaPorPedidoRFC.class);
+	          logger.info("RFC " + buscarDestinatarioMercanciaPorPedidoRFC);
+	          DestinatarioMercancia destinatarioMaterial = buscarDestinatarioMercanciaPorPedidoRFC.buscarDestinatarioMercanciaPorPedido(pedidoAClonar.getDocumentoComercial());
+	          setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
+	          auxDestinatariosMecancias.add(destinatarioMaterial);
+	      } catch (Exception e) {
+	          logger.error("Error al buscar buscarDestinatarioMercanciaPorPedidoRFC,  doc comercial: " +pedidoAClonar.getDocumentoComercial() + " - " + e.getLocalizedMessage());
+	          logger.error(e);
+	      }
+		  List<DestinatarioMercancia> temp = getDestinatarioMercancias();
+		  for(int i = 0; i < temp.size() ; i++){
+			  DestinatarioMercancia tempDest = temp.get(i);
+			  if(!getDestinatarioMercancia().equals(tempDest.getNoDestinatario())) {
+				  auxDestinatariosMecancias.add(tempDest);
+			  }
+		  }
+		  setDestinatarioMercancias(auxDestinatariosMecancias);
+		}
+	}
 
 }
