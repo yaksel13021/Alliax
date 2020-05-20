@@ -70,6 +70,23 @@ var crearPedido = (function () {
                     }]
                 }
             });
+
+            //validar cual imagen mostrar
+            var descDestinatario = $("[id='crearPedido:filterStepOne:descripcionDestinatario']").val();
+
+            if(descDestinatario.toUpperCase().match("^AGR") || descDestinatario.toUpperCase().match("^IND")){
+                //aki
+                $('div.AMC_DIV').hide();
+                $('div.I_DIV').show();
+            }
+            if(descDestinatario.toUpperCase().match("^SUC") ||
+                    descDestinatario.toUpperCase().match("^FISCAL") ||
+                    descDestinatario.toUpperCase().match("^FIN")){
+                $('div.I_DIV').hide();
+                $('div.AMC_DIV').show();
+            }
+
+
             $("[id='crearPedido:cardDynamicFooter']").show();
             setTimeout(function () {
                 $('.isResizable').matchHeight();
@@ -830,21 +847,7 @@ var crearPedido = (function () {
                                 true, function (rs) {
                                     if (rs) {
                                         var dta = data;
-                                        //,findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.sku === data.sku; });
 
-                                        /*
-                                        var material = $.grep(materialesSel, function( n, i ) {
-                                                            return n.sku=== data.sku;
-                                                        });
-
-                                        alert("material " + material[0].sku + " , "  + material[0].cantidad)
-                                        material[0].cantidad = 0;
-                                        */
-                                        //aki
-                                        ///$("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
-
-
-                                        //aki
                                         $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
                                         $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');
 
