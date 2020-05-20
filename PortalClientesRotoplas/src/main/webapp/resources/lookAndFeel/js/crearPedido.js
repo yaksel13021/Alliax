@@ -44,11 +44,13 @@ var crearPedido = (function () {
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
 
-            $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
+
             
             var flagUpdate = $("[id='crearPedido:filterStepOne:flagUpdate']").val();
             if(flagUpdate=='true'){
                 $("[id='crearPedido:filterStepOne:clonarPedidoId']").trigger('click');
+            }else{
+                $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
             }
 
         });
@@ -161,6 +163,39 @@ var crearPedido = (function () {
                 }
             });
             $('#cardDynamicHeaderTitle').html('Lista de Productos Seleccionados');
+            cargarDTListProductosSelected.fill()
+            initEvents();
+        });
+
+        $('div.material_seleccionado_clonar').off().on('click', function (e) {
+            $('#headingOne').prop('disabled', true);
+            $('#headingThree').prop('disabled', false).click();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
+                isList: {
+                    divClass: 'footerButtonsRigth',
+                    btnList: [{
+                        btnId: 'btn_cancelAll',
+                        btnName: 'btn_cancelAll',
+                        btnText: 'Cancelar'
+                    },
+                        {
+                            btnId: 'btn_ListaProductosSeleccionadosNext',
+                            btnName: 'btn_adbtn_listaProductosSeleccionadosNextdProducts',
+                            btnText: 'Continuar'
+                        }
+                    ]
+                }
+            });
+            $('#cardDynamicHeaderTitle').html('Lista de Productos Seleccionados');
+            $("[id='crearPedido:cardDynamicFooter']").show();
+            setTimeout(function () {
+                $('.isResizable').matchHeight();
+            }, 100)
             cargarDTListProductosSelected.fill()
             initEvents();
         });

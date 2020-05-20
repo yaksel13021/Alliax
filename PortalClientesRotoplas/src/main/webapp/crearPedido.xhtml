@@ -100,8 +100,9 @@
 											<h:inputHidden id="frm_skuMaterialEliminado" value="#{crearPedido.skuMaterialEliminado}"/>
 
 											<div class="continuarDestinatarioNroPedido"></div>
+											<div class="material_seleccionado_clonar"></div>
 											<h:commandLink  id="clonarPedidoId" action="#{crearPedido.loadDataClonarPedido}">
-												<f:ajax execute="@form" render="mateiralSelScript comboValues usoCFDIPanel" onevent="ajaxClonar"/>
+												<f:ajax execute="@form" render="mateiralScript mateiralSelScript descripcionDestinatario comboValues usoCFDIPanel clasePedido" onevent="ajaxClonar"/>
 											</h:commandLink>
 											<h:commandLink  id="asignaDestNroPedido" action="#{crearPedido.setDestinatarioAndNroPedido}">
 												<f:ajax execute="@form" render="descripcionDestinatario clasePedido" onevent="ajaxValidateClasePedido"/>
@@ -215,14 +216,17 @@
 												}
 												function ajaxClonar(data){
 													if(data.status == 'success'){
+														setMateriales($("[id='crearPedido:filterStepOne:materialLoad']").val());
 														setMaterialesSel(materialSelLoad());
 														setCFDI(CDFILoad());
+
 														if($("[id='crearPedido:filterStepOne:frm_segmento']").val() == "10"){
 															RESS.setSeleccionMateriales('AMC');
 														}else{
 															RESS.setSeleccionMateriales('IND');
 														}
-														$('div.material_seleccionado').trigger('click');
+
+														$('div.material_seleccionado_clonar').trigger('click');
 														//crearPedido.initEvents();
 													}
 												}

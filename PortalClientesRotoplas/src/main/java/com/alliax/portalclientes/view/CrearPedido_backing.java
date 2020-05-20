@@ -2,6 +2,7 @@ package com.alliax.portalclientes.view;
 
 import com.alliax.portalclientes.controller.BuscarClasePedidoConfig;
 import com.alliax.portalclientes.controller.BuscarClasePedidoRFC;
+import com.alliax.portalclientes.controller.BuscarDestinatarioMercanciaPorPedidoConfig;
 import com.alliax.portalclientes.controller.BuscarDestinatarioMercanciaPorPedidoRFC;
 import com.alliax.portalclientes.controller.BuscarDestinatariosMercanciasConfig;
 import com.alliax.portalclientes.controller.BuscarDestinatariosMercanciasRFC;
@@ -914,7 +915,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                         try {
                             if (pedidoMaterial.getSku().equals(pedidoMaterial2.getSku()) && (Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
                                 pedidoMaterial2.setCantidad(pedidoMaterial.getCantidad());
-                                pedidoMaterial2.setPosicion(String.valueOf(count++));
+                                if(pedidoMaterial2.getPosicion()==null) {
+                                    pedidoMaterial2.setPosicion(String.valueOf(count++));
+                                }
 
                                 try {
                                     precioMaterial = precioMaterialRFC.obtienePrecioMaterial(getClasePedido(), destinatarioMercanciaSel.getOrganizacionVentas(),
@@ -1097,8 +1100,37 @@ public class CrearPedido_backing extends AbstractBackingGen {
         setMaterialesJson(materiales);
     }
 
+    //AKILOAD
     public void loadDataClonarPedido(){   //llenar objetos de la clonacion
-    	this.setSegmento(pedidoAClonar.getSegmento());
+        List<PedidoMaterial> lstPedidoMaterial = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+    	try {
+            setDestinatarioAndNroPedido();
+            this.setSegmento(pedidoAClonar.getSegmento());
+            asignaPedidoSegmento();
+
+            lstPedidoMaterial = loadMaterialesClonarPedido();
+
+            setMaterialSeleccionadoJson(objectMapper.writeValueAsString(lstPedidoMaterial));
+            asignaPedidoMaterial();
+            setMaterialesJson(materiales);
+
+
+         /*   buscarClasePedidoRFC = this.getSpringContext().getBean("buscarClasePedidoRFC", BuscarClasePedidoRFC.class);
+            ClasePedido clasePedido = buscarClasePedidoRFC.buscarClasePedido(destinatarioMercanciaSel.getOrganizacionVentas(), destinatarioMercanciaSel.getCodigoPostal());
+            logger.info("CLASE PEDIDO en CLONAR" + clasePedido);
+            if(clasePedido.getResultCode().equals("0")) {
+                setClasePedido(clasePedido.getClasePedido());
+            }else{
+                setClasePedido("");
+                setMensajeError("Favor de contactarnos Correo servicioaclientes@rotoplas.com o al Teléfono 800 506 3000");
+            }*/
+        }catch (Exception e){
+            logger.error(e);
+        }
+
+        logger.info("loadDataClonarPedido END ::::::" );   //quitar luego
+    	/*this.setSegmento(pedidoAClonar.getSegmento());
     	logger.info("loadDataClonarPedido setSegmento ::::::" );   //quitar luego
     	setMateriales(loadMaterialesClonarPedido());
     	logger.info("loadDataClonarPedido setMateriales ::::::" );   //quitar luego
@@ -1113,7 +1145,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
     	}catch (Exception e) {
     		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getMessage());   //quitar luego
     		 logger.info("asignaPedidoMaterial error asignaPedidoMaterial ::::::" + e.getLocalizedMessage());
-		}
+		}*/
 }
 
 public List<PedidoMaterial> loadMaterialesClonarPedido() {  //inserta en la lista materiales las partidas del detelle a clonar
@@ -1148,6 +1180,8 @@ public void loadDestinatariosAll() {   // se ejecuta al inicio de la peticion de
 		
 	logger.info("clonar loadDestinatariosAll::::::");
 	pedidoAClonar = getListadoPedidos_backing().getPedido();
+
+
 	this.setSegmento(pedidoAClonar.getSegmento());
 	List<DestinatarioMercancia> auxDestinatariosMecancias = new ArrayList<DestinatarioMercancia>();
 	BuscarDestinatarioMercanciaPorPedidoRFC buscarDestinatarioMercanciaPorPedidoRFC;
@@ -1156,11 +1190,16 @@ public void loadDestinatariosAll() {   // se ejecuta al inicio de la peticion de
           logger.info("RFC " + buscarDestinatarioMercanciaPorPedidoRFC);
           DestinatarioMercancia destinatarioMaterial = buscarDestinatarioMercanciaPorPedidoRFC.buscarDestinatarioMercanciaPorPedido(pedidoAClonar.getDocumentoComercial());
           setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
-          setDestinatarioMercanciaSel(destinatarioMaterial);
+          //setDestinatarioMercanciaSel(destinatarioMaterial);
           auxDestinatariosMecancias.add(destinatarioMaterial);
       } catch (Exception e) {
           logger.error("Error al buscar buscarDestinatarioMercanciaPorPedidoRFC,  doc comercial: " +pedidoAClonar.getDocumentoComercial() + " - " + e.getLocalizedMessage());
           logger.error(e);
+          /*
+          DestinatarioMercancia destinatarioMaterial = new BuscarDestinatarioMercanciaPorPedidoConfig().buscarDestinatarioMercanciaPorPedido("kjdfjgdshf");
+          setDestinatarioMercancia(destinatarioMaterial.getNoDestinatario());
+          auxDestinatariosMecancias.add(destinatarioMaterial);
+          */
       }
 	  
 	  List<DestinatarioMercancia> temp = getDestinatarioMercancias();
@@ -1172,6 +1211,7 @@ public void loadDestinatariosAll() {   // se ejecuta al inicio de la peticion de
 	  }
 	  setDestinatarioMercancias(auxDestinatariosMecancias);
 	}
+	logger.info(":::::::::::END loadDestinatariosAll");
 }
 
 
