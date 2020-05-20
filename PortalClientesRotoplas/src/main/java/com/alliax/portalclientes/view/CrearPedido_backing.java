@@ -1019,9 +1019,9 @@ public class CrearPedido_backing extends AbstractBackingGen {
                     BuscarMetodoPagoCfdiConfig buscarMetodoPagoCfdiConfig = new BuscarMetodoPagoCfdiConfig();
                     setMetodoPago(buscarMetodoPagoCfdiConfig.buscarMetodoPagoCFDI(this.getUsuarioLogueado().getNoCliente()).getClaveMetodoPago());
                 }catch(Exception e1){
-*/
-                }
 
+                }
+*/
                 logger.error(e);
             }
         }catch(Exception e){
