@@ -432,6 +432,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			encabezado.setSociedad(pedido.getSociedad());
     			encabezado.setMetodoPago(pedido.getMetodoPago());
     			encabezado.setUsoCFDI(pedido.getUsoCFDI());
+                encabezado.setMoneda("MXN");
 
         
        
@@ -439,7 +440,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         
     			for(PedidoPartidas pp : partidasPedidos){
     				com.alliax.portalclientes.model.PedidoPartidas partidaRFC = new com.alliax.portalclientes.model.PedidoPartidas();
-                    encabezado.setMoneda(pp.getMoneda());
+
     				partidaRFC.setPosicion(pp.getPosicion());
     				partidaRFC.setNroMaterial(pp.getId().getSku());
     				partidaRFC.setCantidad(pp.getCantidad());
