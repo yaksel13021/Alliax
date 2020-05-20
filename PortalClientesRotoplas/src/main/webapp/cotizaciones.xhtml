@@ -217,7 +217,7 @@
 
                             <sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER">
                                 <c:if test="#{consultaCotizacion.cotizacion.estatus == 'Finalizado'}">
-                                    <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenarPedido(cotizacion.nroPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
+                                    <h:commandButton id="btnOrdenar"  action="#{consultaCotizacion.ordenarPedido(consultaCotizacion.cotizacion.noPedido)}" styleClass="btn btn-primary float-left" value ="#{lblMain.btnordenar}">
                                         <f:ajax execute="@this" render="form:contentmodal" />
                                     </h:commandButton>
                                 </c:if>

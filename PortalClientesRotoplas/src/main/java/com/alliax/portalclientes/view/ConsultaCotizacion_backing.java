@@ -18,6 +18,7 @@ import com.alliax.portalclientes.domain.Pedido;
 import com.alliax.portalclientes.domain.PedidoPartidas;
 import com.alliax.portalclientes.model.*;
 import com.alliax.portalclientes.service.MaterialService;
+import com.alliax.portalclientes.util.Helper;
 import org.apache.log4j.Logger;
 import com.alliax.portalclientes.controller.ConstructEmail;
 import com.alliax.portalclientes.controller.InfoClienteRFC;
@@ -335,9 +336,12 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
                 total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
             }
+
+            logger.info("email pedido :" + this.email);
             logger.info("Total para envio de email:" + total);
             ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
             mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString() ,fechaEntrega);
+            logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
         }else{
             logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);
         }
@@ -373,7 +377,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     	
     }
     
-   public String ordenarPedido(String noPedido) {
+   public String ordenarPedido(String noPedido) throws Exception{
         logger.info("inicio ordenar pedido :" + noPedido);
 		String documento="E";
     	  try{
@@ -417,30 +421,34 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     			pedidoRFC.setHorarioRecepcion(pedido.getHorarioRecepcion());
 
 
-    			encabezado.setNroCliente(pedido.getNroCliente());
-    			encabezado.setNroDestinatarioMercancias(pedido.getDestinatarioMercancia());
+    			encabezado.setNroCliente(Helper.lpad(pedido.getNroCliente(),10,"0"));
+    			encabezado.setNroDestinatarioMercancias(Helper.lpad(pedido.getDestinatarioMercancia(),10,"0"));
     			encabezado.setClasePedido(pedido.getClasePedido());
     			encabezado.setOrganizacionVenta(pedido.getOrganizacionVenta());
     			encabezado.setCanalDistribucion("20");
     			encabezado.setSector("02");
-    			encabezado.setMotivoPedido("");
+    			encabezado.setMotivoPedido("166");
     			encabezado.setSegmento(pedido.getTipoMaterial());
     			encabezado.setNroPedidoCliente(pedido.getNroPedido());
     			encabezado.setSociedad(pedido.getSociedad());
     			encabezado.setMetodoPago(pedido.getMetodoPago());
     			encabezado.setUsoCFDI(pedido.getUsoCFDI());
+                encabezado.setMoneda("MXN");
+
         
        
     			List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(pedido.getIdPedido());
         
     			for(PedidoPartidas pp : partidasPedidos){
     				com.alliax.portalclientes.model.PedidoPartidas partidaRFC = new com.alliax.portalclientes.model.PedidoPartidas();
-    				partidaRFC.setPosicion(pp.getPosicion());
-    				partidaRFC.setNroMaterial(pp.getId().getSku());
-    				partidaRFC.setCantidad(pp.getCantidad());
+
+    				partidaRFC.setPosicion(Helper.lpad(pp.getPosicion(),6,"0"));
+    				partidaRFC.setNroMaterial(Helper.lpad(pp.getId().getSku(),18,"0"));
+    				partidaRFC.setCantidad(Helper.lpad(pp.getCantidad(),13,"0"));
     				Material mat = materialService.findById(pp.getId().getSku());
     				if(mat!= null){
-    					partidaRFC.setUnidadMedida(mat.getUnidadMedida());
+    					partidaRFC.setUnidadMedida(mat.getUnidadMedida()!= null ? mat.getUnidadMedida().trim() : "");
+
     				}
                     partidas.add(partidaRFC);
     			}
