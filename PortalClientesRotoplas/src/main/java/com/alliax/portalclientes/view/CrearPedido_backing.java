@@ -419,7 +419,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
         if (destinatarioMercancias == null){
             try {
                 buscarDestinatariosMercanciasRFC = this.getSpringContext().getBean("buscarDestinatariosMercanciasRFC", BuscarDestinatariosMercanciasRFC.class);
-                logger.info("RFC " + buscarDestinatariosMercanciasRFC);
                 setDestinatarioMercancias(buscarDestinatariosMercanciasRFC.buscarDestinatariosMercancias(this.getUsuarioLogueado().getNoCliente()));
             } catch (Exception e) {
                 logger.error("Error al desplegar listado de pedidos " + e.getLocalizedMessage());
@@ -443,7 +442,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         try {
             destinatarioMercanciasJson = objectMapper.writeValueAsString(getDestinatarioMercancias());
-            logger.info("destinatarioMercanciasJson::::" + destinatarioMercanciasJson);
 
         }catch (Exception e){
             logger.error(e);
@@ -455,13 +453,11 @@ public class CrearPedido_backing extends AbstractBackingGen {
     public void obtenerDestinatarioMercancia(){
         logger.info("obtenerDestinatarioMercancia " + destinatarioMercancias.size());
         for(int i = 0;i < destinatarioMercancias.size(); i++ ){
-            logger.info("obtenerDestinatarioMercancia COmpare" + destinatarioMercancias.get(i).getNoDestinatario() + " " + getDestinatarioMercancia());
             if(destinatarioMercancias.get(i).getNoDestinatario().equals(getDestinatarioMercancia())){
                 destinatarioMercanciaSel = destinatarioMercancias.get(i);
                 break;
             }
         }
-        logger.info("obtenerDestinatarioMercancia ::::::" + destinatarioMercanciaSel);
     }
 
 
@@ -490,7 +486,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         try {
             materialesJson = objectMapper.writeValueAsString(materiales);
-            logger.info("setMaterialesJson::::" + materialesJson);
 
         }catch (Exception e){
             logger.error(e);
@@ -519,7 +514,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
             if(materiales != null && materiales.size() > 0) {
                 for (int i = 0; i < materiales.size(); i++) {
                     pedidoMaterial = materiales.get(i);
-                    logger.info("MATERIAL " + pedidoMaterial.getSku() + " CANTIDAD " + pedidoMaterial.getCantidad());
                     if ((pedidoMaterial.getCantidad() != null && Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
                         seleccionados.add(pedidoMaterial);
                     }
@@ -574,8 +568,6 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public void preparaFacturacion(){
         logger.info("preparaFacturacion");
-
-
     }
 
     public String getNroPedidoCliente() {
@@ -661,7 +653,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
     public String generaPedido() throws  Exception{
         logger.info("Genera Pedido");
-        String documento="";
+        String documento="E";
         try{
             Pedido pedido = new Pedido();
             CrearPedidoRFC crearPedidoRFC = this.getSpringContext().getBean("crearPedidoRFC", CrearPedidoRFC.class);
@@ -1066,8 +1058,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
         if(removeObject != null){
             pedidoPartidas.remove(removeObject);
         }
-        logger.info(pedidoPartidas.size());
-        logger.info("materiales size "  +materiales);
         setMaterialesJson(materiales);
     }
+
+
 }
