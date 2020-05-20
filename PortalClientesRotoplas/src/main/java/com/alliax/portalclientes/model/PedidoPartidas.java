@@ -5,6 +5,7 @@ public class PedidoPartidas {
     private String nroMaterial;
     private String cantidad;
     private String unidadMedida;
+    private String monto;
 
     public String getPosicion() {
         return posicion;
@@ -36,6 +37,14 @@ public class PedidoPartidas {
 
     public void setUnidadMedida(String unidadMedida) {
         this.unidadMedida = unidadMedida;
+    }
+
+    public String getMonto() {
+        return monto;
+    }
+
+    public void setMonto(String monto) {
+        this.monto = monto;
     }
 
     @Override
