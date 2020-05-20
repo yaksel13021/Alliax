@@ -16,6 +16,7 @@ import com.alliax.portalclientes.domain.*;
 import com.alliax.portalclientes.domain.Material;
 import com.alliax.portalclientes.domain.Pedido;
 import com.alliax.portalclientes.domain.PedidoPartidas;
+import com.alliax.portalclientes.general.formato.Fecha;
 import com.alliax.portalclientes.model.*;
 import com.alliax.portalclientes.service.MaterialService;
 import com.alliax.portalclientes.util.Helper;
@@ -331,12 +332,12 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     public void enviarMailCotizacion(String nroPedido){
         this.buscarDetalles(nroPedido);
         BigDecimal total = BigDecimal.ZERO;
-        String fechaEntrega = this.cotizacion.getFechaEnt();
+        String fechaEntrega = Fecha.getFechaDesgloce(this.cotizacion.getFechaEnt(),7);
+
         if(partidas!=null&&!partidas.isEmpty()) {
             for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
                 total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
             }
-
             logger.info("email pedido :" + this.email);
             logger.info("Total para envio de email:" + total);
             try {
@@ -498,7 +499,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
 		this.email = email;
 	}
     
-     
+
     
     
 }
