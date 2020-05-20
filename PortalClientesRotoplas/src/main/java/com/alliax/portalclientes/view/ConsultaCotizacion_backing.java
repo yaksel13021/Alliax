@@ -190,7 +190,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
              List<com.alliax.portalclientes.domain.Pedido> pedidos = service.findCotizacionesFlete(fecha , noCotizacion ,noCliente);
              for(com.alliax.portalclientes.domain.Pedido p : pedidos){
                         CotizacionFlete c = new CotizacionFlete();
-                        c.setNroPedido(""+p.getIdPedido());
+                        c.setNroPedido(String.valueOf(p.getIdPedido()));
                         c.setNoCotizacion(p.getNoCotizacion());
                         c.setEstado(p.getEstatusCotizacion());
                         PedidoPartidasPK pk = new PedidoPartidasPK();
@@ -203,7 +203,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         	 List<PedidoPartidas> partidasPedidos = partidaService.findByidPedido(p.getIdPedido());
                         	 
                         	pp = new PedidoPartidas();
-                        	pp.setPosicion((partidasPedidos.size() + 1) +"" );
+                        	pp.setPosicion(String.valueOf(partidasPedidos.size() + 1) );
                         	pp.setId(pk);
                         	pp.setCantidad("1");
                         	pp.setPrecioNeto("0");
@@ -458,6 +458,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     				    partidaRFC.setUnidadMedida(CotizacionFlete.unidadMed);
     				    partidaRFC.setMonto(pp.getMonto());
                     }
+
                     partidas.add(partidaRFC);
     			}
         
