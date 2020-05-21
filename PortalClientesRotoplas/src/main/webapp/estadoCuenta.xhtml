@@ -61,8 +61,8 @@
 														</h:outputLabel>
 														<h:selectOneMenu value="#{edoCta.empresa}" class="form-control dropdownActive"
 															id="panelSelectEmpresa" name="panelSelectEmpresa">
-															<f:selectItems value="#{edoCta.clienteCompanySet}" var="emp"
-																itemValue="#{emp.key}" itemLabel="#{emp.value}" />
+															<f:selectItems value="#{edoCta.clienteCompanySet}" var="emp" itemValue="#{emp.key}" itemLabel="#{emp.value}" />
+															<f:ajax execute="@this"></f:ajax> 
 														</h:selectOneMenu>
 													</h:panelGroup>
 												</h:panelGroup>

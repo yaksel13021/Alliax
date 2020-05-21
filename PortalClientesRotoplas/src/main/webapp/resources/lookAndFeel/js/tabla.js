@@ -773,7 +773,7 @@ function filtrarCotizaciones() {
 }
 
 function validarPanelesFilters() {
-	var selectClienteCompany = $("[id='form:selectClienteCompany']").val();
+	var selectClienteCompany = $("[id='form:panelSelectEmpresa']").val();
 	if(selectClienteCompany != null) {
 	  	$("[id='form:panelEmpresa']").show();
 	  	$("[id='form:panelFechaCorte']").show();
@@ -791,7 +791,10 @@ function agregarEstiloSelectEmpresa() {
         width: "100%",
     });
 	
-  	$("[id='form:panelEmpresa']").show();
-  	$("[id='form:panelFechaCorte']").show();
-  	$("[id='form:panelBotonGenerar']").show();
+	var selectClienteCompany = $("[id='form:panelSelectEmpresa']").val();
+	if(selectClienteCompany != null) {
+	  	$("[id='form:panelEmpresa']").show();
+	  	$("[id='form:panelFechaCorte']").show();
+	  	$("[id='form:panelBotonGenerar']").show(); 
+	}
 }
