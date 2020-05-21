@@ -43,7 +43,7 @@
                             <h:outputLabel class="labelLeftInput fillWidthAvaible">
                               Fecha
                             </h:outputLabel>
-                            <h:panelGroup layout="block" styleClass="input-group date date-end">
+                            <h:panelGroup layout="block" styleClass="input-group date date-start">
                               <h:inputText id="frm_fechaCorte"
                                            styleClass="form-control input-sm"
                                            value="#{consultaCotizacion.fecha}"
@@ -120,9 +120,8 @@
 		                        </td>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
-		                            <h:outputLabel value="#{cotizacion.cantidad}">
-		                                <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-		                            </h:outputLabel>
+		                            <h:outputLabel value="#{cotizacion.cantidad}"/>
+
 		                          </h:commandLink>
 		                        </td>
 		                        <td>
@@ -132,7 +131,9 @@
 		                        </td>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
-		                            <h:outputLabel value="#{cotizacion.monto}" />
+		                            <h:outputLabel value="#{cotizacion.monto}" >
+                                        <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+                                    </h:outputLabel>
 		                          </h:commandLink>
 		                        </td>
                                       <td>
@@ -527,7 +528,12 @@
 				});
 				$('#myModalCaptura').on('shown.bs.modal', function() {
 					  var $tablaModal2 = null;
-					  $("div.date.date-end").datepicker({
+
+					   var date = new Date();
+
+                        date.setDate(date.getDate());
+
+                        $("div.date.date-end").datepicker({
                             format: "dd/mm/yyyy",
                             weekStart: 0,
                             maxViewMode: 2,
@@ -537,8 +543,9 @@
                             daysOfWeekHighlighted: "0,6",
                             autoclose: true,
                             todayHighlight: true,
-                            startDate: "01/01/1900",
-                           });
+                            startDate: date
+                            });
+
 
 
 						  $(document).ready(function () {
