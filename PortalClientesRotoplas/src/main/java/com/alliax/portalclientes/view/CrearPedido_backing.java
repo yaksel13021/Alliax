@@ -838,7 +838,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         for(int i = 0; i < materialesDb.size() ; i++){
             material = materialesDb.get(i);
-            if(material.getSku()!=null && material.getSku().trim().equals("4068")) {
+            if(material.getSku()!=null && material.getSku().trim().equals("400068")) {
             	continue;
             }
             pedidoMaterial = new PedidoMaterial();
