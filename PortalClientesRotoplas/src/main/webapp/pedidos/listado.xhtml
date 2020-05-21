@@ -674,11 +674,14 @@
                                 })
                     	 }else if(documento){
 						 	$("[id='form:frm_documento']").val(documento);
-							//setTimeout(document.getElementById('form:setFilters').click(),3000);
+						 	showToastr('Se ha generado el pedido:'+documento, 'Aviso', {
+                                    type: typeNotification.success
+                                })
+							document.getElementById('form:setFilters').click();
 					 	};
 					}
 
-				window.onload=buscarPorDocumento;
+				window.onload=setTimeout(buscarPorDocumento,500);
 			</script>
 			<script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
 			<script>
