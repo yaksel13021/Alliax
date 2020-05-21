@@ -463,6 +463,8 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                     partidas.add(partidaRFC);
     			}
 
+    			pedidoRFC.setPedidoPartidas(partidas);
+    			pedidoRFC.setPedidoEncabezado(encabezado);
                 pedidoRFC.setReferenciaUbicacion(pedido.getReferenciaUbicacion());
                 pedidoRFC.setPedidoProductoAlmacenar(pedido.getProductoAlmacenar());
                 pedidoRFC.setPedidoCapacidadesTransporteEspecial(pedido.getCapacidadesTransporte());
