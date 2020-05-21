@@ -44,11 +44,11 @@ var crearPedido = (function () {
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
 
-            $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
-            
             var flagUpdate = $("[id='crearPedido:filterStepOne:flagUpdate']").val();
             if(flagUpdate=='true'){
                 $("[id='crearPedido:filterStepOne:clonarPedidoId']").trigger('click');
+            }else{
+                $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
             }
 
         });
@@ -70,6 +70,23 @@ var crearPedido = (function () {
                     }]
                 }
             });
+
+            //validar cual imagen mostrar
+            var descDestinatario = $("[id='crearPedido:filterStepOne:descripcionDestinatario']").val();
+
+            if(descDestinatario.toUpperCase().match("^AGR") || descDestinatario.toUpperCase().match("^IND")){
+                //aki
+                $('div.AMC_DIV').hide();
+                $('div.I_DIV').show();
+            }
+            if(descDestinatario.toUpperCase().match("^SUC") ||
+                    descDestinatario.toUpperCase().match("^FISCAL") ||
+                    descDestinatario.toUpperCase().match("^FIN")){
+                $('div.I_DIV').hide();
+                $('div.AMC_DIV').show();
+            }
+
+
             $("[id='crearPedido:cardDynamicFooter']").show();
             setTimeout(function () {
                 $('.isResizable').matchHeight();
@@ -161,6 +178,39 @@ var crearPedido = (function () {
                 }
             });
             $('#cardDynamicHeaderTitle').html('Lista de Productos Seleccionados');
+            cargarDTListProductosSelected.fill()
+            initEvents();
+        });
+
+        $('div.material_seleccionado_clonar').off().on('click', function (e) {
+            $('#headingOne').prop('disabled', true);
+            $('#headingThree').prop('disabled', false).click();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
+                isList: {
+                    divClass: 'footerButtonsRigth',
+                    btnList: [{
+                        btnId: 'btn_cancelAll',
+                        btnName: 'btn_cancelAll',
+                        btnText: 'Cancelar'
+                    },
+                        {
+                            btnId: 'btn_ListaProductosSeleccionadosNext',
+                            btnName: 'btn_adbtn_listaProductosSeleccionadosNextdProducts',
+                            btnText: 'Continuar'
+                        }
+                    ]
+                }
+            });
+            $('#cardDynamicHeaderTitle').html('Lista de Productos Seleccionados');
+            $("[id='crearPedido:cardDynamicFooter']").show();
+            setTimeout(function () {
+                $('.isResizable').matchHeight();
+            }, 100)
             cargarDTListProductosSelected.fill()
             initEvents();
         });
@@ -797,21 +847,7 @@ var crearPedido = (function () {
                                 true, function (rs) {
                                     if (rs) {
                                         var dta = data;
-                                        //,findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.sku === data.sku; });
 
-                                        /*
-                                        var material = $.grep(materialesSel, function( n, i ) {
-                                                            return n.sku=== data.sku;
-                                                        });
-
-                                        alert("material " + material[0].sku + " , "  + material[0].cantidad)
-                                        material[0].cantidad = 0;
-                                        */
-                                        //aki
-                                        ///$("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
-
-
-                                        //aki
                                         $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
                                         $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');
 

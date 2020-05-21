@@ -234,6 +234,7 @@ public class ConstructEmail {
 				model.put("usuario", usuario);
 				model.put("urlPortal", urlPortal);
 				model.put("pais", pais);
+
 				
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, 
@@ -423,7 +424,7 @@ public class ConstructEmail {
 //					if(rol.getRol().contains("_PE")){ pais = "PE"; }
 //					if(rol.getRol().contains("_CA")){ pais = "CA"; }
 //				}
-				if(pais.isEmpty()){ pais = clienteInfo.getPais(); }
+				//if(pais.isEmpty()){ pais = clienteInfo.getPais(); }
 				if(pais.isEmpty()){ pais = "MX"; }
 
 
