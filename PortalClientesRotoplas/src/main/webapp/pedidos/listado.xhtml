@@ -499,7 +499,7 @@
 																		<tr>
 																			<td>
 																				<h:panelGroup layout="block" styleClass="col-12">
-																					<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																					<f:ajax listener="#{listaPedidos.obtenerDetalleFactura(factura)}" event="click" render="form\:contenttable2" execute="@this">
 																					<h:panelGroup>
 																						<ui:fragment >
 																							<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>

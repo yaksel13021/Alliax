@@ -493,4 +493,14 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 		}
 		return estado;
 	}
+
+	public String obtenerDetalleFactura(Factura factura) throws Exception {
+		if(factura.getDetalleFactura() == null || factura.getDetalleFactura().isEmpty()) {
+			DetalleFacturaRFC detalleRFC = this.getSpringContext().getBean("detalleFacturaRFC", DetalleFacturaRFC.class);
+			factura.setDetalleFactura(detalleRFC.obtieneDetalleFactura(this.getNoPedido(),factura.getDocFactura()));
+
+		}
+		factura.cambiaMuestraDetalle();
+		return "";
+	}
 }
