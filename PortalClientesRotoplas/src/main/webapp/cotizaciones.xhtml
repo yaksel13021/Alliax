@@ -180,7 +180,6 @@
                         styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
                         role="document" id="contentmodal">
             <h:panelGroup layout="block" styleClass="modal-content">
-              <h:outputScript>filtrarModel1()</h:outputScript>
               <!-- Modal Header -->
               <h:panelGroup layout="block" styleClass="modal-header">
                 <h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
@@ -518,22 +517,16 @@
 				$('#myModal').modal('hide');
 					var modal = $("#myModalCaptura");
 					var status = data.status;
+
 					if(status == 'complete'){
 						$("#myModalCaptura").modal('show');
 					}
-				}
 
-				$("#example tbody").off().on('click', 'tr', function (data) {
-					var pedido = data;
-				});
-				$('#myModalCaptura').on('shown.bs.modal', function() {
-					  var $tablaModal2 = null;
+					 var date = new Date();
 
-					   var date = new Date();
+                            date.setDate(date.getDate());
 
-                        date.setDate(date.getDate());
-
-                        $("div.date.date-end").datepicker({
+						   $("div.date.date-end").datepicker({
                             format: "dd/mm/yyyy",
                             weekStart: 0,
                             maxViewMode: 2,
@@ -545,10 +538,18 @@
                             todayHighlight: true,
                             startDate: date
                             });
+                            
+				}
+
+				$("#example tbody").off().on('click', 'tr', function (data) {
+					var pedido = data;
+				});
+				$('#myModalCaptura').on('shown.bs.modal', function() {
+					  var $tablaModal2 = null;
 
 
 
-						  $(document).ready(function () {
+					  $(document).ready(function () {
 						  if ($tablaModal2) {
 							  $tablaModal2.clear().destroy();
 						  }
@@ -580,6 +581,23 @@
 					            }
 					        },})
 						  })
+
+						   var date = new Date();
+
+                            date.setDate(date.getDate());
+
+						   $("div.date.date-end").datepicker({
+                            format: "dd/mm/yyyy",
+                            weekStart: 0,
+                            maxViewMode: 2,
+                            todayBtn: "linked",
+                            language: "es",
+                            orientation: "bottom auto",
+                            daysOfWeekHighlighted: "0,6",
+                            autoclose: true,
+                            todayHighlight: true,
+                            startDate: date
+                            });
 				});
 
 
@@ -618,6 +636,7 @@
 					        },})
 					})
 					});
+
 			</script>
 
     </ui:define>
