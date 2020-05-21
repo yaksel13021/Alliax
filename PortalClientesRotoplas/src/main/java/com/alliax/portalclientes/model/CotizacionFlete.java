@@ -6,7 +6,7 @@ public class CotizacionFlete {
     public static final String idMatFlete = "400068";
    
     public static final String descFlete = "Flete";
-    public static final String unidadMed = "UN";
+    public static final String unidadMed = "ST";
     public static final String estadoCaptura= "En Captura";
     public static final String estadoFin = "Finalizado";
     public static final String estadoOrdenado = "Ordenado";
