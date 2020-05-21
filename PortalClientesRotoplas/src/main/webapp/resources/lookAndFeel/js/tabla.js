@@ -772,12 +772,52 @@ function filtrarCotizaciones() {
         $tablaCotizaciones;
 }
 
+var progressAnimationEnum = {
+	    decreasing: 'decreasing',
+	    increasing: 'increasing'
+};
+
+var typeNotification = {
+	    error: 'error',
+	    info: 'info',
+	    success: 'success',
+	    warning: 'warning'
+};
+
+function showToastr(message, title, override) {
+    var propertiesDefault = {
+        type: typeNotification.success,
+        html: false,
+        closeBtn: false,
+        timeOut: 5000,
+        progressBar: false,
+        progressAnimation: progressAnimationEnum.decreasing,
+        tapToDismiss: false,
+        disableTimeOut: false
+    };
+    _.defaults(override, propertiesDefault);
+
+    toastr[override.type](message, title, {
+        enableHtml: override.html,
+        closeButton: override.closeBtn,
+        timeOut: override.timeOut,
+        progressBar: override.progressBar,
+        progressAnimation: override.progressAnimation,
+        tapToDismiss: override.tapToDismiss,
+        disableTimeOut: override.disableTimeOut
+    });
+}
+
 function validarPanelesFilters() {
 	var selectClienteCompany = $("[id='form:panelSelectEmpresa']").val();
 	if(selectClienteCompany != null) {
 	  	$("[id='form:panelEmpresa']").show();
 	  	$("[id='form:panelFechaCorte']").show();
 	  	$("[id='form:panelBotonGenerar']").show();
+	} else {
+        showToastr('No tienes asignado este cliente, favor de solicitarlo a Cuentas x Cobrar', 'Aviso', {
+            type: typeNotification.info
+        });
 	}
 }
 
