@@ -96,7 +96,7 @@
 						</sec:authorize>
 
 		            	<sec:authorize ifAnyGranted="ROLE_CLIENT_MEMBER
-		            								,ROLE_ADMIN_MEMBER,ROLE_ESTADO_CUENTA">
+		            								,ROLE_ADMIN_MEMBER,ROLE_ESTADO_CUENTA,ROLE_VENTAS_MEMBER">
 			            	<li class="#{view.viewId == '/estadoCuenta.xhtml' ? 'active' : ''}">
 			            		<h:link outcome="/estadoCuenta" styleClass="nav-item nav-link textMenuStyle">
 				            		<span style="padding-right: 9px;" />
