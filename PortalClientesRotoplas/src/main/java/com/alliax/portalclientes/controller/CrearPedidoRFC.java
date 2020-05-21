@@ -129,7 +129,7 @@ public class CrearPedidoRFC {
                 this.tblItems.setValue(pedidoPartidas.getNroMaterial(),"MATERIAL");
                 this.tblItems.setValue(pedidoPartidas.getCantidad(),"REQ_QTY");
                 this.tblItems.setValue(pedidoPartidas.getUnidadMedida(),"SALES_UNIT");
-                if(pedidoPartidas.getNroMaterial().equals(Helper.lpad(CotizacionFlete.idMatFlete,18,"0"))){
+                if(pedidoPartidas.getMonto() != null){
                     logger.info("partida : " + i + " : agrega monto flete" );
                     this.tblItems.setValue(pedidoPartidas.getMonto(), "SERV_PRICE");
                 }
