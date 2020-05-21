@@ -9,6 +9,8 @@ import com.alliax.portalclientes.model.PedidoProductoAlmacenar;
 import com.alliax.portalclientes.model.PedidoReferenciaUbicacion;
 import com.alliax.portalclientes.model.PedidoResultado;
 import com.alliax.portalclientes.model.PrecioMaterial;
+import com.alliax.portalclientes.model.CotizacionFlete;
+import com.alliax.portalclientes.util.Helper;
 import com.sap.mw.jco.JCO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +120,7 @@ public class CrearPedidoRFC {
             PedidoPartidas pedidoPartidas = null;
             for(int i = 0; i < pedido.getPedidoPartidas().size(); i++){
                 pedidoPartidas = pedido.getPedidoPartidas().get(i);
+                logger.info("partida : " + i + " : " + pedidoPartidas);
 
                 this.tblItems.appendRow();
                 this.tblItems.setRow(i);
@@ -126,7 +129,8 @@ public class CrearPedidoRFC {
                 this.tblItems.setValue(pedidoPartidas.getNroMaterial(),"MATERIAL");
                 this.tblItems.setValue(pedidoPartidas.getCantidad(),"REQ_QTY");
                 this.tblItems.setValue(pedidoPartidas.getUnidadMedida(),"SALES_UNIT");
-                if(pedidoPartidas.getMonto()!= null){
+                if(pedidoPartidas.getMonto() != null){
+                    logger.info("partida : " + i + " : agrega monto flete" );
                     this.tblItems.setValue(pedidoPartidas.getMonto(), "SERV_PRICE");
                 }
                 this.tblItems.nextRow();

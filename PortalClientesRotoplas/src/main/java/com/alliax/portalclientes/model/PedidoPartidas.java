@@ -54,6 +54,7 @@ public class PedidoPartidas {
                 ", nroMaterial='" + nroMaterial + '\'' +
                 ", cantidad='" + cantidad + '\'' +
                 ", unidadMedida='" + unidadMedida + '\'' +
+                ", monto='" + monto + '\'' +
                 '}';
     }
 }
