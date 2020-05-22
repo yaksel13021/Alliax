@@ -102,7 +102,7 @@
 													<h:commandButton id="setFiltersEstadoCuenta"
 																	 styleClass="btn btn-primary btn-lg float-right"
 																	 value="#{lblMain.btnGenerar}" >
-														<f:ajax execute="@form" render="datosFiscalesGenerales botonesXLSPDF llenadoGraficasTablas" listener="#{edoCta.generarEstadoCuenta}" />
+														<f:ajax execute="@form" onevent="function (data){ if (data.status =='success'){ tablaEstCuenta(); } } " listener="#{edoCta.generarEstadoCuenta}" render="datosFiscalesGenerales botonesXLSPDF llenadoGraficasTablas" />
 													</h:commandButton>
 												</h:panelGroup>
 											</h:panelGroup>
@@ -121,6 +121,15 @@
 											#{lblMain.datosFiscales}
 										</h:panelGroup>
 										<h:panelGroup layout="block" styleClass="card-body">
+											<h:panelGroup layout="block" styleClass="row" style="height: 45px;">
+												<h:panelGroup styleClass="form-group" style="color:#000000; font-size:18px; line-height:35px;">
+													<h:outputText value="&#160;" />
+													<h:outputLabel value="#{edoCta.estadoCuenta.nombre}"/><h:outputText value="&#160;" />
+													<h:outputLabel value="#{edoCta.estadoCuenta.nombre2}"/><h:outputText value="&#160;" />
+													<h:outputLabel value="#{edoCta.estadoCuenta.nombre3}"/><h:outputText value="&#160;" />
+													<h:outputLabel value="#{edoCta.estadoCuenta.nombre4}"/><h:outputText value="&#160;" />
+												</h:panelGroup>
+											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass=" row">
 												<h:panelGroup layout="block" styleClass="col-sm-3" style="height: 24px;">
 													<strong>#{lblMain.cliente}</strong>
@@ -176,7 +185,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5" style="height: 24px;">
 														<strong>#{lblMain.limiteCredito}</strong>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.getMontoFormateado( edoCta.estadoCuenta.limiteCredito )}" />
 													</h:panelGroup>
 												</h:panelGroup>
@@ -184,7 +193,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5" style="height: 24px;">
 														<strong>#{lblMain.vencido}</strong>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.getMontoFormateado( edoCta.estadoCuenta.saldoVencido )}" />
 													</h:panelGroup>
 												</h:panelGroup>
@@ -192,7 +201,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5" style="height: 24px;">
 														<strong>#{lblMain.vencer}</strong>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.getMontoFormateado( edoCta.estadoCuenta.saldoVencer )}" />
 													</h:panelGroup>
 												</h:panelGroup>
@@ -200,7 +209,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5" style="height: 24px;">
 														<strong>#{lblMain.saldoTotal}</strong>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.getMontoFormateado( edoCta.estadoCuenta.total )}" />
 													</h:panelGroup>
 												</h:panelGroup>
@@ -208,7 +217,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5" style="height: 24px;">
 														<strong>#{lblMain.disponible}</strong>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.getMontoFormateado( edoCta.estadoCuenta.creditoDisponible )}" />
 													</h:panelGroup>
 												</h:panelGroup>
@@ -217,7 +226,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5">
 														<label>#{lblMain.fechaCorte}</label>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText id="lbl_fechaCorte" value="#{edoCta.estadoCuenta.fechaCorte}" >
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
@@ -227,7 +236,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5">
 														<label>#{lblMain.fechaConsulta}</label>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.fechaConsulta}" style="font-weight: bold;" >
 													    	<f:convertDateTime pattern="dd/MM/yyyy" />
 													    </h:outputText>
@@ -237,7 +246,7 @@
 													<h:panelGroup layout="block" styleClass="col-sm-5">
 														<label style="color: red">#{lblMain.horaConsulta}</label>
 													</h:panelGroup>
-													<h:panelGroup layout="block" styleClass="col-sm-5">
+													<h:panelGroup layout="block" styleClass="col-sm-5" style="text-align: right">
 														<h:outputText value="#{edoCta.horaConsulta}" style="font-weight: bold; color:red !important;" >
 													    	<f:convertDateTime pattern="hh:mm:ss" />
 													    </h:outputText>
