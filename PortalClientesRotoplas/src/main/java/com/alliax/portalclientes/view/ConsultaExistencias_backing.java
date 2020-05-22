@@ -61,6 +61,7 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 	
 	private List<StockMaterial> resultados;
 	private List<Material> resultadosMatBusqueda;
+	private int tipoMensa;
 	
 	
 	public ConsultaExistencias_backing(){
@@ -68,8 +69,15 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 		PaisService ps = this.getSpringContext().getBean("paisService",PaisService.class);		
 		this.setCatalogoPais(ps.findAllSet());				
 	}
-	
-	
+
+	public int getTipoMensa() {
+		return tipoMensa;
+	}
+
+	public void setTipoMensa(int tipoMensa) {
+		this.tipoMensa = tipoMensa;
+	}
+
 	public int getTipoBusqueda() {
 		return tipoBusqueda;
 	}
@@ -330,16 +338,16 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 				logger.info("Buscando Stock de no de material.");
 				StockMaterialRFC stock = this.getSpringContext().getBean("stockMaterialImpl",StockMaterialRFC.class);
 				this.setResultados(
-							stock.obtieneStock(this.getNoMaterial(), 
-													this.getIdPlanta(), 
+							stock.obtieneStock(this.getNoMaterial(),
+													this.getIdPlanta(),
 														this.getUsuarioLogueado().getLanguage()));
 			} else if(descripcion != null) {
 				logger.info("Buscando x descripcion materiales");
-				BusquedaMaterialRFC busquedaMat = this.getSpringContext().getBean("busquedaMaterial", BusquedaMaterialRFC.class);				
+				BusquedaMaterialRFC busquedaMat = this.getSpringContext().getBean("busquedaMaterial", BusquedaMaterialRFC.class);
 				this.setResultadosMatBusqueda(
-							busquedaMat.buscaMaterial(noMaterial, 
-														descripcion, 
-															this.getIdPlanta(), 
+							busquedaMat.buscaMaterial(noMaterial,
+														descripcion,
+															this.getIdPlanta(),
 																this.getUsuarioLogueado().getLanguage()));
 			} else {
 				this.getFacesContext().addMessage(null, new FacesMessage(
@@ -368,7 +376,7 @@ public class ConsultaExistencias_backing extends AbstractBacking {
 			this.setNoMaterial(mat.getNoMaterial());
 			this.setResultadosMatBusqueda(null);
 			this.setResultados(null);
-						
+			tipoMensa = 1;
 			return this.busquedaExistencia();
 			
 		} catch(Exception e){
