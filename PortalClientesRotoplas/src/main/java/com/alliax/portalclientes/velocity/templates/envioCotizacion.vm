@@ -285,24 +285,23 @@
 		</table>
 
 
-		<table class="outer" align="center">
+		<table class="outer" align="left">
 			<tbody>
 			<tr>
 				<td class="inner contents">
-					<p>Por medio del presente le informamos que el material:</p>
+					<p><b>Por medio del presente le informamos que el material:</b></p>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 
-		<table class="outer" align="center">
+		<table class="outer" align="left" style="font-size:15px">
 
                  #foreach( $partida in $partidas )
                         <tr>
                            <td>$partida.noMaterial</td>
                            <td>$partida.descripcion</td>
                            <td>$partida.cantidad</td>
-                           <td>$partida.cantEnt</td>
                            <td>$partida.unidadMedida</td>
                            <td>$ $partida.monto MXN</td>
                         </tr>
@@ -315,11 +314,11 @@
 				<td class="inner contents">
 					<br/>
 					<p>
-						<p>Su cotización es de</p>
+						<p><b>Su cotización es de</b></p>
 
-						<p>$ $total MXN</p>
+						<p><b>$ $total MXN</b></p>
 
-						<p>La presente expira el $fechaEntrega </p>
+						<p><b>La presente expira el $fechaEntrega </b></p>
 
 					</p>
 					<br/>
