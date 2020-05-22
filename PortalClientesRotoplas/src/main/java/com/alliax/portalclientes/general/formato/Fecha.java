@@ -361,12 +361,12 @@ public class Fecha {
 		if (fecha != null && fecha.length() > 0) {
 			Date date = Fecha.getDate(fecha, formatoEntrada);
 			GregorianCalendar calendario = getCalendario(date.getTime());
-			int año = calendario.get(Calendar.YEAR);
+			int ano = calendario.get(Calendar.YEAR);
 			int mes = calendario.get(Calendar.MONTH) ;
 			int dia = calendario.get(Calendar.DAY_OF_MONTH);
 			String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-			resultado = dia + " de " + monthNames[mes] + " "+año;
+			resultado = dia + " de " + monthNames[mes] + " "+ano;
 		}
 		logger.info("Fecha formato completo->"+resultado);
 		return resultado;

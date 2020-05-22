@@ -1162,6 +1162,8 @@ public class CrearPedido_backing extends AbstractBackingGen {
         com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida;
         com.alliax.portalclientes.domain.PedidoPartidas removeObject = null;
 
+        pedidoPartidas = pedidoPartidasService.findByidPedido(pedidoBd.getIdPedido());
+
         Iterator<com.alliax.portalclientes.domain.PedidoPartidas> itPartidas = pedidoPartidas.iterator();
 
         boolean isDelete;
