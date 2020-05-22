@@ -1381,7 +1381,7 @@ var crearPedido = (function () {
             return false;
         }
 
-        if(select_metodoPago.val() == 'PPD' && comprobante.val() != '1'){
+        if(select_metodoPago.val() == 'PUE' && comprobante.val() != '1'){
             showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
                 type: typeNotification.warning
             });
