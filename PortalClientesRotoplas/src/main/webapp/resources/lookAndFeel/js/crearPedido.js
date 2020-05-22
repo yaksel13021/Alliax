@@ -671,6 +671,7 @@ var crearPedido = (function () {
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
                 $('#select_cfdi option[value=G01]').attr('selected','selected');
+                $('#select_cfdi').trigger('change');
                 $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
 
@@ -1382,7 +1383,8 @@ var crearPedido = (function () {
         if(select_metodoPago.val() == 'PPD' && comprobante.val() != '1'){
             showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
                 type: typeNotification.warning
-            })
+            });
+            return false;
         }
 
         return true;
