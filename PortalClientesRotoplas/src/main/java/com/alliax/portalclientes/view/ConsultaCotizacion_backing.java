@@ -321,7 +321,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
             }
             }
         } catch(Exception e){
-            logger.error("Error al desplegar listado de fletes " + e.getLocalizedMessage());
+            logger.info("Error al desplegar listado de fletes ",e);
             this.getFacesContext().addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
         }
