@@ -24,7 +24,8 @@ var crearPedido = (function () {
         $dtResumenCuentaPartidas = null,
         $dtResumentCuentaFacturacion = null,
         $dtResumentCuentaComentarios = null,
-        $dtComentarios = null;
+        $dtComentarios = null,
+        display = $.fn.dataTable.render.number(',','.',2,'$').display;
 
     var init = function () {
         $('.isResizable').matchHeight();
@@ -79,9 +80,7 @@ var crearPedido = (function () {
                 $('div.AMC_DIV').hide();
                 $('div.I_DIV').show();
             }
-            if(descDestinatario.toUpperCase().match("^SUC") ||
-                    descDestinatario.toUpperCase().match("^FISCAL") ||
-                    descDestinatario.toUpperCase().match("^FIN")){
+            if(descDestinatario.toUpperCase().match("^FIN")){
                 $('div.I_DIV').hide();
                 $('div.AMC_DIV').show();
             }
@@ -223,7 +222,7 @@ var crearPedido = (function () {
                 return;
             }
 
-            if($('.partidaError #dt_ProductsSelected').length > 0){
+            if($('.partidaError').length > 0){
                 showToastr(mensajes().Generico01, 'Aviso', {
                     type: typeNotification.warning
                 });
@@ -672,9 +671,14 @@ var crearPedido = (function () {
         	var select_metodoPago = $('#select_metodoPago');
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
+                $('#select_cfdi').val('G01');
+                $('#select_cfdi').trigger('change');
+                $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
+
         	} else {
         		$('#containerTicket').hide();
+                $('#select_cfdi').prop('disabled',false);
         	}
         });
         $(document).on('change','.btn-file :file',function() {
@@ -1349,12 +1353,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }*/
+        }
         return true;
     };
 
@@ -1362,6 +1366,7 @@ var crearPedido = (function () {
         //var values = $('#facturacionForm').serializeForm();
         var select_cfdi = $('#select_cfdi');
         var select_metodoPago = $('#select_metodoPago');
+        var comprobante = $('#tipoMessage');
 
         if (!select_cfdi.val()) {
             showToastr('Seleccione un CFDI', 'Aviso', {
@@ -1375,6 +1380,14 @@ var crearPedido = (function () {
             })
             return false;
         }
+
+        if(select_metodoPago.val() == 'PUE' && comprobante.val() != '1'){
+            showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
+                type: typeNotification.warning
+            });
+            return false;
+        }
+
         return true;
     };
 
