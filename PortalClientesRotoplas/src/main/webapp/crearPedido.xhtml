@@ -456,7 +456,7 @@
 											<span class="btn btn-primary btn-file">
 												Anexar
     											<h:inputFile id="asignarTicketInput" value="#{crearPedido.imagenTicket}" class="hidden" required="true">
-        											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" render="comprobanteAlmacenado">
+        											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" render="comprobanteAlmacenado"/>
     											</h:inputFile>
 												<h:inputHidden id="tipoMessage" value="#{crearPedido.tipoMessage}" />
 											</span>
