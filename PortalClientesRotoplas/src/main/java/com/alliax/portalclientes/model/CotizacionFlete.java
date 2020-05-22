@@ -20,7 +20,7 @@ public class CotizacionFlete {
     private String descripcion;
     private String uM;
     private String estado;
-    private String precioNeto;
+    private BigDecimal precioNeto;
     private BigDecimal monto;
 
 
@@ -66,15 +66,15 @@ public class CotizacionFlete {
     public void setuM(String uM) {
         this.uM = uM;
     }
-    
+
     public BigDecimal getPrecioNeto() {
-    	return monto!=  null ? new BigDecimal(precioNeto):null;
+        return precioNeto;
     }
-    
-    public void setPrecioNeto(String precioNeto) {
-    	this.precioNeto = precioNeto;
+
+    public void setPrecioNeto(BigDecimal precioNeto) {
+        this.precioNeto = precioNeto;
     }
-    
+
     public String getEstado() {
         return estado;
     }

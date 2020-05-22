@@ -223,7 +223,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         c.setMaterial(CotizacionFlete.idMatFlete);
                     	c.setCantidad(pp.getCantidad());
                     	c.setDescripcion(CotizacionFlete.descFlete);
-                    	c.setPrecioNeto(pp.getPrecioNeto());
+                    	c.setPrecioNeto(pp.getPrecioNeto()!= null ? new BigDecimal(pp.getPrecioNeto()):null);
                     	c.setMonto(pp.getMonto()!= null ? new BigDecimal(pp.getMonto()) : null);
                     	c.setuM(CotizacionFlete.unidadMed);
                     	
