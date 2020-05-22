@@ -55,8 +55,10 @@ public class AltaMateriales_backing extends AbstractBacking{
             material.setUrlFoto(a[2]);
             mtlServ.save(material);
             tipoMessage = 20;
+            logger.info("Actualizacion de material : correcta" + material.toString());
         }catch (Exception e ){
             tipoMessage = 22;
+            logger.info("Error al actualizar material :"+noMaterial +"error :" + e.getMessage());
         }
         return "";
     }
