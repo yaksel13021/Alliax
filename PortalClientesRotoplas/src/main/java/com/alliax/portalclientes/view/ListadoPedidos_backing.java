@@ -29,6 +29,7 @@ import com.alliax.portalclientes.controller.DetallePedidoConfig;
 import com.alliax.portalclientes.controller.DetallePedidoRFC;
 import com.alliax.portalclientes.controller.FacturasConfig;
 import com.alliax.portalclientes.controller.FacturasPedidoRFC;
+import com.alliax.portalclientes.controller.DetalleFacturaRFC;
 import com.alliax.portalclientes.controller.ListaPedidosConfig;
 import com.alliax.portalclientes.model.Factura;
 import com.alliax.portalclientes.model.Item;
@@ -494,13 +495,27 @@ public class ListadoPedidos_backing extends AbstractBackingGen {
 		return estado;
 	}
 
-	public String obtenerDetalleFactura(Factura factura) throws Exception {
-		if(factura.getDetalleFactura() == null || factura.getDetalleFactura().isEmpty()) {
-			DetalleFacturaRFC detalleRFC = this.getSpringContext().getBean("detalleFacturaRFC", DetalleFacturaRFC.class);
-			factura.setDetalleFactura(detalleRFC.obtieneDetalleFactura(this.getNoPedido(),factura.getDocFactura()));
+	public String obtenerDetalleFactura(Factura factura){
 
-		}
-		factura.cambiaMuestraDetalle();
+		try {
+			if(this.getPedido()!= null) {
+				logger.info("obtenerDetalleFactura noPedido : " + this.getPedido().getDocumentoComercial() + "factura : " + (factura != null ? factura.getDocFactura() : ""));
+				if (factura.getDetalleFactura() == null || factura.getDetalleFactura().isEmpty()) {
+					DetalleFacturaRFC detalleRFC = this.getSpringContext().getBean("detalleFacturaRFC", DetalleFacturaRFC.class);
+					factura.setDetalleFactura(detalleRFC.obtieneDetalleFactura(this.getPedido().getDocumentoComercial(), factura.getDocFactura()));
+					logger.info("facturas : " + facturas.size());
+
+				}
+				factura.cambiaMuestraDetalle();
+			}
+		} catch(Exception e){
+				logger.error("Error al desplegar detalle de la factura " + e.getLocalizedMessage());
+
+				this.getFacesContext().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+								(new MessageFormat(this.getLblMain().getString("errListaFacturas")).format(
+										new Object[]{this.getPedido().getDocumentoComercial()}))));
+			}
 		return "";
 	}
 }
