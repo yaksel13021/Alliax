@@ -1,6 +1,8 @@
 package com.alliax.portalclientes.model;
 
 
+import java.math.BigDecimal;
+
 public class CotizacionFlete {
 
     public static final String idMatFlete = "400068";
@@ -19,7 +21,7 @@ public class CotizacionFlete {
     private String uM;
     private String estado;
     private String precioNeto;
-    private String monto;
+    private BigDecimal monto;
 
 
     public String getNroPedido() {
@@ -65,8 +67,8 @@ public class CotizacionFlete {
         this.uM = uM;
     }
     
-    public String getPrecioNeto() {
-    	return precioNeto;
+    public BigDecimal getPrecioNeto() {
+    	return monto!=  null ? new BigDecimal(precioNeto):null;
     }
     
     public void setPrecioNeto(String precioNeto) {
@@ -81,16 +83,15 @@ public class CotizacionFlete {
         this.estado = estado;
     }
 
-    
 
-    public String getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(String monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
-    
+
     public String getDescripcion() {
     	return this.descripcion;
     }
