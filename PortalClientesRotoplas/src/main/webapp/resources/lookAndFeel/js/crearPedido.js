@@ -330,7 +330,11 @@ var crearPedido = (function () {
             } else {
                 var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
                 var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
-                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true , noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val()});
+                var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+                var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+                var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true , noPedido: input_numeroPedido.val(), subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()), destino: select_direccionEntrega.val()});
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
@@ -521,12 +525,12 @@ var crearPedido = (function () {
                             btnId: 'btn_Finalizar',
                             btnName: 'btn_Finalizar',
                             btnText: 'Finalizar'
-                        },
+                        }/*,
                         {
                             btnId: 'btn_ResumenCuentaPartidasOrdenar',
                             btnName: 'btn_ResumenCuentaPartidasOrdenar',
                             btnText: 'Ordenar'
-                        }
+                        }*/
                     ]
                 }
             });
