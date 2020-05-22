@@ -332,7 +332,7 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     public void enviarMailCotizacion(String nroPedido){
         logger.info("enviarMailCotizacion");
         try {
-            this.buscarDetalles(nroPedido);
+            //this.buscarDetalles(nroPedido);
             BigDecimal total = BigDecimal.ZERO;
             String fechaEntrega = Fecha.getFechaDesgloce(this.cotizacion.getFechaEnt(), 7);
             if (partidas != null && !partidas.isEmpty()) {
