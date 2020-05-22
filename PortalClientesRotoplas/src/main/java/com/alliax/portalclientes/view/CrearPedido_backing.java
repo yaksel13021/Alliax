@@ -1166,6 +1166,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         boolean isDelete;
 
+        logger.info("NUMERO Partidas " + pedidoPartidas.size() );
         while(itPartidas.hasNext()){
             pedidoPartida = itPartidas.next();
             logger.info("pedidoPartida SKU " + pedidoPartida.getId().getSku()  + " " + (pedidoPartida.getId().getSku().trim().equals(getSkuMaterialEliminado().trim())));
