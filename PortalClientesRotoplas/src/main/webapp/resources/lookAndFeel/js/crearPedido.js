@@ -79,9 +79,7 @@ var crearPedido = (function () {
                 $('div.AMC_DIV').hide();
                 $('div.I_DIV').show();
             }
-            if(descDestinatario.toUpperCase().match("^SUC") ||
-                    descDestinatario.toUpperCase().match("^FISCAL") ||
-                    descDestinatario.toUpperCase().match("^FIN")){
+            if(descDestinatario.toUpperCase().match("^FIN")){
                 $('div.I_DIV').hide();
                 $('div.AMC_DIV').show();
             }
@@ -223,7 +221,7 @@ var crearPedido = (function () {
                 return;
             }
 
-            if($('.partidaError #dt_ProductsSelected').length > 0){
+            if($('.partidaError').length > 0){
                 showToastr(mensajes().Generico01, 'Aviso', {
                     type: typeNotification.warning
                 });
@@ -1349,12 +1347,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }*/
+        }
         return true;
     };
 
