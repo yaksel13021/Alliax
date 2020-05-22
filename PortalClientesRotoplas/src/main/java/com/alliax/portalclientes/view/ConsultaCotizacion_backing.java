@@ -329,17 +329,21 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     }
 
 
-    public void enviarMailCotizacion(String nroPedido){
+    public void enviarMailCotizacion(String nroPedido) {
         logger.info("enviarMailCotizacion");
         try {
             //this.buscarDetalles(nroPedido);
             BigDecimal total = BigDecimal.ZERO;
             String fechaEntrega = Fecha.getFechaDesgloce(this.cotizacion.getFechaEnt(), 7);
             if (partidas != null && !partidas.isEmpty()) {
-                for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
+              /*  for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
                     if(detallePedidoCotizacion.getMonto()!=null) {
                         total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
                     }
+                }*/
+                if(this.cotizacion!=null&&this.cotizacion.getMonto()!=null) {
+                    logger.info("monto :" +this.cotizacion.getMonto());
+                    total = new BigDecimal(this.cotizacion.getMonto());
                 }
                 logger.info("email pedido :" + this.email);
                 logger.info("Total para envio de email:" + total);
