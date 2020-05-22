@@ -1168,11 +1168,12 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
         while(itPartidas.hasNext()){
             pedidoPartida = itPartidas.next();
-
-            if(pedidoPartida.getId().getSku().equals(getSkuMaterialEliminado())) {
+            logger.info("pedidoPartida SKU " + pedidoPartida.getId().getSku()  + " " + (pedidoPartida.getId().getSku().trim().equals(getSkuMaterialEliminado().trim())));
+            if(pedidoPartida.getId().getSku().trim().equals(getSkuMaterialEliminado().trim())) {
+                removeObject = pedidoPartida;
                 pedidoPartidasService.delete(pedidoPartida);
                 //pedidoPartidas.remove(pedidoPartida);
-                removeObject = pedidoPartida;
+
                 isDelete = true;
             }else{
                 pedidoPartida.setPosicion(String.valueOf(posicion++));
@@ -1182,7 +1183,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
             for(int i = 0; i < materiales.size(); i++){
                 pedidoMaterial = materiales.get(i);
-                if(pedidoMaterial.getSku().equals(pedidoPartida.getId().getSku())){
+                if(pedidoMaterial.getSku().trim().equals(pedidoPartida.getId().getSku().trim())){
                     if(isDelete){
                         pedidoMaterial.setCantidad(null);
                         pedidoMaterial.setPosicion(null);
@@ -1193,7 +1194,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }
         }
-
+        logger.info("removeObject " + removeObject);
         if(removeObject != null){
             pedidoPartidas.remove(removeObject);
         }
