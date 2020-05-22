@@ -128,6 +128,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
 	private Part imagenTicket;
     private int tipoMessage;
+    private String comprobanteAlmacenado;
     
     private boolean update = false;
     private OrdenVenta pedidoAClonar;

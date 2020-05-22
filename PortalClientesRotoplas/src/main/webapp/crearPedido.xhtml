@@ -444,7 +444,7 @@
 							<div class="col-sm-12 col-md-12 col-lg-12 mt-4">
 								<label><strong>Método de pago</strong></label>
 								<div class="form-group flex">
-									<select class="form-control dropdownActive" id="select_metodoPago" name="select_metodoPago"></select>
+										<select class="form-control dropdownActive" id="select_metodoPago" name="select_metodoPago"></select>
 								</div>
 							</div>
 						</div>
@@ -456,8 +456,9 @@
 											<span class="btn btn-primary btn-file">
 												Anexar
     											<h:inputFile id="asignarTicketInput" value="#{crearPedido.imagenTicket}" class="hidden" required="true">
-        											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" />
+        											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" render="comprobanteAlmacenado">
     											</h:inputFile>
+												<h:inputHidden id="tipoMessage" value="#{crearPedido.tipoMessage}" />
 											</span>
 										</label>
 										<input class="form-control" id="ticket_captura" readonly="readonly" name="ticket_captura" type="text" value=""/>
