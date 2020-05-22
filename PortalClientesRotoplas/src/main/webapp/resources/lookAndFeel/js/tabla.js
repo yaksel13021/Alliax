@@ -658,10 +658,11 @@ function toggleComplete() {
 }
 
 var tablaEstCuenta = function () {
-    debugger
+
   if ($tablaEstCuentaDT) {
-        $tablaEstCuentaDT.clear().destroy();
-  }  
+      //  $tablaEstCuentaDT.$("#idtablaEstCuenta").DataTable.destroy;
+  }
+  $("#idtablaEstCuenta").DataTable().destroy();
   $tablaEstCuentaDT = $("#idtablaEstCuenta").DataTable({
     paging: true,
     searching: true,
