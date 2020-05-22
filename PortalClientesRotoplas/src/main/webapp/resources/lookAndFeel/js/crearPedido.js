@@ -670,9 +670,13 @@ var crearPedido = (function () {
         	var select_metodoPago = $('#select_metodoPago');
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
+                $('#select_cfdi option[value=G01]').attr('selected','selected');
+                $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
+
         	} else {
         		$('#containerTicket').hide();
+                $('#select_cfdi').prop('disabled',false);
         	}
         });
         $(document).on('change','.btn-file :file',function() {

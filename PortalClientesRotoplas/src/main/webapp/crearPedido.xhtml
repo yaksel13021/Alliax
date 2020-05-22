@@ -449,12 +449,12 @@
 							</div>
 						</div>
 						<div id = "containerTicket" class="container" style="display: none">
-						  	<div class="form-group col-xs-12 col-sm-6 col-md-4">
-								<label><strong>Ticket:</strong></label>
+						  	<div class="form-group col-xs-12 col-sm-12 col-md-12">
+								<label><strong>Comprobante Bancario:</strong></label>
 									<div class="input-group">
 										<label class="input-group-btn">
 											<span class="btn btn-primary btn-file">
-												Upload 
+												Anexar
     											<h:inputFile id="asignarTicketInput" value="#{crearPedido.imagenTicket}" class="hidden" required="true">
         											<f:ajax execute="@form" listener="#{crearPedido.handleFileUpload}" />
     											</h:inputFile>
@@ -491,6 +491,8 @@
 													<th class="no-wrap" data-prority="7" data-dt-columnName="unidadMedida" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">UM</th>
 													<th class="no-wrap" data-prority="8" data-dt-columnName="monto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Monto</th>
 													<th class="no-wrap" data-prority="9" data-dt-columnName="precioNeto" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Precio Neto</th>
+													<th class="no-wrap" data-prority="9" data-dt-columnName="iva" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Impuesto</th>
+													<th class="no-wrap" data-prority="9" data-dt-columnName="totalPartida" data-columnWidth="10%" data-dt-searcheable ="true" data-dt-orderable ="true">Total</th>
 													<th class="no-wrap" data-prority="10" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Fecha Ent</th>
 													<th class="no-wrap" data-prority="1" data-dt-columnName="estatus" data-columnWidth="15%" data-dt-searcheable ="true" data-dt-orderable ="true">Estatus</th>
 												</tr>
@@ -561,7 +563,7 @@
 													<td width="50%"><strong>{{noCotizacion}}</strong></td>
 												</tr>
 												<tr>
-													<td colspan="2"><strong>Vía correo electrónico  le estaremos informando la cotización del flete</strong></td>
+													<td colspan="2"><strong>Vía correo electrónico  le estaremos informando la cotización del flete en un plazo no mayor a 48 horas</strong></td>
 												</tr>
 											</table>
 										</h:panelGroup>

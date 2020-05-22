@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -939,11 +940,17 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                         pedidoMaterial2.setMensajeError("");
                                     }
 
+                                    if(precioMaterial.getPrecioNeto() == null || precioMaterial.getPrecioNeto().compareTo(new BigDecimal(0)) <= 0){
+                                        pedidoMaterial2.setCodigoError("-1");
+                                        pedidoMaterial2.setMensajeError("Material sin precio asignado");
+                                    }
+
                                     pedidoMaterial2.setFechaEntrega(precioMaterial.getFechaEntrega());
                                     pedidoMaterial2.setIva(precioMaterial.getIva());
                                     pedidoMaterial2.setMoneda(precioMaterial.getMoneda());
                                     pedidoMaterial2.setPrecioNeto(String.valueOf(precioMaterial.getPrecioNeto()));
                                     pedidoMaterial2.setMonto(String.valueOf(precioMaterial.getMonto()));
+                                    pedidoMaterial2.setTotalPartida(String.valueOf(precioMaterial.getTotalPartida()));
 
                                     //save to DB
                                     pedidoPartida.setPosicion(pedidoMaterial2.getPosicion());
@@ -956,6 +963,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     pedidoPartida.setMoneda(pedidoMaterial2.getMoneda());
                                     pedidoPartida.setPrecioNeto(String.valueOf(pedidoMaterial2.getPrecioNeto()));
                                     pedidoPartida.setMonto(String.valueOf(pedidoMaterial2.getMonto()));
+                                    pedidoPartida.setTotalPartida(String.valueOf(precioMaterial.getTotalPartida()));
 
                                     pedidoPartidas.add(pedidoPartida);
                                 }
