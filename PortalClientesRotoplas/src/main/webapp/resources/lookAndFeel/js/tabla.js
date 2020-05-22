@@ -561,8 +561,8 @@ var initChartDoughnut = function () {
       label: 'Saldo',
       labels: dta.labels,
       data: dta.data[i],
-      backgroundColor: [],
-      hoverBackgroundColor: []
+      backgroundColor: ["#FF0000" , "#008000"],
+      hoverBackgroundColor: ["#FF0000" , "#008000"]
     };
     charts.util.doughnut.setColorsToDataModel(dataModel, dta.data[i].length, false, false, 1);
     model.data.datasets.push(dataModel);
@@ -585,7 +585,7 @@ var initChartDoughnut = function () {
       }
     },
     plugins: {
-      labels: [
+      labels: false/*[
         {
           render: function (args) {
             //return args.label + '_' + args.percentage + '%';
@@ -603,7 +603,7 @@ var initChartDoughnut = function () {
           fontSize: 8,
           arc: false
         }
-      ],
+      ]*/,
       datalabels: false
     },
     legend: {
@@ -629,7 +629,7 @@ var initChartDoughnut = function () {
         label: function (tooltipItem, data) {
           var dataset = data.datasets[tooltipItem.datasetIndex];
           var index = tooltipItem.index;
-          return ['Nombre: ' + dataset.labels[index], 'Valor: ' + dataset.data[index]];
+          return ['Nombre: ' + dataset.labels[index], 'Monto: ' + formatter.format(dataset.data[index]) ];
         }
       }
     },
@@ -772,12 +772,52 @@ function filtrarCotizaciones() {
         $tablaCotizaciones;
 }
 
+var progressAnimationEnum = {
+	    decreasing: 'decreasing',
+	    increasing: 'increasing'
+};
+
+var typeNotification = {
+	    error: 'error',
+	    info: 'info',
+	    success: 'success',
+	    warning: 'warning'
+};
+
+function showToastr(message, title, override) {
+    var propertiesDefault = {
+        type: typeNotification.success,
+        html: false,
+        closeBtn: false,
+        timeOut: 5000,
+        progressBar: false,
+        progressAnimation: progressAnimationEnum.decreasing,
+        tapToDismiss: false,
+        disableTimeOut: false
+    };
+    _.defaults(override, propertiesDefault);
+
+    toastr[override.type](message, title, {
+        enableHtml: override.html,
+        closeButton: override.closeBtn,
+        timeOut: override.timeOut,
+        progressBar: override.progressBar,
+        progressAnimation: override.progressAnimation,
+        tapToDismiss: override.tapToDismiss,
+        disableTimeOut: override.disableTimeOut
+    });
+}
+
 function validarPanelesFilters() {
 	var selectClienteCompany = $("[id='form:panelSelectEmpresa']").val();
 	if(selectClienteCompany != null) {
 	  	$("[id='form:panelEmpresa']").show();
 	  	$("[id='form:panelFechaCorte']").show();
 	  	$("[id='form:panelBotonGenerar']").show();
+	} else {
+        showToastr('No tienes asignado este cliente, favor de solicitarlo a Cuentas x Cobrar', 'Aviso', {
+            type: typeNotification.info
+        });
 	}
 }
 
@@ -798,3 +838,8 @@ function agregarEstiloSelectEmpresa() {
 	  	$("[id='form:panelBotonGenerar']").show(); 
 	}
 }
+
+var formatter = new Intl.NumberFormat('es-MX', {
+	  style: 'currency',
+	  currency: 'MXN',
+});
