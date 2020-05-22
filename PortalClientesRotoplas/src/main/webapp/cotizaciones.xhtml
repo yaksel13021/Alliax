@@ -101,7 +101,7 @@
 	                        </thead>
 	                        <tbody>
 		                        <ui:repeat   var="cotizacion" value="#{consultaCotizacion.cotizaciones}">
-		                          <tr styleClass="tr:hover{text-color: white}">
+		                          <tr>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
 		                            <h:outputLabel value="#{cotizacion.noCotizacion}" />
@@ -249,7 +249,7 @@
                         <br />
                         <h:panelGroup layout="block" styleClass="row">
                           <h:panelGroup layout="block" styleClass="col-12">
-                          <div>
+                              <h:panelGroup>
                             <table id="tableModal1"  class="table table-striped  table-hover" width="100%">
                               <thead>
                               <tr>
@@ -290,7 +290,7 @@
                             </table>
                             <br />
                             <br />
-                            <div >
+                          <h:panelGroup >
                             <h:panelGroup layout="block" styleClass="row float-right">
                             <table style="width: 150px;">
                             <tr><td align="left"><h:outputLabel value="Subtotal" /></td><td align="left"><h:outputLabel value="#{consultaCotizacion.subtotal}" >  <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/></h:outputLabel> #{consultaCotizacion.moneda}</td></tr>
@@ -299,8 +299,8 @@
                             </table>
                         
                         	</h:panelGroup>
-                            </div>
-                            </div>
+                          </h:panelGroup>
+                          </h:panelGroup>
                           </h:panelGroup>
                         </h:panelGroup>
                       </div>
@@ -383,7 +383,7 @@
 
                       <h:panelGroup layout="block" id="nav-tabContent2"
                                     styleClass="tab-content">
-                        <div id="menu1"
+                          <h:panelGroup id="menu1"
                              class="tab-pane active ">
                           <h:panelGroup layout="block" styleClass="row">
                             <h:panelGroup layout="block" styleClass="col-12">
@@ -427,7 +427,7 @@
                               </table>
                          	</h:panelGroup>
                           </h:panelGroup>
-                        </div>
+                      </h:panelGroup>
                       </h:panelGroup>
 
                    
@@ -469,6 +469,7 @@
       <script src="#{resource['lookAndFeel/js/charts.js']}"></script>
       <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
         <script type="text/javascript">
+
 				function showModal(data) {
 					var modal = $("#myModal");
 					var status = data.status;
@@ -514,6 +515,8 @@
 			</script>
         <script>
 				function showModal2(data) {
+
+
 				$('#myModal').modal('hide');
 					var modal = $("#myModalCaptura");
 					var status = data.status;
@@ -636,7 +639,6 @@
 					        },})
 					})
 					});
-
 			</script>
 
     </ui:define>
