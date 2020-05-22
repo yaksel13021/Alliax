@@ -141,6 +141,37 @@ function filtrar() {
                 "previous": "Anterior"
             }
         },})
+
+    var table = $('[id="form:productois1"]').DataTable();
+    table.destroy();
+    $('.collapse').collapse('hide');
+    $('[id="form:productois1"]').DataTable({
+        paging: true,
+        searching: true,
+        lengthChange: false,
+        scrollY: true,
+        "scrollX": true,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },})
+
 }
 
 function tablaMessage(){
@@ -158,6 +189,7 @@ $(document).ready(function(e) {
         multiple: false,
         width: "100%",
     });
+    reload()
     $('[id="form:select_buscarPor"]').show();
 });
 
@@ -181,6 +213,18 @@ function validaEnvio() {
     }else{
         document.getElementById('form:restear').click();
     }
+}
+
+function existenciaMaterial(data){
+    alert
+    document.getElementById().click();
+    //document.getElementById("form:frm_noMaterial").value = document.getElementById('form:materialStock').value;
+    //document.getElementById('form:but').click();
+}
+
+function cambiaValorBusqueda(data) {
+
+    alert(data.value)
 }
 
 
