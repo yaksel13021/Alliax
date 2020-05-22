@@ -159,6 +159,7 @@ var crearPedido = (function () {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
+
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
@@ -296,7 +297,11 @@ var crearPedido = (function () {
                 var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
                 var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
-                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true });
+                var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+                var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+                var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val() , subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()) , destino: select_direccionEntrega.val(), resumencuenta: true });
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
@@ -1459,4 +1464,11 @@ function format ( d ) {
             '</table>';
 
     return row;
+}
+function currencyFormat(texto) {
+
+    var num = Number(texto);
+   // var n = num.toFixed(2);
+
+    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
