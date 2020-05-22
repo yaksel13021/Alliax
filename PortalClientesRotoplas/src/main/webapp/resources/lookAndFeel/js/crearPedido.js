@@ -24,7 +24,8 @@ var crearPedido = (function () {
         $dtResumenCuentaPartidas = null,
         $dtResumentCuentaFacturacion = null,
         $dtResumentCuentaComentarios = null,
-        $dtComentarios = null;
+        $dtComentarios = null,
+        display = $.fn.dataTable.render.number(',','.',2,'$').display;
 
     var init = function () {
         $('.isResizable').matchHeight();
