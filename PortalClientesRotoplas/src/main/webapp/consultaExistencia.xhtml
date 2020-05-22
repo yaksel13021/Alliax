@@ -145,7 +145,7 @@
                     </div>
 
                     <h:panelGroup id="products">
-                        <h:panelGroup styleClass="row" rendered="#{not empty busqueda.resultados}">
+                        <h:panelGroup styleClass="row" rendered="#{not empty busqueda.resultados || not empty busqueda.resultadosMatBusqueda}">
                             <h:outputScript>filtrar()</h:outputScript>
                             <div class="col-12">
                                 <div class="card text-center">
@@ -154,12 +154,14 @@
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                                                     <div id="dt_searchProducts_content"  style="width: 100%">
+
                                                         <h:dataTable id ="productois" value="#{busqueda.resultados}" var="stock"
                                                                      styleClass="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
                                                                      style="margin-top: 10px;"
                                                                      columnClasses="ttblCell10,tblCell30,tblCell30,tblCell15 align-right,tblCell15 "
                                                                      width="100%"
-                                                                     data-dt-pdfBtn="true" data-dt-excelBtn="true">
+                                                                     data-dt-pdfBtn="true" data-dt-excelBtn="true"
+                                                                     rendered="#{not empty busqueda.resultados}" >
                                                             <h:column class="no-wrap" data-dt-searcheable="true" data-dt-orderable="true">
                                                                 <f:facet name="header">
                                                                     <h:outputText value="#{lblMain.noMaterial}" />
@@ -213,6 +215,36 @@
                                                                     <h:outputText value="#{lblMain.unidadMedida}" />
                                                                 </f:facet>
                                                                 <h:outputLabel value="#{stock.umb}" />
+                                                            </h:column>
+                                                        </h:dataTable>
+
+                                                        <h:dataTable id ="productois1" value="#{busqueda.resultadosMatBusqueda}" var="mat"
+                                                                     rendered="#{not empty busqueda.resultadosMatBusqueda}"
+                                                                     styleClass="table table-hover table-striped table-bordered data-dt-pdfBtn data-dt-excelBtn"
+                                                                     style="margin-top: 10px;"
+                                                                     width="100%"
+                                                                     data-dt-pdfBtn="true" data-dt-excelBtn="true">
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.noMaterial}" />
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{mat.noMaterial}" />
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.descripcion}"/>
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{mat.descripcion}" />
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{lblMain.accion}" />
+                                                                </f:facet>
+
+                                                                <h:commandButton value="#{lblMain.btnConsultarStock}" action="#{busqueda.busquedaExistenciaMaterial}" styleClass="btn btn-primary">
+                                                                    <f:setPropertyActionListener value="#{mat}" target="#{flash.materialSel}" />
+                                                                </h:commandButton>
+
                                                             </h:column>
                                                         </h:dataTable>
                                                     </div>
