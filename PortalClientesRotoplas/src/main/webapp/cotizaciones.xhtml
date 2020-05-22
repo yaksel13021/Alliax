@@ -43,7 +43,7 @@
                             <h:outputLabel class="labelLeftInput fillWidthAvaible">
                               Fecha
                             </h:outputLabel>
-                            <h:panelGroup layout="block" styleClass="input-group date date-end">
+                            <h:panelGroup layout="block" styleClass="input-group date date-start">
                               <h:inputText id="frm_fechaCorte"
                                            styleClass="form-control input-sm"
                                            value="#{consultaCotizacion.fecha}"
@@ -101,7 +101,7 @@
 	                        </thead>
 	                        <tbody>
 		                        <ui:repeat   var="cotizacion" value="#{consultaCotizacion.cotizaciones}">
-		                          <tr styleClass="tr:hover{text-color: white}">
+		                          <tr>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
 		                            <h:outputLabel value="#{cotizacion.noCotizacion}" />
@@ -120,9 +120,8 @@
 		                        </td>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
-		                            <h:outputLabel value="#{cotizacion.cantidad}">
-		                                <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
-		                            </h:outputLabel>
+		                            <h:outputLabel value="#{cotizacion.cantidad}"/>
+
 		                          </h:commandLink>
 		                        </td>
 		                        <td>
@@ -132,7 +131,9 @@
 		                        </td>
 		                        <td>
 		                          <h:commandLink style="text-decoration: none; color: black;" styleClass="colorLetra" >
-		                            <h:outputLabel value="#{cotizacion.monto}" />
+		                            <h:outputLabel value="#{cotizacion.monto}" >
+                                        <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/>
+                                    </h:outputLabel>
 		                          </h:commandLink>
 		                        </td>
                                       <td>
@@ -179,7 +180,6 @@
                         styleClass="modal-dialog modal-dialog-scrollable modal-xl modal-xxx"
                         role="document" id="contentmodal">
             <h:panelGroup layout="block" styleClass="modal-content">
-              <h:outputScript>filtrarModel1()</h:outputScript>
               <!-- Modal Header -->
               <h:panelGroup layout="block" styleClass="modal-header">
                 <h:commandButton styleClass="close" value="X" onclick="closeModal()" style="border: none; background: none;">
@@ -249,7 +249,7 @@
                         <br />
                         <h:panelGroup layout="block" styleClass="row">
                           <h:panelGroup layout="block" styleClass="col-12">
-                          <div>
+                              <h:panelGroup>
                             <table id="tableModal1"  class="table table-striped  table-hover" width="100%">
                               <thead>
                               <tr>
@@ -290,7 +290,7 @@
                             </table>
                             <br />
                             <br />
-                            <div >
+                          <h:panelGroup >
                             <h:panelGroup layout="block" styleClass="row float-right">
                             <table style="width: 150px;">
                             <tr><td align="left"><h:outputLabel value="Subtotal" /></td><td align="left"><h:outputLabel value="#{consultaCotizacion.subtotal}" >  <f:convertNumber currencySymbol="$" type="currency" locale="es_MX"/></h:outputLabel> #{consultaCotizacion.moneda}</td></tr>
@@ -299,8 +299,8 @@
                             </table>
                         
                         	</h:panelGroup>
-                            </div>
-                            </div>
+                          </h:panelGroup>
+                          </h:panelGroup>
                           </h:panelGroup>
                         </h:panelGroup>
                       </div>
@@ -383,7 +383,7 @@
 
                       <h:panelGroup layout="block" id="nav-tabContent2"
                                     styleClass="tab-content">
-                        <div id="menu1"
+                          <h:panelGroup id="menu1"
                              class="tab-pane active ">
                           <h:panelGroup layout="block" styleClass="row">
                             <h:panelGroup layout="block" styleClass="col-12">
@@ -427,7 +427,7 @@
                               </table>
                          	</h:panelGroup>
                           </h:panelGroup>
-                        </div>
+                      </h:panelGroup>
                       </h:panelGroup>
 
                    
@@ -469,6 +469,7 @@
       <script src="#{resource['lookAndFeel/js/charts.js']}"></script>
       <script src="#{resource['lookAndFeel/js/tabla.js']}"></script>
         <script type="text/javascript">
+
 				function showModal(data) {
 					var modal = $("#myModal");
 					var status = data.status;
@@ -514,20 +515,21 @@
 			</script>
         <script>
 				function showModal2(data) {
+
+
 				$('#myModal').modal('hide');
 					var modal = $("#myModalCaptura");
 					var status = data.status;
+
 					if(status == 'complete'){
 						$("#myModalCaptura").modal('show');
 					}
-				}
 
-				$("#example tbody").off().on('click', 'tr', function (data) {
-					var pedido = data;
-				});
-				$('#myModalCaptura').on('shown.bs.modal', function() {
-					  var $tablaModal2 = null;
-					  $("div.date.date-end").datepicker({
+					 var date = new Date();
+
+                            date.setDate(date.getDate());
+
+						   $("div.date.date-end").datepicker({
                             format: "dd/mm/yyyy",
                             weekStart: 0,
                             maxViewMode: 2,
@@ -537,11 +539,20 @@
                             daysOfWeekHighlighted: "0,6",
                             autoclose: true,
                             todayHighlight: true,
-                            startDate: "01/01/1900",
-                           });
+                            startDate: date
+                            });
+                            
+				}
+
+				$("#example tbody").off().on('click', 'tr', function (data) {
+					var pedido = data;
+				});
+				$('#myModalCaptura').on('shown.bs.modal', function() {
+					  var $tablaModal2 = null;
 
 
-						  $(document).ready(function () {
+
+					  $(document).ready(function () {
 						  if ($tablaModal2) {
 							  $tablaModal2.clear().destroy();
 						  }
@@ -573,6 +584,23 @@
 					            }
 					        },})
 						  })
+
+						   var date = new Date();
+
+                            date.setDate(date.getDate());
+
+						   $("div.date.date-end").datepicker({
+                            format: "dd/mm/yyyy",
+                            weekStart: 0,
+                            maxViewMode: 2,
+                            todayBtn: "linked",
+                            language: "es",
+                            orientation: "bottom auto",
+                            daysOfWeekHighlighted: "0,6",
+                            autoclose: true,
+                            todayHighlight: true,
+                            startDate: date
+                            });
 				});
 
 

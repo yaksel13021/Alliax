@@ -5,6 +5,7 @@ public class PedidoPartidas {
     private String nroMaterial;
     private String cantidad;
     private String unidadMedida;
+    private String monto;
 
     public String getPosicion() {
         return posicion;
@@ -38,6 +39,14 @@ public class PedidoPartidas {
         this.unidadMedida = unidadMedida;
     }
 
+    public String getMonto() {
+        return monto;
+    }
+
+    public void setMonto(String monto) {
+        this.monto = monto;
+    }
+
     @Override
     public String toString() {
         return "PedidoPartidas{" +
@@ -45,6 +54,7 @@ public class PedidoPartidas {
                 ", nroMaterial='" + nroMaterial + '\'' +
                 ", cantidad='" + cantidad + '\'' +
                 ", unidadMedida='" + unidadMedida + '\'' +
+                ", monto='" + monto + '\'' +
                 '}';
     }
 }

@@ -24,7 +24,8 @@ var crearPedido = (function () {
         $dtResumenCuentaPartidas = null,
         $dtResumentCuentaFacturacion = null,
         $dtResumentCuentaComentarios = null,
-        $dtComentarios = null;
+        $dtComentarios = null,
+        display = $.fn.dataTable.render.number(',','.',2,'$').display;
 
     var init = function () {
         $('.isResizable').matchHeight();
@@ -44,11 +45,11 @@ var crearPedido = (function () {
             $("[id='crearPedido:filterStepOne:frm_destinatario']").val(($("#select_direccionEntrega").val()));
             $("[id='crearPedido:filterStepOne:frm_nroPedido']").val($("[id='crearPedido:filterStepOne:input_numeroPedido']").val());
 
-            $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
-            
             var flagUpdate = $("[id='crearPedido:filterStepOne:flagUpdate']").val();
             if(flagUpdate=='true'){
                 $("[id='crearPedido:filterStepOne:clonarPedidoId']").trigger('click');
+            }else{
+                $("[id='crearPedido:filterStepOne:asignaDestNroPedido']").trigger('click');
             }
 
         });
@@ -70,6 +71,21 @@ var crearPedido = (function () {
                     }]
                 }
             });
+
+            //validar cual imagen mostrar
+            var descDestinatario = $("[id='crearPedido:filterStepOne:descripcionDestinatario']").val();
+
+            if(descDestinatario.toUpperCase().match("^AGR") || descDestinatario.toUpperCase().match("^IND")){
+                //aki
+                $('div.AMC_DIV').hide();
+                $('div.I_DIV').show();
+            }
+            if(descDestinatario.toUpperCase().match("^FIN")){
+                $('div.I_DIV').hide();
+                $('div.AMC_DIV').show();
+            }
+
+
             $("[id='crearPedido:cardDynamicFooter']").show();
             setTimeout(function () {
                 $('.isResizable').matchHeight();
@@ -164,6 +180,39 @@ var crearPedido = (function () {
             cargarDTListProductosSelected.fill()
             initEvents();
         });
+
+        $('div.material_seleccionado_clonar').off().on('click', function (e) {
+            $('#headingOne').prop('disabled', true);
+            $('#headingThree').prop('disabled', false).click();
+
+            var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
+            var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
+            loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
+                isList: {
+                    divClass: 'footerButtonsRigth',
+                    btnList: [{
+                        btnId: 'btn_cancelAll',
+                        btnName: 'btn_cancelAll',
+                        btnText: 'Cancelar'
+                    },
+                        {
+                            btnId: 'btn_ListaProductosSeleccionadosNext',
+                            btnName: 'btn_adbtn_listaProductosSeleccionadosNextdProducts',
+                            btnText: 'Continuar'
+                        }
+                    ]
+                }
+            });
+            $('#cardDynamicHeaderTitle').html('Lista de Productos Seleccionados');
+            $("[id='crearPedido:cardDynamicFooter']").show();
+            setTimeout(function () {
+                $('.isResizable').matchHeight();
+            }, 100)
+            cargarDTListProductosSelected.fill()
+            initEvents();
+        });
         $('#btn_ListaProductosSeleccionadosNext').off().on('click', function (e) {
             var rowsCount = $dtSeleccionados.rows().count();
             if (rowsCount === 0) {
@@ -173,7 +222,7 @@ var crearPedido = (function () {
                 return;
             }
 
-            if($('.partidaError #dt_ProductsSelected').length > 0){
+            if($('.partidaError').length > 0){
                 showToastr(mensajes().Generico01, 'Aviso', {
                     type: typeNotification.warning
                 });
@@ -622,9 +671,14 @@ var crearPedido = (function () {
         	var select_metodoPago = $('#select_metodoPago');
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
+                $('#select_cfdi').val('G01');
+                $('#select_cfdi').trigger('change');
+                $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
+
         	} else {
         		$('#containerTicket').hide();
+                $('#select_cfdi').prop('disabled',false);
         	}
         });
         $(document).on('change','.btn-file :file',function() {
@@ -797,21 +851,7 @@ var crearPedido = (function () {
                                 true, function (rs) {
                                     if (rs) {
                                         var dta = data;
-                                        //,findIndex = productosSeleccionados.findIndex(function (a, e, i) { return a.data.sku === data.sku; });
 
-                                        /*
-                                        var material = $.grep(materialesSel, function( n, i ) {
-                                                            return n.sku=== data.sku;
-                                                        });
-
-                                        alert("material " + material[0].sku + " , "  + material[0].cantidad)
-                                        material[0].cantidad = 0;
-                                        */
-                                        //aki
-                                        ///$("[id='crearPedido:filterStepOne:frm_materialSeleccionado']").val(JSON.stringify(materialesSel));
-
-
-                                        //aki
                                         $("[id='crearPedido:filterStepOne:frm_skuMaterialEliminado']").val(data.sku);
                                         $("[id='crearPedido:filterStepOne:deletePartida']").trigger('click');
 
@@ -1313,12 +1353,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }*/
+        }
         return true;
     };
 
@@ -1326,6 +1366,7 @@ var crearPedido = (function () {
         //var values = $('#facturacionForm').serializeForm();
         var select_cfdi = $('#select_cfdi');
         var select_metodoPago = $('#select_metodoPago');
+        var comprobante = $('#tipoMessage');
 
         if (!select_cfdi.val()) {
             showToastr('Seleccione un CFDI', 'Aviso', {
@@ -1339,6 +1380,14 @@ var crearPedido = (function () {
             })
             return false;
         }
+
+        if(select_metodoPago.val() == 'PUE' && comprobante.val() != '1'){
+            showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
+                type: typeNotification.warning
+            });
+            return false;
+        }
+
         return true;
     };
 
