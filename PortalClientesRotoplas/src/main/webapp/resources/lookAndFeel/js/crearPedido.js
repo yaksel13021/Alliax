@@ -1364,6 +1364,7 @@ var crearPedido = (function () {
         //var values = $('#facturacionForm').serializeForm();
         var select_cfdi = $('#select_cfdi');
         var select_metodoPago = $('#select_metodoPago');
+        var comprobante = $('#tipoMessage');
 
         if (!select_cfdi.val()) {
             showToastr('Seleccione un CFDI', 'Aviso', {
@@ -1376,6 +1377,12 @@ var crearPedido = (function () {
                 type: typeNotification.warning
             })
             return false;
+        }
+
+        if(select_metodoPago.val() == 'PPD' && comprobante.val() != '1'){
+            showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
+                type: typeNotification.warning
+            })
         }
 
         return true;
