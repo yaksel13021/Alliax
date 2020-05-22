@@ -670,7 +670,7 @@ var crearPedido = (function () {
         	var select_metodoPago = $('#select_metodoPago');
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
-                $('#select_cfdi option[value=G01]').attr('selected','selected');
+                $('#select_cfdi').val('G01');
                 $('#select_cfdi').trigger('change');
                 $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
