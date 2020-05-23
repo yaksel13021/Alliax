@@ -981,18 +981,18 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                 } catch (Exception e) {
                                     logger.error(e);
                                     //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
-                                    logger.info("Respuesta RFC " + precioMaterial);
+                                    //logger.info("Respuesta RFC " + precioMaterial);
                                 }
 
                                 if(precioMaterial != null){
                                     //no asignar el valor del error para los pedidos de industrial y
                                     //que sean error de fecha de entrega (codigo error 5)
-                                    if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
-                                        pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
-                                        pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
-                                    }else{
+                                    if (precioMaterial.getCodigoError().equals("5")){
                                         pedidoMaterial2.setCodigoError("0");
                                         pedidoMaterial2.setMensajeError("");
+                                    }else{
+                                        pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
+                                        pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
                                     }
 
                                     if((Integer.valueOf(pedidoMaterial.getCantidad()))%2 == 0){
