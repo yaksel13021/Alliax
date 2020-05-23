@@ -98,6 +98,9 @@
 											<h:inputHidden id="frm_cfdi_desc" />
 											<h:inputHidden id="frm_metodoPago_desc" />
 											<h:inputHidden id="frm_skuMaterialEliminado" value="#{crearPedido.skuMaterialEliminado}"/>
+											<h:inputHidden id="subtotalPedido" value="#{crearPedido.subtotal}"/>
+											<h:inputHidden id="ivaPedido" value="#{crearPedido.iva}"/>
+											<h:inputHidden id="totalPedido" value="#{crearPedido.total}"/>
 
 											<div class="continuarDestinatarioNroPedido"></div>
 											<div class="material_seleccionado_clonar"></div>
@@ -111,7 +114,7 @@
 												<f:ajax  execute="@form"  render="mateiralScript" onevent="ajaxMaterialEnd" />
 											</h:commandLink>
 											<h:commandLink  id="asignaMaterial" action="#{crearPedido.asignaPedidoMaterial}">
-												<f:ajax  execute="@form" render="mateiralSelScript comboValues usoCFDIPanel" onevent="ajaxAsignaMaterial" />
+												<f:ajax  execute="@form" render="mateiralSelScript comboValues usoCFDIPanel subtotalPedido ivaPedido totalPedido" onevent="ajaxAsignaMaterial" />
 											</h:commandLink>
 											<h:commandLink  id="cotinuaCompra" action="#{crearPedido.continuaCompra}">
 												<f:ajax  execute="@form"  render="mateiralScript" onevent="ajaxContinuaCompra" />
@@ -419,8 +422,6 @@
 											<th class="no-wrap" data-prority="5" data-dt-columnName="precioNeto" data-dt-render="free" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Precio Neto</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="moneda" data-columnWidth="10%" data-dt-searcheable="true" data-dt-orderable="true">Moneda</th>
 											<th class="no-wrap" data-prority="5" data-dt-columnName="fechaEntrega" data-columnWidth="15%" data-dt-searcheable="true" data-dt-orderable="true">Fecha</th>
-
-
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -499,6 +500,21 @@
 											</thead>
 											<tbody></tbody>
 										</table>
+										<div display="block" style="height:60px">
+											<div class="float-right">
+												<table class="float-right">
+													<tr>
+														<td><strong>Subtotal</strong></td><td style="text-align:right">{{subtotalPedido}}</td>
+													</tr>
+													<tr>
+														<td><strong>IVA</strong></td><td style="text-align:right">{{ivaPedido}}</td>
+													</tr>
+													<tr>
+														<td><strong>Total</strong></td><td style="text-align:right">{{totalPedido}}</td>
+													</tr>
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="tab-pane fade" id="nav-facturacion" role="tabpanel" aria-labelledby="nav-facturacion-tab">
