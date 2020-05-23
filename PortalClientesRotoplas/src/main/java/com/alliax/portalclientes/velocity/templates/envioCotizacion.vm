@@ -234,7 +234,7 @@
 	#if($pais != 'BR')
 
 
-		<table class="outer FondoAzulOscuro" align="center">
+		<table class="outer FondoAzulOscuro" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="two-column">
@@ -285,7 +285,7 @@
 		</table>
 
 
-		<table class="outer" align="left">
+		<table class="outer" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="inner contents">
@@ -294,22 +294,20 @@
 			</tr>
 			</tbody>
 		</table>
-        </br>
-        </br>
-		<table class="outer" align="left" style="font-size:15px">
 
+		<table class="outer" align="left" width="60%" style="font-size:15px">
                  #foreach( $partida in $partidas )
-                        <tr>
+                         <tr>
                            <td>$partida.noMaterial</td>
                            <td>$partida.descripcion</td>
                            <td>$partida.cantidad</td>
                            <td>$partida.unidadMedida</td>
                            <td>$ $partida.monto MXN</td>
-                        </tr>
+                         </tr>
                   #end
          </table>
            </br>
-		<table class="outer" align="center">
+		<table class="outer" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="inner contents">
@@ -379,7 +377,7 @@
 		</table>
 
         </br>
-		<table class="outer FondoAzulOscuro" align="center">
+		<table class="outer FondoAzulOscuro" align="center" width="100%">
 			<tbody>
 
 			<tr>
@@ -419,7 +417,7 @@
 					#end
 				</td>
 			</tr>
-			<tbody>
+			</tbody>
 		</table>
 
 
