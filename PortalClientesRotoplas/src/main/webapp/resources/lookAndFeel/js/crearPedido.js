@@ -516,7 +516,11 @@ var crearPedido = (function () {
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
             var noCotizacion=$("[id='crearPedido:filterStepOne:noCotizacion']");
 
-            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val(), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
+            var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+            var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+            var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+            //aki
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val() , subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
