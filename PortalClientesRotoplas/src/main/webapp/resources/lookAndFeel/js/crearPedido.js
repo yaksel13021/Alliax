@@ -845,6 +845,17 @@ var crearPedido = (function () {
                             //return renderMustacheTemplate('actions_template',{delete:true});
                             return renderMustacheTemplate('actions_template');
                         },
+                        free: function (data, type, row, meta) {
+                            if(meta.col === 7){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 8){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 6){
+                                return display(parseFloat(data));
+                            }
+                        },
                         rowCallback: function (row, data, api) {
                             $(row).find('.eliminarProducto').off().on('click', function (e) {
                                 var productosSeleccionados =  $('#dt_ProductsSelected tbody tr');
@@ -1114,6 +1125,20 @@ var crearPedido = (function () {
                         paging: true,
                         data: model,
                         responsive: true,
+                        free: function (data, type, row, meta) {
+                            if(meta.col === 7){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 8){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 9){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 10){
+                                return display(parseFloat(data));
+                            }
+                        },
                         rowCallback: function (row, data, api) {
 
                         }
