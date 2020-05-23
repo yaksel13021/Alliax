@@ -297,11 +297,13 @@
 
 		<table class="outer" align="left" width="60%" style="font-size:15px">
                  #foreach( $partida in $partidas )
+                         <tr>
                            <td>$partida.noMaterial</td>
                            <td>$partida.descripcion</td>
                            <td>$partida.cantidad</td>
                            <td>$partida.unidadMedida</td>
                            <td>$ $partida.monto MXN</td>
+                         </tr>
                   #end
          </table>
            </br>
