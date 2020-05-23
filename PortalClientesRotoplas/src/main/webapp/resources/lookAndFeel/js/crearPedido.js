@@ -1126,6 +1126,9 @@ var crearPedido = (function () {
                         data: model,
                         responsive: true,
                         free: function (data, type, row, meta) {
+                            if(meta.col === 6){
+                                return display(parseFloat(data));
+                            }
                             if(meta.col === 7){
                                 return display(parseFloat(data));
                             }
@@ -1133,9 +1136,6 @@ var crearPedido = (function () {
                                 return display(parseFloat(data));
                             }
                             if(meta.col === 9){
-                                return display(parseFloat(data));
-                            }
-                            if(meta.col === 10){
                                 return display(parseFloat(data));
                             }
                         },
