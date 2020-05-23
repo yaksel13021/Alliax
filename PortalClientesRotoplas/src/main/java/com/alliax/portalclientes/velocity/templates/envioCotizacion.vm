@@ -294,7 +294,8 @@
 			</tr>
 			</tbody>
 		</table>
-
+        </br>
+        </br>
 		<table class="outer" align="left" style="font-size:15px">
 
                  #foreach( $partida in $partidas )
@@ -307,7 +308,7 @@
                         </tr>
                   #end
          </table>
-
+           </br>
 		<table class="outer" align="center">
 			<tbody>
 			<tr>
@@ -377,7 +378,7 @@
 			</tbody>
 		</table>
 
-
+        </br>
 		<table class="outer FondoAzulOscuro" align="center">
 			<tbody>
 
