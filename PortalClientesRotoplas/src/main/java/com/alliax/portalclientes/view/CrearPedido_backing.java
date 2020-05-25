@@ -47,6 +47,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,9 +129,14 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
 	private Part imagenTicket;
     private int tipoMessage;
+    private String comprobanteAlmacenado;
     
     private boolean update = false;
     private OrdenVenta pedidoAClonar;
+
+    private String total;
+    private String iva;
+    private String subtotal;
 
     public ListadoPedidos_backing getListadoPedidos_backing() {
 		return listadoPedidos_backing;
@@ -139,7 +146,31 @@ public class CrearPedido_backing extends AbstractBackingGen {
 		this.listadoPedidos_backing = listadoPedidos_backing;
 	}
 
-	public boolean isUpdate() {
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getIva() {
+        return iva;
+    }
+
+    public void setIva(String iva) {
+        this.iva = iva;
+    }
+
+    public String getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(String subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public boolean isUpdate() {
 		return update;
 	}
 
@@ -542,7 +573,19 @@ public class CrearPedido_backing extends AbstractBackingGen {
     public String getMaterialSeleccionadoJson() {
         List<PedidoMaterial> seleccionados = new ArrayList<>();
         PedidoMaterial pedidoMaterial = null;
+
         try{
+            BigDecimal total = new BigDecimal("0");
+            BigDecimal iva = new BigDecimal("0");
+            BigDecimal subTotal = new BigDecimal("0");
+
+
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            df.setMinimumFractionDigits(0);
+            df.setGroupingUsed(false);
+
             if(materiales != null && materiales.size() > 0) {
                 for (int i = 0; i < materiales.size(); i++) {
                     pedidoMaterial = materiales.get(i);
@@ -554,7 +597,10 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 ObjectMapper objectMapper = new ObjectMapper();
                 materialSeleccionadoJson = objectMapper.writeValueAsString(seleccionados);
             }
+
+            logger.info(this);
         }catch(Exception e){
+            logger.error(e);
             materialSeleccionadoJson = "";
         }
         return materialSeleccionadoJson;
@@ -629,16 +675,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
     @Override
     public String toString() {
         return "CrearPedido_backing{" +
-                "buscarDestinatariosMercanciasRFC=" + buscarDestinatariosMercanciasRFC +
-                ", buscarClasePedidoRFC=" + buscarClasePedidoRFC +
-                ", precioMaterialRFC=" + precioMaterialRFC +
-                ", usoCfdiRFC=" + usoCfdiRFC +
-                ", buscarMetodoPagoCfdiRFC=" + buscarMetodoPagoCfdiRFC +
-                ", pedidoBd=" + pedidoBd +
-                ", pedidoPartidas=" + pedidoPartidas +
-                ", materialService=" + materialService +
-                ", pedidoService=" + pedidoService +
-                ", pedidoPartidasService=" + pedidoPartidasService +
+                "listadoPedidos_backing=" + listadoPedidos_backing +
                 ", idPedido='" + idPedido + '\'' +
                 ", nroPedidoCliente='" + nroPedidoCliente + '\'' +
                 ", destino='" + destino + '\'' +
@@ -680,6 +717,15 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 ", usoCFDIDetalles=" + usoCFDIDetalles +
                 ", usoCFDIDetallesJson='" + usoCFDIDetallesJson + '\'' +
                 ", descripcionDestinatario='" + descripcionDestinatario + '\'' +
+                ", skuMaterialEliminado='" + skuMaterialEliminado + '\'' +
+                ", imagenTicket=" + imagenTicket +
+                ", tipoMessage=" + tipoMessage +
+                ", comprobanteAlmacenado='" + comprobanteAlmacenado + '\'' +
+                ", update=" + update +
+                ", pedidoAClonar=" + pedidoAClonar +
+                ", total='" + total + '\'' +
+                ", iva='" + iva + '\'' +
+                ", subtotal='" + subtotal + '\'' +
                 '}';
     }
 
@@ -878,8 +924,17 @@ public class CrearPedido_backing extends AbstractBackingGen {
         PrecioMaterial precioMaterial = null;
         PedidoMaterial[] materialPedido = null;
 
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(0);
+        df.setGroupingUsed(false);
+
         com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida = null;
         PedidoPartidasPK pedidoPartidasPK = null;
+
+        double sumTotal = 0d;
+        double sumIva = 0d;
+        double sumSubTotal = 0d;
 
         int count =obtinePosicion();
         try {
@@ -926,25 +981,48 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                 } catch (Exception e) {
                                     logger.error(e);
                                     //precioMaterial = new PrecioMaterialConfig().obtenerPrecioMaterial();
+                                    //logger.info("Respuesta RFC " + precioMaterial);
                                 }
 
                                 if(precioMaterial != null){
                                     //no asignar el valor del error para los pedidos de industrial y
                                     //que sean error de fecha de entrega (codigo error 5)
-                                    if (!((getSegmento().equals("13") || getSegmento().equals("14")) && precioMaterial.getCodigoError().equals("5"))){
-                                        pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
-                                        pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
-                                    }else{
+                                    if (precioMaterial.getCodigoError().equals("5")){
                                         pedidoMaterial2.setCodigoError("0");
                                         pedidoMaterial2.setMensajeError("");
+                                    }else{
+                                        pedidoMaterial2.setCodigoError(precioMaterial.getCodigoError());
+                                        pedidoMaterial2.setMensajeError(precioMaterial.getMensajeError());
+                                    }
+
+                                    if((Integer.valueOf(pedidoMaterial.getCantidad()))%2 == 0){
+                                        precioMaterial.setPrecioNeto(new BigDecimal(0));
+                                    }
+
+                                    if(precioMaterial.getPrecioNeto() == null || precioMaterial.getPrecioNeto().compareTo(new BigDecimal(0)) <= 0){
+                                        pedidoMaterial2.setCodigoError("-1");
+                                        pedidoMaterial2.setMensajeError("Material sin precio asignado");
                                     }
 
                                     pedidoMaterial2.setFechaEntrega(precioMaterial.getFechaEntrega());
                                     pedidoMaterial2.setIva(precioMaterial.getIva());
                                     pedidoMaterial2.setMoneda(precioMaterial.getMoneda());
-                                    pedidoMaterial2.setPrecioNeto(String.valueOf(precioMaterial.getPrecioNeto()));
-                                    pedidoMaterial2.setMonto(String.valueOf(precioMaterial.getMonto()));
+                                    if(precioMaterial.getPrecioNeto() ==null){
+                                        pedidoMaterial2.setPrecioNeto("0");
+                                    }else {
+                                        pedidoMaterial2.setPrecioNeto(df.format(precioMaterial.getPrecioNeto()));
+                                    }
+                                    if(precioMaterial.getMonto()!=null) {
+                                        pedidoMaterial2.setMonto(df.format(precioMaterial.getMonto()));
+                                    }else{
+                                        pedidoMaterial2.setMonto("0");
+                                    }
 
+                                    if(precioMaterial.getTotalPartida() == null){
+                                        pedidoMaterial2.setTotalPartida("0");
+                                    }else {
+                                        pedidoMaterial2.setTotalPartida(df.format(precioMaterial.getTotalPartida()));
+                                    }
                                     //save to DB
                                     pedidoPartida.setPosicion(pedidoMaterial2.getPosicion());
                                     pedidoPartida.setCantidad(pedidoMaterial.getCantidad());
@@ -956,13 +1034,17 @@ public class CrearPedido_backing extends AbstractBackingGen {
                                     pedidoPartida.setMoneda(pedidoMaterial2.getMoneda());
                                     pedidoPartida.setPrecioNeto(String.valueOf(pedidoMaterial2.getPrecioNeto()));
                                     pedidoPartida.setMonto(String.valueOf(pedidoMaterial2.getMonto()));
+                                    pedidoPartida.setTotalPartida(String.valueOf(precioMaterial.getTotalPartida()));
 
+                                    logger.info(pedidoPartida);
                                     pedidoPartidas.add(pedidoPartida);
                                 }
+
 
                                 break;
                             }
                         }catch (Exception e){
+                            logger.info("MENSAJE ERROR " + e);
                             logger.error(e);
                         }
                     }
@@ -1021,6 +1103,27 @@ public class CrearPedido_backing extends AbstractBackingGen {
 */
                 logger.error(e);
             }
+            try{
+
+                if(materiales != null){
+                    for (int i = 0; i < materiales.size(); i++) {
+                        pedidoMaterial = materiales.get(i);
+                        if ((pedidoMaterial.getCantidad() != null && Integer.valueOf(pedidoMaterial.getCantidad()) > 0)) {
+                            sumSubTotal+= Double.valueOf( pedidoMaterial.getPrecioNeto());
+                            sumIva+= Double.valueOf(pedidoMaterial.getIva());
+                            sumTotal+= Double.valueOf(pedidoMaterial.getTotalPartida());
+                        }
+                    }
+                }
+                setSubtotal(df.format(sumSubTotal));
+                setIva(df.format(sumIva));
+                setTotal(df.format(sumTotal));
+                logger.info("getSubtotal " + getSubtotal());
+                logger.info("getIva" + getIva());
+                logger.info("getTotal " + getTotal());
+            }catch (Exception e){
+                logger.error(e);
+            }
         }catch(Exception e){
             logger.error(e);
         }
@@ -1059,17 +1162,21 @@ public class CrearPedido_backing extends AbstractBackingGen {
         com.alliax.portalclientes.domain.PedidoPartidas pedidoPartida;
         com.alliax.portalclientes.domain.PedidoPartidas removeObject = null;
 
+        pedidoPartidas = pedidoPartidasService.findByidPedido(pedidoBd.getIdPedido());
+
         Iterator<com.alliax.portalclientes.domain.PedidoPartidas> itPartidas = pedidoPartidas.iterator();
 
         boolean isDelete;
 
+        logger.info("NUMERO Partidas " + pedidoPartidas.size() );
         while(itPartidas.hasNext()){
             pedidoPartida = itPartidas.next();
-
-            if(pedidoPartida.getId().getSku().equals(getSkuMaterialEliminado())) {
+            logger.info("pedidoPartida SKU " + pedidoPartida.getId().getSku()  + " " + (pedidoPartida.getId().getSku().trim().equals(getSkuMaterialEliminado().trim())));
+            if(pedidoPartida.getId().getSku().trim().equals(getSkuMaterialEliminado().trim())) {
+                removeObject = pedidoPartida;
                 pedidoPartidasService.delete(pedidoPartida);
                 //pedidoPartidas.remove(pedidoPartida);
-                removeObject = pedidoPartida;
+
                 isDelete = true;
             }else{
                 pedidoPartida.setPosicion(String.valueOf(posicion++));
@@ -1079,7 +1186,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
 
             for(int i = 0; i < materiales.size(); i++){
                 pedidoMaterial = materiales.get(i);
-                if(pedidoMaterial.getSku().equals(pedidoPartida.getId().getSku())){
+                if(pedidoMaterial.getSku().trim().equals(pedidoPartida.getId().getSku().trim())){
                     if(isDelete){
                         pedidoMaterial.setCantidad(null);
                         pedidoMaterial.setPosicion(null);
@@ -1090,7 +1197,7 @@ public class CrearPedido_backing extends AbstractBackingGen {
                 }
             }
         }
-
+        logger.info("removeObject " + removeObject);
         if(removeObject != null){
             pedidoPartidas.remove(removeObject);
         }

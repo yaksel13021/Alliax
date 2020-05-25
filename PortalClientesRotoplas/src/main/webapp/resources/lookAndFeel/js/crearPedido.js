@@ -24,7 +24,8 @@ var crearPedido = (function () {
         $dtResumenCuentaPartidas = null,
         $dtResumentCuentaFacturacion = null,
         $dtResumentCuentaComentarios = null,
-        $dtComentarios = null;
+        $dtComentarios = null,
+        display = $.fn.dataTable.render.number(',','.',2,'$').display;
 
     var init = function () {
         $('.isResizable').matchHeight();
@@ -75,13 +76,10 @@ var crearPedido = (function () {
             var descDestinatario = $("[id='crearPedido:filterStepOne:descripcionDestinatario']").val();
 
             if(descDestinatario.toUpperCase().match("^AGR") || descDestinatario.toUpperCase().match("^IND")){
-                //aki
                 $('div.AMC_DIV').hide();
                 $('div.I_DIV').show();
             }
-            if(descDestinatario.toUpperCase().match("^SUC") ||
-                    descDestinatario.toUpperCase().match("^FISCAL") ||
-                    descDestinatario.toUpperCase().match("^FIN")){
+            if(descDestinatario.toUpperCase().match("^FIN")){
                 $('div.I_DIV').hide();
                 $('div.AMC_DIV').show();
             }
@@ -160,6 +158,7 @@ var crearPedido = (function () {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
+
             loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), info: true, seguirComprando: true, productSelected: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
@@ -223,7 +222,7 @@ var crearPedido = (function () {
                 return;
             }
 
-            if($('.partidaError #dt_ProductsSelected').length > 0){
+            if($('.partidaError').length > 0){
                 showToastr(mensajes().Generico01, 'Aviso', {
                     type: typeNotification.warning
                 });
@@ -297,7 +296,11 @@ var crearPedido = (function () {
                 var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
                 var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
-                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true });
+                var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+                var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+                var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+
+                loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val() , subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()) , destino: select_direccionEntrega.val(), resumencuenta: true });
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
                         divClass: 'footerButtonsRigth',
@@ -326,6 +329,7 @@ var crearPedido = (function () {
             } else {
                 var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
                 var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
+
                 loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { comentarios: true , noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val()});
                 loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                     isList: {
@@ -466,7 +470,11 @@ var crearPedido = (function () {
             var input_numeroPedido = $("[id='crearPedido:filterStepOne:input_numeroPedido']");
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
 
-            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), resumencuenta: true, showComentarios: true, emailflete: true });
+            var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+            var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+            var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()), resumencuenta: true, showComentarios: true, emailflete: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
@@ -508,7 +516,11 @@ var crearPedido = (function () {
             var select_direccionEntrega = $("[id='crearPedido:filterStepOne:descripcionDestinatario']");
             var noCotizacion=$("[id='crearPedido:filterStepOne:noCotizacion']");
 
-            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val(), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
+            var ivaPedido = $("[id='crearPedido:filterStepOne:ivaPedido']");
+            var subtotalPedido = $("[id='crearPedido:filterStepOne:subtotalPedido']");
+            var totalPedido = $("[id='crearPedido:filterStepOne:totalPedido']");
+            //aki
+            loadMustacheTemplate('selectedProducts_template', 'crearPedido:cardDynamicBody', { info: true, noPedido: input_numeroPedido.val(), destino: select_direccionEntrega.val(), noCotizacion: noCotizacion.val() , subtotalPedido: currencyFormat(subtotalPedido.val()), ivaPedido: currencyFormat(ivaPedido.val()), totalPedido:currencyFormat(totalPedido.val()), resumencuenta: true, showComentarios: true, confirmaCotizacion: true });
             loadMustacheTemplate('cardDynamicFooter_template', 'crearPedido:cardDynamicFooter', {
                 isList: {
                     divClass: 'footerButtonsRigth',
@@ -517,12 +529,12 @@ var crearPedido = (function () {
                             btnId: 'btn_Finalizar',
                             btnName: 'btn_Finalizar',
                             btnText: 'Finalizar'
-                        },
+                        }/*,
                         {
                             btnId: 'btn_ResumenCuentaPartidasOrdenar',
                             btnName: 'btn_ResumenCuentaPartidasOrdenar',
                             btnText: 'Ordenar'
-                        }
+                        }*/
                     ]
                 }
             });
@@ -672,9 +684,14 @@ var crearPedido = (function () {
         	var select_metodoPago = $('#select_metodoPago');
         	var ticket = $('#ticket');
         	if('PUE' == select_metodoPago.val()) {
+                $('#select_cfdi').val('G01');
+                $('#select_cfdi').trigger('change');
+                $('#select_cfdi').prop('disabled','disabled');
         		$('#containerTicket').show();
+
         	} else {
         		$('#containerTicket').hide();
+                $('#select_cfdi').prop('disabled',false);
         	}
         });
         $(document).on('change','.btn-file :file',function() {
@@ -831,6 +848,17 @@ var crearPedido = (function () {
 
                             //return renderMustacheTemplate('actions_template',{delete:true});
                             return renderMustacheTemplate('actions_template');
+                        },
+                        free: function (data, type, row, meta) {
+                            if(meta.col === 7){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 8){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 6){
+                                return display(parseFloat(data));
+                            }
                         },
                         rowCallback: function (row, data, api) {
                             $(row).find('.eliminarProducto').off().on('click', function (e) {
@@ -1101,6 +1129,20 @@ var crearPedido = (function () {
                         paging: true,
                         data: model,
                         responsive: true,
+                        free: function (data, type, row, meta) {
+                            if(meta.col === 6){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 7){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 8){
+                                return display(parseFloat(data));
+                            }
+                            if(meta.col === 9){
+                                return display(parseFloat(data));
+                            }
+                        },
                         rowCallback: function (row, data, api) {
 
                         }
@@ -1349,12 +1391,12 @@ var crearPedido = (function () {
             })
             return false;
         }
-       /* if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
+        if (!($("[id='crearPedido:filterStepOne:input_numeroPedido']").val())) {
             showToastr('Ingrese un número de pedido', 'Aviso', {
                 type: typeNotification.warning
             })
             return false;
-        }*/
+        }
         return true;
     };
 
@@ -1362,6 +1404,7 @@ var crearPedido = (function () {
         //var values = $('#facturacionForm').serializeForm();
         var select_cfdi = $('#select_cfdi');
         var select_metodoPago = $('#select_metodoPago');
+        var comprobante = $('#tipoMessage');
 
         if (!select_cfdi.val()) {
             showToastr('Seleccione un CFDI', 'Aviso', {
@@ -1375,6 +1418,14 @@ var crearPedido = (function () {
             })
             return false;
         }
+
+        if(select_metodoPago.val() == 'PUE' && comprobante.val() != '1'){
+            showToastr('Proporcione un Comprobante Bancario', 'Aviso', {
+                type: typeNotification.warning
+            });
+            return false;
+        }
+
         return true;
     };
 
@@ -1446,4 +1497,11 @@ function format ( d ) {
             '</table>';
 
     return row;
+}
+function currencyFormat(texto) {
+
+    var num = Number(texto);
+   // var n = num.toFixed(2);
+
+    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }

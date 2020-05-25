@@ -234,7 +234,7 @@
 	#if($pais != 'BR')
 
 
-		<table class="outer FondoAzulOscuro" align="center">
+		<table class="outer FondoAzulOscuro" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="two-column">
@@ -285,41 +285,39 @@
 		</table>
 
 
-		<table class="outer" align="center">
+		<table class="outer" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="inner contents">
-					<p>Por medio del presente le informamos que el material:</p>
+					<p><b>Por medio del presente le informamos que el material:</b></p>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 
-		<table class="outer" align="center">
-
+		<table class="outer" align="left" width="60%" style="font-size:15px">
                  #foreach( $partida in $partidas )
-                        <tr>
+                         <tr>
                            <td>$partida.noMaterial</td>
                            <td>$partida.descripcion</td>
                            <td>$partida.cantidad</td>
-                           <td>$partida.cantEnt</td>
                            <td>$partida.unidadMedida</td>
                            <td>$ $partida.monto MXN</td>
-                        </tr>
+                         </tr>
                   #end
          </table>
-
-		<table class="outer" align="center">
+           </br>
+		<table class="outer" align="center" width="100%">
 			<tbody>
 			<tr>
 				<td class="inner contents">
 					<br/>
 					<p>
-						<p>Su cotización es de</p>
+						<p><b>Su cotización es de</b></p>
 
-						<p>$ $total MXN</p>
+						<p><b>$ $total MXN</b></p>
 
-						<p>La presente expira el $fechaEntrega </p>
+						<p><b>La presente expira el $fechaEntrega </b></p>
 
 					</p>
 					<br/>
@@ -378,8 +376,8 @@
 			</tbody>
 		</table>
 
-
-		<table class="outer FondoAzulOscuro" align="center">
+        </br>
+		<table class="outer FondoAzulOscuro" align="center" width="100%">
 			<tbody>
 
 			<tr>
@@ -419,7 +417,7 @@
 					#end
 				</td>
 			</tr>
-			<tbody>
+			</tbody>
 		</table>
 
 

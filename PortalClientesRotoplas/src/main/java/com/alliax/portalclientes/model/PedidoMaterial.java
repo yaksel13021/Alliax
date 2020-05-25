@@ -17,6 +17,7 @@ public class PedidoMaterial {
     private String descripcionError;
     private String urlFoto;
     private String estatus;
+    private String totalPartida;
 
     public String getSku() {
         return sku;
@@ -146,9 +147,17 @@ public class PedidoMaterial {
         this.estatus = estatus;
     }
 
+    public String getTotalPartida() {
+        return totalPartida;
+    }
+
+    public void setTotalPartida(String totalPartida) {
+        this.totalPartida = totalPartida;
+    }
+
     @Override
     public String toString() {
-        return "PedidoMaterial[" +
+        return "PedidoMaterial{" +
                 "sku='" + sku + '\'' +
                 ", cantidad='" + cantidad + '\'' +
                 ", posicion='" + posicion + '\'' +
@@ -165,6 +174,7 @@ public class PedidoMaterial {
                 ", descripcionError='" + descripcionError + '\'' +
                 ", urlFoto='" + urlFoto + '\'' +
                 ", estatus='" + estatus + '\'' +
-                ']';
+                ", totalPartida='" + totalPartida + '\'' +
+                '}';
     }
 }

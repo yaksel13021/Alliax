@@ -16,7 +16,6 @@ import com.alliax.portalclientes.domain.*;
 import com.alliax.portalclientes.domain.Material;
 import com.alliax.portalclientes.domain.Pedido;
 import com.alliax.portalclientes.domain.PedidoPartidas;
-import com.alliax.portalclientes.general.formato.Fecha;
 import com.alliax.portalclientes.model.*;
 import com.alliax.portalclientes.service.MaterialService;
 import com.alliax.portalclientes.util.Helper;
@@ -55,9 +54,9 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     private MaterialService materialService;
     private List<CotizacionFlete> cotizaciones;
     
-    private String total;
-    private String subtotal;
-    private String impuesto;
+    private BigDecimal  total;
+    private BigDecimal subtotal;
+    private BigDecimal impuesto;
     
     private String moneda;
     
@@ -156,28 +155,36 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
         }
     }
 
-    public String getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public String getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
-    public String getImpuesto() {
+    public BigDecimal getImpuesto() {
         return impuesto;
     }
 
-    public void setImpuesto(String impuesto) {
+    public void setImpuesto(BigDecimal impuesto) {
         this.impuesto = impuesto;
+    }
+
+    public boolean isMostrarCotizacion() {
+        return mostrarCotizacion;
+    }
+
+    public void setMostrarCotizacion(boolean mostrarCotizacion) {
+        this.mostrarCotizacion = mostrarCotizacion;
     }
 
     public String buscaCotizaciones(String noCliente){
@@ -215,8 +222,8 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                         c.setMaterial(CotizacionFlete.idMatFlete);
                     	c.setCantidad(pp.getCantidad());
                     	c.setDescripcion(CotizacionFlete.descFlete);
-                    	c.setPrecioNeto(pp.getPrecioNeto());
-                    	c.setMonto(pp.getMonto());
+                    	c.setPrecioNeto(pp.getPrecioNeto()!= null ? new BigDecimal(pp.getPrecioNeto()):null);
+                    	c.setMonto(pp.getMonto()!= null ? new BigDecimal(pp.getMonto()) : null);
                     	c.setuM(CotizacionFlete.unidadMed);
                     	
                         this.getCotizaciones().add(c);
@@ -285,8 +292,8 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
 
                     
                 }
-                d.setMonto(pp.getMonto());
-                d.setPrecioNeto(pp.getPrecioNeto());
+                d.setMonto(pp.getMonto()!= null ? new BigDecimal(pp.getMonto()) : null);
+                d.setPrecioNeto(pp.getPrecioNeto()!= null ? new BigDecimal(pp.getPrecioNeto()) : null);
                 d.setCantidad(pp.getCantidad());
                 d.setFechaEnt(pp.getFechaEntrega());
                 d.setEstatus(pedido.getEstatus());
@@ -315,13 +322,13 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 }else {
                 	partidas.add(d);
                 }
-                this.subtotal = subtotal.toString();
-                this.impuesto = impuesto.toString();
-                this.total= subtotal.add(impuesto).toString();
+                this.subtotal = subtotal;
+                this.impuesto = impuesto;
+                this.total= subtotal.add(impuesto);
             }
             }
         } catch(Exception e){
-            logger.error("Error al desplegar listado de fletes " + e.getLocalizedMessage());
+            logger.info("Error al desplegar listado de fletes ",e);
             this.getFacesContext().addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,"Error",this.getLblMain().getString("errListaPedidos")));
         }
@@ -329,26 +336,29 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
     }
 
 
-    public void enviarMailCotizacion(String nroPedido){
-        this.buscarDetalles(nroPedido);
-        BigDecimal total = BigDecimal.ZERO;
-        String fechaEntrega = Fecha.getFechaDesgloce(this.cotizacion.getFechaEnt(),7);
-
-        if(partidas!=null&&!partidas.isEmpty()) {
-            for (DetallePedidoCotizacion detallePedidoCotizacion : this.partidas) {
-                total = total.add(new BigDecimal(detallePedidoCotizacion.getMonto()));
-            }
-            logger.info("email pedido :" + this.email);
-            logger.info("Total para envio de email:" + total);
-            try {
+    public void enviarMailCotizacion(String nroPedido) {
+        logger.info("enviarMailCotizacion");
+        try {
+            logger.info("Iniciando envio de email");
+            BigDecimal total = BigDecimal.ZERO;
+            String fechaEntrega = this.cotizacion.getFechaEnt();
+            logger.info("Fecha Entrega:"+fechaEntrega);
+            if (partidas != null && !partidas.isEmpty()) {
+                logger.info("Se encontraron partidas:");
+                if(this.cotizacion!=null&&this.cotizacion.getMonto()!=null) {
+                    logger.info("monto :" +this.cotizacion.getMonto());
+                    total = this.cotizacion.getMonto();
+                }
+                logger.info("email pedido :" + this.email);
+                logger.info("Total para envio de email:" + total);
                 ConstructEmail mail = this.getSpringContext().getBean("constructEmail", ConstructEmail.class);
                 mail.enviaCorreoCotizacion(this.email, this.getClienteInfo(), this.noCotizacion, this.partidas, total.toString(), fechaEntrega);
-            }catch(Exception e){
-                logger.info("ErrorEnviaCorreoCotizacion",e);
+                logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
+            } else {
+                logger.info("No se encontraros partidas para el nroPedido-" + nroPedido);
             }
-            logger.info("temmina envio email " + this.email + " pedido :" + nroPedido);
-        }else{
-            logger.info("No se encontraros partidas para el nroPedido-"+nroPedido);
+        }catch (Exception e) {
+            logger.info("ErrorEnviaCorreoCotizacion", e);
         }
     }
 
@@ -364,19 +374,22 @@ public class ConsultaCotizacion_backing extends AbstractBackingGen {
                 pk.setSku(CotizacionFlete.idMatFlete);
                 com.alliax.portalclientes.domain.PedidoPartidas pp = partidaService.findById(pk);
                 if(pp!= null) {
-            	    logger.info("Se guardaran los cambios al pedido " + idPedido);
-                	pp.setMonto(cotizacion.getMonto());
-            	    pp.setPrecioNeto(cotizacion.getMonto());
-            	    pp.setFechaEntrega(cotizacion.getFechaEnt());
+                    try {
+                        logger.info("Se guardaran los cambios al pedido " + idPedido);
+                        pp.setMonto(cotizacion.getMonto()!= null ? cotizacion.getMonto().toString() : "0");
+                        pp.setPrecioNeto(cotizacion.getPrecioNeto()!= null ? cotizacion.getPrecioNeto().toString() : "0");
+                        pp.setFechaEntrega(cotizacion.getFechaEnt());
 
-                	partidaService.save(pp);
-                    pedido.setEstatusCotizacion(CotizacionFlete.estadoFin);
-                    service.save(pedido);
-                    cotizacion.setEstatus(pedido.getEstatusCotizacion());
-                    
-            	this.mostrarCotizacion = true;	
-            	enviarMailCotizacion(cotizacion.getNoPedido());
-            }
+                        partidaService.save(pp);
+                        pedido.setEstatusCotizacion(CotizacionFlete.estadoFin);
+                        service.save(pedido);
+                        cotizacion.setEstatus(pedido.getEstatusCotizacion());
+                        this.mostrarCotizacion = true;
+                    }catch(Exception e) {
+                        logger.info("ErrorGrabar",e);
+                    }
+                    enviarMailCotizacion(cotizacion.getNoPedido());
+                }
     	}
     	return "";
     	

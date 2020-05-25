@@ -499,7 +499,7 @@
 																		<tr>
 																			<td>
 																				<h:panelGroup layout="block" styleClass="col-12">
-																					<f:ajax listener="#{factura.cambiaMuestraDetalle}" event="click" render="form\:contenttable2" execute="@this">
+																					<f:ajax listener="#{listaPedidos.obtenerDetalleFactura(factura)}" event="click" render="form\:contenttable2" execute="@this">
 																					<h:panelGroup>
 																						<ui:fragment >
 																							<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
@@ -604,8 +604,11 @@
 	
 													<!--   -->
 	
-													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0'}" styleClass="btn btn-primary"
-													disabled="#{(listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0') or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND') or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')   or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE') ) )  ? 'true' : 'false'}"
+													<h:commandButton rendered="#{listaPedidos.pedido.pedidoCancelado!='0' and !((listaPedidos.pedido.pedidoCancelado!=null and listaPedidos.pedido.pedidoCancelado=='0')
+															or (listaPedidos.pedido.pedidoCancelado==null and !(listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('PEND')
+															or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('VSAC') or  listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('HELD')
+															or listaPedidos.pedido.estatusGeneral.equalsIgnoreCase('RELE'))))}"
+																	 styleClass="btn btn-primary"
 																	 value="#{lblMain.btnCancelarPedido}" onclick="openModalCancelarPedido()">
 														<f:ajax execute="@this" render=":modal1" />
 													</h:commandButton>

@@ -1,5 +1,7 @@
 package com.alliax.portalclientes.model;
 
+import java.math.BigDecimal;
+
 public class DetallePedidoCotizacion {
     private String noPedido;
     private String posicion;
@@ -8,8 +10,8 @@ public class DetallePedidoCotizacion {
     private String cantidad;
     private String cantEnt;
     private String unidadMedida;
-    private String monto;
-    private String precioNeto;
+    private BigDecimal monto;
+    private BigDecimal precioNeto;
     private String fechaEnt;
     private String estatus;
     private String moneda;
@@ -62,19 +64,20 @@ public class DetallePedidoCotizacion {
         this.unidadMedida = unidadMedida;
     }
 
-    public String getMonto() {
+
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(String monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 
-    public String getPrecioNeto() {
+    public BigDecimal getPrecioNeto() {
         return precioNeto;
     }
 
-    public void setPrecioNeto(String precioNeto) {
+    public void setPrecioNeto(BigDecimal precioNeto) {
         this.precioNeto = precioNeto;
     }
 

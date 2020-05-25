@@ -40,7 +40,7 @@ public class PrecioMaterial {
         return totalPartida;
     }
 
-    public void setTotalPartida(BigDecimal BigDecimal) {
+    public void setTotalPartida(BigDecimal totalPartida) {
         this.totalPartida = totalPartida;
     }
 

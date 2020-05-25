@@ -23,10 +23,10 @@ public class DetallePedidoConfig {
 		item.setPosicion(1);
 		item.setFecha(new Date());
 		item.setBloqueoEntrega("BL");
-		item.setNoMaterial("310092");
+		item.setNoMaterial("4");
 		item.setDescripcion("MULTICONECTOR C/VALV-TUERCA UNION INTEG");
 		item.setFechaReparto(new Date());
-		item.setCantidad(new BigDecimal(0));
+		item.setCantidad(new BigDecimal(1));
 		item.setCantidadConfirmada(new BigDecimal(0));
 		item.setUnidadMedida("PZA");
 		item.setMonto(new BigDecimal("2778.60"));
@@ -57,10 +57,10 @@ public class DetallePedidoConfig {
 		item.setPosicion(2);
 		item.setFecha(new Date());
 		item.setBloqueoEntrega("BL");
-		item.setNoMaterial("310088");
+		item.setNoMaterial("5");
 		item.setDescripcion("VALVULA DE PIE (PICHANCHA)");
 		item.setFechaReparto(new Date());
-		item.setCantidad(new BigDecimal(10));
+		item.setCantidad(new BigDecimal(2));
 		item.setCantidadConfirmada(new BigDecimal(10));
 		item.setUnidadMedida("PZA");
 		item.setMonto(new BigDecimal("23933.54"));
@@ -91,7 +91,7 @@ public class DetallePedidoConfig {
 		item.setPosicion(3);
 		item.setFecha(new Date());
 		item.setBloqueoEntrega("BL");
-		item.setNoMaterial("510003");
+		item.setNoMaterial("3");
 		item.setDescripcion("Esta es una descripción breve de la posición 3.");
 		item.setFechaReparto(new Date());
 		item.setCantidad(new BigDecimal(1000));
@@ -117,7 +117,7 @@ public class DetallePedidoConfig {
 		item.setEstatusGeneralDes("Facturado Parcial");
 		item.setEstatusGeneral("Pinv");
 		
-		resultado.add(item);			
+		//resultado.add(item);
 		
 		
 		return resultado;		

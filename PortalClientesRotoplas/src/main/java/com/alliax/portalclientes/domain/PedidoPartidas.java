@@ -147,4 +147,23 @@ public class PedidoPartidas {
     public void setCantidadEntregada(String cantidadEntregada) {
         this.cantidadEntregada = cantidadEntregada;
     }
+
+    @Override
+    public String toString() {
+        return "PedidoPartidas{" +
+                "id=" + id +
+                ", cantidad='" + cantidad + '\'' +
+                ", precioNeto='" + precioNeto + '\'' +
+                ", monto='" + monto + '\'' +
+                ", iva='" + iva + '\'' +
+                ", totalPartida='" + totalPartida + '\'' +
+                ", moneda='" + moneda + '\'' +
+                ", fechaEntrega='" + fechaEntrega + '\'' +
+                ", mensajeError='" + mensajeError + '\'' +
+                ", codigoError='" + codigoError + '\'' +
+                ", flete=" + flete +
+                ", posicion='" + posicion + '\'' +
+                ", cantidadEntregada='" + cantidadEntregada + '\'' +
+                '}';
+    }
 }
